@@ -2,3 +2,15 @@
 @import "nhsuk-frontend/dist/nhsuk";
 
 // Add your custom CSS/Sass styles below.
+.nhsuk-header__organisation-logo {
+  width: 142px;
+  max-width: 142px;
+}
+
+.nhsuk-header.nhsuk-header--white .nhsuk-header__container {
+  padding: 32px 0;
+}
+
+.nhsuk-header--white {
+  border-bottom: 1px solid $nhsuk-border-colour;
+}

@@ -1,63 +1,93 @@
-<!-- Use this page as the index for your project -->
-
-<!-- ADDING CUSTOM CSS - Add your custom CSS or Sass in /app/assets/sass/main.scss -->
-
-<!-- Extends the layout from /app/views/layout.html -->
 {% extends 'layout.html' %}
-<!--
-  In /app/views/layout.html you can:
-    - change the header and footer
-    - add custom CSS and JavaScript
--->
 
-<!--
-  Use this to set the page name which will appear at the
-  start of the <title> tag, followed by the service name.
-  This is often not needed on the homepage, where only the
-  service name is needed. You can also reuse this variable
-  within the <h1>, where they are the same.
--->
-{% set pageName = "" %}
+{% set pageName = "Design Dashboard" %}
 
-<!-- For adding a breadcrumb or back link -->
-<!-- Code examples can be found at https://service-manual.nhs.uk/design-system/components/breadcrumbs and https://service-manual.nhs.uk/design-system/components/back-link -->
 {% block beforeContent %}
 {% endblock %}
 
 <!-- For adding page content -->
 <!-- Page layout code can be found at https://service-manual.nhs.uk/design-system/styles/layout -->
 {% block content %}
-  <div class="nhsuk-grid-row">
-    <div class="nhsuk-grid-column-two-thirds">
-
-      <!-- Add your content here -->
-      <!-- Styles and components can be found at https://service-manual.nhs.uk/design-system -->
-
-      <h1 class="nhsuk-heading-xl">
+<div class="nhsuk-grid-row">
+  <div class="nhsuk-grid-column-full">
+    <div class="nhsuk-u-reading-width">
+      <h1>
         {{ serviceName }}
+        <span class="nhsuk-caption-xl nhsuk-caption--bottom">Be Part of Research / Join Dementia Research</span>
       </h1>
-
-      <p>Set the service name for your prototype by editing <strong>/app/config.js</strong>.</p>
-
-      <p>
-        This is the index page for your prototype. You can find it at <strong>/app/views/index.html</strong>.
-      </p>
-
-      <hr>
-
-      <h2 class="nhsuk-heading-l">
-        Get started
-      </h2>
-
-      <ul class="nhsuk-list nhsuk-list--bullet">
-        <li>
-          <a href="https://prototype-kit.service-manual.nhs.uk/how-tos">NHS prototype kit guides</a> – including a tutorial
-        </li>
-        <li>
-          <a href="https://service-manual.nhs.uk/design-system">NHS digital service manual</a> – for code snippets and guidance on using NHS styles, components and patterns
-        </li>
-      </ul>
-
+      <p class="nhsuk-body-m">This prototype includes non study management sides of BPOR and JDR. The prototypes cover login of and study search, features used both by volunteers and researchers.</p>
     </div>
   </div>
+</div>
+
+<div class="nhsuk-grid-row">
+  <div class="nhsuk-grid-column-two-thirds">
+
+    <h2>Versions</h2>
+
+    <h3>Study Search</h3>
+
+    <details class="nhsuk-details nhsuk-expander">
+      <summary class="nhsuk-details__summary">
+        <div class="nhsuk-grid-row">
+          <div class="nhsuk-grid-column-two-thirds">
+            <span class="nhsuk-details__summary-text">
+              Phase 1 (July)
+            </span>
+          </div>
+          <div class="nhsuk-grid-column-one-third nhsuk-u-text-align-right">
+            <strong class="nhsuk-tag nhsuk-tag--blue">DESIGN</strong>
+          </div>
+        </div>
+      </summary>
+      <div class="nhsuk-details__text">
+        <h3 class="nhsuk-heading-s">Deliery Plan</h3>
+        <ul>
+          <li><a href="https://nihr.atlassian.net/wiki/x/AYC7ng">Study Search UX Priority Breakdown </a></li>
+          </ul>
+        <h3 class="nhsuk-heading-s">Decision log</h3>
+        <ul>
+          <li><a href="https://nihr.atlassian.net/wiki/pages/resumedraft.action?draftId=2680717317&draftShareId=b515c2b1-f5a1-4541-9688-a99e19ba5ea8">UCD Log</a></li>
+        </ul>
+        <hr>
+        <p><a href="/researcher/v2/">Search Results Page</a></p>
+        <p><a href="/researcher/v2/login-type-of-account">Study Details Page</a></p>
+
+      </div>
+    </details>
+
+  </div>
+
+  <div class="nhsuk-grid-column-one-third key-padding-left">
+      <h2>Key</h2>
+      <table class="nhsuk-table">
+        <tbody class="nhsuk-table__body">
+          <tr role="row" class="nhsuk-table__row">
+            <td class="nhsuk-table__cell">
+              <strong class="nhsuk-tag nhsuk-tag--blue  nhsuk-u-font-size-14">DESIGN</strong>
+            </td>
+            <td class="nhsuk-table__cell nhsuk-u-font-size-14">All or parts of the version are still being designed</td>
+          </tr>
+          <tr role="row" class="nhsuk-table__row">
+            <td class="nhsuk-table__cell">
+              <strong class="nhsuk-tag nhsuk-tag--yellow nhsuk-u-font-size-14">UR</strong>
+            </td>
+            <td class="nhsuk-table__cell nhsuk-u-font-size-14">All or parts of the version are currently with UR for usability testing</td>
+          </tr>
+          <tr role="row" class="nhsuk-table__row">
+            <td class="nhsuk-table__cell">
+              <strong class="nhsuk-tag nhsuk-tag--green nhsuk-u-font-size-14">DEV</strong>
+            </td>
+            <td class="nhsuk-table__cell nhsuk-u-font-size-14">All or parts of the version are currently in development</td>
+          </tr>
+          <tr role="row" class="nhsuk-table__row">
+            <td class="nhsuk-table__cell">
+              <strong class="nhsuk-tag nhsuk-tag--red  nhsuk-u-font-size-14">RETIRED</strong>
+            </td>
+            <td class="nhsuk-table__cell nhsuk-u-font-size-14">All or parts of the version have been retired and replaced with new prototypes and Miro boards</td>
+          </tr>
+        </tbody>
+      </table>
+  </div>
+</div>
 {% endblock %}
