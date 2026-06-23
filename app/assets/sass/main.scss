@@ -1,6 +1,7 @@
 // Import NHS.UK frontend library
 @import "nhsuk-frontend/dist/nhsuk";
 
+
 // Add your custom CSS/Sass styles below.
 .nhsuk-header__organisation-logo {
   width: 142px;
@@ -13,4 +14,26 @@
 
 .nhsuk-header--white {
   border-bottom: 1px solid $nhsuk-border-colour;
+}
+
+// ==========================================================================
+// Custom BPOR Header Styles (Only affects pages using layout-bpor.html)
+// ==========================================================================
+
+.bpor-header {
+  background-color: #ffffff; 
+}
+
+// 2. CHOOSE YOUR HEADER HEIGHT (Adjust padding to make it taller or shorter)
+.bpor-header .nhsuk-header__container {
+  padding-top: 35px;
+  padding-bottom: 35px;
+}
+
+// 3. CHOOSE YOUR LOGO SIZE
+.bpor-header img, 
+.bpor-header .custom-header-logo {
+  height: 50px;
+  width: auto;
+  display: block;
 }

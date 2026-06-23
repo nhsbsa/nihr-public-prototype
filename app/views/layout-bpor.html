@@ -1,0 +1,56 @@
+{% extends "layout.html" %}
+
+{% block header %}
+<header class="nhsuk-header nhsuk-header--white bpor-header" data-module="nhsuk-header" role="banner">
+  
+  <div class="nhsuk-header__container nhsuk-width-container">
+    <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+      
+      <div class="nhsuk-header__logo">
+        <a class="nhsuk-header__link" href="/" aria-label="Homepage">
+          <img src="/assets/images/BPOR-logo.svg" alt="bpor-logo" class="bpor-logo" style="height: 65px; width: auto;">
+        </a>
+      </div>
+
+      <div class="bpor-header__right-logo">
+        <img src="/assets/images/NHS-logo.svg" alt="nhs-logo" class="nhs-header" style="height: 38px; width: auto;">
+      </div>
+
+    </div>
+  </div>
+
+  <nav class="nhsuk-header__navigation" aria-label="Menu" style="background-color: #005eb8;">
+    <div class="nhsuk-header__navigation-container nhsuk-width-container" style="background-color: #005eb8;">
+      <ul class="nhsuk-header__navigation-list">
+        <li class="nhsuk-header__navigation-item">
+          <a class="nhsuk-header__navigation-link" href="#" style="color: #ffffff;">Home</a>
+        </li>
+        <li class="nhsuk-header__navigation-item nhsuk-header__navigation-item--active">
+          <a class="nhsuk-header__navigation-link" href="#" style="color: #ffffff;">Who we are</a>
+        </li>
+        <li class="nhsuk-header__navigation-item">
+          <a class="nhsuk-header__navigation-link" href="#" style="color: #ffffff;">What is health and care research?</a>
+        </li>
+        <li class="nhsuk-header__navigation-item">
+          <a class="nhsuk-header__navigation-link" href="#" style="color: #ffffff;">Take part in research</a>
+        </li>
+        <li class="nhsuk-header__navigation-item">
+          <a class="nhsuk-header__navigation-link" href="#" style="color: #ffffff;">Find a study</a>
+        </li>
+        <li class="nhsuk-header__navigation-item">
+          <a class="nhsuk-header__navigation-link" href="#" style="color: #ffffff;">Researchers and health and care professionals</a>
+        </li>
+            <li class="nhsuk-header__navigation-item">
+          <a class="nhsuk-header__navigation-link" href="#" style="color: #ffffff;">Get in touch</a>
+        </li>
+        <li class="nhsuk-header__menu" hidden>
+          <button class="nhsuk-header__menu-toggle nhsuk-header__navigation-link" id="toggle-menu" aria-expanded="false" style="color: #ffffff;">
+            <span class="nhsuk-u-visually-hidden">Browse </span>More
+          </button>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+</header>
+{% endblock %}
