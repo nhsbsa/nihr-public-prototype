@@ -1,0 +1,43 @@
+{% extends "layout-bpor-question.html" %}
+
+{% block content %}
+  <!-- question form fields -->
+
+{% from "button/macro.njk" import button %}
+{% from "date-input/macro.njk" import dateInput %}
+
+{{ dateInput({
+  id: "date-of-birth",
+  namePrefix: "dateofbirth",
+  fieldset: {
+    legend: {
+      text: "What is your date of birth?",
+      size: "l",
+      isPageHeading: true
+    }
+  },
+  hint: {
+    text: "For example, 18 6 1989"
+  },
+  items: [
+    {
+      name: "day",
+      classes: "nhsuk-input--width-2"
+    },
+    {
+      name: "month",
+      classes: "nhsuk-input--width-2"
+    },
+    {
+      name: "year",
+      classes: "nhsuk-input--width-4"
+    }
+  ]
+}) }}
+
+{{ button({
+  text: "Continue",
+  href: "/v1/questions/question-3"
+}) }}
+
+{% endblock %}

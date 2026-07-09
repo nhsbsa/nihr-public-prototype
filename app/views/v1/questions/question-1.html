@@ -1,0 +1,65 @@
+{% extends "layout-bpor-question.html" %}
+
+{% block content %}
+  <!-- question form fields -->
+
+  {% from "radios/macro.njk" import radios %}
+  {% from "fieldset/macro.njk" import fieldset %}
+  {% from "hint/macro.njk" import hint %}
+  {% from "button/macro.njk" import button %}
+
+{{ radios({
+  idPrefix: "sex",
+  name: "sex",
+  fieldset: {
+    legend: {
+      text: "What's your sex?",
+      size: "l",
+      isPageHeading: true
+    }
+  },
+  hint: {
+    text: "This question is about your sex registered at birth"
+  },
+  items: [
+    {
+      value: "male",
+      text: "Male"
+    },
+    {
+      value: "female",
+      text: "Female"
+    }
+  ]
+}) }}
+{{ radios({
+    idPrefix: "gender-same-as-sex",
+    name: "genderSameAsSex",
+    fieldset: {
+      legend: {
+        text: "Is the gender you identify with the same as your sex registered at birth?",
+        size: "l"
+      }
+    },
+    items: [
+      {
+        value: "yes",
+        text: "Yes"
+      },
+      {
+        value: "no",
+        text: "No"
+      },
+      {
+        value: "prefer-not-to-say",
+        text: "Prefer not to say"
+      }
+    ]
+  }) }}
+
+    {{ button({
+    text: "Continue",
+    href: "/v1/questions/question-2"
+  }) }}
+
+{% endblock %}
