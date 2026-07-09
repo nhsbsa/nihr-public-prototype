@@ -16,9 +16,11 @@
 <!-- Header code examples can be found at https://service-manual.nhs.uk/design-system/components/header -->
 {% block header %}
   {{ header({
-    service: {
-      text: serviceName,
-      href: "/"
+    classes: "nhsuk-header--white",
+    logo: {
+      href: "/",
+      src: "/assets/images/NIHR-logo.svg",
+      alt: "National Institute for Health and Care Research Logo"
     }
   }) }}
 {% endblock %}

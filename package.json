@@ -4,7 +4,8 @@
   "main": "app.js",
   "scripts": {
     "start": "node .",
-    "watch": "echo 'run this instead: npm start'"
+    "watch": "echo 'run this instead: npm start'",
+    "postinstall": "patch-package"
   },
   "author": "https://github.com/nhsuk/",
   "license": "MIT",
@@ -12,9 +13,10 @@
     "nhsuk-frontend": "^10.4.2",
     "nhsuk-prototype-kit": "^8.3.0"
   },
-  "devDependencies": {
-  },
   "engines": {
     "node": "^22.11.0 || ^24.11.0"
+  },
+  "devDependencies": {
+    "patch-package": "^8.0.1"
   }
 }
