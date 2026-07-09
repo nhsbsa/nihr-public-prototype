@@ -1,0 +1,211 @@
+<!--
+  This is the main layout where you can:
+    - change the header and footer
+    - add custom CSS and JavaScript
+-->
+
+<!-- Extends the prototype kit template which in turn extends the NHS.UK frontend template -->
+{% extends "prototype-kit-template.njk" %}
+
+<!-- Add custom components -->
+
+{%- from '_components/button-menu/macro.njk' import buttonMenu %}
+{%- from '_components/phase-banner/macro.njk' import nhsukPhaseBanner %}
+
+{% block head %}
+  <!-- Add your custom CSS or Sass in /app/assets/sass/main.scss -->
+  <link href="/assets/sass/main.css" rel="stylesheet">
+{% endblock %}
+
+<!-- Edit the header -->
+<!-- Header code examples can be found at https://service-manual.nhs.uk/design-system/components/header -->
+{% block header %}
+
+<header class="nhsuk-header nhsuk-header--white" role="banner" data-module="nhsuk-header">
+   <div class="nhsuk-width-container jdr-container">
+      <div class="jdr-logo-container">
+        <a class="nhsuk-header__service-logo" href="/" aria-label="Join Dementia Research Logo">
+          <img class="nhsuk-header__organisation-logo" src="/assets/images/JDR-logo.svg" width="280" alt="Join Dementia Research Logo">
+        </a>
+      </div>
+      <div class="nhs-logo-container">
+         <a class="nhsuk-header__service-logo" href="/" aria-label="NHS Logo">
+            <svg class="nhsuk-header__logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 80" height="40" width="100" focusable="false" role="img" aria-label="NHS">
+               <title>NHS</title>
+               <path fill="currentcolor" d="M200 0v80H0V0h200Zm-27.5 5.5c-14.5 0-29 5-29 22 0 10.2 7.7 13.5 14.7 16.3l.7.3c5.4 2 10.1 3.9 10.1 8.4 0 6.5-8.5 7.5-14 7.5s-12.5-1.5-16-3.5L135 70c5.5 2 13.5 3.5 20 3.5 15.5 0 32-4.5 32-22.5 0-19.5-25.5-16.5-25.5-25.5 0-5.5 5.5-6.5 12.5-6.5a35 35 0 0 1 14.5 3l4-13.5c-4.5-2-12-3-20-3Zm-131 2h-22l-14 65H22l9-45h.5l13.5 45h21.5l14-65H64l-9 45h-.5l-13-45Zm63 0h-18l-13 65h17l6-28H117l-5.5 28H129l13.5-65H125L119.5 32h-20l5-24.5Z"></path>
+            </svg>
+         </a>
+      </div>
+   </div>     
+
+  <nav class="nhsuk-header__navigation jdr-navigation-color" aria-label="Menu">
+    <div class="nhsuk-header__navigation-container nhsuk-width-container">
+      <ul class="nhsuk-header__navigation-list">
+        <li class="nhsuk-header__navigation-item">
+          <a class="nhsuk-header__navigation-link" href="/login/homepage">Home</a>
+        </li>
+        <li class="nhsuk-header__navigation-item">
+          <a class="nhsuk-header__navigation-link" href="https://www.joindementiaresearch.nihr.ac.uk/content/about">About us</a>
+        </li>
+        <li class="nhsuk-header__navigation-item">
+          <a class="nhsuk-header__navigation-link" href="https://www.joindementiaresearch.nihr.ac.uk/content/whysignup">Why sign up?</a>
+        </li>
+        <li class="nhsuk-header__navigation-item">
+          <a class="nhsuk-header__navigation-link" href="https://news.joindementiaresearch.nihr.ac.uk/category/volunteer-stories/">Volunteer stories</a>
+        </li>
+        <li class="nhsuk-header__navigation-item">
+          <a class="nhsuk-header__navigation-link" href="https://www.joindementiaresearch.nihr.ac.uk/news">News</a>
+        </li>
+        <li class="nhsuk-header__navigation-item">
+          <a class="nhsuk-header__navigation-link" href="https://www.joindementiaresearch.nihr.ac.uk/content/researchers">Researchers</a>
+        </li>
+        <li class="nhsuk-header__navigation-item">
+          <a class="nhsuk-header__navigation-link" href="http://nhs.joindementiaresearch.nihr.ac.uk/">Healthcare</a>
+        </li>
+        <li class="nhsuk-header__menu" hidden>
+          <button class="nhsuk-header__menu-toggle nhsuk-header__navigation-link" id="toggle-menu" aria-expanded="false">
+            <span class="nhsuk-u-visually-hidden">Browse </span>More
+          </button>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</header>
+
+{% endblock %}
+
+<!-- Edit the footer -->
+<!-- Footer code examples can be found at https://service-manual.nhs.uk/design-system/components/footer -->
+{% block footer %}
+
+<footer class="jdr-footer" role="contentinfo">
+  <div class="nhsuk-width-container">
+
+  
+    <div class="nhsuk-footer__navigation nhsuk-grid-row">
+    
+      <div class="nhsuk-grid-column-one-quarter">
+      
+        <h2 class="nhsuk-footer__heading nhsuk-heading-s">Any Questions?</h2>
+      
+      
+        <ul class="nhsuk-footer__list">
+        
+          <li class="nhsuk-footer__list-item">
+            <a class="nhsuk-footer__list-item-link" href="https://www.joindementiaresearch.nihr.ac.uk/help">For the public</a>
+          </li>
+        
+          <li class="nhsuk-footer__list-item">
+            <a class="nhsuk-footer__list-item-link" href="https://www.joindementiaresearch.nihr.ac.uk/healthcare">For healthcare professionals</a>
+          </li>
+        
+          <li class="nhsuk-footer__list-item">
+            <a class="nhsuk-footer__list-item-link" href="https://www.joindementiaresearch.nihr.ac.uk/content/researchers">For researchers</a>
+          </li>
+        
+          <li class="nhsuk-footer__list-item">
+            <a class="nhsuk-footer__list-item-link" href="https://www.joindementiaresearch.nihr.ac.uk/contactus">Contact us</a>
+          </li>
+
+          <li class="nhsuk-footer__list-item">
+            <a class="nhsuk-footer__list-item-link" href="https://www.joindementiaresearch.nihr.ac.uk/sitemap">Sitemap</a>
+          </li>
+        
+        </ul>
+      </div>
+    
+      <div class="nhsuk-grid-column-one-quarter">
+      
+        <h2 class="nhsuk-footer__heading nhsuk-heading-s">Promote the service</h2>
+      
+      
+        <ul class="nhsuk-footer__list">
+        
+          <li class="nhsuk-footer__list-item">
+            <a class="nhsuk-footer__list-item-link" href="https://news.joindementiaresearch.nihr.ac.uk/join-dementia-research-materials/">Resources</a>
+          </li>
+        
+        </ul>
+      </div>
+    
+      <div class="nhsuk-grid-column-one-quarter">
+      
+        <h2 class="nhsuk-footer__heading nhsuk-heading-s">More information</h2>
+      
+      
+        <ul class="nhsuk-footer__list">
+        
+          <li class="nhsuk-footer__list-item">
+            <a class="nhsuk-footer__list-item-link" href="https://www.joindementiaresearch.nihr.ac.uk/content/other_dnr_initiatives">Collaborators & Other initiatives</a>
+          </li>
+        
+        </ul>
+      </div>
+
+      <div class="nhsuk-grid-column-one-quarter">
+      
+        <h2 class="nhsuk-footer__heading nhsuk-heading-s">Policy</h2>
+      
+      
+        <ul class="nhsuk-footer__list">
+        
+          <li class="nhsuk-footer__list-item">
+            <a class="nhsuk-footer__list-item-link" href="https://www.joindementiaresearch.nihr.ac.uk/content/privacy">Privacy notice</a>
+          </li>
+        
+          <li class="nhsuk-footer__list-item">
+            <a class="nhsuk-footer__list-item-link" href="https://www.joindementiaresearch.nihr.ac.uk/content/volunteersheet">Volunteer guide</a>
+          </li>
+        
+          <li class="nhsuk-footer__list-item">
+            <a class="nhsuk-footer__list-item-link" href="https://www.joindementiaresearch.nihr.ac.uk/content/accessibility">Accessibility statement</a>
+          </li>
+
+          <li class="nhsuk-footer__list-item">
+            <a class="nhsuk-footer__list-item-link" href="https://www.joindementiaresearch.nihr.ac.uk/policiesandprocedures">Policies</a>
+          </li>
+        
+        </ul>
+      </div>
+    
+    </div>
+  
+
+  </div>
+</footer>
+
+<footer class="jdr-footer-bottom" role="contentinfo">
+
+  <div class="nhsuk-width-container">
+    
+    <div class="footer-grid">
+      <div class="footer-col">
+        <a href="https://www.nihr.ac.uk/"><img src="/assets/images/NIHR-logo.svg" alt=""></a>
+      </div>
+
+      <div class="footer-col">
+        <a href="http://www.alzscot.org/"><img src="/assets/images/alzheimers-scotland.svg" alt=""></a>
+      </div>
+
+      <div class="footer-col">
+        <a href="http://www.alzheimersresearchuk.org/"><img src="/assets/images/alzheimers-research-uk.svg" alt=""></a>
+      </div>
+
+      <div class="footer-col">
+        <a href="http://www.alzheimers.org.uk/"><img src="/assets/images/alzheimers-society.svg" alt=""></a>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+
+
+{% endblock %}
+
+{% block bodyEnd %}
+  {{ super() }}
+  <script type="module" src="/assets/javascript/main.js"></script>
+  <script type="module" src="/assets/javascript/button-menu.js"></script>
+  {% block pageScripts %}{% endblock %}
+{% endblock %}

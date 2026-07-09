@@ -1,0 +1,19 @@
+{# {% from "govuk/macros/attributes.njk" import nhsukAttributes %} #}
+{% from "nhsuk/macros/attributes.njk" import nhsukAttributes %}
+
+{% from "tag/macro.njk" import tag %}
+
+<div class="nhsuk-phase-banner
+  {%- if params.classes %} {{ params.classes }}{% endif %}"
+  {{- nhsukAttributes(params.attributes) }}>
+  <p class="nhsuk-phase-banner__content">
+    {{ tag({
+      text: params.tag.text,
+      html: params.tag.html,
+      classes: "nhsuk-phase-banner__content__tag" + (" " + params.tag.classes if params.tag.classes)
+    }) | trim | indent(4) }}
+    <span class="nhsuk-phase-banner__text">
+      {{ params.html | safe | trim | indent(6) if params.html else params.text }}
+    </span>
+  </p>
+</div>
