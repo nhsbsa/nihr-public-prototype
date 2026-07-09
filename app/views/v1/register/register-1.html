@@ -1,0 +1,33 @@
+{% extends "layout-bpor-question.html" %}
+
+{% from "input/macro.njk" import input %}
+{% from "button/macro.njk" import button %}
+
+{% block content %}
+
+  <div class="nhsuk-grid-row">
+    <div class="nhsuk-grid-column-two-thirds">
+
+      {{ input({
+        label: {
+          text: "What is your home address?",
+          classes: "nhsuk-label--l",
+          isPageHeading: true
+        },
+        hint: {
+          text: "Town, city or postcode"
+        },
+        id: "home-address",
+        name: "homeAddress",
+        classes: "nhsuk-input--width-20"
+      }) }}
+
+      {{ button({
+        text: "Continue",
+        href: "/v1/register/register-3"
+      }) }}
+
+    </div>
+  </div>
+
+{% endblock %}

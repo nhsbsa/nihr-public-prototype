@@ -6,29 +6,35 @@
     <div class="nhsuk-header__service">
       <a class="nhsuk-header__service-logo" href="#" aria-label="NHS Anytown Anyplace Anywhere NHS Foundation Trust homepage">
         
-        <img src="assets/images/BPOR-logo.svg" alt="Logo" class="custom-org-logo">
+        <img src="/assets/images/BPOR-logo.svg" alt="Logo" class="custom-org-logo">
       </a>
     </div>
   </div>
-  <nav class="nhsuk-header__navigation nhsuk-header__navigation--white" aria-label="Menu">
+ <nav class="nhsuk-header__navigation nhsuk-header__navigation--white" aria-label="Menu">
     <div class="nhsuk-header__navigation-container nhsuk-width-container">
       <ul class="nhsuk-header__navigation-list">
-        <li class="nhsuk-header__navigation-item">
-          <a class="nhsuk-header__navigation-link" href="#">Home</a>
-        </li>
+        
+        <!-- 'Home' is now the active state -->
         <li class="nhsuk-header__navigation-item nhsuk-header__navigation-item--current">
-          <a class="nhsuk-header__navigation-link" href="#" aria-current="true"><strong class="nhsuk-header__navigation-item-current-fallback">About us</strong></a>
+          <a class="nhsuk-header__navigation-link" href="/v1/homepage" aria-current="true">
+            <strong class="nhsuk-header__navigation-item-current-fallback">Home</strong>
+          </a>
+        </li>
+        
+        <!-- 'About us' is now a standard link -->
+        <li class="nhsuk-header__navigation-item">
+          <a class="nhsuk-header__navigation-link" href="#">About us</a>
         </li>
         <li class="nhsuk-header__navigation-item">
-          <a class="nhsuk-header__navigation-link" href="#">Taking part in research</a>
+          <a class="nhsuk-header__navigation-link" href="/v1/search">Taking part in research</a>
         </li>
         <li class="nhsuk-header__navigation-item">
-          <a class="nhsuk-header__navigation-link" href="#">Recuiting to your study</a>
+          <a class="nhsuk-header__navigation-link" href="#">Recruiting to your study</a>
         </li>
         <li class="nhsuk-header__navigation-item">
           <a class="nhsuk-header__navigation-link" href="#">Supporting be part of research</a>
         </li>
-            <li class="nhsuk-header__navigation-item">
+        <li class="nhsuk-header__navigation-item">
           <a class="nhsuk-header__navigation-link" href="#">News and features</a>
         </li>
         <li class="nhsuk-header__menu" hidden>
@@ -39,8 +45,6 @@
       </ul>
     </div>
   </nav>
-</header>
-
 </header>
 {% endblock %}
 

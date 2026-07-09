@@ -1,0 +1,34 @@
+{% extends "layout-bpor-question.html" %}
+
+{% block content %}
+  {% from "radios/macro.njk" import radios %}
+  {% from "fieldset/macro.njk" import fieldset %}
+  {% from "hint/macro.njk" import hint %}
+  {% from "button/macro.njk" import button %}
+
+  <form method="post">
+    {{ radios({
+      idPrefix: "mental-health",
+      name: "mental-health",
+      fieldset: {
+        legend: {
+          text: "Do you have any physical or mental health conditions or illness lasting or expected to last 12 months or more?",
+          size: "l",
+          isPageHeading: true
+        }
+      },
+      hint: {
+        text: "This includes any physical and mental health conditions or illnesses."
+      },
+      items: [
+        { value: "yes", text: "Yes" },
+        { value: "no", text: "No" },
+        { value: "prefer-not-to-say", text: "Prefer not to say" }
+      ]
+    }) }}
+    {{ button({
+  text: "Continue",
+  href: "/v1/register/confirmation"
+}) }}
+  </form>
+{% endblock %}

@@ -4,25 +4,30 @@
   {% from "checkboxes/macro.njk" import checkboxes %}
   {% from "button/macro.njk" import button %}
 
-  {{ checkboxes({
-    idPrefix: "health-conditions",
-    name: "healthConditions",
-    fieldset: {
-      legend: {
-        text: questionTitle,
-        size: "l",
-        isPageHeading: true
-      }
-    },
-    hint: {
-      text: "Select all that apply. Some options will reveal more specific choices."
-    },
-    items: healthConditionItems
-  }) }}
+  <!-- Wrap the inputs in a form and point the action to the next page -->
+  <form action="/v1/questions/question-4" method="post">
 
-  {{ button({
-    text: "Continue",
-    href: "/v1/questions/question-4"
-  }) }}
+    {{ checkboxes({
+      idPrefix: "health-conditions",
+      name: "healthConditions",
+      fieldset: {
+        legend: {
+          text: questionTitle,
+          size: "l",
+          isPageHeading: true
+        }
+      },
+      hint: {
+        text: "Select all that apply. Some options will reveal more specific choices."
+      },
+      items: healthConditionItems
+    }) }}
+
+    <!-- Remove the href so this acts as a submit button -->
+    {{ button({
+      text: "Continue"
+    }) }}
+
+  </form>
 
 {% endblock %}

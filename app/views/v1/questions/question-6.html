@@ -1,0 +1,37 @@
+{% extends 'layout-bpor-question.html' %}
+
+{% from "button/macro.njk" import button %}
+
+{% block content %}
+
+  <div class="nhsuk-grid-row">
+    <div class="nhsuk-grid-column-two-thirds">
+
+      <h1 class="nhsuk-heading-l">You have completed the initial questions</h1>
+      
+      <p class="nhsuk-body nhsuk-u-margin-bottom-6">
+        Based on your answers, you can view matched studies right away. You can also optionally choose to register your details so researchers can contact you directly when new relevant studies open up.
+      </p>
+
+      {# Wrap buttons inside a standard NHS design system group container #}
+      <div class="nhsuk-button-group">
+        
+        {# Primary action: We added '?status=recruiting' to the URL! #}
+        {{ button({
+          text: "View your study results",
+          href: "/v1/search-results?status=recruiting"
+        }) }}
+
+        {# Secondary action: Fork out to register an account instead #}
+        {{ button({
+          text: "Continue to register for future studies",
+          classes: "nhsuk-button--secondary",
+          href: "/v1/register/register-1"
+        }) }}
+
+      </div>
+
+    </div>
+  </div>
+
+{% endblock %}
