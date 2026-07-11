@@ -31,23 +31,12 @@
         <h2 class="nhsuk-heading-m">Filter</h2>
 
         <!-- SELECTED FILTERS PANEL (ALL EXTRA LOZENGES ADDED HERE) -->
-        {% if data.keywords or data.status or data.location or (data.healthCondition and data.healthCondition != '_all') or data.ageRange or data.gender or data.sex %}
+        {% if data.status or data.location or (data.healthCondition and data.healthCondition != '_all') or data.ageRange or data.gender or data.sex %}
           <div class="selected-filters-panel" style="background-color: #f0f4f5; padding: 16px; margin-bottom: 24px; border: 1px solid #d8dde0;">
             <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 16px;">
               <h3 class="nhsuk-heading-s" style="margin: 0; font-size: 20px;">Selected filters</h3>
-              <a href="/v1/search-results" class="nhsuk-link nhsuk-link--no-visited" style="font-size: 16px;">Clear filters</a>
+              <a href="/v1/search-results?clear=true" class="nhsuk-link nhsuk-link--no-visited" style="font-size: 16px;">Clear filters</a>
             </div>
-
-            {# Keyword Lozenges #}
-            {% if data.keywords %}
-              <div style="margin-bottom: 12px;">
-                <p class="nhsuk-body-s" style="font-weight: bold; margin-bottom: 4px;">Keyword</p>
-                <a href="/v1/search-results?keywords=&location={{ data.location }}&healthCondition={{ data.healthCondition }}&status={{ data.status }}&ageRange={{ data.ageRange }}&sex={{ data.sex }}" 
-                   style="display: inline-flex; align-items: center; background-color: #fff; border: 1px solid #212b32; padding: 4px 8px; font-size: 14px; color: #212b32; text-decoration: none; border-radius: 2px;">
-                  {{ data.keywords }} <span style="margin-left: 8px; font-weight: bold; color: #626f7a;">&times;</span>
-                </a>
-              </div>
-            {% endif %}
 
             {# Location Lozenges #}
             {% if data.location %}
@@ -173,13 +162,6 @@
         {% endif %}
 
         {{ button({ text: "Apply filters" }) }}
-
-        {{ input({
-          id: "keywords",
-          name: "keywords",
-          label: { text: "Keywords" },
-          value: data['keywords'] 
-        }) }}
 
         <!-- Location Field -->
         {{ input({

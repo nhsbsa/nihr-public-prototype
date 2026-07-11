@@ -44,15 +44,6 @@
             }
           },
           {
-            key: { text: "Long-term health condition" },
-            value: { text: data['longTermCondition'] or "No" },
-            actions: {
-              items: [
-                { href: "/v1/register/register-4", text: "Change", visuallyHiddenText: "long-term health condition" }
-              ]
-            }
-          },
-          {
             key: { text: "Where you could take part" },
             value: {
               text: (data['location'] + " (within " + data['travelDistance'] + " miles)") if data['locationPreference'] == "specific-area" else (locationPreferenceLabel or "Anywhere in the UK")
@@ -95,7 +86,7 @@
             value: { text: data['ethnicGroup'] or "White (English, Welsh, Scottish, Northern Irish or British)" },
             actions: {
               items: [
-                { href: "/v1/register/register-3", text: "Change", visuallyHiddenText: "ethnic group" }
+                { href: "/v1/register/register-4", text: "Change", visuallyHiddenText: "ethnic group" }
               ]
             }
           }
@@ -108,9 +99,10 @@
         By submitting this application, you agree that researchers may review your profile data to contact you about upcoming clinical trials.
       </p>
 
-      <form method="post">
-        {{ button({ text: "Complete registration" }) }}
-      </form>
+      {{ button({
+        text: "Complete registration",
+        href: "/v1/register/confirmation"
+      }) }}
 
     </div>
   </div>

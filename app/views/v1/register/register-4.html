@@ -1,34 +1,106 @@
 {% extends "layout-bpor-question.html" %}
+{% from "radios/macro.njk" import radios %}
+{% from "input/macro.njk" import input %}
+{% from "button/macro.njk" import button %}
 
 {% block content %}
-  {% from "radios/macro.njk" import radios %}
-  {% from "fieldset/macro.njk" import fieldset %}
-  {% from "hint/macro.njk" import hint %}
-  {% from "button/macro.njk" import button %}
 
-  <form method="post">
+  {# 1. Define Sub-lists #}
+  {% set asianSubHtml %}
     {{ radios({
-      idPrefix: "mental-health",
-      name: "mental-health",
-      fieldset: {
-        legend: {
-          text: "Do you have any physical or mental health conditions or illness lasting or expected to last 12 months or more?",
-          size: "l",
-          isPageHeading: true
-        }
-      },
-      hint: {
-        text: "This includes any physical and mental health conditions or illnesses."
-      },
+      name: "asianSub",
+      idPrefix: "asian-sub",
+      fieldset: { legend: { text: "Which Asian background?", classes: "nhsuk-fieldset__legend--s" } },
       items: [
-        { value: "yes", text: "Yes" },
-        { value: "no", text: "No" },
-        { value: "prefer-not-to-say", text: "Prefer not to say" }
+        { value: "indian", text: "Indian" },
+        { value: "pakistani", text: "Pakistani" },
+        { value: "bangladeshi", text: "Bangladeshi" },
+        { value: "chinese", text: "Chinese" },
+        { value: "other-asian", text: "Any other Asian background" }
       ]
     }) }}
+  {% endset %}
+
+  {% set blackSubHtml %}
+    {{ radios({
+      name: "blackSub",
+      idPrefix: "black-sub",
+      fieldset: { legend: { text: "Which Black background?", classes: "nhsuk-fieldset__legend--s" } },
+      items: [
+        { value: "african", text: "African" },
+        { value: "caribbean", text: "Caribbean" },
+        { value: "other-black", text: "Any other Black, African or Caribbean background" }
+      ]
+    }) }}
+  {% endset %}
+
+  {% set mixedSubHtml %}
+    {{ radios({
+      name: "mixedSub",
+      idPrefix: "mixed-sub",
+      fieldset: { legend: { text: "Which mixed background?", classes: "nhsuk-fieldset__legend--s" } },
+      items: [
+        { value: "white-black-caribbean", text: "White and Black Caribbean" },
+        { value: "white-black-african", text: "White and Black African" },
+        { value: "white-asian", text: "White and Asian" },
+        { value: "other-mixed", text: "Any other Mixed or multiple ethnic background" }
+      ]
+    }) }}
+  {% endset %}
+
+  {% set whiteSubHtml %}
+    {{ radios({
+      name: "whiteSub",
+      idPrefix: "white-sub",
+      fieldset: { legend: { text: "Which White background?", classes: "nhsuk-fieldset__legend--s" } },
+      items: [
+        { value: "british", text: "English, Welsh, Scottish, Northern Irish or British" },
+        { value: "irish", text: "Irish" },
+        { value: "traveller", text: "Gypsy or Irish Traveller" },
+        { value: "roma", text: "Roma" },
+        { value: "other-white", text: "Any other White background" }
+      ]
+    }) }}
+  {% endset %}
+
+  {% set otherSubHtml %}
+    {{ radios({
+      name: "otherSub",
+      idPrefix: "other-sub",
+      fieldset: { legend: { text: "Which ethnic group?", classes: "nhsuk-fieldset__legend--s" } },
+      items: [
+        { value: "arab", text: "Arab" },
+        { value: "any-other", text: "Any other ethnic group" }
+      ]
+    }) }}
+  {% endset %}
+
+
+  {# 2. Render Main Radio Question #}
+  {{ radios({
+    name: "ethnicGroup",
+    idPrefix: "ethnic-group",
+    fieldset: {
+      legend: {
+        text: "Which of the following ethnic groups do you identify with?",
+        size: "l",
+        isPageHeading: true
+      }
+    },
+    items: [
+      { value: "asian", text: "Asian or Asian British", conditional: { html: asianSubHtml } },
+      { value: "black", text: "Black, African, Black British or Caribbean", conditional: { html: blackSubHtml } },
+      { value: "mixed", text: "Mixed or multiple ethnic groups", conditional: { html: mixedSubHtml } },
+      { value: "white", text: "White", conditional: { html: whiteSubHtml } },
+      { value: "other", text: "Other ethnic group", conditional: { html: otherSubHtml } },
+      { divider: "or" },
+      { value: "prefer-not-to-say", text: "Prefer not to say" }
+    ]
+  }) }}
+
     {{ button({
-  text: "Continue",
-  href: "/v1/register/confirmation"
+    text: "Continue",
+    href: "/v1/register/register-5"
 }) }}
-  </form>
+
 {% endblock %}

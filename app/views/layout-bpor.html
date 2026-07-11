@@ -14,19 +14,18 @@
     <div class="nhsuk-header__navigation-container nhsuk-width-container">
       <ul class="nhsuk-header__navigation-list">
         
-        <!-- 'Home' is now the active state -->
-        <li class="nhsuk-header__navigation-item nhsuk-header__navigation-item--current">
-          <a class="nhsuk-header__navigation-link" href="/v1/homepage" aria-current="true">
+        <li class="nhsuk-header__navigation-item{% if currentPath == "/v1/homepage" %} nhsuk-header__navigation-item--current{% endif %}">
+          <a class="nhsuk-header__navigation-link" href="/v1/homepage"{% if currentPath == "/v1/homepage" %} aria-current="true"{% endif %}>
             <strong class="nhsuk-header__navigation-item-current-fallback">Home</strong>
           </a>
         </li>
-        
+
         <!-- 'About us' is now a standard link -->
         <li class="nhsuk-header__navigation-item">
           <a class="nhsuk-header__navigation-link" href="#">About us</a>
         </li>
-        <li class="nhsuk-header__navigation-item">
-          <a class="nhsuk-header__navigation-link" href="/v1/search">Taking part in research</a>
+        <li class="nhsuk-header__navigation-item{% if currentPath == "/v1/search" %} nhsuk-header__navigation-item--current{% endif %}">
+          <a class="nhsuk-header__navigation-link" href="/v1/search"{% if currentPath == "/v1/search" %} aria-current="true"{% endif %}>Taking part in research</a>
         </li>
         <li class="nhsuk-header__navigation-item">
           <a class="nhsuk-header__navigation-link" href="#">Recruiting to your study</a>

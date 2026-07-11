@@ -78,18 +78,112 @@ const locationPreferenceLabels = {
 }
 
 // --------------------------------------------------------
-// Onboarding & Registration Routes
+// Initial Questionnaire Flow (1 to 5)
 // --------------------------------------------------------
 
 router.get('/v1/home', function (req, res) {
   res.render('v1/home')
 })
 
+router.get('/v1/questions/question-1', function (req, res) {
+  res.render('v1/questions/question-1', {
+    currentQuestion: 1,
+    totalQuestions: 5,
+    step: 1,
+    questionTitle: "What's your sex?"
+  });
+});
+
+router.post('/v1/questions/question-1', function (req, res) {
+  res.redirect('/v1/questions/question-2')
+});
+
+router.get('/v1/questions/question-2', function (req, res) {
+  res.render('v1/questions/question-2', {
+    currentQuestion: 2,
+    totalQuestions: 5,
+    step: 2,
+    questionTitle: "What is your phone number"
+  });
+});
+
+router.post('/v1/questions/question-2', function (req, res) {
+  res.redirect('/v1/questions/question-3')
+});
+
+router.get('/v1/questions/question-3', function (req, res) {
+  if (req.session.data) {
+    delete req.session.data.healthConditions;
+    delete req.session.data.healthCondition;
+    Object.keys(req.session.data).forEach(key => {
+      if (key.endsWith('Sub')) delete req.session.data[key];
+    });
+  }
+
+  const subCategoryGroups = Object.keys(healthConditions).map(slug => {
+    return {
+      slug: slug,
+      text: healthConditions[slug].text,
+      items: healthConditions[slug].items
+    }
+  })
+
+  res.render('v1/questions/question-3', {
+    currentQuestion: 3,
+    totalQuestions: 5,
+    step: 3,
+    questionTitle: "Areas of research",
+    healthConditionItems: buildHealthConditionItems(),
+    subCategoryGroups: subCategoryGroups 
+  });
+});
+
+router.post('/v1/questions/question-3', function (req, res) {
+  res.redirect('/v1/questions/question-4')
+});
+
+router.get('/v1/questions/question-4', function (req, res) {
+  res.render('v1/questions/question-4', {
+    currentQuestion: 4,
+    totalQuestions: 5,
+    step: 4,
+    questionTitle: "Location"
+  });
+});
+
+router.post('/v1/questions/question-4', function (req, res) {
+  res.redirect('/v1/questions/question-5')
+});
+
+router.get('/v1/questions/question-5', function (req, res) {
+  res.render('v1/questions/question-5', {
+    currentQuestion: 5,
+    totalQuestions: 5,
+    step: 5,
+    questionTitle: "Review completion"
+  });
+});
+
+router.post('/v1/questions/question-5', function (req, res) {
+  res.redirect('/v1/questions/interruption-page')
+});
+
+// Interruption Card Bridge Page
+router.get('/v1/questions/interruption-page', function (req, res) {
+  res.render('v1/questions/question-6')
+});
+
+
+// --------------------------------------------------------
+// Account Registration Flow (1 to 5)
+// --------------------------------------------------------
+
 router.get('/v1/register/register-1', function (req, res) {
   res.render('v1/register/register-1', {
     currentQuestion: 1,
-    totalQuestions: 5,
-    questionTitle: "What's your address"
+    totalQuestions: 4,
+    step: 1,
+    questionTitle: "What is your name?"
   });
 });
 
@@ -100,8 +194,9 @@ router.post('/v1/register/register-1', function (req, res) {
 router.get('/v1/register/register-2', function (req, res) {
   res.render('v1/register/register-2', {
     currentQuestion: 2,
-    totalQuestions: 5,
-    questionTitle: "What is your phone number"
+    totalQuestions: 4,
+    step: 2,
+    questionTitle: "What is your email address?"
   });
 });
 
@@ -109,41 +204,44 @@ router.post('/v1/register/register-2', function (req, res) {
   res.redirect('/v1/register/register-3')
 });
 
-// GET blocks for the questions (POST blocks removed to let HTML handle routing)
-
-router.get('/v1/questions/question-3', function (req, res) {
-  res.render('v1/questions/question-3', {
+router.get('/v1/register/register-3', function (req, res) {
+  res.render('v1/register/register-3', {
     currentQuestion: 3,
-    totalQuestions: 5,
-    questionTitle: "Areas of research",
-    healthConditionItems: buildHealthConditionItems()
+    totalQuestions: 4,
+    step: 3,
+    questionTitle: "Create a password"
   });
 });
 
-router.get('/v1/questions/question-4', function (req, res) {
-  res.render('v1/questions/question-4', {
+router.post('/v1/register/register-3', function (req, res) {
+  res.redirect('/v1/register/register-4')
+});
+
+router.get('/v1/register/register-4', function (req, res) {
+  res.render('v1/register/register-4', {
     currentQuestion: 4,
-    totalQuestions: 5,
-    questionTitle: "location"
+    totalQuestions: 4,
+    step: 4,
+    questionTitle: "What is your date of birth?"
   });
 });
 
-router.get('/v1/questions/question-5', function (req, res) {
-  res.render('v1/questions/question-5', {
-    currentQuestion: 5,
-    totalQuestions: 5,
-    questionTitle: "location"
+router.post('/v1/register/register-4', function (req, res) {
+  res.redirect('/v1/register/register-5')
+});
+
+router.get('/v1/register/register-5', function (req, res) {
+  res.render('v1/register/register-5', {
+    questionTitle: "Check your answers"
   });
 });
 
-router.get('/v1/questions/question-6', function (req, res) {
-  res.render('v1/questions/question-6', {
-    questionTitle: "Create your account"
-  });
+router.post('/v1/register/register-5', function (req, res) {
+  res.redirect('/v1/questions/check-your-answers')
 });
 
 router.get('/v1/questions/check-your-answers', function (req, res) {
-  const data = req.session.data
+  const data = req.session.data || {}
   res.render('v1/questions/check-your-answers', {
     healthConditionLabels: getHealthConditionLabels(data.healthConditions).join(', '),
     locationPreferenceLabel: locationPreferenceLabels[data.locationPreference] || data.locationPreference
@@ -163,46 +261,52 @@ router.get('/v1/register/confirmation', function (req, res) {
 // Search Feed & Filtering Engine
 // --------------------------------------------------------
 
-// Changed from router.get to router.all to support POST from search filters form
+router.get('/v1/search', function (req, res) {
+  res.render('v1/search')
+})
+
 router.all('/v1/search-results', function (req, res) {
-  
-  // CLEAR FILTERS LOGIC: Drops session memory data completely if ?clear=true is triggered
   if (req.query.clear === 'true') {
     req.session.data = {}
+    res.locals.data = {}
   }
 
-  // Support inputs coming from either query string parameters (GET) or form submission body (POST)
   const inputSource = req.method === 'POST' ? req.body : req.query
-  const { keywords, location, status } = inputSource
-  
-  // Check if the user selected ANY sub-conditions in Q3
+  const { keywords, status } = inputSource
+
   const sd = req.session.data || {}
+  const location = inputSource.location || sd.location
   const hasSubConditions = Object.keys(sd).some(key => key.endsWith('Sub') && Array.isArray(sd[key]) && sd[key].length > 0)
 
-  // Start baseline with the full list of mock studies
+  const chosenCondition = inputSource.healthCondition ||
+                          sd.healthCondition ||
+                          (Array.isArray(sd.healthConditions) ? sd.healthConditions[0] : sd.healthConditions);
+
   let results = [...studies]
 
-  // Keyword Text Filter
   if (keywords) {
-    results = results.filter(study => 
+    results = results.filter(study =>
       study.title.toLowerCase().includes(keywords.toLowerCase())
     )
   }
 
-  // Location Text Filter
   if (location) {
-    results = results.filter(study => 
+    results = results.filter(study =>
       study.locations.some(loc => loc.toLowerCase().includes(location.toLowerCase()))
     )
   }
 
-  // Status Multiselect Filter
   if (status) {
     const activeStatuses = Array.isArray(status) ? status : [status]
     results = results.filter(study => activeStatuses.includes(study.status))
   }
 
-  // Map fields to guarantee Nunjucks template properties render correctly on the cards
+  if (chosenCondition && chosenCondition !== '_all') {
+    results = results.filter(study =>
+      Array.isArray(study.conditionCategories) && study.conditionCategories.includes(chosenCondition)
+    )
+  }
+
   const formattedResults = results.map(study => {
     const statusLabel = study.status ? study.status.charAt(0).toUpperCase() + study.status.slice(1) : 'Unknown'
     return {
@@ -216,11 +320,10 @@ router.all('/v1/search-results', function (req, res) {
     }
   })
 
-  // Render template cleanly and pass the current healthCondition value to handle selections
   return res.render('v1/searchfeed/search-feed', {
     resultsCount: formattedResults.length,
     results: formattedResults,
-    healthConditionItems: buildHealthConditionItems(inputSource.healthCondition || sd.healthCondition),
+    healthConditionItems: buildHealthConditionItems(chosenCondition),
     healthConditions: healthConditions,
     hasSubConditions: hasSubConditions
   })
