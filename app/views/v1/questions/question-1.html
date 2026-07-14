@@ -1,0 +1,55 @@
+{% extends "layout-bpor-question.html" %}
+
+{% block content %}
+  {% from "radios/macro.njk" import radios %}
+  {% from "fieldset/macro.njk" import fieldset %}
+  {% from "hint/macro.njk" import hint %}
+  {% from "button/macro.njk" import button %}
+
+  
+
+  <!-- This form wrapper tells the page to save the data AND where to go next -->
+  <form action="/v1/questions/question-1" method="post">
+
+    {{ radios({
+      idPrefix: "sex",
+      name: "sex",
+      fieldset: {
+        legend: {
+          text: "What's your sex?",
+          size: "l",
+          isPageHeading: true
+        }
+      },
+      hint: {
+        text: "This question is about your sex registered at birth"
+      },
+      items: [
+        { value: "male", text: "Male" },
+        { value: "female", text: "Female" }
+      ]
+    }) }}
+    
+    {{ radios({
+        idPrefix: "gender-same-as-sex",
+        name: "genderSameAsSex",
+        fieldset: {
+          legend: {
+            text: "Is the gender you identify with the same as your sex registered at birth?",
+            size: "l"
+          }
+        },
+        items: [
+          { value: "yes", text: "Yes" },
+          { value: "no", text: "No" },
+          { value: "prefer-not-to-say", text: "Prefer not to say" }
+        ]
+      }) }}
+
+    <!-- The href is REMOVED so it submits the form instead of skipping it -->
+    {{ button({
+      text: "Continue"
+    }) }}
+
+  </form>
+{% endblock %}

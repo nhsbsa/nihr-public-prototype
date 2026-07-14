@@ -1,25 +1,69 @@
-{% extends 'layout-bpor.html' %}
+{% extends "layout-bpor.html" %}
 
-{% from "search-input/macro.njk" import searchInput %}
-
-{% set pageName = "Search for a study" %}
+{% from "button/macro.njk" import button %}
 
 {% block content %}
 <div class="nhsuk-grid-row">
   <div class="nhsuk-grid-column-two-thirds">
 
-    {{ searchInput({
-      label: {
-        text: "Search",
-        size: "l",
-        isPageHeading: true
-      },
-      name: "example",
-      id: "example",
-      large: true,
-      classes: "nhsuk-input--width-20"
-    }) }}
+    <!-- Page Title -->
+    <h1 class="nhsuk-heading-l nhsuk-u-margin-bottom-4">Find a study</h1>
 
-  </div>
+    <!-- Intro Text -->
+    <p class="nhsuk-body-m">
+    Be Part of Research pulls health studies from other websites into one place. Use this tool to find a study that's relevant.    </p>
+
+    <!-- Things to Consider Custom Callout Card -->
+    <div class="nhsuk-u-margin-top-6 nhsuk-u-margin-bottom-6" style="border: 1px solid #b1b4b6; position: relative; background-color: #ffffff;">
+      
+      <!-- Card Header Box -->
+      <div style="background-color: #005ea5; color: #ffffff; display: inline-block; padding: 6px 16px; font-weight: 700; font-size: 22px;">
+        Before we start
+      </div>
+
+      <!-- Card Content List -->
+      <div style="padding: 24px 24px 12px 24px;">
+        <ul class="nhsuk-list" style="padding-left: 0;">
+          
+          <!-- Item 1 -->
+          <li style="display: flex; align-items: flex-start; margin-bottom: 20px;">
+            <span style="color: #007f3b; font-size: 24px; font-weight: bold; margin-right: 12px; line-height: 1;">✓</span>
+            <span class="nhsuk-body" style="margin-bottom: 0;">
+            Check if you are eligible for a study — the study team can tell you if you aren't sure.            </span>
+          </li>
+
+          <!-- Item 2 -->
+          <li style="display: flex; align-items: flex-start; margin-bottom: 20px;">
+            <span style="color: #007f3b; font-size: 24px; font-weight: bold; margin-right: 12px; line-height: 1;">✓</span>
+            <span class="nhsuk-body" style="margin-bottom: 0;">
+            Find contact details for the study team in the contact details section on each study page.            </span>
+          </li>
+
+          <!-- Item 3 -->
+          <li style="display: flex; align-items: flex-start; margin-bottom: 20px;">
+            <span style="color: #007f3b; font-size: 24px; font-weight: bold; margin-right: 12px; line-height: 1;">✓</span>
+            <span class="nhsuk-body" style="margin-bottom: 0;">
+            Research happens in lots of places, incuding NHS hospitals, GP clinics, or sometimes in your own home.            </span>
+          </li>
+
+        </ul>
+      </div>
+    </div>
+
+<div class="nhsuk-button-group">
+  <!-- Primary Call to Action Button -->
+  {{ button({
+    text: "Find a study",
+    href: "/v1/questions/question-1",
+    classes: "nhsuk-u-margin-bottom-0"
+  }) }}
+
+  <!-- Secondary Navigation Action -->
+  {{ button({
+    text: "Browse all studies",
+    href: "/v1/search-results?clear=true",
+    classes: "nhsuk-button--secondary nhsuk-u-margin-bottom-0"
+  }) }}
 </div>
+
 {% endblock %}

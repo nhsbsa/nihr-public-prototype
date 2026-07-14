@@ -1,0 +1,57 @@
+{% extends 'layout-bpor-question.html' %}
+
+{% from "back-link/macro.njk" import backLink %}
+{% from "button/macro.njk" import button %}
+{% from "panel/macro.njk" import panel %}
+
+{# Limits the content width for readability on interruption pages #}
+{% set mainClasses = "nhsuk-main-wrapper--s" %}
+
+{% block beforeContent %}
+  {# Links back to Question 3 #}
+  {{ backLink({
+    href: "/v1/questions/question-3",
+    text: "Back"
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="nhsuk-grid-row">
+    <div class="nhsuk-grid-column-two-thirds">
+
+      {# Capture your custom text, main primary button, and secondary action link #}
+      {% set panelHtml %}
+        <p>You can either:</p>
+        <ul class="nhsuk-list nhsuk-list--bullet">
+          <li>view your results now</li>
+          <li>register your details first — this helps match you to studies in the future</li>
+        </ul>
+        
+        <div class="nhsuk-button-group" style="margin-top: 32px;">
+          
+          {# Primary Action: View results #}
+          {{ button({
+            text: "View results now",
+            classes: "nhsuk-button--reverse",
+            href: "/v1/search-results?status=recruiting"
+          }) }}
+          
+          {# Secondary Action: Continue registering #}
+          <a class="nhsuk-link" href="/v1/register/register-1" style="color: #ffffff; font-weight: bold; align-self: center;">
+            Register your details first
+          </a>
+          
+        </div>
+      {% endset %}
+
+      {# Render the final Interruption panel wrapper #}
+      {{ panel({
+        titleText: "We've matched your studies",
+        titleSize: "l",
+        classes: "nhsuk-panel--interruption",
+        html: panelHtml
+      }) }}
+
+    </div>
+  </div>
+{% endblock %}

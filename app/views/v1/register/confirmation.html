@@ -1,0 +1,51 @@
+{% extends "layout-bpor-question.html" %}
+
+{% from "panel/macro.njk" import panel %}
+{% from "button/macro.njk" import button %}
+
+{% block content %}
+
+  <div class="nhsuk-grid-row">
+    <div class="nhsuk-grid-column-two-thirds">
+
+      {{ panel({
+        titleText: "Registration complete",
+        html: "We've sent you a confirmation email."
+      }) }}
+
+       <h2 class="nhsuk-heading-m">What happens next</h2>
+       
+      <p class="nhsuk-body">
+        We'll use your information to match you to relevant studies.
+      </p>       
+
+      <h2 class="nhsuk-heading-m">How long this will take</h2>
+
+      <p class="nhsuk-body">
+        It can take between a few days to several months to match you to a study.
+      </p>
+
+      <h2 class="nhsuk-heading-m">What you can do now</h2>
+      
+      <p class="nhsuk-body">
+        Sign up to our newsletter for more regular research updates.
+      </p>
+
+      <p class="nhsuk-body">You can also sign in to your account page to:
+      </p>
+
+      <ul class="nhsuk-list nhsuk-list--bullet">
+        <li>update your details</li>
+        <li>update your areas of research</li>
+        <li>delete your account</li>
+      </ul>
+
+      {{ button({
+        text: "Continue to study search results",
+        href: "/v1/search-results"
+      }) }}
+
+    </div>
+  </div>
+
+{% endblock %}

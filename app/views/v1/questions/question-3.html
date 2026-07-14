@@ -1,0 +1,146 @@
+{% extends "layout-bpor-question.html" %}
+
+{% block content %}
+
+  <!-- Wrap the inputs in a form and point the action to the next page -->
+  <form action="/v1/questions/question-3" method="post">
+
+    <div class="nhsuk-form-group">
+      <fieldset class="nhsuk-fieldset" aria-describedby="health-conditions-hint">
+        
+        <legend class="nhsuk-fieldset__legend nhsuk-fieldset__legend--l">
+          <h1 class="nhsuk-fieldset__heading">
+            {{ questionTitle or "Areas of research" }}
+          </h1>
+        </legend>
+        
+        <div class="nhsuk-hint" id="health-conditions-hint">
+          Select all that apply. Some options will reveal more specific choices.
+        </div>
+
+        <div class="nhsuk-checkboxes">
+
+          {# 1. Global "All" Choice #}
+          <div class="nhsuk-checkboxes__item">
+            <input class="nhsuk-checkboxes__input" id="health-conditions-all" name="healthConditions" type="checkbox" value="_all" {% if data.healthConditions and '_all' in data.healthConditions %}checked{% endif %}>
+            <label class="nhsuk-label nhsuk-checkboxes__label" for="health-conditions-all">
+              All health conditions
+            </label>
+          </div>
+
+          {# 2. Loop through the backend array directly - eliminates Nunjucks object crashes #}
+          {% for group in subCategoryGroups %}
+            {% set subKey = group.slug + 'Sub' %}
+            
+            {# Parent Item Checkbox #}
+            <div class="nhsuk-checkboxes__item">
+              <input class="nhsuk-checkboxes__input parent-condition-toggle" id="health-conditions-{{ loop.index }}" name="healthConditions" type="checkbox" value="{{ group.slug }}" data-target-group="reveal-{{ group.slug }}" {% if data.healthConditions and group.slug in data.healthConditions %}checked{% endif %}>
+              <label class="nhsuk-label nhsuk-checkboxes__label" for="health-conditions-{{ loop.index }}">
+                {{ group.text }}
+              </label>
+            </div>
+
+            {# Sub-category Drawer: Sits instantly under its matching parent row item #}
+            <div id="reveal-{{ group.slug }}" class="conditional-reveal-group" style="display: none; margin-top: 8px; margin-bottom: 16px; padding-left: 24px; border-left: 4px solid #005ea5; margin-left: 18px;">
+              <div class="nhsuk-checkboxes nhsuk-checkboxes--small">
+                
+                {# Shorthand "All [category] conditions" option #}
+                <div class="nhsuk-checkboxes__item" style="margin-bottom: 8px;">
+                  <input class="nhsuk-checkboxes__input master-all-toggle" id="checkbox-{{ group.slug }}-all" name="{{ subKey }}" type="checkbox" value="all" {% if data[subKey] and 'all' in data[subKey] %}checked{% endif %}>
+                  <label class="nhsuk-label nhsuk-checkboxes__label" style="font-weight: bold;" for="checkbox-{{ group.slug }}-all">
+                    All {{ group.text | lower }} conditions
+                  </label>
+                </div>
+
+                {# Details dropdown cluster #}
+                <details class="nhsuk-details" style="margin-top: 8px; margin-bottom: 8px; padding-left: 8px;">
+                  <summary class="nhsuk-details__summary" style="font-size: 16px;">
+                    <span class="nhsuk-details__summary-text">
+                      Refine by specific condition
+                    </span>
+                  </summary>
+                  <div class="nhsuk-details__text" style="padding-top: 12px; padding-bottom: 0; padding-left: 0; border-left: none; margin-bottom: 0;">
+                    
+                    {% for item in group.items %}
+                      <div class="nhsuk-checkboxes__item" style="margin-bottom: 8px;">
+                        <input class="nhsuk-checkboxes__input subset-checkbox" id="checkbox-{{ group.slug }}-{{ loop.index }}" name="{{ subKey }}" type="checkbox" value="{{ item.value }}" {% if data[subKey] and item.value in data[subKey] %}checked{% endif %}>
+                        <label class="nhsuk-label nhsuk-checkboxes__label" for="checkbox-{{ group.slug }}-{{ loop.index }}">
+                          {{ item.text }}
+                        </label>
+                      </div>
+                    {% endfor %}
+
+                  </div>
+                </details>
+
+              </div>
+            </div>
+          {% endfor %}
+
+        </div>
+      </fieldset>
+    </div>
+
+    <!-- Continue button -->
+    <button class="nhsuk-button" type="submit" style="margin-top: 24px;">
+      Continue
+    </button>
+
+  </form>
+
+  {# 3. INTERACTION CONTROLLER SCRIPT #}
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const form = document.querySelector('form');
+      if (!form) return;
+
+      const parentToggles = form.querySelectorAll('.parent-condition-toggle');
+
+      function syncVisibility() {
+        parentToggles.forEach(toggle => {
+          const targetId = toggle.getAttribute('data-target-group');
+          const targetGroup = document.getElementById(targetId);
+          
+          if (targetGroup) {
+            if (toggle.checked) {
+              targetGroup.style.display = 'block';
+            } else {
+              targetGroup.style.display = 'none';
+              // Wipe nested selections clean if parent gets unchecked
+              targetGroup.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
+            }
+          }
+        });
+      }
+
+      // Track cross-clearing behavior inside the active sub-panels
+      parentToggles.forEach(toggle => {
+        toggle.addEventListener('change', syncVisibility);
+        
+        const targetId = toggle.getAttribute('data-target-group');
+        const targetGroup = document.getElementById(targetId);
+        
+        if (targetGroup) {
+          const masterAll = targetGroup.querySelector('.master-all-toggle');
+          const subsets = targetGroup.querySelectorAll('.subset-checkbox');
+
+          if (masterAll) {
+            masterAll.addEventListener('change', function() {
+              if (this.checked) subsets.forEach(cb => cb.checked = false);
+            });
+
+            subsets.forEach(cb => {
+              cb.addEventListener('change', function() {
+                if (this.checked) masterAll.checked = false;
+              });
+            });
+          }
+        }
+      });
+
+      // Initialize on load state
+      syncVisibility();
+    });
+  </script>
+
+{% endblock %}

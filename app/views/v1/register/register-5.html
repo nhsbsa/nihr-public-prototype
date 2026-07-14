@@ -1,0 +1,128 @@
+{% extends "layout-bpor-question.html" %}
+
+{% from "summary-list/macro.njk" import summaryList %}
+{% from "button/macro.njk" import button %}
+
+{% block content %}
+
+  <div class="nhsuk-grid-row">
+    <div class="nhsuk-grid-column-two-thirds">
+
+      <h1 class="nhsuk-heading-l">Check your answers before submitting</h1>
+
+      <p class="nhsuk-body">
+        Please review the information you have provided below. You can change any details that are incorrect before completing your registration.
+      </p>
+
+      {{ summaryList({
+        rows: [
+          {
+            key: { text: "Name" },
+            value: { text: (data['firstname'] + " " + data['surname']) if data['firstname'] else "Jane Doe" },
+            actions: {
+              items: [
+                { href: "/v1/register/register-1", text: "Change", visuallyHiddenText: "name" }
+              ]
+            }
+          },
+          {
+            key: { text: "Email address" },
+            value: { text: data['email'] or "jane.doe@example.com" },
+            actions: {
+              items: [
+                { href: "/v1/register/register-2", text: "Change", visuallyHiddenText: "email address" }
+              ]
+            }
+          },
+          {
+            key: { text: "Sex" },
+            value: { text: data['sex'] or "Female" },
+            actions: {
+              items: [
+                { href: "/v1/questions/question-1", text: "Change", visuallyHiddenText: "sex" }
+              ]
+            }
+          },
+          {
+            key: { text: "Date of birth" },
+            value: { text: (data['dob-day'] + "/" + data['dob-month'] + "/" + data['dob-year']) if data['dob-day'] else "15 April 1988" },
+            actions: {
+              items: [
+                { href: "/v1/questions/question-2", text: "Change", visuallyHiddenText: "date of birth" }
+              ]
+            }
+          },
+          {
+            key: { text: "Health conditions" },
+            value: { text: healthConditionLabels or "Diabetes, Cancer" },
+            actions: {
+              items: [
+                { href: "/v1/questions/question-3", text: "Change", visuallyHiddenText: "health conditions" }
+              ]
+            }
+          },
+          {
+            key: { text: "Where you could take part" },
+            value: {
+              text: (data['location'] + " (within " + data['travelDistance'] + " miles)") if data['locationPreference'] == "specific-area" else (locationPreferenceLabel or "Anywhere in the UK")
+            },
+            actions: {
+              items: [
+                { href: "/v1/questions/question-4", text: "Change", visuallyHiddenText: "where you could take part" }
+              ]
+            }
+          },
+          {
+            key: { text: "Types of studies" },
+            value: { text: data['studyTypes'] | join(", ") if data['studyTypes'] else "Observational, Interventional" },
+            actions: {
+              items: [
+                { href: "/v1/questions/question-6", text: "Change", visuallyHiddenText: "types of studies" }
+              ]
+            }
+          },
+          {
+            key: { text: "Home address" },
+            value: { text: data['homeAddress'] or "London, SW1A 1AA" },
+            actions: {
+              items: [
+                { href: "/v1/register/register-2", text: "Change", visuallyHiddenText: "home address" }
+              ]
+            }
+          },
+          {
+            key: { text: "Phone number" },
+            value: { text: data['phoneNumber'] or "07700 900077" },
+            actions: {
+              items: [
+                { href: "/v1/register/register-2-phone", text: "Change", visuallyHiddenText: "phone number" }
+              ]
+            }
+          },
+          {
+            key: { text: "Ethnic group" },
+            value: { text: data['ethnicGroup'] or "White (English, Welsh, Scottish, Northern Irish or British)" },
+            actions: {
+              items: [
+                { href: "/v1/register/register-4", text: "Change", visuallyHiddenText: "ethnic group" }
+              ]
+            }
+          }
+        ]
+      }) }}
+
+      <h2 class="nhsuk-heading-m nhsuk-u-margin-top-8">Submit registration</h2>
+
+      <p class="nhsuk-body">
+        By submitting this application, you agree that researchers may review your profile data to contact you about upcoming clinical trials.
+      </p>
+
+      {{ button({
+        text: "Complete registration",
+        href: "/v1/register/confirmation"
+      }) }}
+
+    </div>
+  </div>
+
+{% endblock %}
