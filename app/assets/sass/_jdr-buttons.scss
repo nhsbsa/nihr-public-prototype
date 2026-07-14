@@ -1,0 +1,209 @@
+:root {
+  --Pink-1: #906;
+  --Pink-2: #a21774;
+  --Pink-3: #ac2e82;
+  --Pink-10: #ecd1e3;
+  --Pink-11: #f6e8f1;
+  --Turquoise-10: #e3f1f3;
+  --Turquoise-1: #63b1bc;
+  --Purple-1: #6f5091;
+  --Purple-9: #d8cfe1;
+  --Blue-10: #ddecf6;
+  --Blue-1: #4698cb;
+  --Orange-10: #ffedd6;
+  --Orange-1: #ff9e1b;
+  --White: #FFF;
+  --Black: #000;
+  --Black-11: #e8e8e8;
+  --gray: #5a5555;
+  --Disabled: #d1d1d1;
+  --Red: #d4351c;
+  --Yellow: #fd0;
+  --Border-shadow: #5a5555;
+}
+
+.jdr-button-pink {
+  background-color: var(--Pink-1);
+  color: var(--White);
+}
+
+.jdr-button-pink:hover {
+  background-color: var(--Yellow);
+  color: var(--Black);
+}
+
+.jdr-button-black {
+  background-color: var(--Black);
+  color: var(--White);
+}
+
+.jdr-button-black:hover {
+  background-color: var(--Yellow);
+  color: var(--Black);
+}
+
+.jdr-button-secondary-pink {
+  background-color: transparent;
+  color: var(--Pink-1);
+  border: 2px solid var(--Pink-1); /* This adds the surrounding pink border */
+  box-shadow: none; /* This removes the default NHS button shadow */
+}
+
+.jdr-button-secondary-pink:hover {
+  background-color: var(--Yellow);
+  color: var(--Black);
+  border-color: var(--Black); /* This ensures the border changes color on hover */
+}
+
+.jdr-link-pink {
+  color: var(--Pink-1);
+}
+
+/* Styles the password toggle button to match the pink secondary brand */
+.govuk-password-input__toggle,
+.nhsuk-password-input__toggle {
+  color: var(--Pink-1) !important;
+  border: 2px solid var(--Pink-1) !important;
+  background-color: transparent !important;
+  box-shadow: none !important; /* Removes the NHS blue inset shadow */
+  outline: none !important; /* Removes any default blue browser outlines */
+}
+
+/* Styles the hover state of the password toggle button */
+.govuk-password-input__toggle:hover,
+.nhsuk-password-input__toggle:hover {
+  background-color: var(--Yellow) !important;
+  color: var(--Black) !important;
+  border-color: var(--Black) !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+
+.app-button-menu {
+  display: inline-block;
+  position: relative;
+}
+
+.app-button-menu__toggle-button,
+.app-button-menu__single-button {
+  margin-bottom: 0;
+  vertical-align: baseline;
+}
+
+.app-button-menu__toggle-button span {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.app-button-menu__toggle-button svg {
+  margin-top: 2px;
+  transform: rotate(180deg);
+}
+
+.app-button-menu__toggle-button[aria-expanded="true"] svg {
+  transform: rotate(0deg);
+}
+
+.app-button-menu__wrapper {
+  position: absolute;
+  z-index: 10;
+  width: 300px;
+  margin: 5px 0 0; // 2px shadow, 3px gap
+  padding: 0;
+  list-style: none;
+  background-color: nhsuk-colour("white");
+  border: 1px solid $nhsuk-border-colour;
+  border-bottom: nhsuk-spacing(1) solid $nhsuk-border-colour;
+  // box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  @include nhsuk-print-hide;
+
+  &--right {
+    right: 0;
+  }
+}
+
+/* Menu items with no JS */
+.app-button-menu__item {
+  display: inline-block;
+  width: auto; // Override NHS UK's 100% width
+  margin-right: nhsuk-spacing(2);
+  margin-bottom: nhsuk-spacing(2);
+  vertical-align: baseline;
+  
+  &:last-child {
+    margin-right: 0;
+  }
+}
+
+.app-button-menu li {
+  margin: 0;
+}
+
+/* Menu items with JS */
+.app-button-menu li > .app-button-menu__item {
+  box-sizing: border-box;
+  display: inline-block;
+  position: relative;
+  width: 100%;
+  margin-top: 0;
+  margin-right: 0;
+  margin-bottom: 0;
+  margin-left: 0;
+  padding: nhsuk-spacing(3);
+  // border: $nhsuk-border-width-form-element solid transparent;
+  // border-bottom: 1px solid $nhsuk-secondary-border-colour;
+  // border-bottom: 1px solid $nhsuk-form-border-colour;
+  border-top: 1px solid $nhsuk-border-hover-colour;
+  border-radius: 0;
+  // color: $nhsuk-text-colour;
+  color: nhsuk-colour("blue");
+  background-color: nhsuk-colour("white");
+  text-align: left;
+  vertical-align: top;
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+  @include nhsuk-font(16); // Use for small buttons
+  // @include nhsuk-font(19); Use for large buttons 
+
+
+  &:link,
+  &:visited,
+  &:active,
+  &:hover {
+     color: $nhsuk-text-colour;
+     text-decoration: none;
+  }
+
+  &:active,
+  &:hover {
+     color: $nhsuk-reverse-text-colour;
+  }
+
+  // Fix unwanted button padding in Firefox
+  &::-moz-focus-inner {
+    padding: 0;
+    border: 0;
+  }
+
+  &:hover {
+    background-color: $nhsuk-body-background-colour;
+  }
+
+  &:focus {
+    z-index: 10;
+    border-color: $nhsuk-focus-colour;
+    outline: $nhsuk-focus-width solid transparent;
+    box-shadow: inset 0 0 0 4px $nhsuk-focus-colour;
+  }
+
+  &:focus:not(:active):not(:hover) {
+    border-color: $nhsuk-focus-colour;
+    color: $nhsuk-focus-text-colour;
+    background-color: $nhsuk-focus-colour;
+    // box-shadow: inset 0 -8px 0 $nhsuk-focus-text-colour;
+    box-shadow: inset 0 ($nhsuk-focus-width * -1) $nhsuk-focus-text-colour;
+  }
+}
