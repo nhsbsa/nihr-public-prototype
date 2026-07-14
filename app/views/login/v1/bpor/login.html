@@ -1,0 +1,65 @@
+{% extends "layout-volunteer-jdr.html" %}
+
+{% block content %}
+  
+<div class="nhsuk-grid-row">
+  <div class="nhsuk-grid-column-two-thirds">
+
+    <div class="nhsuk-grid-row">
+    <div class="nhsuk-grid-column-two-thirds">
+
+      <h1 class="nhsuk-heading-l">Log in to your account</h1>
+
+      <form action="/{{folder}}/{{subfolder}}/researcher-login" method="post" novalidate>
+  
+      {{ input({
+        id: "emailAddress",
+        name: "emailAddress",
+        type: "email",
+        classes: "nhsuk-input--width-20",
+        label: {
+          text: "Email address"
+        }
+      }) }}
+
+      {{ passwordInput({
+        label: {
+          text: "Password"
+        },
+        id: "password",
+        name: "password",
+        classes: "nhsuk-input--width-20"
+      }) }}
+
+      
+
+      <p><a href="/login/forgot-your-password" class="nhsuk-link jdr-link-pink">Forgot your password?</a></p>
+
+      <a href="/login/mfa-phone-number" role="button" draggable="false" class="nhsuk-button jdr-button-pink" data-module="nhsuk-button">
+        Log in
+      </a>
+
+      </form>
+
+    </div>
+  </div>
+
+        <br>
+
+        <h2 class="nhsuk-heading-m">Log in with NHS login</h2>
+
+        <p>Use this option if you registered for Join Dementia Research or Be Part of Research with NHS login. NHS login is only available in England, Wales and the Isle of Man.</p>
+
+        <p>
+          <a href="https://prototype-nhs-login.herokuapp.com/nhslogin/enter-login-details?clientRequests=p5&registered=trueBefore&p0=trueNow&userIs=registered" role="button" draggable="false" class="nhsuk-button nhs-login-button" data-module="nhsuk-button">
+            Continue to NHS login
+          </a>
+        </p>
+
+        <br>
+        
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
