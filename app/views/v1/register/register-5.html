@@ -17,6 +17,24 @@
       {{ summaryList({
         rows: [
           {
+            key: { text: "Name" },
+            value: { text: (data['firstname'] + " " + data['surname']) if data['firstname'] else "Jane Doe" },
+            actions: {
+              items: [
+                { href: "/v1/register/register-1", text: "Change", visuallyHiddenText: "name" }
+              ]
+            }
+          },
+          {
+            key: { text: "Email address" },
+            value: { text: data['email'] or "jane.doe@example.com" },
+            actions: {
+              items: [
+                { href: "/v1/register/register-2", text: "Change", visuallyHiddenText: "email address" }
+              ]
+            }
+          },
+          {
             key: { text: "Sex" },
             value: { text: data['sex'] or "Female" },
             actions: {

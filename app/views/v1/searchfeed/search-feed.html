@@ -31,7 +31,7 @@
         <h2 class="nhsuk-heading-m">Filter</h2>
 
         <!-- SELECTED FILTERS PANEL (ALL EXTRA LOZENGES ADDED HERE) -->
-        {% if data.status or data.location or (data.healthCondition and data.healthCondition != '_all') or data.ageRange or data.gender or data.sex %}
+        {% if data.status or data.location or data.locationPreference or (data.healthCondition and data.healthCondition != '_all') or data.ageRange or data.gender or data.sex %}
           <div class="selected-filters-panel" style="background-color: #f0f4f5; padding: 16px; margin-bottom: 24px; border: 1px solid #d8dde0;">
             <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 16px;">
               <h3 class="nhsuk-heading-s" style="margin: 0; font-size: 20px;">Selected filters</h3>
@@ -39,12 +39,19 @@
             </div>
 
             {# Location Lozenges #}
-            {% if data.location %}
+            {% if data.location or data.locationPreference %}
               <div style="margin-bottom: 12px;">
                 <p class="nhsuk-body-s" style="font-weight: bold; margin-bottom: 4px;">Location</p>
-                <a href="/v1/search-results?keywords={{ data.keywords }}&location=&healthCondition={{ data.healthCondition }}&status={{ data.status }}&ageRange={{ data.ageRange }}&sex={{ data.sex }}" 
+                <a href="/v1/search-results?keywords={{ data.keywords }}&location=&locationPreference=&healthCondition={{ data.healthCondition }}&status={{ data.status }}&ageRange={{ data.ageRange }}&sex={{ data.sex }}"
                    style="display: inline-flex; align-items: center; background-color: #fff; border: 1px solid #212b32; padding: 4px 8px; font-size: 14px; color: #212b32; text-decoration: none; border-radius: 2px;">
-                  {{ data.location }} <span style="margin-left: 8px; font-weight: bold; color: #626f7a;">&times;</span>
+                  {% if data.locationPreference == 'anywhere-in-uk' %}
+                    Anywhere in the UK
+                  {% elif data.locationPreference == 'remote-only' %}
+                    Remote only
+                  {% else %}
+                    {{ data.location }}
+                  {% endif %}
+                  <span style="margin-left: 8px; font-weight: bold; color: #626f7a;">&times;</span>
                 </a>
               </div>
             {% endif %}
@@ -66,7 +73,7 @@
                   {% set activeSubs = data[subKey] %}
 
                   {# 1. Check if the master 'all' value is selected #}
-                  {% if 'all' in activeSubs or activeSubs == 'all' %}
+                  {% if activeSubs and ('all' in activeSubs or activeSubs == 'all') %}
                     <a href="/v1/search-results?keywords={{ data.keywords }}&location={{ data.location }}&healthCondition=&status={{ data.status }}&ageRange={{ data.ageRange }}&sex={{ data.sex }}&{{ subKey }}=" 
                        style="display: inline-flex; align-items: center; background-color: #fff; border: 1px solid #212b32; padding: 4px 8px; font-size: 14px; color: #212b32; text-decoration: none; border-radius: 2px;">
                       All {{ data.healthCondition | replace("-", " ") }} conditions <span style="margin-left: 8px; font-weight: bold; color: #626f7a;">&times;</span>
@@ -123,20 +130,20 @@
             {% endif %}
 
             {# Age Range Lozenges #}
-            {% if data.ageRange or age %}
+            {% if data.ageRange %}
               <div style="margin-bottom: 12px;">
                 <p class="nhsuk-body-s" style="font-weight: bold; margin-bottom: 4px;">Age range</p>
                 <div style="display: flex; flex-wrap: wrap; gap: 8px;">
-                  {% if (data.ageRange and 'adult' in data.ageRange) or (not data.ageRange and age >= 18) %}
+                  {% if 'adult' in data.ageRange %}
                     <a href="/v1/search-results?keywords={{ data.keywords }}&location={{ data.location }}&healthCondition={{ data.healthCondition }}&status={{ data.status }}&sex={{ data.sex }}&ageRange=adolescent&ageRange=child&ageRange=infant" style="display: inline-flex; align-items: center; background-color: #fff; border: 1px solid #212b32; padding: 4px 8px; font-size: 14px; color: #212b32; text-decoration: none;">Adult 18+ <span style="margin-left: 8px;">&times;</span></a>
                   {% endif %}
-                  {% if (data.ageRange and 'adolescent' in data.ageRange) or (not data.ageRange and age >= 13 and age <= 17) %}
+                  {% if 'adolescent' in data.ageRange %}
                     <a href="/v1/search-results?keywords={{ data.keywords }}&location={{ data.location }}&healthCondition={{ data.healthCondition }}&status={{ data.status }}&sex={{ data.sex }}&ageRange=adult&ageRange=child&ageRange=infant" style="display: inline-flex; align-items: center; background-color: #fff; border: 1px solid #212b32; padding: 4px 8px; font-size: 14px; color: #212b32; text-decoration: none;">Adolescent 13-17 <span style="margin-left: 8px;">&times;</span></a>
                   {% endif %}
-                  {% if (data.ageRange and 'child' in data.ageRange) or (not data.ageRange and age >= 3 and age <= 12) %}
+                  {% if 'child' in data.ageRange %}
                     <a href="/v1/search-results?keywords={{ data.keywords }}&location={{ data.location }}&healthCondition={{ data.healthCondition }}&status={{ data.status }}&sex={{ data.sex }}&ageRange=adult&ageRange=adolescent&ageRange=infant" style="display: inline-flex; align-items: center; background-color: #fff; border: 1px solid #212b32; padding: 4px 8px; font-size: 14px; color: #212b32; text-decoration: none;">Child 3-12 <span style="margin-left: 8px;">&times;</span></a>
                   {% endif %}
-                  {% if (data.ageRange and 'infant' in data.ageRange) or (not data.ageRange and age >= 0 and age <= 2) %}
+                  {% if 'infant' in data.ageRange %}
                     <a href="/v1/search-results?keywords={{ data.keywords }}&location={{ data.location }}&healthCondition={{ data.healthCondition }}&status={{ data.status }}&sex={{ data.sex }}&ageRange=adult&ageRange=adolescent&ageRange=child" style="display: inline-flex; align-items: center; background-color: #fff; border: 1px solid #212b32; padding: 4px 8px; font-size: 14px; color: #212b32; text-decoration: none;">Infant 0-2 <span style="margin-left: 8px;">&times;</span></a>
                   {% endif %}
                 </div>
@@ -148,10 +155,10 @@
               <div>
                 <p class="nhsuk-body-s" style="font-weight: bold; margin-bottom: 4px;">Gender</p>
                 <div style="display: flex; flex-wrap: wrap; gap: 8px;">
-                  {% if 'female' in data.sex %}
+                  {% if data.sex == 'female' %}
                     <a href="/v1/search-results?keywords={{ data.keywords }}&location={{ data.location }}&healthCondition={{ data.healthCondition }}&status={{ data.status }}&ageRange={{ data.ageRange }}&sex=male" style="display: inline-flex; align-items: center; background-color: #fff; border: 1px solid #212b32; padding: 4px 8px; font-size: 14px; color: #212b32; text-decoration: none;">Female <span style="margin-left: 8px;">&times;</span></a>
                   {% endif %}
-                  {% if 'male' in data.sex %}
+                  {% if data.sex == 'male' %}
                     <a href="/v1/search-results?keywords={{ data.keywords }}&location={{ data.location }}&healthCondition={{ data.healthCondition }}&status={{ data.status }}&ageRange={{ data.ageRange }}&sex=female" style="display: inline-flex; align-items: center; background-color: #fff; border: 1px solid #212b32; padding: 4px 8px; font-size: 14px; color: #212b32; text-decoration: none;">Male <span style="margin-left: 8px;">&times;</span></a>
                   {% endif %}
                 </div>
@@ -162,14 +169,6 @@
         {% endif %}
 
         {{ button({ text: "Apply filters" }) }}
-
-        <!-- Location Field -->
-        {{ input({
-          id: "location",
-          name: "location",
-          label: { text: "Location" },
-          value: data['location']
-        }) }}
 
         {# Main Health Condition Select Dropdown #}
         {{ select({
@@ -228,6 +227,14 @@
             </div>
           {% endfor %}
         </div>
+
+        <!-- Location Field -->
+        {{ input({
+          id: "location",
+          name: "location",
+          label: { text: "Location" },
+          value: data['location']
+        }) }}
 
         {# Status Filters #}
         {{ checkboxes({

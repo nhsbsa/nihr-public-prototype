@@ -120,6 +120,14 @@ router.get('/v1/questions/question-3', function (req, res) {
     });
   }
 
+  if (res.locals.data) {
+    delete res.locals.data.healthConditions;
+    delete res.locals.data.healthCondition;
+    Object.keys(res.locals.data).forEach(key => {
+      if (key.endsWith('Sub')) delete res.locals.data[key];
+    });
+  }
+
   const subCategoryGroups = Object.keys(healthConditions).map(slug => {
     return {
       slug: slug,
@@ -281,6 +289,9 @@ router.all('/v1/search-results', function (req, res) {
   const chosenCondition = inputSource.healthCondition ||
                           sd.healthCondition ||
                           (Array.isArray(sd.healthConditions) ? sd.healthConditions[0] : sd.healthConditions);
+
+  res.locals.data = res.locals.data || {}
+  res.locals.data.healthCondition = chosenCondition
 
   let results = [...studies]
 
