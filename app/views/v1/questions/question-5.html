@@ -13,7 +13,7 @@
       name: "studyTypes",
       fieldset: {
         legend: {
-          text: "What types of study are you interested in?",
+          text: "How much involvement are you comfortable with?",
           size: "l",
           isPageHeading: true
         }
@@ -21,34 +21,19 @@
       items: [
         {
           value: "observational",
-          text: "Observational",
+          text: "Smaller changes to your routine",
           hint: {
-            html: details({
-              "summaryText": "What does 'observational' mean?",
-              "html": "<p>A type of clinical study in which participants are identified as belonging to study groups and are assessed for biomedical or health outcomes. Participants may receive diagnostic, therapeutic, or other types of interventions, but the investigator does not assign participants to a specific interventions/treatment. A patient registry is a type of observational study.</p>"
-            })
+            text: "You will not be prescribed any particular medication or treatment, but may need to monitor your health, take tests and send the information to someone."
           }
         },
         {
           value: "interventional",
-          text: "Interventional",
+          text: "Bigger changes to your routine",
           hint: {
-            html: details({
-              "summaryText": "What does 'interventional' mean?",
-              "html": "<p>A type of clinical study in which participants are assigned to groups that receive one or more intervention/treatment (or no intervention) so that researchers can evaluate the effects of the interventions on biomedical or health-related outcomes. The assignments are determined by the study's protocol. Participants may receive diagnostic, therapeutic, or other types of interventions.</p>"
-            })
-          }
-        },
-        {
-          value: "expanded-access",
-          text: "Expanded access",
-          hint: {
-            html: details({
-              "summaryText": "What does 'expanded access' mean?",
-              "html": "<p>A way for patients with serious diseases or conditions who cannot participate in a clinical trial to gain access to a medical product that has not been approved by the U.S. Food and Drug Administration (FDA). Also called compassionate use. There are different expanded access types.</p>"
-            })
+            text: "You may need to take certain medication or treatments, monitor your health, take tests and send the information to someone."
           }
         }
+
       ]
     }) }}
 
