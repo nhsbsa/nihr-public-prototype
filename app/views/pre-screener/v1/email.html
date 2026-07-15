@@ -1,0 +1,77 @@
+<!-- Use this page as the index for your project -->
+
+<!-- ADDING CUSTOM CSS - Add your custom CSS or Sass in /app/assets/sass/main.scss -->
+
+<!-- Extends the layout from /app/views/layout.html -->
+{% extends 'layout-blank.html' %}
+
+<!--
+  In /app/views/layout.html you can:
+    - change the header and footer
+    - add custom CSS and JavaScript
+-->
+
+<!--
+  Use this to set the page name which will appear at the
+  start of the <title> tag, followed by the service name.
+  This is often not needed on the homepage, where only the
+  service name is needed. You can also reuse this variable
+  within the <h1>, where they are the same.
+-->
+{% set pageName = "" %}
+
+<!-- For adding a breadcrumb or back link -->
+<!-- Code examples can be found at https://service-manual.nhs.uk/design-system/components/breadcrumbs and https://service-manual.nhs.uk/design-system/components/back-link -->
+{% block beforeContent %}
+{% endblock %}
+
+<!-- For adding page content -->
+<!-- Page layout code can be found at https://service-manual.nhs.uk/design-system/styles/layout -->
+{% block content %}
+  <div class="nhsuk-grid-row">
+    <div class="nhsuk-grid-column-full">
+
+<div class="nhsuk-card">
+  <div class="nhsuk-card__content">
+
+    
+<table class="nhsuk-table-responsive" role="table">
+  <tbody class="nhsuk-table__body">
+    <tr class="nhsuk-table__row" role="row">
+      <td class="nhsuk-table__cell" role="cell"><strong>From:</strong></td>
+      <td class="nhsuk-table__cell" role="cell">Be Part of Research</td>
+    </tr>
+    <tr class="nhsuk-table__row" role="row">
+      <td class="nhsuk-table__cell" role="cell"><strong>To:</strong></td>
+      <td class="nhsuk-table__cell" role="cell">joe.bloggs@gmail.com</td>
+    </tr>
+    <tr class="nhsuk-table__row" role="row">
+      <td class="nhsuk-table__cell" role="cell"><strong>Subject:</strong></td>
+      <td class="nhsuk-table__cell" role="cell">There’s a study that may interest you on Be Part of Research</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><img src="/assets/images/BPOR-logo.svg" width="225" alt="Be Part of Research Logo"></p>
+
+<h1 class="nhsuk-heading-m">Dear Joe Bloggs,</h1>
+
+<p>We’re contacting you because you told us you’re interested in hearing about research studies when you registered with Be Part of Research.</p>
+
+<p>You may want to explore <strong>'Glucose Perception in Type 2 diabetes (Phase 1)'</strong>. You can <a href="study-overview">read about the study and how to take part</a>.</p>
+
+<p>Your volunteer ID for this study is: ABC-1234. You’ll need to mention this to the research team if you decide to take part.</p>
+
+<p>If you have any questions for the Be Part of Research team, you can reply to this email.</p>
+
+<p>If you’ve changed your mind and no longer wish to receive study invitations or other content from Be Part of Research, you can <a href="https://volunteer.bepartofresearch.nihr.ac.uk/Participants/Options">log in to your account</a> and update your preferences.</p>
+
+<h2 class="nhsuk-heading-m nhsuk-u-margin-bottom-4">The Be Part of Research team</h2>
+
+
+  </div>
+</div>
+
+    </div>
+  </div>
+{% endblock %}

@@ -2,9 +2,14 @@
 @import "nhsuk-frontend/dist/nhsuk";
 
 // Add your custom CSS/Sass styles below.
+
+$nihr-colour: #193E72;
+
 @import "jdr-header-footer";
 @import "jdr-buttons";
 @import "nhs-login";
+@import "phase-banner";
 // Custom partials
 @import "nihr-header-footer";
-@import "bpor-header";
+@import "bpor-header-footer";
+// @import "bpor-header";

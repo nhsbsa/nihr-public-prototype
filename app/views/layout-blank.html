@@ -1,0 +1,35 @@
+<!--
+  This is the main layout where you can:
+    - change the header and footer
+    - add custom CSS and JavaScript
+-->
+
+<!-- Extends the prototype kit template which in turn extends the NHS.UK frontend template -->
+{% extends "prototype-kit-template.njk" %}
+
+<!-- Add custom components -->
+
+{%- from '_components/button-menu/macro.njk' import buttonMenu %}
+{%- from '_components/phase-banner/macro.njk' import nhsukPhaseBanner %}
+
+{% block head %}
+  <!-- Add your custom CSS or Sass in /app/assets/sass/main.scss -->
+  <link href="/assets/sass/main.css" rel="stylesheet">
+{% endblock %}
+
+<!-- Edit the header -->
+<!-- Header code examples can be found at https://service-manual.nhs.uk/design-system/components/header -->
+{% block header %}
+{% endblock %}
+
+<!-- Edit the footer -->
+<!-- Footer code examples can be found at https://service-manual.nhs.uk/design-system/components/footer -->
+{% block footer %}
+{% endblock %}
+
+{% block bodyEnd %}
+  {{ super() }}
+  <script type="module" src="/assets/javascript/main.js"></script>
+  <script type="module" src="/assets/javascript/button-menu.js"></script>
+  {% block pageScripts %}{% endblock %}
+{% endblock %}

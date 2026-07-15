@@ -1,8 +1,17 @@
-{% extends "layout-bpor-question.html" %}
+{% extends "layout-volunteer-bpor.html" %}
+
+{% block beforeContent %}
+
+{{ backLink({
+    "href": "javascript:history.go(-1)",
+    "text": "Back"
+}) }}
+
+<span class="nhsuk-caption-l">Question 2 of 5</span>
+
+{% endblock %}
 
 {% block content %}
-  {% from "button/macro.njk" import button %}
-  {% from "date-input/macro.njk" import dateInput %}
 
   <form action="/v1/questions/question-2" method="post">
 

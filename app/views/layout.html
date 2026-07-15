@@ -7,6 +7,10 @@
 <!-- Extends the prototype kit template which in turn extends the NHS.UK frontend template -->
 {% extends "prototype-kit-template.njk" %}
 
+<!-- Add custom components -->
+
+{%- from '_components/phase-banner/macro.njk' import nhsukPhaseBanner %}
+
 {% block head %}
   <!-- Add your custom CSS or Sass in /app/assets/sass/main.scss -->
   <link href="/assets/sass/main.css" rel="stylesheet">
@@ -15,42 +19,53 @@
 <!-- Edit the header -->
 <!-- Header code examples can be found at https://service-manual.nhs.uk/design-system/components/header -->
 {% block header %}
-  {{ header({
-    classes: "nhsuk-header--white",
-    logo: {
-      href: "/",
-      src: "/assets/images/NIHR-logo.svg",
-      alt: "National Institute for Health and Care Research Logo"
-    }
-  }) }}
+<header class="nhsuk-header nhsuk-header--white" role="banner" data-module="nhsuk-header" data-nhsuk-header-init="">
+   <div class="nhsuk-header__container nhsuk-width-container">
+      <div class="nhsuk-header__service">
+         <a class="nhsuk-header__service-logo" href="/" aria-label="National Institute for Health and Care Research Logo  homepage">
+         <img class="nhsuk-header__organisation-logo-NIHR" src="/assets/images/NIHR-logo.svg" width="280" alt="National Institute for Health and Care Research Logo">
+         </a>
+      </div>
+   </div>
+</header>
 {% endblock %}
 
 <!-- Edit the footer -->
 <!-- Footer code examples can be found at https://service-manual.nhs.uk/design-system/components/footer -->
 {% block footer %}
-  {% set metaAboutHtml %}
-    <p class="nhsuk-body-s">Built on <a class="nhsuk-footer__list-item-link" href="https://prototype-kit.service-manual.nhs.uk/updates/">NHS prototype kit {{ prototypeKitVersion }}</a> and <a class="nhsuk-footer__list-item-link" href="https://github.com/nhsuk/nhsuk-frontend/releases/">NHS.UK frontend {{ nhsukFrontendVersion }}</a></p>
-  {% endset %}
-
-  {{ footer({
-    meta: {
-      items: [
-        {
-          href: "/",
-          text: "Home"
-        },
-        {
-          href: "/prototype-admin/reset?returnPage=" + (currentPage | urlencode),
-          text: "Reset data"
-        }
-      ],
-      html: metaAboutHtml
-    }
-  }) }}
+<footer class="nhsuk-footer nihr-footer" role="contentinfo">
+   <div class="nhsuk-width-container">
+      <div class="nhsuk-footer__meta">
+         <div class="footer-inner">
+            <div class="footer-left">
+               <nav class="policy-links">
+                  <a href="https://bepartofresearch.nihr.ac.uk/get-in-touch/" target="_blank">Contact Us</a>
+                  <a href="https://bepartofresearch.nihr.ac.uk/site-policies/terms-and-conditions" target="_blank">Terms and Conditions</a>
+                  <a href="https://bepartofresearch.nihr.ac.uk/site-policies/accessibility" target="_blank">Accessibility</a>
+                  <a href="https://bepartofresearch.nihr.ac.uk/site-policies/privacy-policy/" target="_blank">Privacy Policy</a>
+                  <a href="https://bepartofresearch.nihr.ac.uk/site-policies/freedom-of-information/" target="_blank">Freedom of Information</a>
+                  <a href="https://bepartofresearch.nihr.ac.uk/site-policies/cookie-policy" target="_blank">Cookie Policy</a>
+                  <a href="https://bepartofresearch.nihr.ac.uk/site-policies/complaints" target="_blank">Complaints</a>
+                  <a href="/prototype-admin/reset">Reset data</a>
+               </nav>
+               <hr class="nhsuk-section-break nhsuk-section-break--m nhsuk-section-break--visible">
+               <p><span><strong>&copy; NIHR 2026</strong></span></p>
+            </div>
+            <div class="funded-by">
+               <p class="funded-by__label">Funded by</p>
+               <a href="https://www.gov.uk/government/organisations/department-of-health-and-social-care" aria-label="Department of Health &amp; Social Care"><img class="funded-by__logo" src="/assets/images/DHSC-logo.svg" alt="Department of Health &amp; Social Care Logo"></a>
+            </div>
+         </div>
+         <p class="nhsuk-body-s"></p>
+      </div>
+   </div>
+</footer>
 {% endblock %}
 
 {% block bodyEnd %}
   {{ super() }}
   <script type="module" src="/assets/javascript/main.js"></script>
+  <script type="module" src="/assets/javascript/button-menu.js"></script>
+  <script type="module" src="/assets/javascript/multi-select-search.js"></script>
   {% block pageScripts %}{% endblock %}
 {% endblock %}

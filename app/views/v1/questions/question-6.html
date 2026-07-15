@@ -1,18 +1,15 @@
-{% extends 'layout-bpor-question.html' %}
-
-{% from "back-link/macro.njk" import backLink %}
-{% from "button/macro.njk" import button %}
-{% from "panel/macro.njk" import panel %}
+{% extends 'layout-volunteer-bpor.html' %}
 
 {# Limits the content width for readability on interruption pages #}
 {% set mainClasses = "nhsuk-main-wrapper--s" %}
 
 {% block beforeContent %}
-  {# Links back to Question 3 #}
-  {{ backLink({
-    href: "/v1/questions/question-3",
-    text: "Back"
-  }) }}
+
+{{ backLink({
+    "href": "javascript:history.go(-1)",
+    "text": "Back"
+}) }}
+
 {% endblock %}
 
 {% block content %}

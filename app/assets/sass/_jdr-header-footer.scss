@@ -4,9 +4,9 @@
     padding: 32px 0;
 }
 
-.nhsuk-header__organisation-logo[src$=".svg"] {
-    width: 142px;
-    max-width: 142px;
+.nhsuk-header__organisation-logo-JDR[src$=".svg"] {
+    width: 140px;
+    max-width: 140px;
 }
 
 .nhsuk-header--white {
@@ -102,9 +102,7 @@
 
 .footer-inner {
   display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 3rem;
+  gap: 6rem;
   padding: 1rem 0;
   flex-wrap: wrap;
 
@@ -114,11 +112,8 @@
 }
 
 .footer-left {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
+  flex: 1;
 }
-
 .social-list {
   display: flex;
   gap: 1rem;
@@ -154,40 +149,38 @@
 .policy-links {
   display: flex;
   flex-wrap: wrap;
-  gap: 1.5rem;
-  padding-bottom: 0.5rem;
-  @include nhsuk-font(16);
+  gap: 1rem 0;
+
   a {
+    color: white;
     white-space: nowrap;
     position: relative;
-
-    + a {
-      &::before {
-        content: "";
-        position: absolute;
-        left: -0.75rem;
-        top: 50%;
-        width: 1px;
-        height: 1rem;
-        background: rgba(255, 255, 255, 1);
-        transform: translateY(-50%);
-      }
-    }
   }
 
-  // ✅ Mobile/Tablet behaviour
-  @include nhsuk-media-query($until: tablet) {
-    flex-direction: column;      // Stack vertically
-    gap: 0.75rem;                // Tighter spacing
-    align-items: flex-start;     // Left align
+  a:not(:first-child) {
+    margin-left: 1.5rem;
+  }
 
-    a {
-      white-space: normal;       // Allow wrapping if needed
-      padding-left: 0;           // Remove separator spacing
+  a:not(:first-child)::before {
+    content: "|";
+    position: absolute;
+    left: -0.75rem;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    line-height: 1;
+  }
+
+  @include nhsuk-media-query($until: tablet) {
+    flex-direction: column;
+    gap: 0.75rem;
+
+    a:not(:first-child) {
+      margin-left: 0;
     }
 
-    a + a::before {
-      display: none;             // Remove vertical separators on mobile
+    a:not(:first-child)::before {
+      display: none;
     }
   }
 }
@@ -206,7 +199,7 @@
 }
 
 .funded-by__logo {
-  height: 150px;
+  height: 100px;
   width: auto;
   display: block;
 }

@@ -340,4 +340,10 @@ router.all('/v1/search-results', function (req, res) {
   })
 })
 
+// ****************************************
+// Route File Versions
+// ****************************************
+
+router.use('/pre-screener/v1', require('./views/pre-screener/v1/_routes'));
+
 module.exports = router
