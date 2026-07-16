@@ -286,12 +286,36 @@ router.all('/v1/search-results', function (req, res) {
   const location = inputSource.location || sd.location
   const hasSubConditions = Object.keys(sd).some(key => key.endsWith('Sub') && Array.isArray(sd[key]) && sd[key].length > 0)
 
-  const chosenCondition = inputSource.healthCondition ||
-                          sd.healthCondition ||
-                          (Array.isArray(sd.healthConditions) ? sd.healthConditions[0] : sd.healthConditions);
+  // Health conditions accumulate across repeated "Apply filters" submissions (and whatever
+  // was picked on the question-3 checkboxes), instead of each new dropdown pick replacing
+  // the last one.
+  if (!Array.isArray(req.session.data.healthConditions)) {
+    req.session.data.healthConditions = sd.healthCondition
+      ? [sd.healthCondition]
+      : (Array.isArray(sd.healthConditions) ? sd.healthConditions : [])
+  }
+
+  if (req.query.removeCondition) {
+    req.session.data.healthConditions = req.session.data.healthConditions.filter(c => c !== req.query.removeCondition)
+  }
+
+  if (inputSource.healthCondition === '_all') {
+    req.session.data.healthConditions = []
+  } else if (inputSource.healthCondition && !req.session.data.healthConditions.includes(inputSource.healthCondition)) {
+    req.session.data.healthConditions.push(inputSource.healthCondition)
+  }
+
+  const selectedConditions = req.session.data.healthConditions.filter(c => c && c !== '_all')
+
+  // The dropdown itself can only ever highlight one option, so show whichever condition
+  // was picked most recently.
+  const chosenCondition = (inputSource.healthCondition && inputSource.healthCondition !== '_all')
+    ? inputSource.healthCondition
+    : selectedConditions[selectedConditions.length - 1]
 
   res.locals.data = res.locals.data || {}
   res.locals.data.healthCondition = chosenCondition
+  res.locals.data.healthConditions = selectedConditions
 
   let results = [...studies]
 
@@ -307,14 +331,15 @@ router.all('/v1/search-results', function (req, res) {
     )
   }
 
-  if (status) {
-    const activeStatuses = Array.isArray(status) ? status : [status]
+  const activeStatuses = (Array.isArray(status) ? status : (status ? [status] : [])).filter(s => s && s !== '_unchecked')
+  if (activeStatuses.length > 0) {
     results = results.filter(study => activeStatuses.includes(study.status))
   }
 
-  if (chosenCondition && chosenCondition !== '_all') {
+  if (selectedConditions.length > 0) {
     results = results.filter(study =>
-      Array.isArray(study.conditionCategories) && study.conditionCategories.includes(chosenCondition)
+      Array.isArray(study.conditionCategories) &&
+      study.conditionCategories.some(c => selectedConditions.includes(c))
     )
   }
 
