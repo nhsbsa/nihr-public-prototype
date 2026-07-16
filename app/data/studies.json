@@ -5,14 +5,19 @@
     "statusLabel": "Recruiting",
     "closingDate": "7th Sept, 2026",
     "title": "Multicenter Study for the Validation of an AI-based ECG Platform for Early Cardiac Amyloidosis Diagnosis",
-    "conditionCategories": ["cardiovascular", "cancer"],
+    "conditionCategories": [
+      "cardiovascular",
+      "cancer"
+    ],
     "conditionText": "Advanced solid tumour types which are known to have a high frequency of TROP2 positivity (e.g., head and neck squamous cell carcinoma [HNSCC], urothelial, breast cancer, non-small cell lung cancer [NSCLC])",
     "gender": "all",
     "genderLabel": "open to all",
     "ageMin": 18,
     "ageMax": null,
     "ageLabel": "18.0 - N/A",
-    "locations": ["Glasgow"]
+    "locations": [
+      "Glasgow"
+    ]
   },
   {
     "id": "2",
@@ -20,14 +25,19 @@
     "statusLabel": "Recruiting",
     "closingDate": "10th Jan, 2029",
     "title": "Mainstreaming familial cancer testing in bowel cancer",
-    "conditionCategories": ["cancer", "gastroenterology-and-hepatology"],
+    "conditionCategories": [
+      "cancer",
+      "gastroenterology-and-hepatology"
+    ],
     "conditionText": "Malignant neoplasms of digestive organs",
     "gender": "all",
     "genderLabel": "All Genders",
     "ageMin": 18,
     "ageMax": null,
     "ageLabel": "18 Years - N/A",
-    "locations": ["Birmingham"]
+    "locations": [
+      "Birmingham"
+    ]
   },
   {
     "id": "3",
@@ -35,14 +45,19 @@
     "statusLabel": "Completed",
     "closingDate": null,
     "title": "SYNGN - developing personalised cancer therapy",
-    "conditionCategories": ["cancer", "neurological-disorders"],
+    "conditionCategories": [
+      "cancer",
+      "neurological-disorders"
+    ],
     "conditionText": "Malignant neoplasms of eye, brain and other parts of central nervous system",
     "gender": "all",
     "genderLabel": "all genders",
     "ageMin": 18,
     "ageMax": 100,
     "ageLabel": "18 years - 100 years",
-    "locations": ["London"]
+    "locations": [
+      "London"
+    ]
   },
   {
     "id": "4",
@@ -50,14 +65,20 @@
     "statusLabel": "Not recruiting",
     "closingDate": null,
     "title": "Pyruvate Kinase Deficiency Global Longitudinal Registry",
-    "conditionCategories": ["rare-diseases", "haematology"],
+    "conditionCategories": [
+      "rare-diseases",
+      "haematology"
+    ],
     "conditionText": "Pyruvate Kinase Deficiency",
     "gender": "all",
     "genderLabel": "open to all",
     "ageMin": null,
     "ageMax": null,
     "ageLabel": "all",
-    "locations": ["London", "Newcastle upon Tyne"]
+    "locations": [
+      "London",
+      "Newcastle upon Tyne"
+    ]
   },
   {
     "id": "5",
@@ -65,14 +86,19 @@
     "statusLabel": "Stopped",
     "closingDate": null,
     "title": "Prevalence and Outcomes of Cardiac Transthyretin Amyloidosis",
-    "conditionCategories": ["cardiovascular", "diabetes-metabolic-and-endocrine"],
+    "conditionCategories": [
+      "cardiovascular",
+      "diabetes-metabolic-and-endocrine"
+    ],
     "conditionText": "Other forms of heart disease. Metabolic disorders",
     "gender": "female-male",
     "genderLabel": "Female / Male",
     "ageMin": 55,
     "ageMax": 120,
     "ageLabel": "55 years - 120 years",
-    "locations": ["online"]
+    "locations": [
+      "online"
+    ]
   },
   {
     "id": "6",
@@ -80,14 +106,19 @@
     "statusLabel": "Recruiting",
     "closingDate": "1st March, 2027",
     "title": "Understanding lived experience of Type 2 diabetes in adults",
-    "conditionCategories": ["diabetes-metabolic-and-endocrine"],
+    "conditionCategories": [
+      "diabetes-metabolic-and-endocrine"
+    ],
     "conditionText": "Type 2 diabetes",
     "gender": "all",
     "genderLabel": "open to all",
     "ageMin": 18,
     "ageMax": null,
     "ageLabel": "18 Years - N/A",
-    "locations": ["Manchester", "online"]
+    "locations": [
+      "Manchester",
+      "online"
+    ]
   },
   {
     "id": "7",
@@ -95,14 +126,18 @@
     "statusLabel": "Recruiting",
     "closingDate": "15th Nov, 2026",
     "title": "Digital wellbeing interventions for young people with anxiety",
-    "conditionCategories": ["mental-health"],
+    "conditionCategories": [
+      "mental-health"
+    ],
     "conditionText": "Anxiety disorders in children and young adults",
     "gender": "all",
     "genderLabel": "All Genders",
     "ageMin": 13,
     "ageMax": 25,
     "ageLabel": "13 Years - 25 Years",
-    "locations": ["online"]
+    "locations": [
+      "online"
+    ]
   },
   {
     "id": "8",
@@ -110,14 +145,20 @@
     "statusLabel": "Recruiting",
     "closingDate": "31st Dec, 2026",
     "title": "CATALINA: a prospective cohort study of severe COPD exacerbations requiring hospitalisation",
-    "conditionCategories": ["respiratory"],
+    "conditionCategories": [
+      "respiratory"
+    ],
     "conditionText": "Severe exacerbations of chronic obstructive pulmonary disease (COPD) requiring hospital admission",
     "gender": "all",
     "genderLabel": "open to all",
     "ageMin": 18,
     "ageMax": 100,
     "ageLabel": "18 years - 100 years",
-    "locations": ["London", "Sheffield", "Leicester"]
+    "locations": [
+      "London",
+      "Sheffield",
+      "Leicester"
+    ]
   },
   {
     "id": "9",
@@ -125,14 +166,18 @@
     "statusLabel": "Recruiting",
     "closingDate": "31st Jul, 2029",
     "title": "RETAIN: investigating immune pathways in airway disease",
-    "conditionCategories": ["respiratory"],
+    "conditionCategories": [
+      "respiratory"
+    ],
     "conditionText": "Airway diseases including asthma and chronic obstructive pulmonary disease (COPD)",
     "gender": "all",
     "genderLabel": "open to all",
     "ageMin": 18,
     "ageMax": null,
     "ageLabel": "18 Years - N/A",
-    "locations": ["London"]
+    "locations": [
+      "London"
+    ]
   },
   {
     "id": "10",
@@ -140,14 +185,19 @@
     "statusLabel": "Recruiting",
     "closingDate": "30th Jun, 2027",
     "title": "OPEN Trial: education and self-treatment tools for kneecap pain",
-    "conditionCategories": ["musculoskeletal-and-orthopaedics"],
+    "conditionCategories": [
+      "musculoskeletal-and-orthopaedics"
+    ],
     "conditionText": "Patellofemoral (kneecap) pain",
     "gender": "all",
     "genderLabel": "open to all",
     "ageMin": 18,
     "ageMax": 45,
     "ageLabel": "18 years - 45 years",
-    "locations": ["Colchester", "London"]
+    "locations": [
+      "Colchester",
+      "London"
+    ]
   },
   {
     "id": "11",
@@ -155,14 +205,22 @@
     "statusLabel": "Recruiting",
     "closingDate": "31st Dec, 2027",
     "title": "DETERMINE: extended therapeutic indications for existing drugs in rare molecularly defined cancers",
-    "conditionCategories": ["cancer", "rare-diseases"],
+    "conditionCategories": [
+      "cancer",
+      "rare-diseases"
+    ],
     "conditionText": "Haematological malignancy and solid tumours with rare genetic mutations",
     "gender": "all",
     "genderLabel": "open to all",
     "ageMin": null,
     "ageMax": null,
     "ageLabel": "all",
-    "locations": ["Manchester", "London", "Newcastle upon Tyne", "Oxford"]
+    "locations": [
+      "Manchester",
+      "London",
+      "Newcastle upon Tyne",
+      "Oxford"
+    ]
   },
   {
     "id": "12",
@@ -170,14 +228,20 @@
     "statusLabel": "Recruiting",
     "closingDate": "31st Dec, 2026",
     "title": "LightBAR: comparing combined medical therapy with bariatric surgery for severe obesity",
-    "conditionCategories": ["diabetes-metabolic-and-endocrine"],
+    "conditionCategories": [
+      "diabetes-metabolic-and-endocrine"
+    ],
     "conditionText": "Severe and complex obesity",
     "gender": "all",
     "genderLabel": "open to all",
     "ageMin": 18,
     "ageMax": 60,
     "ageLabel": "18 years - 60 years",
-    "locations": ["Luton", "Birmingham", "Bristol"]
+    "locations": [
+      "Luton",
+      "Birmingham",
+      "Bristol"
+    ]
   },
   {
     "id": "13",
@@ -185,14 +249,19 @@
     "statusLabel": "Completed",
     "closingDate": null,
     "title": "DRAGON 1: portal vein embolisation before liver resection for colorectal cancer metastases",
-    "conditionCategories": ["cancer", "gastroenterology-and-hepatology"],
+    "conditionCategories": [
+      "cancer",
+      "gastroenterology-and-hepatology"
+    ],
     "conditionText": "Malignant neoplasms of digestive organs; colorectal cancer liver metastases requiring liver resection",
     "gender": "all",
     "genderLabel": "open to all",
     "ageMin": 18,
     "ageMax": null,
     "ageLabel": "18 Years - N/A",
-    "locations": ["Liverpool"]
+    "locations": [
+      "Liverpool"
+    ]
   },
   {
     "id": "14",
@@ -200,14 +269,21 @@
     "statusLabel": "Recruiting",
     "closingDate": "31st Dec, 2026",
     "title": "SECURE: screening, diagnosis and monitoring of monoclonal gammopathy of undetermined significance",
-    "conditionCategories": ["haematology", "cancer"],
+    "conditionCategories": [
+      "haematology",
+      "cancer"
+    ],
     "conditionText": "Monoclonal gammopathy of undetermined significance (MGUS) and its progression to multiple myeloma",
     "gender": "all",
     "genderLabel": "open to all",
     "ageMin": 18,
     "ageMax": null,
     "ageLabel": "18 Years - N/A",
-    "locations": ["London", "Birmingham", "Cardiff"]
+    "locations": [
+      "London",
+      "Birmingham",
+      "Cardiff"
+    ]
   },
   {
     "id": "15",
@@ -215,14 +291,20 @@
     "statusLabel": "Recruiting",
     "closingDate": "31st Dec, 2027",
     "title": "ON-FIRE: understanding frontotemporal dementia",
-    "conditionCategories": ["dementias-and-neurodegeneration"],
+    "conditionCategories": [
+      "dementias-and-neurodegeneration"
+    ],
     "conditionText": "Frontotemporal dementia and related neurodegenerative disorders affecting behaviour, language and movement",
     "gender": "all",
     "genderLabel": "open to all",
     "ageMin": 18,
     "ageMax": null,
     "ageLabel": "18 Years - N/A",
-    "locations": ["London", "Cambridge", "Manchester"]
+    "locations": [
+      "London",
+      "Cambridge",
+      "Manchester"
+    ]
   },
   {
     "id": "16",
@@ -230,14 +312,19 @@
     "statusLabel": "Recruiting",
     "closingDate": "1st Feb, 2027",
     "title": "REVIVE-HF: remote monitoring for heart failure management",
-    "conditionCategories": ["cardiovascular"],
+    "conditionCategories": [
+      "cardiovascular"
+    ],
     "conditionText": "Chronic heart failure",
     "gender": "all",
     "genderLabel": "open to all",
     "ageMin": 40,
     "ageMax": null,
     "ageLabel": "40 Years - N/A",
-    "locations": ["Leeds", "online"]
+    "locations": [
+      "Leeds",
+      "online"
+    ]
   },
   {
     "id": "17",
@@ -245,14 +332,19 @@
     "statusLabel": "Recruiting",
     "closingDate": "15th May, 2027",
     "title": "ECZEMA-QoL: quality of life outcomes in adults with moderate to severe atopic eczema",
-    "conditionCategories": ["dermatology"],
+    "conditionCategories": [
+      "dermatology"
+    ],
     "conditionText": "Atopic eczema",
     "gender": "all",
     "genderLabel": "open to all",
     "ageMin": 18,
     "ageMax": null,
     "ageLabel": "18 Years - N/A",
-    "locations": ["Nottingham", "online"]
+    "locations": [
+      "Nottingham",
+      "online"
+    ]
   },
   {
     "id": "18",
@@ -260,14 +352,19 @@
     "statusLabel": "Not recruiting",
     "closingDate": null,
     "title": "HEAR-UP: early identification of hearing loss in older adults in primary care",
-    "conditionCategories": ["ear-nose-and-throat", "ageing"],
+    "conditionCategories": [
+      "ear-nose-and-throat",
+      "ageing"
+    ],
     "conditionText": "Age-related hearing loss",
     "gender": "all",
     "genderLabel": "open to all",
     "ageMin": 65,
     "ageMax": null,
     "ageLabel": "65 Years - N/A",
-    "locations": ["Cardiff"]
+    "locations": [
+      "Cardiff"
+    ]
   },
   {
     "id": "19",
@@ -275,14 +372,19 @@
     "statusLabel": "Recruiting",
     "closingDate": "30th Sept, 2026",
     "title": "IBD-DIET: dietary intervention for symptom management in inflammatory bowel disease",
-    "conditionCategories": ["gastroenterology-and-hepatology"],
+    "conditionCategories": [
+      "gastroenterology-and-hepatology"
+    ],
     "conditionText": "Inflammatory bowel disease (Crohn's disease and ulcerative colitis)",
     "gender": "all",
     "genderLabel": "open to all",
     "ageMin": 18,
     "ageMax": 70,
     "ageLabel": "18 years - 70 years",
-    "locations": ["Exeter", "Bristol"]
+    "locations": [
+      "Exeter",
+      "Bristol"
+    ]
   },
   {
     "id": "20",
@@ -290,14 +392,19 @@
     "statusLabel": "Completed",
     "closingDate": null,
     "title": "RSV-VAX: real-world effectiveness of respiratory syncytial virus vaccination in older adults",
-    "conditionCategories": ["infection", "ageing"],
+    "conditionCategories": [
+      "infection",
+      "ageing"
+    ],
     "conditionText": "Respiratory syncytial virus (RSV) infection",
     "gender": "all",
     "genderLabel": "open to all",
     "ageMin": 60,
     "ageMax": null,
     "ageLabel": "60 Years - N/A",
-    "locations": ["online"]
+    "locations": [
+      "online"
+    ]
   },
   {
     "id": "21",
@@ -305,14 +412,18 @@
     "statusLabel": "Recruiting",
     "closingDate": "31st Oct, 2026",
     "title": "MIND-STEP: a digital cognitive behavioural therapy programme for mild to moderate depression",
-    "conditionCategories": ["mental-health"],
+    "conditionCategories": [
+      "mental-health"
+    ],
     "conditionText": "Depression",
     "gender": "all",
     "genderLabel": "open to all",
     "ageMin": 18,
     "ageMax": null,
     "ageLabel": "18 Years - N/A",
-    "locations": ["online"]
+    "locations": [
+      "online"
+    ]
   },
   {
     "id": "22",
@@ -320,14 +431,19 @@
     "statusLabel": "Recruiting",
     "closingDate": "20th Mar, 2027",
     "title": "PARK-MOVE: exercise-based rehabilitation for people with Parkinson's disease",
-    "conditionCategories": ["neurological-disorders"],
+    "conditionCategories": [
+      "neurological-disorders"
+    ],
     "conditionText": "Parkinson's disease",
     "gender": "all",
     "genderLabel": "open to all",
     "ageMin": 50,
     "ageMax": null,
     "ageLabel": "50 Years - N/A",
-    "locations": ["Newcastle upon Tyne", "Sunderland"]
+    "locations": [
+      "Newcastle upon Tyne",
+      "Sunderland"
+    ]
   },
   {
     "id": "23",
@@ -335,14 +451,19 @@
     "statusLabel": "Stopped",
     "closingDate": null,
     "title": "AMD-SIGHT: a trial of a novel injectable therapy for age-related macular degeneration",
-    "conditionCategories": ["ophthalmology", "ageing"],
+    "conditionCategories": [
+      "ophthalmology",
+      "ageing"
+    ],
     "conditionText": "Age-related macular degeneration",
     "gender": "all",
     "genderLabel": "open to all",
     "ageMin": 55,
     "ageMax": null,
     "ageLabel": "55 Years - N/A",
-    "locations": ["Southampton"]
+    "locations": [
+      "Southampton"
+    ]
   },
   {
     "id": "24",
@@ -350,14 +471,20 @@
     "statusLabel": "Recruiting",
     "closingDate": "12th Dec, 2026",
     "title": "SMILE-CARE: access to NHS dental care for children in deprived areas",
-    "conditionCategories": ["oral-and-dental-health", "children"],
+    "conditionCategories": [
+      "oral-and-dental-health",
+      "children"
+    ],
     "conditionText": "Childhood dental caries and access to dental care",
     "gender": "all",
     "genderLabel": "open to all",
     "ageMin": 3,
     "ageMax": 12,
     "ageLabel": "3 years - 12 years",
-    "locations": ["Hull", "Bradford"]
+    "locations": [
+      "Hull",
+      "Bradford"
+    ]
   },
   {
     "id": "25",
@@ -365,14 +492,19 @@
     "statusLabel": "Recruiting",
     "closingDate": "5th Aug, 2027",
     "title": "KidneyWatch: a longitudinal registry of chronic kidney disease progression",
-    "conditionCategories": ["renal"],
+    "conditionCategories": [
+      "renal"
+    ],
     "conditionText": "Chronic kidney disease",
     "gender": "all",
     "genderLabel": "open to all",
     "ageMin": 18,
     "ageMax": null,
     "ageLabel": "18 Years - N/A",
-    "locations": ["Leicester", "online"]
+    "locations": [
+      "Leicester",
+      "online"
+    ]
   },
   {
     "id": "26",
@@ -380,14 +512,18 @@
     "statusLabel": "Recruiting",
     "closingDate": "18th Jun, 2026",
     "title": "BUMP-WELL: monitoring maternal wellbeing during and after pregnancy",
-    "conditionCategories": ["reproductive-health-and-childbirth"],
+    "conditionCategories": [
+      "reproductive-health-and-childbirth"
+    ],
     "conditionText": "Maternal mental and physical wellbeing during pregnancy and the postnatal period",
     "gender": "female",
     "genderLabel": "Female",
     "ageMin": 16,
     "ageMax": null,
     "ageLabel": "16 Years - N/A",
-    "locations": ["Belfast"]
+    "locations": [
+      "Belfast"
+    ]
   },
   {
     "id": "27",
@@ -395,14 +531,19 @@
     "statusLabel": "Recruiting",
     "closingDate": "9th Sept, 2027",
     "title": "CLOT-STOP: comparing anticoagulant strategies after ischaemic stroke",
-    "conditionCategories": ["stroke"],
+    "conditionCategories": [
+      "stroke"
+    ],
     "conditionText": "Ischaemic stroke",
     "gender": "all",
     "genderLabel": "open to all",
     "ageMin": 45,
     "ageMax": null,
     "ageLabel": "45 Years - N/A",
-    "locations": ["Glasgow", "Edinburgh"]
+    "locations": [
+      "Glasgow",
+      "Edinburgh"
+    ]
   },
   {
     "id": "28",
@@ -410,14 +551,19 @@
     "statusLabel": "Not recruiting",
     "closingDate": null,
     "title": "HIP-RECOVER: enhanced recovery pathways after hip replacement surgery",
-    "conditionCategories": ["surgery", "musculoskeletal-and-orthopaedics"],
+    "conditionCategories": [
+      "surgery",
+      "musculoskeletal-and-orthopaedics"
+    ],
     "conditionText": "Osteoarthritis of the hip requiring joint replacement",
     "gender": "all",
     "genderLabel": "open to all",
     "ageMin": 50,
     "ageMax": null,
     "ageLabel": "50 Years - N/A",
-    "locations": ["Derby"]
+    "locations": [
+      "Derby"
+    ]
   },
   {
     "id": "29",
@@ -425,14 +571,19 @@
     "statusLabel": "Recruiting",
     "closingDate": "27th Apr, 2026",
     "title": "TRAUMA-REC: psychological recovery following major traumatic injury",
-    "conditionCategories": ["trauma-and-emergency-care", "mental-health"],
+    "conditionCategories": [
+      "trauma-and-emergency-care",
+      "mental-health"
+    ],
     "conditionText": "Post-traumatic stress and psychological recovery following major trauma",
     "gender": "all",
     "genderLabel": "open to all",
     "ageMin": 18,
     "ageMax": null,
     "ageLabel": "18 Years - N/A",
-    "locations": ["Stoke-on-Trent"]
+    "locations": [
+      "Stoke-on-Trent"
+    ]
   },
   {
     "id": "30",
@@ -440,14 +591,19 @@
     "statusLabel": "Recruiting",
     "closingDate": "14th Jul, 2027",
     "title": "RARE-CONNECT: an online registry connecting patients with undiagnosed rare diseases to research",
-    "conditionCategories": ["rare-diseases", "public-health"],
+    "conditionCategories": [
+      "rare-diseases",
+      "public-health"
+    ],
     "conditionText": "Undiagnosed and ultra-rare genetic conditions",
     "gender": "all",
     "genderLabel": "open to all",
     "ageMin": null,
     "ageMax": null,
     "ageLabel": "all",
-    "locations": ["online"]
+    "locations": [
+      "online"
+    ]
   },
   {
     "id": "31",
@@ -455,14 +611,19 @@
     "statusLabel": "Recruiting",
     "closingDate": "22nd Jan, 2027",
     "title": "PAIN-PATH: optimising perioperative pain management after major surgery",
-    "conditionCategories": ["anaesthesia-perioperative-medicine-and-pain-management", "surgery"],
+    "conditionCategories": [
+      "anaesthesia-perioperative-medicine-and-pain-management",
+      "surgery"
+    ],
     "conditionText": "Post-operative pain following major surgery",
     "gender": "all",
     "genderLabel": "open to all",
     "ageMin": 18,
     "ageMax": null,
     "ageLabel": "18 Years - N/A",
-    "locations": ["Leeds"]
+    "locations": [
+      "Leeds"
+    ]
   },
   {
     "id": "32",
@@ -470,14 +631,19 @@
     "statusLabel": "Recruiting",
     "closingDate": "3rd Mar, 2027",
     "title": "SEDATE-ICU: sedation strategies for critically ill patients after surgery",
-    "conditionCategories": ["anaesthesia-perioperative-medicine-and-pain-management", "critical-care"],
+    "conditionCategories": [
+      "anaesthesia-perioperative-medicine-and-pain-management",
+      "critical-care"
+    ],
     "conditionText": "Post-surgical sedation management in intensive care",
     "gender": "all",
     "genderLabel": "open to all",
     "ageMin": 18,
     "ageMax": null,
     "ageLabel": "18 Years - N/A",
-    "locations": ["Birmingham"]
+    "locations": [
+      "Birmingham"
+    ]
   },
   {
     "id": "33",
@@ -485,14 +651,20 @@
     "statusLabel": "Recruiting",
     "closingDate": "16th Apr, 2027",
     "title": "CONNECT-CARE: coordinating community and social care for people with complex needs",
-    "conditionCategories": ["community", "social-care"],
+    "conditionCategories": [
+      "community",
+      "social-care"
+    ],
     "conditionText": "Complex health and social care needs",
     "gender": "all",
     "genderLabel": "open to all",
     "ageMin": 18,
     "ageMax": null,
     "ageLabel": "18 Years - N/A",
-    "locations": ["Manchester", "online"]
+    "locations": [
+      "Manchester",
+      "online"
+    ]
   },
   {
     "id": "34",
@@ -500,14 +672,19 @@
     "statusLabel": "Recruiting",
     "closingDate": "9th Feb, 2027",
     "title": "NEW-MUM: community-based postnatal support for first-time mothers",
-    "conditionCategories": ["community", "reproductive-health-and-childbirth"],
+    "conditionCategories": [
+      "community",
+      "reproductive-health-and-childbirth"
+    ],
     "conditionText": "Postnatal recovery and wellbeing",
     "gender": "female",
     "genderLabel": "Female",
     "ageMin": 16,
     "ageMax": null,
     "ageLabel": "16 Years - N/A",
-    "locations": ["Bristol"]
+    "locations": [
+      "Bristol"
+    ]
   },
   {
     "id": "35",
@@ -515,14 +692,19 @@
     "statusLabel": "Recruiting",
     "closingDate": "28th May, 2027",
     "title": "DELIRIUM-ICU: preventing delirium in intensive care units",
-    "conditionCategories": ["critical-care", "hospitals"],
+    "conditionCategories": [
+      "critical-care",
+      "hospitals"
+    ],
     "conditionText": "Delirium in critically ill hospital inpatients",
     "gender": "all",
     "genderLabel": "open to all",
     "ageMin": 18,
     "ageMax": null,
     "ageLabel": "18 Years - N/A",
-    "locations": ["Sheffield"]
+    "locations": [
+      "Sheffield"
+    ]
   },
   {
     "id": "36",
@@ -530,14 +712,19 @@
     "statusLabel": "Recruiting",
     "closingDate": "11th Jun, 2027",
     "title": "TRAUMA-CRIT: outcomes following major trauma requiring critical care admission",
-    "conditionCategories": ["critical-care", "trauma-and-emergency-care"],
+    "conditionCategories": [
+      "critical-care",
+      "trauma-and-emergency-care"
+    ],
     "conditionText": "Major traumatic injury requiring critical care",
     "gender": "all",
     "genderLabel": "open to all",
     "ageMin": 18,
     "ageMax": null,
     "ageLabel": "18 Years - N/A",
-    "locations": ["London"]
+    "locations": [
+      "London"
+    ]
   },
   {
     "id": "37",
@@ -545,14 +732,20 @@
     "statusLabel": "Recruiting",
     "closingDate": "19th Jul, 2027",
     "title": "FRAILTY-GP: early identification of frailty in general practice",
-    "conditionCategories": ["general-practice", "primary-care"],
+    "conditionCategories": [
+      "general-practice",
+      "primary-care"
+    ],
     "conditionText": "Frailty in older adults",
     "gender": "all",
     "genderLabel": "open to all",
     "ageMin": 65,
     "ageMax": null,
     "ageLabel": "65 Years - N/A",
-    "locations": ["Norwich", "online"]
+    "locations": [
+      "Norwich",
+      "online"
+    ]
   },
   {
     "id": "38",
@@ -560,14 +753,19 @@
     "statusLabel": "Recruiting",
     "closingDate": "6th Aug, 2027",
     "title": "ASTHMA-KIDS: managing childhood asthma in general practice",
-    "conditionCategories": ["general-practice", "children"],
+    "conditionCategories": [
+      "general-practice",
+      "children"
+    ],
     "conditionText": "Childhood asthma",
     "gender": "all",
     "genderLabel": "open to all",
     "ageMin": 5,
     "ageMax": 12,
     "ageLabel": "5 years - 12 years",
-    "locations": ["Portsmouth"]
+    "locations": [
+      "Portsmouth"
+    ]
   },
   {
     "id": "39",
@@ -575,14 +773,19 @@
     "statusLabel": "Recruiting",
     "closingDate": "14th Sept, 2027",
     "title": "SCAN-FLOW: improving turnaround times for inpatient diagnostic imaging",
-    "conditionCategories": ["hospitals", "imaging"],
+    "conditionCategories": [
+      "hospitals",
+      "imaging"
+    ],
     "conditionText": "Hospital diagnostic imaging pathways",
     "gender": "all",
     "genderLabel": "open to all",
     "ageMin": 18,
     "ageMax": null,
     "ageLabel": "18 Years - N/A",
-    "locations": ["Coventry"]
+    "locations": [
+      "Coventry"
+    ]
   },
   {
     "id": "40",
@@ -590,14 +793,19 @@
     "statusLabel": "Recruiting",
     "closingDate": "2nd Oct, 2027",
     "title": "CLEAN-WARD: reducing hospital-acquired infections through enhanced hygiene protocols",
-    "conditionCategories": ["hospitals", "infection"],
+    "conditionCategories": [
+      "hospitals",
+      "infection"
+    ],
     "conditionText": "Hospital-acquired infections",
     "gender": "all",
     "genderLabel": "open to all",
     "ageMin": 18,
     "ageMax": null,
     "ageLabel": "18 Years - N/A",
-    "locations": ["Hull"]
+    "locations": [
+      "Hull"
+    ]
   },
   {
     "id": "41",
@@ -605,14 +813,20 @@
     "statusLabel": "Recruiting",
     "closingDate": "21st Nov, 2027",
     "title": "MAMMO-AI: AI-assisted interpretation of mammography for early breast cancer detection",
-    "conditionCategories": ["imaging", "cancer"],
+    "conditionCategories": [
+      "imaging",
+      "cancer"
+    ],
     "conditionText": "Breast cancer screening",
     "gender": "female",
     "genderLabel": "Female",
     "ageMin": 40,
     "ageMax": 75,
     "ageLabel": "40 years - 75 years",
-    "locations": ["Oxford", "online"]
+    "locations": [
+      "Oxford",
+      "online"
+    ]
   },
   {
     "id": "42",
@@ -620,14 +834,19 @@
     "statusLabel": "Recruiting",
     "closingDate": "8th Dec, 2027",
     "title": "COMFORT-DEM: palliative care needs of people with advanced dementia",
-    "conditionCategories": ["palliative-care", "dementias-and-neurodegeneration"],
+    "conditionCategories": [
+      "palliative-care",
+      "dementias-and-neurodegeneration"
+    ],
     "conditionText": "Advanced dementia and end of life care",
     "gender": "all",
     "genderLabel": "open to all",
     "ageMin": 65,
     "ageMax": null,
     "ageLabel": "65 Years - N/A",
-    "locations": ["Newcastle upon Tyne"]
+    "locations": [
+      "Newcastle upon Tyne"
+    ]
   },
   {
     "id": "43",
@@ -635,14 +854,20 @@
     "statusLabel": "Recruiting",
     "closingDate": "17th Jan, 2028",
     "title": "END-WISHES: understanding end of life care preferences in the community",
-    "conditionCategories": ["palliative-care", "community"],
+    "conditionCategories": [
+      "palliative-care",
+      "community"
+    ],
     "conditionText": "End of life care planning",
     "gender": "all",
     "genderLabel": "open to all",
     "ageMin": 18,
     "ageMax": null,
     "ageLabel": "18 Years - N/A",
-    "locations": ["Cardiff", "online"]
+    "locations": [
+      "Cardiff",
+      "online"
+    ]
   },
   {
     "id": "44",
@@ -650,14 +875,20 @@
     "statusLabel": "Recruiting",
     "closingDate": "25th Feb, 2028",
     "title": "MOOD-PRIMARY: identifying anxiety and depression in primary care consultations",
-    "conditionCategories": ["primary-care", "mental-health"],
+    "conditionCategories": [
+      "primary-care",
+      "mental-health"
+    ],
     "conditionText": "Anxiety and depression",
     "gender": "all",
     "genderLabel": "open to all",
     "ageMin": 18,
     "ageMax": null,
     "ageLabel": "18 Years - N/A",
-    "locations": ["Plymouth", "online"]
+    "locations": [
+      "Plymouth",
+      "online"
+    ]
   },
   {
     "id": "45",
@@ -665,14 +896,19 @@
     "statusLabel": "Recruiting",
     "closingDate": "4th Mar, 2028",
     "title": "STEADY-STEPS: falls prevention in residential care homes for older adults",
-    "conditionCategories": ["residential", "ageing"],
+    "conditionCategories": [
+      "residential",
+      "ageing"
+    ],
     "conditionText": "Falls prevention in older adults",
     "gender": "all",
     "genderLabel": "open to all",
     "ageMin": 70,
     "ageMax": null,
     "ageLabel": "70 Years - N/A",
-    "locations": ["Preston"]
+    "locations": [
+      "Preston"
+    ]
   },
   {
     "id": "46",
@@ -680,14 +916,19 @@
     "statusLabel": "Recruiting",
     "closingDate": "13th Apr, 2028",
     "title": "QUALITY-RESIDENT: staff training to improve quality of life in residential care settings",
-    "conditionCategories": ["residential", "social-care"],
+    "conditionCategories": [
+      "residential",
+      "social-care"
+    ],
     "conditionText": "Quality of life for residents in social care settings",
     "gender": "all",
     "genderLabel": "open to all",
     "ageMin": null,
     "ageMax": null,
     "ageLabel": "all",
-    "locations": ["Swansea"]
+    "locations": [
+      "Swansea"
+    ]
   },
   {
     "id": "47",
@@ -695,14 +936,19 @@
     "statusLabel": "Recruiting",
     "closingDate": "22nd May, 2028",
     "title": "LOOKED-AFTER: supporting the mental health and wellbeing of looked-after children",
-    "conditionCategories": ["social-care", "children"],
+    "conditionCategories": [
+      "social-care",
+      "children"
+    ],
     "conditionText": "Mental health and wellbeing of children in social care",
     "gender": "all",
     "genderLabel": "open to all",
     "ageMin": 5,
     "ageMax": 17,
     "ageLabel": "5 years - 17 years",
-    "locations": ["Wolverhampton"]
+    "locations": [
+      "Wolverhampton"
+    ]
   },
   {
     "id": "48",
@@ -710,14 +956,19 @@
     "statusLabel": "Recruiting",
     "closingDate": "30th Jun, 2028",
     "title": "AFTER-STROKE: social care support needs following stroke",
-    "conditionCategories": ["social-care", "stroke"],
+    "conditionCategories": [
+      "social-care",
+      "stroke"
+    ],
     "conditionText": "Post-stroke social care and rehabilitation needs",
     "gender": "all",
     "genderLabel": "open to all",
     "ageMin": 18,
     "ageMax": null,
     "ageLabel": "18 Years - N/A",
-    "locations": ["Aberdeen"]
+    "locations": [
+      "Aberdeen"
+    ]
   },
   {
     "id": "49",
@@ -725,14 +976,19 @@
     "statusLabel": "Recruiting",
     "closingDate": "9th Jul, 2028",
     "title": "EAR-GP: managing recurrent ear infections in general practice",
-    "conditionCategories": ["general-practice", "ear-nose-and-throat"],
+    "conditionCategories": [
+      "general-practice",
+      "ear-nose-and-throat"
+    ],
     "conditionText": "Recurrent ear infections in children",
     "gender": "all",
     "genderLabel": "open to all",
     "ageMin": 1,
     "ageMax": 10,
     "ageLabel": "1 year - 10 years",
-    "locations": ["Derby"]
+    "locations": [
+      "Derby"
+    ]
   },
   {
     "id": "50",
@@ -740,14 +996,19 @@
     "statusLabel": "Recruiting",
     "closingDate": "15th Aug, 2028",
     "title": "SKIN-AWARE: public awareness campaign for early detection of skin cancer",
-    "conditionCategories": ["dermatology", "public-health"],
+    "conditionCategories": [
+      "dermatology",
+      "public-health"
+    ],
     "conditionText": "Skin cancer awareness and early detection",
     "gender": "all",
     "genderLabel": "open to all",
     "ageMin": 18,
     "ageMax": null,
     "ageLabel": "18 Years - N/A",
-    "locations": ["online"]
+    "locations": [
+      "online"
+    ]
   },
   {
     "id": "51",
@@ -755,14 +1016,19 @@
     "statusLabel": "Recruiting",
     "closingDate": "20th Sept, 2028",
     "title": "CLEAR-SIGHT: long-term outcomes following cataract surgery in older adults",
-    "conditionCategories": ["ophthalmology", "ageing"],
+    "conditionCategories": [
+      "ophthalmology",
+      "ageing"
+    ],
     "conditionText": "Cataracts",
     "gender": "all",
     "genderLabel": "open to all",
     "ageMin": 65,
     "ageMax": null,
     "ageLabel": "65 Years - N/A",
-    "locations": ["Norwich"]
+    "locations": [
+      "Norwich"
+    ]
   },
   {
     "id": "52",
@@ -770,14 +1036,19 @@
     "statusLabel": "Recruiting",
     "closingDate": "28th Oct, 2028",
     "title": "SUGAR-SMILE: reducing sugar consumption to prevent dental decay in adolescents",
-    "conditionCategories": ["oral-and-dental-health", "public-health"],
+    "conditionCategories": [
+      "oral-and-dental-health",
+      "public-health"
+    ],
     "conditionText": "Dental decay in adolescents",
     "gender": "all",
     "genderLabel": "open to all",
     "ageMin": 11,
     "ageMax": 17,
     "ageLabel": "11 years - 17 years",
-    "locations": ["Middlesbrough"]
+    "locations": [
+      "Middlesbrough"
+    ]
   },
   {
     "id": "53",
@@ -785,14 +1056,19 @@
     "statusLabel": "Recruiting",
     "closingDate": "6th Nov, 2028",
     "title": "KIDNEY-GUARD: preventing progression of diabetic kidney disease",
-    "conditionCategories": ["renal", "diabetes-metabolic-and-endocrine"],
+    "conditionCategories": [
+      "renal",
+      "diabetes-metabolic-and-endocrine"
+    ],
     "conditionText": "Diabetic kidney disease",
     "gender": "all",
     "genderLabel": "open to all",
     "ageMin": 18,
     "ageMax": null,
     "ageLabel": "18 Years - N/A",
-    "locations": ["Leicester"]
+    "locations": [
+      "Leicester"
+    ]
   },
   {
     "id": "54",
@@ -800,13 +1076,2963 @@
     "statusLabel": "Completed",
     "closingDate": null,
     "title": "IMAGE-VIEW: patient experience of waiting for hospital imaging results",
-    "conditionCategories": ["imaging", "hospitals"],
+    "conditionCategories": [
+      "imaging",
+      "hospitals"
+    ],
     "conditionText": "Patient experience of diagnostic imaging pathways",
     "gender": "all",
     "genderLabel": "open to all",
     "ageMin": 18,
     "ageMax": null,
     "ageLabel": "18 Years - N/A",
-    "locations": ["Glasgow"]
+    "locations": [
+      "Glasgow"
+    ]
+  },
+  {
+    "id": "55",
+    "status": "recruiting",
+    "statusLabel": "Recruiting",
+    "closingDate": "3rd Jul, 2026",
+    "title": "RESOLVE: Improving early diagnosis of community-based health and care needs",
+    "conditionCategories": [
+      "community",
+      "ear-nose-and-throat"
+    ],
+    "conditionText": "Community-based health and care needs",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 13,
+    "ageMax": 33,
+    "ageLabel": "13 years - 33 years",
+    "locations": [
+      "Edinburgh",
+      "Reading"
+    ]
+  },
+  {
+    "id": "56",
+    "status": "recruiting",
+    "statusLabel": "Recruiting",
+    "closingDate": "2nd Nov, 2027",
+    "title": "WAYPOINT: Exploring the lived experience of neurological conditions",
+    "conditionCategories": [
+      "neurological-disorders",
+      "public-health"
+    ],
+    "conditionText": "Neurological conditions",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 18,
+    "ageMax": 68,
+    "ageLabel": "18 years - 68 years",
+    "locations": [
+      "Middlesbrough"
+    ]
+  },
+  {
+    "id": "57",
+    "status": "recruiting",
+    "statusLabel": "Recruiting",
+    "closingDate": "7th Nov, 2028",
+    "title": "FOUNDATION: A digital intervention to support people living with eye conditions",
+    "conditionCategories": [
+      "ophthalmology"
+    ],
+    "conditionText": "Eye conditions",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 18,
+    "ageMax": null,
+    "ageLabel": "18 Years - N/A",
+    "locations": [
+      "Newcastle upon Tyne"
+    ]
+  },
+  {
+    "id": "58",
+    "status": "completed",
+    "statusLabel": "Completed",
+    "closingDate": null,
+    "title": "ATLAS: A qualitative study of carer experiences in conditions managed in general practice",
+    "conditionCategories": [
+      "general-practice",
+      "musculoskeletal-and-orthopaedics"
+    ],
+    "conditionText": "Conditions managed in general practice",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 18,
+    "ageMax": null,
+    "ageLabel": "18 Years - N/A",
+    "locations": [
+      "Norwich"
+    ]
+  },
+  {
+    "id": "59",
+    "status": "stopped",
+    "statusLabel": "Stopped",
+    "closingDate": null,
+    "title": "GATEWAY: Improving early diagnosis of public health and prevention",
+    "conditionCategories": [
+      "public-health",
+      "children"
+    ],
+    "conditionText": "Public health and prevention",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 18,
+    "ageMax": 68,
+    "ageLabel": "18 years - 68 years",
+    "locations": [
+      "Plymouth"
+    ]
+  },
+  {
+    "id": "60",
+    "status": "completed",
+    "statusLabel": "Completed",
+    "closingDate": null,
+    "title": "VOYAGE: Co-designing a self-management programme for residential and long-term care",
+    "conditionCategories": [
+      "residential",
+      "infection"
+    ],
+    "conditionText": "Residential and long-term care",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 18,
+    "ageMax": null,
+    "ageLabel": "18 Years - N/A",
+    "locations": [
+      "Leeds"
+    ]
+  },
+  {
+    "id": "61",
+    "status": "not-recruiting",
+    "statusLabel": "Not recruiting",
+    "closingDate": null,
+    "title": "RENEW: Understanding patient experience of diagnostic imaging pathways",
+    "conditionCategories": [
+      "imaging"
+    ],
+    "conditionText": "Diagnostic imaging pathways",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 18,
+    "ageMax": 58,
+    "ageLabel": "18 years - 58 years",
+    "locations": [
+      "London",
+      "Belfast"
+    ]
+  },
+  {
+    "id": "62",
+    "status": "stopped",
+    "statusLabel": "Stopped",
+    "closingDate": null,
+    "title": "PIONEER: A feasibility study of a peer support network for ear, nose and throat conditions",
+    "conditionCategories": [
+      "ear-nose-and-throat"
+    ],
+    "conditionText": "Ear, nose and throat conditions",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 5,
+    "ageMax": null,
+    "ageLabel": "5 Years - N/A",
+    "locations": [
+      "Plymouth",
+      "Bradford",
+      "Sheffield"
+    ]
+  },
+  {
+    "id": "63",
+    "status": "not-recruiting",
+    "statusLabel": "Not recruiting",
+    "closingDate": null,
+    "title": "LUMEN: Assessing quality of life in people with infectious disease",
+    "conditionCategories": [
+      "infection",
+      "critical-care"
+    ],
+    "conditionText": "Infectious disease",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 18,
+    "ageMax": null,
+    "ageLabel": "18 Years - N/A",
+    "locations": [
+      "London",
+      "online"
+    ]
+  },
+  {
+    "id": "64",
+    "status": "recruiting",
+    "statusLabel": "Recruiting",
+    "closingDate": "8th Jan, 2027",
+    "title": "FOUNDATION: A randomised controlled trial of a rehabilitation programme in digestive and liver conditions",
+    "conditionCategories": [
+      "gastroenterology-and-hepatology",
+      "anaesthesia-perioperative-medicine-and-pain-management"
+    ],
+    "conditionText": "Digestive and liver conditions",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 28,
+    "ageMax": 58,
+    "ageLabel": "28 years - 58 years",
+    "locations": [
+      "Stoke-on-Trent"
+    ]
+  },
+  {
+    "id": "65",
+    "status": "completed",
+    "statusLabel": "Completed",
+    "closingDate": null,
+    "title": "REFLECT: Understanding patient experience of kidney disease",
+    "conditionCategories": [
+      "renal"
+    ],
+    "conditionText": "Kidney disease",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 18,
+    "ageMax": 48,
+    "ageLabel": "18 years - 48 years",
+    "locations": [
+      "Cambridge",
+      "Swansea",
+      "Coventry"
+    ]
+  },
+  {
+    "id": "66",
+    "status": "recruiting",
+    "statusLabel": "Recruiting",
+    "closingDate": "11th Jan, 2027",
+    "title": "SHIELD: A randomised controlled trial of a nurse-led clinic in inpatient hospital care pathways",
+    "conditionCategories": [
+      "hospitals",
+      "respiratory"
+    ],
+    "conditionText": "Inpatient hospital care pathways",
+    "gender": "male",
+    "genderLabel": "Male",
+    "ageMin": 18,
+    "ageMax": null,
+    "ageLabel": "18 Years - N/A",
+    "locations": [
+      "Birmingham"
+    ]
+  },
+  {
+    "id": "67",
+    "status": "recruiting",
+    "statusLabel": "Recruiting",
+    "closingDate": "22nd Aug, 2027",
+    "title": "MOSAIC: A randomised controlled trial of a personalised care plan in rare and undiagnosed genetic conditions",
+    "conditionCategories": [
+      "rare-diseases"
+    ],
+    "conditionText": "Rare and undiagnosed genetic conditions",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 0,
+    "ageMax": null,
+    "ageLabel": "0 Years - N/A",
+    "locations": [
+      "Stoke-on-Trent"
+    ]
+  },
+  {
+    "id": "68",
+    "status": "not-recruiting",
+    "statusLabel": "Not recruiting",
+    "closingDate": null,
+    "title": "PULSE: Improving early diagnosis of diabetes and metabolic disorders",
+    "conditionCategories": [
+      "diabetes-metabolic-and-endocrine"
+    ],
+    "conditionText": "Diabetes and metabolic disorders",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 18,
+    "ageMax": 38,
+    "ageLabel": "18 years - 38 years",
+    "locations": [
+      "Swansea"
+    ]
+  },
+  {
+    "id": "69",
+    "status": "recruiting",
+    "statusLabel": "Recruiting",
+    "closingDate": "7th Apr, 2029",
+    "title": "PULSE: An observational registry of skin conditions",
+    "conditionCategories": [
+      "dermatology"
+    ],
+    "conditionText": "Skin conditions",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 18,
+    "ageMax": 38,
+    "ageLabel": "18 years - 38 years",
+    "locations": [
+      "Reading",
+      "Cardiff"
+    ]
+  },
+  {
+    "id": "70",
+    "status": "recruiting",
+    "statusLabel": "Recruiting",
+    "closingDate": "6th Jul, 2029",
+    "title": "MERIT: A randomised controlled trial of a rehabilitation programme in respiratory disease",
+    "conditionCategories": [
+      "respiratory",
+      "ageing"
+    ],
+    "conditionText": "Respiratory disease",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 18,
+    "ageMax": null,
+    "ageLabel": "18 Years - N/A",
+    "locations": [
+      "Wolverhampton"
+    ]
+  },
+  {
+    "id": "71",
+    "status": "stopped",
+    "statusLabel": "Stopped",
+    "closingDate": null,
+    "title": "ATLAS: Long-term outcomes following a novel surgical technique for critical illness requiring intensive care",
+    "conditionCategories": [
+      "critical-care",
+      "social-care"
+    ],
+    "conditionText": "Critical illness requiring intensive care",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 18,
+    "ageMax": null,
+    "ageLabel": "18 Years - N/A",
+    "locations": [
+      "Leicester"
+    ]
+  },
+  {
+    "id": "72",
+    "status": "recruiting",
+    "statusLabel": "Recruiting",
+    "closingDate": "24th Jun, 2026",
+    "title": "CANOPY: Exploring the lived experience of end of life and palliative care needs",
+    "conditionCategories": [
+      "palliative-care"
+    ],
+    "conditionText": "End of life and palliative care needs",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 18,
+    "ageMax": null,
+    "ageLabel": "18 Years - N/A",
+    "locations": [
+      "Bradford"
+    ]
+  },
+  {
+    "id": "73",
+    "status": "not-recruiting",
+    "statusLabel": "Not recruiting",
+    "closingDate": null,
+    "title": "ANCHOR: A randomised controlled trial of an app-based self-management tool in age-related frailty and multimorbidity",
+    "conditionCategories": [
+      "ageing",
+      "general-practice"
+    ],
+    "conditionText": "Age-related frailty and multimorbidity",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 60,
+    "ageMax": null,
+    "ageLabel": "60 Years - N/A",
+    "locations": [
+      "online",
+      "Birmingham"
+    ]
+  },
+  {
+    "id": "74",
+    "status": "completed",
+    "statusLabel": "Completed",
+    "closingDate": null,
+    "title": "PRISM: Investigating risk factors for surgical care and recovery",
+    "conditionCategories": [
+      "surgery"
+    ],
+    "conditionText": "Surgical care and recovery",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 23,
+    "ageMax": null,
+    "ageLabel": "23 Years - N/A",
+    "locations": [
+      "Bristol",
+      "Cambridge"
+    ]
+  },
+  {
+    "id": "75",
+    "status": "completed",
+    "statusLabel": "Completed",
+    "closingDate": null,
+    "title": "LATITUDE: Evaluating a telehealth follow-up service for blood disorders",
+    "conditionCategories": [
+      "haematology",
+      "children"
+    ],
+    "conditionText": "Blood disorders",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 23,
+    "ageMax": null,
+    "ageLabel": "23 Years - N/A",
+    "locations": [
+      "Glasgow"
+    ]
+  },
+  {
+    "id": "76",
+    "status": "recruiting",
+    "statusLabel": "Recruiting",
+    "closingDate": "27th Sept, 2028",
+    "title": "RENEW: A digital intervention to support people living with musculoskeletal and joint conditions",
+    "conditionCategories": [
+      "musculoskeletal-and-orthopaedics"
+    ],
+    "conditionText": "Musculoskeletal and joint conditions",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 18,
+    "ageMax": null,
+    "ageLabel": "18 Years - N/A",
+    "locations": [
+      "Cambridge",
+      "Cardiff"
+    ]
+  },
+  {
+    "id": "77",
+    "status": "recruiting",
+    "statusLabel": "Recruiting",
+    "closingDate": "24th Sept, 2027",
+    "title": "COMPASS: Understanding patient experience of solid tumours and haematological cancers",
+    "conditionCategories": [
+      "cancer"
+    ],
+    "conditionText": "Solid tumours and haematological cancers",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 18,
+    "ageMax": null,
+    "ageLabel": "18 Years - N/A",
+    "locations": [
+      "Plymouth",
+      "Bradford",
+      "Luton"
+    ]
+  },
+  {
+    "id": "78",
+    "status": "recruiting",
+    "statusLabel": "Recruiting",
+    "closingDate": "2nd Jan, 2028",
+    "title": "VOYAGE: A randomised controlled trial of a community outreach programme in stroke and stroke rehabilitation",
+    "conditionCategories": [
+      "stroke",
+      "cardiovascular"
+    ],
+    "conditionText": "Stroke and stroke rehabilitation",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 50,
+    "ageMax": null,
+    "ageLabel": "50 Years - N/A",
+    "locations": [
+      "Reading",
+      "London"
+    ]
+  },
+  {
+    "id": "79",
+    "status": "completed",
+    "statusLabel": "Completed",
+    "closingDate": null,
+    "title": "FOUNDATION: A feasibility study of a new drug therapy for pregnancy, childbirth and reproductive health",
+    "conditionCategories": [
+      "reproductive-health-and-childbirth",
+      "diabetes-metabolic-and-endocrine"
+    ],
+    "conditionText": "Pregnancy, childbirth and reproductive health",
+    "gender": "female",
+    "genderLabel": "Female",
+    "ageMin": 16,
+    "ageMax": null,
+    "ageLabel": "16 Years - N/A",
+    "locations": [
+      "Birmingham"
+    ]
+  },
+  {
+    "id": "80",
+    "status": "not-recruiting",
+    "statusLabel": "Not recruiting",
+    "closingDate": null,
+    "title": "MOSAIC: Improving early diagnosis of oral and dental health",
+    "conditionCategories": [
+      "oral-and-dental-health"
+    ],
+    "conditionText": "Oral and dental health",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 5,
+    "ageMax": null,
+    "ageLabel": "5 Years - N/A",
+    "locations": [
+      "Liverpool",
+      "Portsmouth"
+    ]
+  },
+  {
+    "id": "81",
+    "status": "recruiting",
+    "statusLabel": "Recruiting",
+    "closingDate": "1st Mar, 2028",
+    "title": "VANTAGE: An observational registry of cardiovascular disease",
+    "conditionCategories": [
+      "cardiovascular"
+    ],
+    "conditionText": "Cardiovascular disease",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 40,
+    "ageMax": 70,
+    "ageLabel": "40 years - 70 years",
+    "locations": [
+      "Newcastle upon Tyne"
+    ]
+  },
+  {
+    "id": "82",
+    "status": "recruiting",
+    "statusLabel": "Recruiting",
+    "closingDate": "8th Apr, 2029",
+    "title": "CLEAR: A randomised controlled trial of a novel surgical technique in conditions managed in primary care",
+    "conditionCategories": [
+      "primary-care"
+    ],
+    "conditionText": "Conditions managed in primary care",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 18,
+    "ageMax": null,
+    "ageLabel": "18 Years - N/A",
+    "locations": [
+      "Nottingham",
+      "Swansea",
+      "Hull"
+    ]
+  },
+  {
+    "id": "83",
+    "status": "not-recruiting",
+    "statusLabel": "Not recruiting",
+    "closingDate": null,
+    "title": "ASCEND: An observational registry of childhood health conditions",
+    "conditionCategories": [
+      "children",
+      "community"
+    ],
+    "conditionText": "Childhood health conditions",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 0,
+    "ageMax": 15,
+    "ageLabel": "0 years - 15 years",
+    "locations": [
+      "Manchester"
+    ]
+  },
+  {
+    "id": "84",
+    "status": "recruiting",
+    "statusLabel": "Recruiting",
+    "closingDate": "4th Oct, 2029",
+    "title": "SUMMIT: Understanding patient experience of social care needs",
+    "conditionCategories": [
+      "social-care",
+      "infection"
+    ],
+    "conditionText": "Social care needs",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 0,
+    "ageMax": 20,
+    "ageLabel": "0 years - 20 years",
+    "locations": [
+      "Milton Keynes",
+      "Nottingham"
+    ]
+  },
+  {
+    "id": "85",
+    "status": "not-recruiting",
+    "statusLabel": "Not recruiting",
+    "closingDate": null,
+    "title": "CANOPY: Evaluating a personalised care plan for major trauma and emergency care",
+    "conditionCategories": [
+      "trauma-and-emergency-care",
+      "reproductive-health-and-childbirth"
+    ],
+    "conditionText": "Major trauma and emergency care",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 18,
+    "ageMax": null,
+    "ageLabel": "18 Years - N/A",
+    "locations": [
+      "Hull"
+    ]
+  },
+  {
+    "id": "86",
+    "status": "stopped",
+    "statusLabel": "Stopped",
+    "closingDate": null,
+    "title": "COMPASS: A cohort study of disease progression in mental health conditions",
+    "conditionCategories": [
+      "mental-health"
+    ],
+    "conditionText": "Mental health conditions",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 16,
+    "ageMax": null,
+    "ageLabel": "16 Years - N/A",
+    "locations": [
+      "Oxford",
+      "Reading",
+      "Bristol"
+    ]
+  },
+  {
+    "id": "87",
+    "status": "completed",
+    "statusLabel": "Completed",
+    "closingDate": null,
+    "title": "VANTAGE: A cohort study of disease progression in perioperative pain and recovery",
+    "conditionCategories": [
+      "anaesthesia-perioperative-medicine-and-pain-management",
+      "rare-diseases"
+    ],
+    "conditionText": "Perioperative pain and recovery",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 18,
+    "ageMax": null,
+    "ageLabel": "18 Years - N/A",
+    "locations": [
+      "Dundee"
+    ]
+  },
+  {
+    "id": "88",
+    "status": "recruiting",
+    "statusLabel": "Recruiting",
+    "closingDate": "15th Aug, 2027",
+    "title": "NAVIGATE: Exploring the lived experience of dementia and neurodegenerative disease",
+    "conditionCategories": [
+      "dementias-and-neurodegeneration"
+    ],
+    "conditionText": "Dementia and neurodegenerative disease",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 60,
+    "ageMax": 80,
+    "ageLabel": "60 years - 80 years",
+    "locations": [
+      "Bradford"
+    ]
+  },
+  {
+    "id": "89",
+    "status": "stopped",
+    "statusLabel": "Stopped",
+    "closingDate": null,
+    "title": "HORIZON: Exploring the lived experience of community-based health and care needs",
+    "conditionCategories": [
+      "community"
+    ],
+    "conditionText": "Community-based health and care needs",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 18,
+    "ageMax": null,
+    "ageLabel": "18 Years - N/A",
+    "locations": [
+      "Portsmouth"
+    ]
+  },
+  {
+    "id": "90",
+    "status": "recruiting",
+    "statusLabel": "Recruiting",
+    "closingDate": "15th Jul, 2027",
+    "title": "OUTLOOK: Exploring the lived experience of neurological conditions",
+    "conditionCategories": [
+      "neurological-disorders"
+    ],
+    "conditionText": "Neurological conditions",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 18,
+    "ageMax": null,
+    "ageLabel": "18 Years - N/A",
+    "locations": [
+      "London",
+      "Cardiff",
+      "Dundee"
+    ]
+  },
+  {
+    "id": "91",
+    "status": "recruiting",
+    "statusLabel": "Recruiting",
+    "closingDate": "15th Mar, 2029",
+    "title": "MOSAIC: Evaluating a personalised care plan for eye conditions",
+    "conditionCategories": [
+      "ophthalmology",
+      "social-care"
+    ],
+    "conditionText": "Eye conditions",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 18,
+    "ageMax": 68,
+    "ageLabel": "18 years - 68 years",
+    "locations": [
+      "Bradford",
+      "Dundee"
+    ]
+  },
+  {
+    "id": "92",
+    "status": "stopped",
+    "statusLabel": "Stopped",
+    "closingDate": null,
+    "title": "RENEW: A feasibility study of a telehealth follow-up service for conditions managed in general practice",
+    "conditionCategories": [
+      "general-practice"
+    ],
+    "conditionText": "Conditions managed in general practice",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 18,
+    "ageMax": 58,
+    "ageLabel": "18 years - 58 years",
+    "locations": [
+      "Luton",
+      "Portsmouth"
+    ]
+  },
+  {
+    "id": "93",
+    "status": "recruiting",
+    "statusLabel": "Recruiting",
+    "closingDate": "11th Jun, 2026",
+    "title": "MOSAIC: Co-designing a self-management programme for public health and prevention",
+    "conditionCategories": [
+      "public-health",
+      "children"
+    ],
+    "conditionText": "Public health and prevention",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 18,
+    "ageMax": 38,
+    "ageLabel": "18 years - 38 years",
+    "locations": [
+      "Aberdeen",
+      "Hull"
+    ]
+  },
+  {
+    "id": "94",
+    "status": "recruiting",
+    "statusLabel": "Recruiting",
+    "closingDate": "25th Oct, 2026",
+    "title": "PROSPECT: Evaluating a nurse-led clinic for residential and long-term care",
+    "conditionCategories": [
+      "residential",
+      "renal"
+    ],
+    "conditionText": "Residential and long-term care",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 18,
+    "ageMax": null,
+    "ageLabel": "18 Years - N/A",
+    "locations": [
+      "Cambridge"
+    ]
+  },
+  {
+    "id": "95",
+    "status": "completed",
+    "statusLabel": "Completed",
+    "closingDate": null,
+    "title": "PROSPECT: Assessing quality of life in people with diagnostic imaging pathways",
+    "conditionCategories": [
+      "imaging"
+    ],
+    "conditionText": "Diagnostic imaging pathways",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 18,
+    "ageMax": null,
+    "ageLabel": "18 Years - N/A",
+    "locations": [
+      "Exeter"
+    ]
+  },
+  {
+    "id": "96",
+    "status": "not-recruiting",
+    "statusLabel": "Not recruiting",
+    "closingDate": null,
+    "title": "TRELLIS: Investigating risk factors for ear, nose and throat conditions",
+    "conditionCategories": [
+      "ear-nose-and-throat",
+      "anaesthesia-perioperative-medicine-and-pain-management"
+    ],
+    "conditionText": "Ear, nose and throat conditions",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 5,
+    "ageMax": 25,
+    "ageLabel": "5 years - 25 years",
+    "locations": [
+      "Ipswich",
+      "Milton Keynes"
+    ]
+  },
+  {
+    "id": "97",
+    "status": "recruiting",
+    "statusLabel": "Recruiting",
+    "closingDate": "28th Aug, 2027",
+    "title": "VOYAGE: A randomised controlled trial of a community outreach programme in infectious disease",
+    "conditionCategories": [
+      "infection"
+    ],
+    "conditionText": "Infectious disease",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 23,
+    "ageMax": null,
+    "ageLabel": "23 Years - N/A",
+    "locations": [
+      "Exeter",
+      "Aberdeen"
+    ]
+  },
+  {
+    "id": "98",
+    "status": "completed",
+    "statusLabel": "Completed",
+    "closingDate": null,
+    "title": "CRESCENT: Comparing treatment pathways for digestive and liver conditions",
+    "conditionCategories": [
+      "gastroenterology-and-hepatology",
+      "community"
+    ],
+    "conditionText": "Digestive and liver conditions",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 13,
+    "ageMax": 33,
+    "ageLabel": "13 years - 33 years",
+    "locations": [
+      "Portsmouth"
+    ]
+  },
+  {
+    "id": "99",
+    "status": "recruiting",
+    "statusLabel": "Recruiting",
+    "closingDate": "16th Nov, 2026",
+    "title": "MOSAIC: Exploring the lived experience of kidney disease",
+    "conditionCategories": [
+      "renal",
+      "anaesthesia-perioperative-medicine-and-pain-management"
+    ],
+    "conditionText": "Kidney disease",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 18,
+    "ageMax": 48,
+    "ageLabel": "18 years - 48 years",
+    "locations": [
+      "online",
+      "Belfast"
+    ]
+  },
+  {
+    "id": "100",
+    "status": "completed",
+    "statusLabel": "Completed",
+    "closingDate": null,
+    "title": "PULSE: Understanding patient experience of inpatient hospital care pathways",
+    "conditionCategories": [
+      "hospitals"
+    ],
+    "conditionText": "Inpatient hospital care pathways",
+    "gender": "female",
+    "genderLabel": "Female",
+    "ageMin": 18,
+    "ageMax": null,
+    "ageLabel": "18 Years - N/A",
+    "locations": [
+      "Swansea",
+      "Nottingham"
+    ]
+  },
+  {
+    "id": "101",
+    "status": "recruiting",
+    "statusLabel": "Recruiting",
+    "closingDate": "28th Nov, 2026",
+    "title": "OUTLOOK: A randomised controlled trial of an early intervention pathway in rare and undiagnosed genetic conditions",
+    "conditionCategories": [
+      "rare-diseases",
+      "imaging"
+    ],
+    "conditionText": "Rare and undiagnosed genetic conditions",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 10,
+    "ageMax": null,
+    "ageLabel": "10 Years - N/A",
+    "locations": [
+      "Bradford"
+    ]
+  },
+  {
+    "id": "102",
+    "status": "recruiting",
+    "statusLabel": "Recruiting",
+    "closingDate": "4th Jul, 2028",
+    "title": "PROSPECT: Evaluating a dietary and lifestyle programme for diabetes and metabolic disorders",
+    "conditionCategories": [
+      "diabetes-metabolic-and-endocrine"
+    ],
+    "conditionText": "Diabetes and metabolic disorders",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 18,
+    "ageMax": null,
+    "ageLabel": "18 Years - N/A",
+    "locations": [
+      "Sunderland",
+      "Exeter",
+      "York"
+    ]
+  },
+  {
+    "id": "103",
+    "status": "completed",
+    "statusLabel": "Completed",
+    "closingDate": null,
+    "title": "SIGNAL: Comparing treatment pathways for skin conditions",
+    "conditionCategories": [
+      "dermatology"
+    ],
+    "conditionText": "Skin conditions",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 18,
+    "ageMax": null,
+    "ageLabel": "18 Years - N/A",
+    "locations": [
+      "Portsmouth",
+      "Middlesbrough"
+    ]
+  },
+  {
+    "id": "104",
+    "status": "recruiting",
+    "statusLabel": "Recruiting",
+    "closingDate": "16th Jun, 2027",
+    "title": "RESOLVE: A cohort study of disease progression in respiratory disease",
+    "conditionCategories": [
+      "respiratory"
+    ],
+    "conditionText": "Respiratory disease",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 23,
+    "ageMax": 63,
+    "ageLabel": "23 years - 63 years",
+    "locations": [
+      "London",
+      "Sunderland"
+    ]
+  },
+  {
+    "id": "105",
+    "status": "recruiting",
+    "statusLabel": "Recruiting",
+    "closingDate": "16th Sept, 2027",
+    "title": "SIGNAL: A randomised controlled trial of a nurse-led clinic in critical illness requiring intensive care",
+    "conditionCategories": [
+      "critical-care"
+    ],
+    "conditionText": "Critical illness requiring intensive care",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 18,
+    "ageMax": 38,
+    "ageLabel": "18 years - 38 years",
+    "locations": [
+      "Southampton"
+    ]
+  },
+  {
+    "id": "106",
+    "status": "recruiting",
+    "statusLabel": "Recruiting",
+    "closingDate": "16th Sept, 2028",
+    "title": "PRISM: Long-term outcomes following a community outreach programme for end of life and palliative care needs",
+    "conditionCategories": [
+      "palliative-care",
+      "imaging"
+    ],
+    "conditionText": "End of life and palliative care needs",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 18,
+    "ageMax": 58,
+    "ageLabel": "18 years - 58 years",
+    "locations": [
+      "Plymouth"
+    ]
+  },
+  {
+    "id": "107",
+    "status": "completed",
+    "statusLabel": "Completed",
+    "closingDate": null,
+    "title": "CRESCENT: A digital intervention to support people living with age-related frailty and multimorbidity",
+    "conditionCategories": [
+      "ageing",
+      "haematology"
+    ],
+    "conditionText": "Age-related frailty and multimorbidity",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 70,
+    "ageMax": null,
+    "ageLabel": "70 Years - N/A",
+    "locations": [
+      "Sunderland",
+      "online"
+    ]
+  },
+  {
+    "id": "108",
+    "status": "recruiting",
+    "statusLabel": "Recruiting",
+    "closingDate": "12th Mar, 2028",
+    "title": "CATALYST: Assessing quality of life in people with surgical care and recovery",
+    "conditionCategories": [
+      "surgery",
+      "critical-care"
+    ],
+    "conditionText": "Surgical care and recovery",
+    "gender": "female",
+    "genderLabel": "Female",
+    "ageMin": 18,
+    "ageMax": null,
+    "ageLabel": "18 Years - N/A",
+    "locations": [
+      "Reading"
+    ]
+  },
+  {
+    "id": "109",
+    "status": "recruiting",
+    "statusLabel": "Recruiting",
+    "closingDate": "4th Jan, 2028",
+    "title": "MERIT: A cohort study of disease progression in blood disorders",
+    "conditionCategories": [
+      "haematology",
+      "dermatology"
+    ],
+    "conditionText": "Blood disorders",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 13,
+    "ageMax": null,
+    "ageLabel": "13 Years - N/A",
+    "locations": [
+      "Belfast",
+      "Glasgow"
+    ]
+  },
+  {
+    "id": "110",
+    "status": "recruiting",
+    "statusLabel": "Recruiting",
+    "closingDate": "5th Mar, 2028",
+    "title": "COVE: Exploring the lived experience of musculoskeletal and joint conditions",
+    "conditionCategories": [
+      "musculoskeletal-and-orthopaedics",
+      "children"
+    ],
+    "conditionText": "Musculoskeletal and joint conditions",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 18,
+    "ageMax": null,
+    "ageLabel": "18 Years - N/A",
+    "locations": [
+      "Southampton",
+      "Sunderland"
+    ]
+  },
+  {
+    "id": "111",
+    "status": "recruiting",
+    "statusLabel": "Recruiting",
+    "closingDate": "10th Oct, 2026",
+    "title": "PRISM: Long-term outcomes following a dietary and lifestyle programme for solid tumours and haematological cancers",
+    "conditionCategories": [
+      "cancer",
+      "respiratory"
+    ],
+    "conditionText": "Solid tumours and haematological cancers",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 18,
+    "ageMax": null,
+    "ageLabel": "18 Years - N/A",
+    "locations": [
+      "Plymouth"
+    ]
+  },
+  {
+    "id": "112",
+    "status": "completed",
+    "statusLabel": "Completed",
+    "closingDate": null,
+    "title": "VANTAGE: Understanding patient experience of stroke and stroke rehabilitation",
+    "conditionCategories": [
+      "stroke"
+    ],
+    "conditionText": "Stroke and stroke rehabilitation",
+    "gender": "male",
+    "genderLabel": "Male",
+    "ageMin": 40,
+    "ageMax": null,
+    "ageLabel": "40 Years - N/A",
+    "locations": [
+      "Birmingham"
+    ]
+  },
+  {
+    "id": "113",
+    "status": "recruiting",
+    "statusLabel": "Recruiting",
+    "closingDate": "22nd Apr, 2028",
+    "title": "TRACK: Co-designing a self-management programme for pregnancy, childbirth and reproductive health",
+    "conditionCategories": [
+      "reproductive-health-and-childbirth",
+      "musculoskeletal-and-orthopaedics"
+    ],
+    "conditionText": "Pregnancy, childbirth and reproductive health",
+    "gender": "female",
+    "genderLabel": "Female",
+    "ageMin": 16,
+    "ageMax": null,
+    "ageLabel": "16 Years - N/A",
+    "locations": [
+      "Dundee"
+    ]
+  },
+  {
+    "id": "114",
+    "status": "recruiting",
+    "statusLabel": "Recruiting",
+    "closingDate": "3rd Jan, 2027",
+    "title": "PIONEER: A cohort study of disease progression in oral and dental health",
+    "conditionCategories": [
+      "oral-and-dental-health",
+      "hospitals"
+    ],
+    "conditionText": "Oral and dental health",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 5,
+    "ageMax": 55,
+    "ageLabel": "5 years - 55 years",
+    "locations": [
+      "Middlesbrough"
+    ]
+  },
+  {
+    "id": "115",
+    "status": "recruiting",
+    "statusLabel": "Recruiting",
+    "closingDate": "18th Aug, 2029",
+    "title": "PIONEER: Co-designing a self-management programme for cardiovascular disease",
+    "conditionCategories": [
+      "cardiovascular"
+    ],
+    "conditionText": "Cardiovascular disease",
+    "gender": "male",
+    "genderLabel": "Male",
+    "ageMin": 40,
+    "ageMax": null,
+    "ageLabel": "40 Years - N/A",
+    "locations": [
+      "Manchester"
+    ]
+  },
+  {
+    "id": "116",
+    "status": "completed",
+    "statusLabel": "Completed",
+    "closingDate": null,
+    "title": "PIONEER: An observational registry of conditions managed in primary care",
+    "conditionCategories": [
+      "primary-care",
+      "anaesthesia-perioperative-medicine-and-pain-management"
+    ],
+    "conditionText": "Conditions managed in primary care",
+    "gender": "female",
+    "genderLabel": "Female",
+    "ageMin": 18,
+    "ageMax": null,
+    "ageLabel": "18 Years - N/A",
+    "locations": [
+      "Preston",
+      "Exeter",
+      "Sheffield"
+    ]
+  },
+  {
+    "id": "117",
+    "status": "recruiting",
+    "statusLabel": "Recruiting",
+    "closingDate": "16th Jun, 2029",
+    "title": "ELEVATE: Investigating risk factors for childhood health conditions",
+    "conditionCategories": [
+      "children"
+    ],
+    "conditionText": "Childhood health conditions",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 0,
+    "ageMax": 15,
+    "ageLabel": "0 years - 15 years",
+    "locations": [
+      "Aberdeen"
+    ]
+  },
+  {
+    "id": "118",
+    "status": "stopped",
+    "statusLabel": "Stopped",
+    "closingDate": null,
+    "title": "MERIDIAN: Long-term outcomes following a community outreach programme for social care needs",
+    "conditionCategories": [
+      "social-care"
+    ],
+    "conditionText": "Social care needs",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 0,
+    "ageMax": null,
+    "ageLabel": "0 Years - N/A",
+    "locations": [
+      "Bradford",
+      "London"
+    ]
+  },
+  {
+    "id": "119",
+    "status": "recruiting",
+    "statusLabel": "Recruiting",
+    "closingDate": "7th Sept, 2028",
+    "title": "PROSPECT: A feasibility study of a telehealth follow-up service for major trauma and emergency care",
+    "conditionCategories": [
+      "trauma-and-emergency-care"
+    ],
+    "conditionText": "Major trauma and emergency care",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 18,
+    "ageMax": null,
+    "ageLabel": "18 Years - N/A",
+    "locations": [
+      "Reading"
+    ]
+  },
+  {
+    "id": "120",
+    "status": "recruiting",
+    "statusLabel": "Recruiting",
+    "closingDate": "4th Jan, 2027",
+    "title": "ATLAS: Comparing treatment pathways for mental health conditions",
+    "conditionCategories": [
+      "mental-health",
+      "neurological-disorders"
+    ],
+    "conditionText": "Mental health conditions",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 26,
+    "ageMax": null,
+    "ageLabel": "26 Years - N/A",
+    "locations": [
+      "Middlesbrough"
+    ]
+  },
+  {
+    "id": "121",
+    "status": "recruiting",
+    "statusLabel": "Recruiting",
+    "closingDate": "23rd May, 2028",
+    "title": "THRIVE: A cohort study of disease progression in perioperative pain and recovery",
+    "conditionCategories": [
+      "anaesthesia-perioperative-medicine-and-pain-management"
+    ],
+    "conditionText": "Perioperative pain and recovery",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 18,
+    "ageMax": null,
+    "ageLabel": "18 Years - N/A",
+    "locations": [
+      "Wolverhampton"
+    ]
+  },
+  {
+    "id": "122",
+    "status": "recruiting",
+    "statusLabel": "Recruiting",
+    "closingDate": "9th Jul, 2028",
+    "title": "BEACON: Co-designing a self-management programme for dementia and neurodegenerative disease",
+    "conditionCategories": [
+      "dementias-and-neurodegeneration",
+      "trauma-and-emergency-care"
+    ],
+    "conditionText": "Dementia and neurodegenerative disease",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 60,
+    "ageMax": null,
+    "ageLabel": "60 Years - N/A",
+    "locations": [
+      "Ipswich"
+    ]
+  },
+  {
+    "id": "123",
+    "status": "recruiting",
+    "statusLabel": "Recruiting",
+    "closingDate": "18th Aug, 2028",
+    "title": "THRIVE: A cohort study of disease progression in community-based health and care needs",
+    "conditionCategories": [
+      "community"
+    ],
+    "conditionText": "Community-based health and care needs",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 18,
+    "ageMax": 48,
+    "ageLabel": "18 years - 48 years",
+    "locations": [
+      "Portsmouth",
+      "Milton Keynes",
+      "Wolverhampton"
+    ]
+  },
+  {
+    "id": "124",
+    "status": "recruiting",
+    "statusLabel": "Recruiting",
+    "closingDate": "23rd Jul, 2029",
+    "title": "CRESCENT: Evaluating a group-based support programme for neurological conditions",
+    "conditionCategories": [
+      "neurological-disorders",
+      "reproductive-health-and-childbirth"
+    ],
+    "conditionText": "Neurological conditions",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 18,
+    "ageMax": null,
+    "ageLabel": "18 Years - N/A",
+    "locations": [
+      "Bristol"
+    ]
+  },
+  {
+    "id": "125",
+    "status": "recruiting",
+    "statusLabel": "Recruiting",
+    "closingDate": "17th Aug, 2026",
+    "title": "KEYSTONE: Assessing quality of life in people with eye conditions",
+    "conditionCategories": [
+      "ophthalmology",
+      "palliative-care"
+    ],
+    "conditionText": "Eye conditions",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 18,
+    "ageMax": null,
+    "ageLabel": "18 Years - N/A",
+    "locations": [
+      "Plymouth",
+      "Hull"
+    ]
+  },
+  {
+    "id": "126",
+    "status": "recruiting",
+    "statusLabel": "Recruiting",
+    "closingDate": "28th Nov, 2029",
+    "title": "HORIZON: Investigating risk factors for conditions managed in general practice",
+    "conditionCategories": [
+      "general-practice"
+    ],
+    "conditionText": "Conditions managed in general practice",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 18,
+    "ageMax": null,
+    "ageLabel": "18 Years - N/A",
+    "locations": [
+      "Birmingham",
+      "Glasgow"
+    ]
+  },
+  {
+    "id": "127",
+    "status": "recruiting",
+    "statusLabel": "Recruiting",
+    "closingDate": "4th Nov, 2026",
+    "title": "HORIZON: Improving early diagnosis of public health and prevention",
+    "conditionCategories": [
+      "public-health",
+      "musculoskeletal-and-orthopaedics"
+    ],
+    "conditionText": "Public health and prevention",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 18,
+    "ageMax": null,
+    "ageLabel": "18 Years - N/A",
+    "locations": [
+      "Oxford"
+    ]
+  },
+  {
+    "id": "128",
+    "status": "recruiting",
+    "statusLabel": "Recruiting",
+    "closingDate": "19th Nov, 2027",
+    "title": "REFLECT: Understanding patient experience of residential and long-term care",
+    "conditionCategories": [
+      "residential",
+      "reproductive-health-and-childbirth"
+    ],
+    "conditionText": "Residential and long-term care",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 18,
+    "ageMax": null,
+    "ageLabel": "18 Years - N/A",
+    "locations": [
+      "Luton"
+    ]
+  },
+  {
+    "id": "129",
+    "status": "not-recruiting",
+    "statusLabel": "Not recruiting",
+    "closingDate": null,
+    "title": "TRACK: Understanding patient experience of diagnostic imaging pathways",
+    "conditionCategories": [
+      "imaging"
+    ],
+    "conditionText": "Diagnostic imaging pathways",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 28,
+    "ageMax": 58,
+    "ageLabel": "28 years - 58 years",
+    "locations": [
+      "Preston"
+    ]
+  },
+  {
+    "id": "130",
+    "status": "recruiting",
+    "statusLabel": "Recruiting",
+    "closingDate": "23rd May, 2029",
+    "title": "NORTH-STAR: Exploring the lived experience of ear, nose and throat conditions",
+    "conditionCategories": [
+      "ear-nose-and-throat"
+    ],
+    "conditionText": "Ear, nose and throat conditions",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 5,
+    "ageMax": null,
+    "ageLabel": "5 Years - N/A",
+    "locations": [
+      "Wolverhampton"
+    ]
+  },
+  {
+    "id": "131",
+    "status": "recruiting",
+    "statusLabel": "Recruiting",
+    "closingDate": "1st Nov, 2029",
+    "title": "ATLAS: Exploring the lived experience of infectious disease",
+    "conditionCategories": [
+      "infection"
+    ],
+    "conditionText": "Infectious disease",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 18,
+    "ageMax": 38,
+    "ageLabel": "18 years - 38 years",
+    "locations": [
+      "Luton",
+      "Oxford"
+    ]
+  },
+  {
+    "id": "132",
+    "status": "recruiting",
+    "statusLabel": "Recruiting",
+    "closingDate": "21st Apr, 2028",
+    "title": "ASCEND: Improving early diagnosis of digestive and liver conditions",
+    "conditionCategories": [
+      "gastroenterology-and-hepatology"
+    ],
+    "conditionText": "Digestive and liver conditions",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 18,
+    "ageMax": 38,
+    "ageLabel": "18 years - 38 years",
+    "locations": [
+      "Birmingham",
+      "Cambridge",
+      "Preston"
+    ]
+  },
+  {
+    "id": "133",
+    "status": "recruiting",
+    "statusLabel": "Recruiting",
+    "closingDate": "11th Dec, 2029",
+    "title": "HORIZON: Co-designing a self-management programme for kidney disease",
+    "conditionCategories": [
+      "renal",
+      "primary-care"
+    ],
+    "conditionText": "Kidney disease",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 18,
+    "ageMax": 58,
+    "ageLabel": "18 years - 58 years",
+    "locations": [
+      "Plymouth"
+    ]
+  },
+  {
+    "id": "134",
+    "status": "stopped",
+    "statusLabel": "Stopped",
+    "closingDate": null,
+    "title": "CATALYST: Comparing treatment pathways for inpatient hospital care pathways",
+    "conditionCategories": [
+      "hospitals"
+    ],
+    "conditionText": "Inpatient hospital care pathways",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 18,
+    "ageMax": null,
+    "ageLabel": "18 Years - N/A",
+    "locations": [
+      "Swansea"
+    ]
+  },
+  {
+    "id": "135",
+    "status": "recruiting",
+    "statusLabel": "Recruiting",
+    "closingDate": "26th Jul, 2026",
+    "title": "FOUNDATION: An observational registry of rare and undiagnosed genetic conditions",
+    "conditionCategories": [
+      "rare-diseases"
+    ],
+    "conditionText": "Rare and undiagnosed genetic conditions",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 0,
+    "ageMax": 40,
+    "ageLabel": "0 years - 40 years",
+    "locations": [
+      "Wolverhampton",
+      "Coventry"
+    ]
+  },
+  {
+    "id": "136",
+    "status": "completed",
+    "statusLabel": "Completed",
+    "closingDate": null,
+    "title": "LATITUDE: Comparing treatment pathways for diabetes and metabolic disorders",
+    "conditionCategories": [
+      "diabetes-metabolic-and-endocrine",
+      "imaging"
+    ],
+    "conditionText": "Diabetes and metabolic disorders",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 18,
+    "ageMax": null,
+    "ageLabel": "18 Years - N/A",
+    "locations": [
+      "Cambridge",
+      "Aberdeen"
+    ]
+  },
+  {
+    "id": "137",
+    "status": "recruiting",
+    "statusLabel": "Recruiting",
+    "closingDate": "4th Apr, 2027",
+    "title": "ELEVATE: Evaluating an educational support tool for skin conditions",
+    "conditionCategories": [
+      "dermatology",
+      "cancer"
+    ],
+    "conditionText": "Skin conditions",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 18,
+    "ageMax": null,
+    "ageLabel": "18 Years - N/A",
+    "locations": [
+      "Aberdeen",
+      "Ipswich"
+    ]
+  },
+  {
+    "id": "138",
+    "status": "not-recruiting",
+    "statusLabel": "Not recruiting",
+    "closingDate": null,
+    "title": "PROSPECT: Understanding patient experience of respiratory disease",
+    "conditionCategories": [
+      "respiratory"
+    ],
+    "conditionText": "Respiratory disease",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 18,
+    "ageMax": 38,
+    "ageLabel": "18 years - 38 years",
+    "locations": [
+      "Coventry",
+      "Leicester",
+      "Preston"
+    ]
+  },
+  {
+    "id": "139",
+    "status": "not-recruiting",
+    "statusLabel": "Not recruiting",
+    "closingDate": null,
+    "title": "PULSE: Assessing quality of life in people with critical illness requiring intensive care",
+    "conditionCategories": [
+      "critical-care",
+      "infection"
+    ],
+    "conditionText": "Critical illness requiring intensive care",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 18,
+    "ageMax": null,
+    "ageLabel": "18 Years - N/A",
+    "locations": [
+      "Nottingham"
+    ]
+  },
+  {
+    "id": "140",
+    "status": "recruiting",
+    "statusLabel": "Recruiting",
+    "closingDate": "22nd Apr, 2026",
+    "title": "TRACK: Assessing quality of life in people with end of life and palliative care needs",
+    "conditionCategories": [
+      "palliative-care"
+    ],
+    "conditionText": "End of life and palliative care needs",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 18,
+    "ageMax": 48,
+    "ageLabel": "18 years - 48 years",
+    "locations": [
+      "Reading"
+    ]
+  },
+  {
+    "id": "141",
+    "status": "recruiting",
+    "statusLabel": "Recruiting",
+    "closingDate": "25th Mar, 2026",
+    "title": "SHIELD: Assessing quality of life in people with age-related frailty and multimorbidity",
+    "conditionCategories": [
+      "ageing",
+      "hospitals"
+    ],
+    "conditionText": "Age-related frailty and multimorbidity",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 60,
+    "ageMax": null,
+    "ageLabel": "60 Years - N/A",
+    "locations": [
+      "Belfast"
+    ]
+  },
+  {
+    "id": "142",
+    "status": "recruiting",
+    "statusLabel": "Recruiting",
+    "closingDate": "26th Apr, 2028",
+    "title": "STEP: Evaluating remote monitoring technology for surgical care and recovery",
+    "conditionCategories": [
+      "surgery"
+    ],
+    "conditionText": "Surgical care and recovery",
+    "gender": "female",
+    "genderLabel": "Female",
+    "ageMin": 18,
+    "ageMax": 38,
+    "ageLabel": "18 years - 38 years",
+    "locations": [
+      "Glasgow",
+      "Stoke-on-Trent",
+      "Preston"
+    ]
+  },
+  {
+    "id": "143",
+    "status": "recruiting",
+    "statusLabel": "Recruiting",
+    "closingDate": "17th Apr, 2026",
+    "title": "PULSE: A feasibility study of an app-based self-management tool for blood disorders",
+    "conditionCategories": [
+      "haematology"
+    ],
+    "conditionText": "Blood disorders",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 18,
+    "ageMax": null,
+    "ageLabel": "18 Years - N/A",
+    "locations": [
+      "Manchester",
+      "Leeds",
+      "Stoke-on-Trent"
+    ]
+  },
+  {
+    "id": "144",
+    "status": "recruiting",
+    "statusLabel": "Recruiting",
+    "closingDate": "23rd Aug, 2026",
+    "title": "PULSE: Investigating risk factors for musculoskeletal and joint conditions",
+    "conditionCategories": [
+      "musculoskeletal-and-orthopaedics"
+    ],
+    "conditionText": "Musculoskeletal and joint conditions",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 18,
+    "ageMax": null,
+    "ageLabel": "18 Years - N/A",
+    "locations": [
+      "Ipswich",
+      "Reading",
+      "Norwich"
+    ]
+  },
+  {
+    "id": "145",
+    "status": "recruiting",
+    "statusLabel": "Recruiting",
+    "closingDate": "4th Dec, 2026",
+    "title": "HARBOUR: Comparing treatment pathways for solid tumours and haematological cancers",
+    "conditionCategories": [
+      "cancer",
+      "neurological-disorders"
+    ],
+    "conditionText": "Solid tumours and haematological cancers",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 18,
+    "ageMax": 48,
+    "ageLabel": "18 years - 48 years",
+    "locations": [
+      "Preston",
+      "Southampton"
+    ]
+  },
+  {
+    "id": "146",
+    "status": "recruiting",
+    "statusLabel": "Recruiting",
+    "closingDate": "11th Jul, 2028",
+    "title": "SIGNAL: Investigating risk factors for stroke and stroke rehabilitation",
+    "conditionCategories": [
+      "stroke",
+      "respiratory"
+    ],
+    "conditionText": "Stroke and stroke rehabilitation",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 50,
+    "ageMax": null,
+    "ageLabel": "50 Years - N/A",
+    "locations": [
+      "Edinburgh"
+    ]
+  },
+  {
+    "id": "147",
+    "status": "recruiting",
+    "statusLabel": "Recruiting",
+    "closingDate": "19th Sept, 2028",
+    "title": "TIDE: An observational registry of pregnancy, childbirth and reproductive health",
+    "conditionCategories": [
+      "reproductive-health-and-childbirth",
+      "primary-care"
+    ],
+    "conditionText": "Pregnancy, childbirth and reproductive health",
+    "gender": "female",
+    "genderLabel": "Female",
+    "ageMin": 16,
+    "ageMax": 66,
+    "ageLabel": "16 years - 66 years",
+    "locations": [
+      "Leeds",
+      "Oxford",
+      "online"
+    ]
+  },
+  {
+    "id": "148",
+    "status": "recruiting",
+    "statusLabel": "Recruiting",
+    "closingDate": "22nd Aug, 2027",
+    "title": "GUARD: Exploring the lived experience of oral and dental health",
+    "conditionCategories": [
+      "oral-and-dental-health",
+      "critical-care"
+    ],
+    "conditionText": "Oral and dental health",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 5,
+    "ageMax": null,
+    "ageLabel": "5 Years - N/A",
+    "locations": [
+      "Milton Keynes"
+    ]
+  },
+  {
+    "id": "149",
+    "status": "completed",
+    "statusLabel": "Completed",
+    "closingDate": null,
+    "title": "OUTLOOK: Assessing quality of life in people with cardiovascular disease",
+    "conditionCategories": [
+      "cardiovascular",
+      "residential"
+    ],
+    "conditionText": "Cardiovascular disease",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 45,
+    "ageMax": null,
+    "ageLabel": "45 Years - N/A",
+    "locations": [
+      "Cambridge"
+    ]
+  },
+  {
+    "id": "150",
+    "status": "recruiting",
+    "statusLabel": "Recruiting",
+    "closingDate": "19th Nov, 2029",
+    "title": "VANTAGE: A digital intervention to support people living with conditions managed in primary care",
+    "conditionCategories": [
+      "primary-care"
+    ],
+    "conditionText": "Conditions managed in primary care",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 18,
+    "ageMax": null,
+    "ageLabel": "18 Years - N/A",
+    "locations": [
+      "Leicester",
+      "Wolverhampton"
+    ]
+  },
+  {
+    "id": "151",
+    "status": "stopped",
+    "statusLabel": "Stopped",
+    "closingDate": null,
+    "title": "LUMEN: Understanding patient experience of childhood health conditions",
+    "conditionCategories": [
+      "children",
+      "palliative-care"
+    ],
+    "conditionText": "Childhood health conditions",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 0,
+    "ageMax": 15,
+    "ageLabel": "0 years - 15 years",
+    "locations": [
+      "Liverpool"
+    ]
+  },
+  {
+    "id": "152",
+    "status": "recruiting",
+    "statusLabel": "Recruiting",
+    "closingDate": "22nd Jul, 2029",
+    "title": "PIONEER: A cohort study of disease progression in social care needs",
+    "conditionCategories": [
+      "social-care",
+      "cardiovascular"
+    ],
+    "conditionText": "Social care needs",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 0,
+    "ageMax": null,
+    "ageLabel": "0 Years - N/A",
+    "locations": [
+      "Oxford"
+    ]
+  },
+  {
+    "id": "153",
+    "status": "not-recruiting",
+    "statusLabel": "Not recruiting",
+    "closingDate": null,
+    "title": "REFLECT: Exploring the lived experience of major trauma and emergency care",
+    "conditionCategories": [
+      "trauma-and-emergency-care"
+    ],
+    "conditionText": "Major trauma and emergency care",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 18,
+    "ageMax": null,
+    "ageLabel": "18 Years - N/A",
+    "locations": [
+      "Cambridge"
+    ]
+  },
+  {
+    "id": "154",
+    "status": "recruiting",
+    "statusLabel": "Recruiting",
+    "closingDate": "10th Jun, 2026",
+    "title": "MERIT: An observational registry of mental health conditions",
+    "conditionCategories": [
+      "mental-health"
+    ],
+    "conditionText": "Mental health conditions",
+    "gender": "female",
+    "genderLabel": "Female",
+    "ageMin": 16,
+    "ageMax": null,
+    "ageLabel": "16 Years - N/A",
+    "locations": [
+      "York",
+      "Southampton"
+    ]
+  },
+  {
+    "id": "155",
+    "status": "recruiting",
+    "statusLabel": "Recruiting",
+    "closingDate": "14th Jan, 2029",
+    "title": "CRESCENT: A randomised controlled trial of a novel surgical technique in perioperative pain and recovery",
+    "conditionCategories": [
+      "anaesthesia-perioperative-medicine-and-pain-management",
+      "primary-care"
+    ],
+    "conditionText": "Perioperative pain and recovery",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 18,
+    "ageMax": null,
+    "ageLabel": "18 Years - N/A",
+    "locations": [
+      "Aberdeen",
+      "Oxford",
+      "Belfast"
+    ]
+  },
+  {
+    "id": "156",
+    "status": "recruiting",
+    "statusLabel": "Recruiting",
+    "closingDate": "27th Dec, 2028",
+    "title": "LATITUDE: Understanding patient experience of dementia and neurodegenerative disease",
+    "conditionCategories": [
+      "dementias-and-neurodegeneration",
+      "oral-and-dental-health"
+    ],
+    "conditionText": "Dementia and neurodegenerative disease",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 70,
+    "ageMax": null,
+    "ageLabel": "70 Years - N/A",
+    "locations": [
+      "Cambridge",
+      "Hull"
+    ]
+  },
+  {
+    "id": "157",
+    "status": "recruiting",
+    "statusLabel": "Recruiting",
+    "closingDate": "17th Sept, 2027",
+    "title": "NORTH-STAR: A randomised controlled trial of a personalised care plan in community-based health and care needs",
+    "conditionCategories": [
+      "community",
+      "gastroenterology-and-hepatology"
+    ],
+    "conditionText": "Community-based health and care needs",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 18,
+    "ageMax": 48,
+    "ageLabel": "18 years - 48 years",
+    "locations": [
+      "Cardiff"
+    ]
+  },
+  {
+    "id": "158",
+    "status": "stopped",
+    "statusLabel": "Stopped",
+    "closingDate": null,
+    "title": "THRIVE: Understanding patient experience of neurological conditions",
+    "conditionCategories": [
+      "neurological-disorders",
+      "general-practice"
+    ],
+    "conditionText": "Neurological conditions",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 18,
+    "ageMax": null,
+    "ageLabel": "18 Years - N/A",
+    "locations": [
+      "Milton Keynes",
+      "Ipswich"
+    ]
+  },
+  {
+    "id": "159",
+    "status": "recruiting",
+    "statusLabel": "Recruiting",
+    "closingDate": "15th Feb, 2029",
+    "title": "NAVIGATE: Assessing quality of life in people with eye conditions",
+    "conditionCategories": [
+      "ophthalmology",
+      "oral-and-dental-health"
+    ],
+    "conditionText": "Eye conditions",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 13,
+    "ageMax": null,
+    "ageLabel": "13 Years - N/A",
+    "locations": [
+      "Cambridge"
+    ]
+  },
+  {
+    "id": "160",
+    "status": "recruiting",
+    "statusLabel": "Recruiting",
+    "closingDate": "21st Feb, 2029",
+    "title": "CATALYST: Evaluating a group-based support programme for conditions managed in general practice",
+    "conditionCategories": [
+      "general-practice",
+      "cancer"
+    ],
+    "conditionText": "Conditions managed in general practice",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 18,
+    "ageMax": 68,
+    "ageLabel": "18 years - 68 years",
+    "locations": [
+      "Nottingham",
+      "Norwich"
+    ]
+  },
+  {
+    "id": "161",
+    "status": "recruiting",
+    "statusLabel": "Recruiting",
+    "closingDate": "4th Jun, 2026",
+    "title": "BRIDGE: A feasibility study of remote monitoring technology for public health and prevention",
+    "conditionCategories": [
+      "public-health"
+    ],
+    "conditionText": "Public health and prevention",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 28,
+    "ageMax": 58,
+    "ageLabel": "28 years - 58 years",
+    "locations": [
+      "Coventry"
+    ]
+  },
+  {
+    "id": "162",
+    "status": "recruiting",
+    "statusLabel": "Recruiting",
+    "closingDate": "22nd Oct, 2026",
+    "title": "OUTLOOK: Investigating risk factors for residential and long-term care",
+    "conditionCategories": [
+      "residential"
+    ],
+    "conditionText": "Residential and long-term care",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 13,
+    "ageMax": null,
+    "ageLabel": "13 Years - N/A",
+    "locations": [
+      "Oxford",
+      "Plymouth"
+    ]
+  },
+  {
+    "id": "163",
+    "status": "recruiting",
+    "statusLabel": "Recruiting",
+    "closingDate": "11th Feb, 2027",
+    "title": "HARBOUR: A cohort study of disease progression in diagnostic imaging pathways",
+    "conditionCategories": [
+      "imaging"
+    ],
+    "conditionText": "Diagnostic imaging pathways",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 18,
+    "ageMax": null,
+    "ageLabel": "18 Years - N/A",
+    "locations": [
+      "online"
+    ]
+  },
+  {
+    "id": "164",
+    "status": "recruiting",
+    "statusLabel": "Recruiting",
+    "closingDate": "21st Jun, 2027",
+    "title": "TIDE: A randomised controlled trial of an educational support tool in ear, nose and throat conditions",
+    "conditionCategories": [
+      "ear-nose-and-throat"
+    ],
+    "conditionText": "Ear, nose and throat conditions",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 5,
+    "ageMax": null,
+    "ageLabel": "5 Years - N/A",
+    "locations": [
+      "Edinburgh",
+      "Dundee"
+    ]
+  },
+  {
+    "id": "165",
+    "status": "recruiting",
+    "statusLabel": "Recruiting",
+    "closingDate": "11th Aug, 2027",
+    "title": "VANTAGE: A digital intervention to support people living with infectious disease",
+    "conditionCategories": [
+      "infection",
+      "anaesthesia-perioperative-medicine-and-pain-management"
+    ],
+    "conditionText": "Infectious disease",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 13,
+    "ageMax": null,
+    "ageLabel": "13 Years - N/A",
+    "locations": [
+      "Sunderland",
+      "Birmingham"
+    ]
+  },
+  {
+    "id": "166",
+    "status": "recruiting",
+    "statusLabel": "Recruiting",
+    "closingDate": "20th Jul, 2027",
+    "title": "LATITUDE: A qualitative study of carer experiences in digestive and liver conditions",
+    "conditionCategories": [
+      "gastroenterology-and-hepatology"
+    ],
+    "conditionText": "Digestive and liver conditions",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 18,
+    "ageMax": 48,
+    "ageLabel": "18 years - 48 years",
+    "locations": [
+      "Preston",
+      "Birmingham",
+      "Aberdeen"
+    ]
+  },
+  {
+    "id": "167",
+    "status": "stopped",
+    "statusLabel": "Stopped",
+    "closingDate": null,
+    "title": "CATALYST: Comparing treatment pathways for kidney disease",
+    "conditionCategories": [
+      "renal",
+      "imaging"
+    ],
+    "conditionText": "Kidney disease",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 18,
+    "ageMax": null,
+    "ageLabel": "18 Years - N/A",
+    "locations": [
+      "Nottingham",
+      "Coventry"
+    ]
+  },
+  {
+    "id": "168",
+    "status": "stopped",
+    "statusLabel": "Stopped",
+    "closingDate": null,
+    "title": "TRACK: Exploring the lived experience of inpatient hospital care pathways",
+    "conditionCategories": [
+      "hospitals"
+    ],
+    "conditionText": "Inpatient hospital care pathways",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 18,
+    "ageMax": 48,
+    "ageLabel": "18 years - 48 years",
+    "locations": [
+      "Bristol",
+      "Plymouth"
+    ]
+  },
+  {
+    "id": "169",
+    "status": "recruiting",
+    "statusLabel": "Recruiting",
+    "closingDate": "23rd Sept, 2026",
+    "title": "TIDE: Assessing quality of life in people with rare and undiagnosed genetic conditions",
+    "conditionCategories": [
+      "rare-diseases",
+      "stroke"
+    ],
+    "conditionText": "Rare and undiagnosed genetic conditions",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 0,
+    "ageMax": 20,
+    "ageLabel": "0 years - 20 years",
+    "locations": [
+      "Preston"
+    ]
+  },
+  {
+    "id": "170",
+    "status": "recruiting",
+    "statusLabel": "Recruiting",
+    "closingDate": "13th Sept, 2028",
+    "title": "PROSPECT: A qualitative study of carer experiences in diabetes and metabolic disorders",
+    "conditionCategories": [
+      "diabetes-metabolic-and-endocrine"
+    ],
+    "conditionText": "Diabetes and metabolic disorders",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 18,
+    "ageMax": null,
+    "ageLabel": "18 Years - N/A",
+    "locations": [
+      "Hull"
+    ]
+  },
+  {
+    "id": "171",
+    "status": "recruiting",
+    "statusLabel": "Recruiting",
+    "closingDate": "23rd Mar, 2029",
+    "title": "CATALYST: Understanding patient experience of skin conditions",
+    "conditionCategories": [
+      "dermatology"
+    ],
+    "conditionText": "Skin conditions",
+    "gender": "male",
+    "genderLabel": "Male",
+    "ageMin": 23,
+    "ageMax": null,
+    "ageLabel": "23 Years - N/A",
+    "locations": [
+      "Reading"
+    ]
+  },
+  {
+    "id": "172",
+    "status": "recruiting",
+    "statusLabel": "Recruiting",
+    "closingDate": "25th May, 2027",
+    "title": "VOYAGE: Exploring the lived experience of respiratory disease",
+    "conditionCategories": [
+      "respiratory"
+    ],
+    "conditionText": "Respiratory disease",
+    "gender": "male",
+    "genderLabel": "Male",
+    "ageMin": 18,
+    "ageMax": 68,
+    "ageLabel": "18 years - 68 years",
+    "locations": [
+      "Belfast"
+    ]
+  },
+  {
+    "id": "173",
+    "status": "recruiting",
+    "statusLabel": "Recruiting",
+    "closingDate": "21st Sept, 2027",
+    "title": "CANOPY: Comparing treatment pathways for critical illness requiring intensive care",
+    "conditionCategories": [
+      "critical-care"
+    ],
+    "conditionText": "Critical illness requiring intensive care",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 23,
+    "ageMax": null,
+    "ageLabel": "23 Years - N/A",
+    "locations": [
+      "Sheffield",
+      "Edinburgh"
+    ]
+  },
+  {
+    "id": "174",
+    "status": "recruiting",
+    "statusLabel": "Recruiting",
+    "closingDate": "26th Sept, 2026",
+    "title": "CANOPY: A randomised controlled trial of a personalised care plan in end of life and palliative care needs",
+    "conditionCategories": [
+      "palliative-care",
+      "public-health"
+    ],
+    "conditionText": "End of life and palliative care needs",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 18,
+    "ageMax": 58,
+    "ageLabel": "18 years - 58 years",
+    "locations": [
+      "Manchester",
+      "Derby",
+      "Glasgow"
+    ]
+  },
+  {
+    "id": "175",
+    "status": "stopped",
+    "statusLabel": "Stopped",
+    "closingDate": null,
+    "title": "CRESCENT: An observational registry of age-related frailty and multimorbidity",
+    "conditionCategories": [
+      "ageing",
+      "dementias-and-neurodegeneration"
+    ],
+    "conditionText": "Age-related frailty and multimorbidity",
+    "gender": "male",
+    "genderLabel": "Male",
+    "ageMin": 60,
+    "ageMax": 90,
+    "ageLabel": "60 years - 90 years",
+    "locations": [
+      "Middlesbrough",
+      "Stoke-on-Trent",
+      "Sheffield"
+    ]
+  },
+  {
+    "id": "176",
+    "status": "recruiting",
+    "statusLabel": "Recruiting",
+    "closingDate": "2nd May, 2027",
+    "title": "OUTLOOK: A randomised controlled trial of an early intervention pathway in surgical care and recovery",
+    "conditionCategories": [
+      "surgery"
+    ],
+    "conditionText": "Surgical care and recovery",
+    "gender": "female",
+    "genderLabel": "Female",
+    "ageMin": 13,
+    "ageMax": null,
+    "ageLabel": "13 Years - N/A",
+    "locations": [
+      "Bradford"
+    ]
+  },
+  {
+    "id": "177",
+    "status": "not-recruiting",
+    "statusLabel": "Not recruiting",
+    "closingDate": null,
+    "title": "MERIT: Long-term outcomes following a new drug therapy for blood disorders",
+    "conditionCategories": [
+      "haematology",
+      "stroke"
+    ],
+    "conditionText": "Blood disorders",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 18,
+    "ageMax": 58,
+    "ageLabel": "18 years - 58 years",
+    "locations": [
+      "Belfast"
+    ]
+  },
+  {
+    "id": "178",
+    "status": "stopped",
+    "statusLabel": "Stopped",
+    "closingDate": null,
+    "title": "MERIDIAN: Investigating risk factors for musculoskeletal and joint conditions",
+    "conditionCategories": [
+      "musculoskeletal-and-orthopaedics"
+    ],
+    "conditionText": "Musculoskeletal and joint conditions",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 18,
+    "ageMax": null,
+    "ageLabel": "18 Years - N/A",
+    "locations": [
+      "Luton",
+      "Coventry",
+      "Sunderland"
+    ]
+  },
+  {
+    "id": "179",
+    "status": "recruiting",
+    "statusLabel": "Recruiting",
+    "closingDate": "20th Mar, 2028",
+    "title": "HORIZON: Co-designing a self-management programme for solid tumours and haematological cancers",
+    "conditionCategories": [
+      "cancer",
+      "critical-care"
+    ],
+    "conditionText": "Solid tumours and haematological cancers",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 18,
+    "ageMax": null,
+    "ageLabel": "18 Years - N/A",
+    "locations": [
+      "Dundee",
+      "Newcastle upon Tyne"
+    ]
+  },
+  {
+    "id": "180",
+    "status": "stopped",
+    "statusLabel": "Stopped",
+    "closingDate": null,
+    "title": "CLEAR: A digital intervention to support people living with stroke and stroke rehabilitation",
+    "conditionCategories": [
+      "stroke"
+    ],
+    "conditionText": "Stroke and stroke rehabilitation",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 40,
+    "ageMax": null,
+    "ageLabel": "40 Years - N/A",
+    "locations": [
+      "Glasgow"
+    ]
+  },
+  {
+    "id": "181",
+    "status": "stopped",
+    "statusLabel": "Stopped",
+    "closingDate": null,
+    "title": "COMPANION: Investigating risk factors for pregnancy, childbirth and reproductive health",
+    "conditionCategories": [
+      "reproductive-health-and-childbirth"
+    ],
+    "conditionText": "Pregnancy, childbirth and reproductive health",
+    "gender": "female",
+    "genderLabel": "Female",
+    "ageMin": 16,
+    "ageMax": null,
+    "ageLabel": "16 Years - N/A",
+    "locations": [
+      "Preston",
+      "Birmingham"
+    ]
+  },
+  {
+    "id": "182",
+    "status": "recruiting",
+    "statusLabel": "Recruiting",
+    "closingDate": "13th Oct, 2026",
+    "title": "FOUNDATION: An observational registry of oral and dental health",
+    "conditionCategories": [
+      "oral-and-dental-health",
+      "imaging"
+    ],
+    "conditionText": "Oral and dental health",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 5,
+    "ageMax": null,
+    "ageLabel": "5 Years - N/A",
+    "locations": [
+      "Milton Keynes"
+    ]
+  },
+  {
+    "id": "183",
+    "status": "recruiting",
+    "statusLabel": "Recruiting",
+    "closingDate": "8th Feb, 2026",
+    "title": "EMBER: Investigating risk factors for cardiovascular disease",
+    "conditionCategories": [
+      "cardiovascular",
+      "public-health"
+    ],
+    "conditionText": "Cardiovascular disease",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 40,
+    "ageMax": null,
+    "ageLabel": "40 Years - N/A",
+    "locations": [
+      "Plymouth"
+    ]
+  },
+  {
+    "id": "184",
+    "status": "not-recruiting",
+    "statusLabel": "Not recruiting",
+    "closingDate": null,
+    "title": "CATALYST: Improving early diagnosis of conditions managed in primary care",
+    "conditionCategories": [
+      "primary-care"
+    ],
+    "conditionText": "Conditions managed in primary care",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 13,
+    "ageMax": null,
+    "ageLabel": "13 Years - N/A",
+    "locations": [
+      "Preston",
+      "Edinburgh",
+      "Norwich"
+    ]
+  },
+  {
+    "id": "185",
+    "status": "completed",
+    "statusLabel": "Completed",
+    "closingDate": null,
+    "title": "TIDE: Co-designing a self-management programme for childhood health conditions",
+    "conditionCategories": [
+      "children"
+    ],
+    "conditionText": "Childhood health conditions",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 0,
+    "ageMax": 15,
+    "ageLabel": "0 years - 15 years",
+    "locations": [
+      "Bradford"
+    ]
+  },
+  {
+    "id": "186",
+    "status": "recruiting",
+    "statusLabel": "Recruiting",
+    "closingDate": "1st Jun, 2028",
+    "title": "MOSAIC: An observational registry of social care needs",
+    "conditionCategories": [
+      "social-care",
+      "general-practice"
+    ],
+    "conditionText": "Social care needs",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 0,
+    "ageMax": null,
+    "ageLabel": "0 Years - N/A",
+    "locations": [
+      "Stoke-on-Trent",
+      "Sunderland"
+    ]
+  },
+  {
+    "id": "187",
+    "status": "recruiting",
+    "statusLabel": "Recruiting",
+    "closingDate": "11th Nov, 2026",
+    "title": "ANCHOR: Assessing quality of life in people with major trauma and emergency care",
+    "conditionCategories": [
+      "trauma-and-emergency-care",
+      "renal"
+    ],
+    "conditionText": "Major trauma and emergency care",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 18,
+    "ageMax": 48,
+    "ageLabel": "18 years - 48 years",
+    "locations": [
+      "Dundee"
+    ]
+  },
+  {
+    "id": "188",
+    "status": "recruiting",
+    "statusLabel": "Recruiting",
+    "closingDate": "10th Mar, 2027",
+    "title": "REFLECT: Assessing quality of life in people with mental health conditions",
+    "conditionCategories": [
+      "mental-health",
+      "cardiovascular"
+    ],
+    "conditionText": "Mental health conditions",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 16,
+    "ageMax": 56,
+    "ageLabel": "16 years - 56 years",
+    "locations": [
+      "Plymouth"
+    ]
+  },
+  {
+    "id": "189",
+    "status": "completed",
+    "statusLabel": "Completed",
+    "closingDate": null,
+    "title": "LUMEN: Understanding patient experience of perioperative pain and recovery",
+    "conditionCategories": [
+      "anaesthesia-perioperative-medicine-and-pain-management",
+      "musculoskeletal-and-orthopaedics"
+    ],
+    "conditionText": "Perioperative pain and recovery",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 18,
+    "ageMax": null,
+    "ageLabel": "18 Years - N/A",
+    "locations": [
+      "online",
+      "Hull"
+    ]
+  },
+  {
+    "id": "190",
+    "status": "recruiting",
+    "statusLabel": "Recruiting",
+    "closingDate": "2nd Nov, 2028",
+    "title": "PATH: Exploring the lived experience of dementia and neurodegenerative disease",
+    "conditionCategories": [
+      "dementias-and-neurodegeneration"
+    ],
+    "conditionText": "Dementia and neurodegenerative disease",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 60,
+    "ageMax": null,
+    "ageLabel": "60 Years - N/A",
+    "locations": [
+      "York",
+      "Oxford"
+    ]
+  },
+  {
+    "id": "191",
+    "status": "not-recruiting",
+    "statusLabel": "Not recruiting",
+    "closingDate": null,
+    "title": "MOSAIC: Long-term outcomes following a telehealth follow-up service for community-based health and care needs",
+    "conditionCategories": [
+      "community"
+    ],
+    "conditionText": "Community-based health and care needs",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 18,
+    "ageMax": null,
+    "ageLabel": "18 Years - N/A",
+    "locations": [
+      "Stoke-on-Trent",
+      "Middlesbrough"
+    ]
+  },
+  {
+    "id": "192",
+    "status": "recruiting",
+    "statusLabel": "Recruiting",
+    "closingDate": "24th Jun, 2029",
+    "title": "WAYPOINT: A digital intervention to support people living with neurological conditions",
+    "conditionCategories": [
+      "neurological-disorders",
+      "diabetes-metabolic-and-endocrine"
+    ],
+    "conditionText": "Neurological conditions",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 18,
+    "ageMax": null,
+    "ageLabel": "18 Years - N/A",
+    "locations": [
+      "Belfast",
+      "Exeter"
+    ]
+  },
+  {
+    "id": "193",
+    "status": "recruiting",
+    "statusLabel": "Recruiting",
+    "closingDate": "28th Oct, 2029",
+    "title": "CATALYST: A randomised controlled trial of a new drug therapy in eye conditions",
+    "conditionCategories": [
+      "ophthalmology",
+      "diabetes-metabolic-and-endocrine"
+    ],
+    "conditionText": "Eye conditions",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 23,
+    "ageMax": 63,
+    "ageLabel": "23 years - 63 years",
+    "locations": [
+      "Newcastle upon Tyne"
+    ]
+  },
+  {
+    "id": "194",
+    "status": "recruiting",
+    "statusLabel": "Recruiting",
+    "closingDate": "1st Feb, 2029",
+    "title": "LUMEN: Comparing treatment pathways for conditions managed in general practice",
+    "conditionCategories": [
+      "general-practice",
+      "trauma-and-emergency-care"
+    ],
+    "conditionText": "Conditions managed in general practice",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 23,
+    "ageMax": null,
+    "ageLabel": "23 Years - N/A",
+    "locations": [
+      "Luton"
+    ]
+  },
+  {
+    "id": "195",
+    "status": "recruiting",
+    "statusLabel": "Recruiting",
+    "closingDate": "10th Sept, 2026",
+    "title": "COVE: Assessing quality of life in people with public health and prevention",
+    "conditionCategories": [
+      "public-health"
+    ],
+    "conditionText": "Public health and prevention",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 18,
+    "ageMax": 68,
+    "ageLabel": "18 years - 68 years",
+    "locations": [
+      "Birmingham"
+    ]
+  },
+  {
+    "id": "196",
+    "status": "recruiting",
+    "statusLabel": "Recruiting",
+    "closingDate": "13th Sept, 2029",
+    "title": "CATALYST: A digital intervention to support people living with residential and long-term care",
+    "conditionCategories": [
+      "residential",
+      "general-practice"
+    ],
+    "conditionText": "Residential and long-term care",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 18,
+    "ageMax": null,
+    "ageLabel": "18 Years - N/A",
+    "locations": [
+      "Bristol"
+    ]
+  },
+  {
+    "id": "197",
+    "status": "completed",
+    "statusLabel": "Completed",
+    "closingDate": null,
+    "title": "RESOLVE: Investigating risk factors for diagnostic imaging pathways",
+    "conditionCategories": [
+      "imaging"
+    ],
+    "conditionText": "Diagnostic imaging pathways",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 28,
+    "ageMax": null,
+    "ageLabel": "28 Years - N/A",
+    "locations": [
+      "Birmingham"
+    ]
+  },
+  {
+    "id": "198",
+    "status": "recruiting",
+    "statusLabel": "Recruiting",
+    "closingDate": "5th Oct, 2027",
+    "title": "REFLECT: An observational registry of ear, nose and throat conditions",
+    "conditionCategories": [
+      "ear-nose-and-throat",
+      "palliative-care"
+    ],
+    "conditionText": "Ear, nose and throat conditions",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 10,
+    "ageMax": null,
+    "ageLabel": "10 Years - N/A",
+    "locations": [
+      "Bradford",
+      "York"
+    ]
+  },
+  {
+    "id": "199",
+    "status": "recruiting",
+    "statusLabel": "Recruiting",
+    "closingDate": "11th Nov, 2026",
+    "title": "PATH: Comparing treatment pathways for infectious disease",
+    "conditionCategories": [
+      "infection",
+      "ophthalmology"
+    ],
+    "conditionText": "Infectious disease",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 18,
+    "ageMax": 38,
+    "ageLabel": "18 years - 38 years",
+    "locations": [
+      "Stoke-on-Trent",
+      "Plymouth"
+    ]
+  },
+  {
+    "id": "200",
+    "status": "completed",
+    "statusLabel": "Completed",
+    "closingDate": null,
+    "title": "PRISM: An observational registry of digestive and liver conditions",
+    "conditionCategories": [
+      "gastroenterology-and-hepatology"
+    ],
+    "conditionText": "Digestive and liver conditions",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 18,
+    "ageMax": null,
+    "ageLabel": "18 Years - N/A",
+    "locations": [
+      "Wolverhampton",
+      "Liverpool",
+      "Portsmouth"
+    ]
   }
 ]
