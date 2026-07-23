@@ -1,0 +1,59 @@
+<!-- Use this page as the index for your project -->
+
+<!-- ADDING CUSTOM CSS - Add your custom CSS or Sass in /app/assets/sass/main.scss -->
+
+<!-- Extends the layout from /app/views/layout.html -->
+{% extends "layout-volunteer-jdr.html" if data['brand'] == "JDR" else "layout-volunteer-bpor.html" %}
+
+<!--
+  In /app/views/layout.html you can:
+    - change the header and footer
+    - add custom CSS and JavaScript
+-->
+
+<!--
+  Use this to set the page name which will appear at the
+  start of the <title> tag, followed by the service name.
+  This is often not needed on the homepage, where only the
+  service name is needed. You can also reuse this variable
+  within the <h1>, where they are the same.
+-->
+{% set pageName = "You may be contacted about this study in the future" %}
+
+<!-- For adding a breadcrumb or back link -->
+<!-- Code examples can be found at https://service-manual.nhs.uk/design-system/components/breadcrumbs and https://service-manual.nhs.uk/design-system/components/back-link -->
+{% block beforeContent %}
+
+{{ nhsukPhaseBanner({
+  tag: {
+    text: "Beta"
+  },
+  html: 'This is a new service - your <a target="_blank" href="https://bepartofresearch.nihr.ac.uk/get-in-touch/">feedback<span class="nhsuk-u-visually-hidden"> (opens in a new tab)</span></a> will help us to improve it'
+}) }}
+
+{% endblock %}
+
+<!-- For adding page content -->
+<!-- Page layout code can be found at https://service-manual.nhs.uk/design-system/styles/layout -->
+{% block content %}
+  <div class="nhsuk-grid-row">
+    <div class="nhsuk-grid-column-two-thirds">
+
+    <h1>You may be contacted about this study in the future</h1>
+
+    <p>You're eligible to take part in the next stage of this study, but there are no suitable places right now.</p>
+    <p>A member of the research team will contact you if a place becomes available.</p>
+
+    <h2>Check your email</h2>
+
+    <p>We've sent an email to joe.bloggs@gmail.com to let you know:</p>
+
+    <ul>
+      <li>confirm we’ve got your details</li>
+      <li>let you know how you’ll be contacted if a place on this study becomes available</li>
+      <li>let you know what to do if you no longer want to take part - you can change your mind at any time and we’ll delete all your data relating to this study</li>
+    </ul>
+
+    </div>
+  </div>
+{% endblock %}

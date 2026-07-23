@@ -1,0 +1,81 @@
+<!-- Use this page as the index for your project -->
+
+<!-- ADDING CUSTOM CSS - Add your custom CSS or Sass in /app/assets/sass/main.scss -->
+
+<!-- Extends the layout from /app/views/layout.html -->
+{% extends "layout-volunteer-jdr.html" if data['brand'] == "JDR" else "layout-volunteer-bpor.html" %}
+
+<!--
+  In /app/views/layout.html you can:
+    - change the header and footer
+    - add custom CSS and JavaScript
+-->
+
+<!--
+  Use this to set the page name which will appear at the
+  start of the <title> tag, followed by the service name.
+  This is often not needed on the homepage, where only the
+  service name is needed. You can also reuse this variable
+  within the <h1>, where they are the same.
+-->
+{% set pageName = "Confirm your identity" %}
+
+<!-- For adding a breadcrumb or back link -->
+<!-- Code examples can be found at https://service-manual.nhs.uk/design-system/components/breadcrumbs and https://service-manual.nhs.uk/design-system/components/back-link -->
+{% block beforeContent %}
+
+{{ nhsukPhaseBanner({
+  tag: {
+    text: "Beta"
+  },
+  html: 'This is a new service - your <a target="_blank" href="https://bepartofresearch.nihr.ac.uk/get-in-touch/">feedback<span class="nhsuk-u-visually-hidden"> (opens in a new tab)</span></a> will help us to improve it'
+}) }}
+
+{{ backLink({
+    "href": "javascript:history.go(-1)",
+    "text": "Back"
+}) }}
+
+{% endblock %}
+
+<!-- For adding page content -->
+<!-- Page layout code can be found at https://service-manual.nhs.uk/design-system/styles/layout -->
+{% block content %}
+  <div class="nhsuk-grid-row">
+    <div class="nhsuk-grid-column-two-thirds">
+
+<form action="confirm-identity" method="post" novalidate>
+
+<h1 class="nhsuk-u-margin-bottom-4">Confirm your email address</h1>
+
+{{ hint({
+  html: 'Enter the email address you use to log in to Be Part of Research.'
+}) }}
+
+{{ input({
+  id: "confirmIdentity",
+  name: "confirmIdentity",
+  classes: "nhsuk-input--width-20",
+  type: "email",
+  autocomplete: "email",
+  spellcheck: false,
+  label: {
+    text: "Email address"
+  }
+}) }}
+
+{% call details({
+  summaryText: "Why we ask you to confirm your email address"
+}) %}
+  <p>This is a security check to confirm your identity and make sure you can take part in this study.</p>
+{% endcall %}
+
+{{ button({
+  text: "Continue"
+}) }}
+
+</form>
+
+    </div>
+  </div>
+{% endblock %}

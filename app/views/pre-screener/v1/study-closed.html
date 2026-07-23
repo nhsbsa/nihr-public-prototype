@@ -1,0 +1,59 @@
+<!-- Use this page as the index for your project -->
+
+<!-- ADDING CUSTOM CSS - Add your custom CSS or Sass in /app/assets/sass/main.scss -->
+
+<!-- Extends the layout from /app/views/layout.html -->
+{% extends "layout-volunteer-jdr.html" if data['brand'] == "JDR" else "layout-volunteer-bpor.html" %}
+
+<!--
+  In /app/views/layout.html you can:
+    - change the header and footer
+    - add custom CSS and JavaScript
+-->
+
+<!--
+  Use this to set the page name which will appear at the
+  start of the <title> tag, followed by the service name.
+  This is often not needed on the homepage, where only the
+  service name is needed. You can also reuse this variable
+  within the <h1>, where they are the same.
+-->
+{% set pageName = "You cannot take part in this study" %}
+
+<!-- For adding a breadcrumb or back link -->
+<!-- Code examples can be found at https://service-manual.nhs.uk/design-system/components/breadcrumbs and https://service-manual.nhs.uk/design-system/components/back-link -->
+{% block beforeContent %}
+
+{{ nhsukPhaseBanner({
+  tag: {
+    text: "Beta"
+  },
+  html: 'This is a new service - your <a target="_blank" href="https://bepartofresearch.nihr.ac.uk/get-in-touch/">feedback<span class="nhsuk-u-visually-hidden"> (opens in a new tab)</span></a> will help us to improve it'
+}) }}
+
+{% endblock %}
+
+<!-- For adding page content -->
+<!-- Page layout code can be found at https://service-manual.nhs.uk/design-system/styles/layout -->
+{% block content %}
+  <div class="nhsuk-grid-row">
+    <div class="nhsuk-grid-column-two-thirds">
+
+    <h1>We cannot check your eligibility for this study</h1>
+
+    <p>We cannot check your eligibility to take part in Glucose Perception in Type 2 diabetes (Phase 1).</p>
+
+    <p>This may be because:</p>
+
+    <ul>
+      <li>the research team are no longer accepting applications to take part</li>
+      <li>you’ve already completed this eligibility check </li>
+    </ul>
+
+    <p>A member of the research team will contact you if you’re able to take part in this study. If you need more information, you can <a href="study-overview">find out more about the study on the study information page</a>.</p>
+
+    <p>You can also <a href="https://bepartofresearch.nihr.ac.uk/results/search-results?query=&location=">search for other studies you might be interested in.</a>.</p>
+
+    </div>
+  </div>
+{% endblock %}

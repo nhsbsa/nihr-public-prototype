@@ -1,0 +1,86 @@
+<!-- Use this page as the index for your project -->
+
+<!-- ADDING CUSTOM CSS - Add your custom CSS or Sass in /app/assets/sass/main.scss -->
+
+<!-- Extends the layout from /app/views/layout.html -->
+{% extends "layout-volunteer-jdr.html" if data['brand'] == "JDR" else "layout-volunteer-bpor.html" %}
+
+<!--
+  In /app/views/layout.html you can:
+    - change the header and footer
+    - add custom CSS and JavaScript
+-->
+
+<!--
+  Use this to set the page name which will appear at the
+  start of the <title> tag, followed by the service name.
+  This is often not needed on the homepage, where only the
+  service name is needed. You can also reuse this variable
+  within the <h1>, where they are the same.
+-->
+{% set pageName = "Check if you can be part of this research" %}
+
+<!-- For adding a breadcrumb or back link -->
+<!-- Code examples can be found at https://service-manual.nhs.uk/design-system/components/breadcrumbs and https://service-manual.nhs.uk/design-system/components/back-link -->
+{% block beforeContent %}
+
+{{ nhsukPhaseBanner({
+  tag: {
+    text: "Beta"
+  },
+  html: 'This is a new service - your <a target="_blank" href="https://bepartofresearch.nihr.ac.uk/get-in-touch/">feedback<span class="nhsuk-u-visually-hidden"> (opens in a new tab)</span></a> will help us to improve it'
+}) }}
+
+{% endblock %}
+
+<!-- For adding page content -->
+<!-- Page layout code can be found at https://service-manual.nhs.uk/design-system/styles/layout -->
+{% block content %}
+  <div class="nhsuk-grid-row">
+    <div class="nhsuk-grid-column-two-thirds">
+
+        <h1>Check if you can be part of this research</h1>
+
+        <p>
+          We need to check it’s safe and appropriate for you to take part in this study.
+        </p>
+
+        <p>
+          To do this, we’ll ask you a short set of questions. After you’ve answered these, we’ll let you know straight away if you can continue to the next stage of the study. 
+        </p>
+
+        <p>We might ask about:</p>
+        <ul>
+          <li>health conditions you have</li>
+          <li>medication you take</li>
+        </ul>
+
+        <p>
+          After you’ve answered the questions, we’ll let you know straight away if you can continue to take part. 
+        </p>
+
+        {% call details({
+          summaryText: "How we handle your data"
+        }) %}
+          <p>If you can take part in this study, we:</p>
+          <ul>
+            <li>only store that you’re eligible to take part - we’ll delete this information once it’s no longer needed for this study</li>
+            <li>do not store any of the data linked to the health conditions or medications that make you eligible</li>
+          </ul>
+          <p>If you cannot take part, we do not keep any of your data relating to this study.</p>
+          <p>This information only applies to the data you give us to check if you can take part in this particular study. General data linked to your Be Part of Research account is not affected.</p>
+        {% endcall %}
+
+        <form action="start" method="post" novalidate>
+
+        {{ button({
+          text: "Start now"
+        }) }}
+
+        </form>
+
+      
+    
+    </div>
+  </div>
+{% endblock %}

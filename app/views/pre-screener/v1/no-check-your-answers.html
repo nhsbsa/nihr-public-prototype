@@ -1,0 +1,163 @@
+<!-- Use this page as the index for your project -->
+
+<!-- ADDING CUSTOM CSS - Add your custom CSS or Sass in /app/assets/sass/main.scss -->
+
+<!-- Extends the layout from /app/views/layout.html -->
+{% extends "layout-volunteer-jdr.html" if data['brand'] == "JDR" else "layout-volunteer-bpor.html" %}
+
+<!--
+  In /app/views/layout.html you can:
+    - change the header and footer
+    - add custom CSS and JavaScript
+-->
+
+<!--
+  Use this to set the page name which will appear at the
+  start of the <title> tag, followed by the service name.
+  This is often not needed on the homepage, where only the
+  service name is needed. You can also reuse this variable
+  within the <h1>, where they are the same.
+-->
+{% set pageName = "Check your answers before submitting your details" %}
+
+<!-- For adding a breadcrumb or back link -->
+<!-- Code examples can be found at https://service-manual.nhs.uk/design-system/components/breadcrumbs and https://service-manual.nhs.uk/design-system/components/back-link -->
+{% block beforeContent %}
+
+{{ nhsukPhaseBanner({
+  tag: {
+    text: "Beta"
+  },
+  html: 'This is a new service - your <a target="_blank" href="https://bepartofresearch.nihr.ac.uk/get-in-touch/">feedback<span class="nhsuk-u-visually-hidden"> (opens in a new tab)</span></a> will help us to improve it'
+}) }}
+
+{{ backLink({
+    "href": "javascript:history.go(-1)",
+    "text": "Back"
+}) }}
+
+{% endblock %}
+
+<!-- For adding page content -->
+<!-- Page layout code can be found at https://service-manual.nhs.uk/design-system/styles/layout -->
+{% block content %}
+  <div class="nhsuk-grid-row">
+    <div class="nhsuk-grid-column-two-thirds">
+
+        <h1>Check your answers before submitting your details</h1>
+        
+        <h2 class="nhsuk-heading-s">
+          Your health details
+        </h2>
+
+        {% set rows = [] %}
+
+        {% if data['conditionQuestion1'] %}
+          {% set rows = rows.concat([{
+            key: { text: "Have you been diagnosed with diabetes (type 2)?" },
+            value: { text: data['conditionQuestion1'] },
+            actions: {
+              items: [{
+                href: "condition-1#conditionQuestion1",
+                text: "Change",
+                visuallyHiddenText: "if you have diabetes (type 2)"
+              }]
+            }
+          }]) %}
+        {% endif %}
+
+        {% if data['conditionQuestion2'] %}
+          {% set rows = rows.concat([{
+            key: { text: "Have you been diagnosed with congenital heart disease?" },
+            value: { text: data['conditionQuestion2'] },
+            actions: {
+              items: [{
+                href: "condition-2#conditionQuestion2",
+                text: "Change",
+                visuallyHiddenText: "if you have congenital heart disease"
+              }]
+            }
+          }]) %}
+        {% endif %}
+
+        {% if data['conditionQuestion3'] %}
+          {% set rows = rows.concat([{
+            key: { text: "Have you been diagnosed with stroke?" },
+            value: { text: data['conditionQuestion3'] },
+            actions: {
+              items: [{
+                href: "condition-3#conditionQuestion3",
+                text: "Change",
+                visuallyHiddenText: "if you have stroke"
+              }]
+            }
+          }]) %}
+        {% endif %}
+
+        {% if data['medicationQuestion1'] %}
+          {% set rows = rows.concat([{
+            key: { text: "Are you taking Metformin Hydrochloride?" },
+            value: { text: data['medicationQuestion1'] },
+            actions: {
+              items: [{
+                href: "medication-1#medicationQuestion1",
+                text: "Change",
+                visuallyHiddenText: "if you currently take Metformin Hydrochloride"
+              }]
+            }
+          }]) %}
+        {% endif %}
+
+        {% if data['medicationQuestion2'] %}
+          {% set rows = rows.concat([{
+            key: { text: "Are you taking Semaglutide?" },
+            value: { text: data['medicationQuestion2'] },
+            actions: {
+              items: [{
+                href: "medication-2#medicationQuestion2",
+                text: "Change",
+                visuallyHiddenText: "if you currently take Semaglutide"
+              }]
+            }
+          }]) %}
+        {% endif %}
+
+        {% if data['medicationQuestion3'] %}
+          {% set rows = rows.concat([{
+            key: { text: "Are you taking Insulin?" },
+            value: { text: data['medicationQuestion3'] },
+            actions: {
+              items: [{
+                href: "medication-3#medicationQuestion3",
+                text: "Change",
+                visuallyHiddenText: "if you currently take Insulin"
+              }]
+            }
+          }]) %}
+        {% endif %}
+
+        {{ summaryList({ rows: rows }) }}
+
+        <h2 class="nhsuk-heading-s">
+          Now submit your details
+        </h2>
+
+        <p>By submitting your details, you're confirming that:</p>
+
+        <ul>
+          <li>to the best of your knowledge, the details you're providing are correct</li>
+          <li>you consent to us using your data for this study</li>
+        </ul>
+
+
+        <form action="no-check-your-answers" method="post" novalidate>
+
+        {{ button({
+          text: "Confirm and submit"
+        }) }}
+
+        </form>
+
+    </div>
+  </div>
+{% endblock %}
