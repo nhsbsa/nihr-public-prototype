@@ -1,0 +1,48 @@
+{% extends "layout-bpor.html" %}
+
+{% block content %}
+ <div class="nhsuk-grid-row">
+    <div class="nhsuk-grid-column-two-thirds">
+
+      <h1 class="nhsuk-heading-l">What's your phone number?</h1>
+      <p>We will send you a 6-digit code to confirm your phone number and secure your account.</p></p>
+
+
+      <div class="nhsuk-form-group">
+        <label class="nhsuk-label">
+        UK phone number
+        </label>
+        <input class="nhsuk-input nhsuk-input--width-20">
+      </div>
+
+      <div class="nhsuk-form-group">
+        <fieldset class="nhsuk-fieldset">
+          <legend class="nhsuk-fieldset__legend nhsuk-fieldset__legend--m">
+            <h1 class="nhsuk-fieldset__heading">
+              How do you want to receive the code?
+            </h1>
+          </legend>
+          <div class="nhsuk-radios nhsuk-radios--small" data-module="nhsuk-radios">
+            <div class="nhsuk-radios__item">
+              <input class="nhsuk-radios__input" id="filter" name="filter" type="radio" value="monthly">
+              <label class="nhsuk-label nhsuk-radios__label" for="filter">
+                By text message (SMS)
+              </label>
+            </div>
+            <div class="nhsuk-radios__item">
+              <input class="nhsuk-radios__input" id="filter-2" name="filter" type="radio" value="yearly">
+              <label class="nhsuk-label nhsuk-radios__label" for="filter-2">
+                By phone call
+              </label>
+            </div>
+            <br>
+            <a href="/login/v1/bpor/mfa-security-code" role="button" draggable="false" class="nhsuk-button" data-module="nhsuk-button">
+            Continue
+            </a>
+          </div>
+        </fieldset>
+      </div>
+
+    </div>
+
+{% endblock %}
