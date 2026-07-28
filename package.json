@@ -12,7 +12,7 @@
   "dependencies": {
     "luxon": "^3.7.2",
     "nhsuk-frontend": "^10.4.2",
-    "nhsuk-prototype-kit": "^8.3.0"
+    "nhsuk-prototype-kit": "^8.3.1"
   },
   "engines": {
     "node": "^22.11.0 || ^24.11.0"
