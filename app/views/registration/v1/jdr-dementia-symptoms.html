@@ -1,0 +1,125 @@
+{% set layout = "layout.html" %}
+
+{% if data['brand'] == "JDR" %}
+  {% set layout = "layout-volunteer-jdr.html" %}
+{% elseif data['brand'] == "BPOR" %}
+  {% set layout = "layout-volunteer-bpor.html" %}
+{% endif %}
+
+{% extends layout %}
+
+<!--
+  In /app/views/layout.html you can:
+    - change the header and footer
+    - add custom CSS and JavaScript
+-->
+
+<!--
+  Use this to set the page name which will appear at the
+  start of the <title> tag, followed by the service name.
+  This is often not needed on the homepage, where only the
+  service name is needed. You can also reuse this variable
+  within the <h1>, where they are the same.
+-->
+{% set pageName = "" %}
+
+<!-- For adding a breadcrumb or back link -->
+<!-- Code examples can be found at https://service-manual.nhs.uk/design-system/components/breadcrumbs and https://service-manual.nhs.uk/design-system/components/back-link -->
+{% block beforeContent %}
+
+{{ nhsukPhaseBanner({
+  tag: {
+    text: "Beta"
+  },
+  html: 'This is a new service - your <a target="_blank" href="https://bepartofresearch.nihr.ac.uk/get-in-touch/">feedback<span class="nhsuk-u-visually-hidden"> (opens in a new tab)</span></a> will help us to improve it'
+}) }}
+
+{{ backLink({
+    "href": "javascript:history.go(-1)",
+    "text": "Back"
+}) }}
+
+{% endblock %}
+
+{% block content %}
+  
+  <div class="nhsuk-grid-row">
+    <div class="nhsuk-grid-column-two-thirds">
+
+<form action="/{{folder}}/{{subfolder}}/jdr-dementia-symptoms" method="post" novalidate>
+
+{{ radios({
+  name: "jdr-dementia-symptoms",
+  fieldset: {
+    legend: {
+      text: "How would you describe your memory symptoms?",
+      size: "l",
+      isPageHeading: true
+    }
+  },
+  items: [
+    {
+      value: "Mild symptoms",
+      text: "Mild symptoms"
+    },
+    {
+      value: "Moderate symptoms",
+      text: "Moderate symptoms"
+    },
+    {
+      value: "Severe symptoms",
+      text: "Severe symptoms"
+    },
+    {
+      value: "I don't know",
+      text: "I don't know"
+    }
+  ]
+}) }}
+
+{{ button({
+  text: "Continue"
+}) }}
+
+</form>
+
+{% call details({
+  summaryText: "What are mild symptoms of dementia?"
+}) %}
+  <p>Mild symptoms of dementia include:</p>
+  <ul>
+    <li>Loss of memory for recent events</li>
+    <li>Repeating yourself</li>
+    <li>Becoming slower to grasp new ideas</li>
+    <li>Finding it harder to make decisions</li>
+    <li>Showing signs of confusion</li>
+  </ul>
+{% endcall %}
+
+{% call details({
+  summaryText: "What are moderate symptoms of dementia?"
+}) %}
+  <p>Moderate symptoms of dementia include:</p>
+  <ul>
+    <li>Needing more help with day-to-day living</li>
+    <li>Needing frequent reminders or help with eating, washing, dressing and using the toilet</li>
+    <li>Becoming increasingly forgetful and sometimes repeating the same question or phrase</li>
+    <li>Failing to recognise familiar people or confusing them with others</li>
+  </ul>
+{% endcall %}
+
+{% call details({
+  summaryText: "What are severe symptoms of dementia?"
+}) %}
+  <p>Severe symptoms of dementia include:</p>
+  <ul>
+    <li>Being unable to recognise familiar objects, people or surroundings and pronounced memory loss</li>
+    <li>Needing increased help with day-to-day activities</li>
+    <li>Becoming more dependent on others for care needs</li>
+    <li>Becoming increasingly frail and starting to shuffle or walk unsteadily</li>
+  </ul>
+{% endcall %}
+
+    </div>
+  </div>
+{% endblock %}

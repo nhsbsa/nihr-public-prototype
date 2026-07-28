@@ -2,6 +2,7 @@
 const express = require('express')
 const fs = require('fs')
 const path = require('path')
+const { DateTime } = require("luxon");
 
 const router = express.Router()
 
@@ -403,6 +404,7 @@ router.use('/', (req, res, next) => {
 // ****************************************
 
 router.use('/login/v1', require('./views/login/v1/_routes'));
+router.use('/registration/v1', require('./views/registration/v1/_routes'));
 
 // router.use('/study-search/v1', require('./views/study-search/v1/_routes'));
 

@@ -1,4 +1,12 @@
-{% extends "layout-volunteer-jdr.html" %}
+{% set layout = "layout.html" %}
+
+{% if data['brand'] == "JDR" %}
+  {% set layout = "layout-volunteer-jdr.html" %}
+{% elseif data['brand'] == "BPOR" %}
+  {% set layout = "layout-volunteer-bpor.html" %}
+{% endif %}
+
+{% extends layout %}
 
 {% block content %}
   
@@ -44,21 +52,20 @@
     </div>
   </div>
 
-        <br>
+{% if data['brand'] == "BPOR" %}
 
-        <h2 class="nhsuk-heading-m">Log in with NHS login</h2>
+<h2 class="nhsuk-heading-m nhsuk-u-margin-top-4">Log in with NHS login</h2>
 
-        <p>Use this option if you registered for Join Dementia Research or Be Part of Research with NHS login. NHS login is only available in England, Wales and the Isle of Man.</p>
+<p>Use this option if you registered for Join Dementia Research or Be Part of Research with NHS login. NHS login is only available in England, Wales and the Isle of Man.</p>
 
-        <p>
-          <a href="https://prototype-nhs-login.herokuapp.com/nhslogin/enter-login-details?clientRequests=p5&registered=trueBefore&p0=trueNow&userIs=registered" role="button" draggable="false" class="nhsuk-button nhs-login-button" data-module="nhsuk-button">
-            Continue to NHS login
-          </a>
-        </p>
+<p>
+  <a href="https://prototype-nhs-login.herokuapp.com/nhslogin/enter-login-details?clientRequests=p5&registered=trueBefore&p0=trueNow&userIs=registered" role="button" draggable="false" class="nhslogin-button" data-module="nhsuk-button">
+    Continue to NHS login
+  </a>
+</p>
 
-        <br>
+{% endif %}
         
-      </form>
     </div>
   </div>
 </div>
