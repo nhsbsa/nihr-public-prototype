@@ -1,0 +1,534 @@
+{% set layout = "layout.html" %}
+
+{% if data['brand'] == "JDR" %}
+  {% set layout = "layout-volunteer-jdr.html" %}
+{% elseif data['brand'] == "BPOR" %}
+  {% set layout = "layout-volunteer-bpor.html" %}
+{% endif %}
+
+{% extends layout %}
+
+<!--
+  In /app/views/layout.html you can:
+    - change the header and footer
+    - add custom CSS and JavaScript
+-->
+
+<!--
+  Use this to set the page name which will appear at the
+  start of the <title> tag, followed by the service name.
+  This is often not needed on the homepage, where only the
+  service name is needed. You can also reuse this variable
+  within the <h1>, where they are the same.
+-->
+{% set pageName = "" %}
+
+<!-- For adding a breadcrumb or back link -->
+<!-- Code examples can be found at https://service-manual.nhs.uk/design-system/components/breadcrumbs and https://service-manual.nhs.uk/design-system/components/back-link -->
+{% block beforeContent %}
+
+{{ nhsukPhaseBanner({
+  tag: {
+    text: "Beta"
+  },
+  html: 'This is a new service - your <a target="_blank" href="https://bepartofresearch.nihr.ac.uk/get-in-touch/">feedback<span class="nhsuk-u-visually-hidden"> (opens in a new tab)</span></a> will help us to improve it'
+}) }}
+
+{{ backLink({
+    "href": "javascript:history.go(-1)",
+    "text": "Back"
+}) }}
+
+{% endblock %}
+
+{% block content %}
+  
+  <div class="nhsuk-grid-row">
+    <div class="nhsuk-grid-column-two-thirds">
+
+<h1>Check your answers</h1>
+
+<h2 class="nhsuk-heading-m">Personal details</h2>
+
+<dl class="nhsuk-summary-list">
+
+  <div class="nhsuk-summary-list__row">
+    <dt class="nhsuk-summary-list__key">
+      Name
+    </dt>
+    <dd class="nhsuk-summary-list__value">
+      {% if data['jdr-first-name'] and data['jdr-last-name'] %}{{ data['jdr-first-name'] }} {{ data['jdr-last-name'] }}{% else %}John Smith{% endif %}
+    </dd>
+    <dd class="nhsuk-summary-list__actions">
+      <a href="#" class="nhsuk-link">
+        Change<span class="nhsuk-u-visually-hidden"> name</span>
+      </a>
+    </dd>
+  </div>
+
+  <div class="nhsuk-summary-list__row">
+    <dt class="nhsuk-summary-list__key">
+      Date of birth
+    </dt>
+    <dd class="nhsuk-summary-list__value">
+      {% if data['jdr-date-of-birth'] %}{{ data['jdr-date-of-birth'] }}{% else %}18 May 1985{% endif %}
+    </dd>
+    <dd class="nhsuk-summary-list__actions">
+      <a href="#" class="nhsuk-link">
+        Change<span class="nhsuk-u-visually-hidden"> date of birth</span>
+      </a>
+    </dd>
+  </div>
+
+  <div class="nhsuk-summary-list__row">
+    <dt class="nhsuk-summary-list__key">
+      Email address
+    </dt>
+    <dd class="nhsuk-summary-list__value">
+      {% if data['jdr-email-address'] %}{{ data['jdr-email-address'] }}{% else %}joe.bloggs@gmail.com{% endif %}
+    </dd>
+    <dd class="nhsuk-summary-list__actions">
+      <a href="#" class="nhsuk-link">
+        Change<span class="nhsuk-u-visually-hidden"> email address</span>
+      </a>
+    </dd>
+  </div>
+
+  <div class="nhsuk-summary-list__row">
+    <dt class="nhsuk-summary-list__key">
+      Phone number
+    </dt>
+    <dd class="nhsuk-summary-list__value">
+      {% if data['jdr-phone-number'] %}{{ data['jdr-phone-number'] }}{% else %}01234 567890{% endif %}
+    </dd>
+    <dd class="nhsuk-summary-list__actions">
+      <a href="#" class="nhsuk-link">
+        Change<span class="nhsuk-u-visually-hidden"> phone number</span>
+      </a>
+    </dd>
+  </div>
+
+  {% if data['jdr-alternative-phone-number'] %}
+  <div class="nhsuk-summary-list__row">
+    <dt class="nhsuk-summary-list__key">
+      Alternative phone number
+    </dt>
+    <dd class="nhsuk-summary-list__value">
+      {{ data['jdr-alternative-phone-number'] }}
+    </dd>
+    <dd class="nhsuk-summary-list__actions">
+      <a href="#" class="nhsuk-link">
+        Change<span class="nhsuk-u-visually-hidden"> alternative phone number</span>
+      </a>
+    </dd>
+  </div>
+  {% endif %}
+
+  <div class="nhsuk-summary-list__row">
+    <dt class="nhsuk-summary-list__key">
+      Address
+    </dt>
+    <dd class="nhsuk-summary-list__value">
+      {% if data['jdr-select-address'] %}{{ data['jdr-select-address'] }}{% else %}77 Cunnery Road, Manchester, M60 9DW{% endif %}
+    </dd>
+    <dd class="nhsuk-summary-list__actions">
+      <a href="#" class="nhsuk-link">
+        Change<span class="nhsuk-u-visually-hidden"> address</span>
+      </a>
+    </dd>
+  </div>
+
+</dl>
+
+<h2 class="nhsuk-heading-m">Demographics</h2>
+
+<dl class="nhsuk-summary-list">
+
+  <div class="nhsuk-summary-list__row">
+    <dt class="nhsuk-summary-list__key">
+      Sex
+    </dt>
+    <dd class="nhsuk-summary-list__value">
+      {% if data['jdr-sex'] %}{{ data['jdr-sex'] }}{% else %}Male{% endif %}
+    </dd>
+    <dd class="nhsuk-summary-list__actions">
+      <a href="#" class="nhsuk-link">
+        Change<span class="nhsuk-u-visually-hidden"> sex</span>
+      </a>
+    </dd>
+  </div>
+
+  <div class="nhsuk-summary-list__row">
+    <dt class="nhsuk-summary-list__key">
+      Gender identity same as sex registered at birth
+    </dt>
+    <dd class="nhsuk-summary-list__value">
+      {% if data['jdr-gender'] %}{{ data['jdr-gender'] }}{% else %}Yes{% endif %}
+    </dd>
+    <dd class="nhsuk-summary-list__actions">
+      <a href="#" class="nhsuk-link">
+        Change<span class="nhsuk-u-visually-hidden"> gender identity same as sex registered at birth</span>
+      </a>
+    </dd>
+  </div>
+
+  <div class="nhsuk-summary-list__row">
+    <dt class="nhsuk-summary-list__key">
+      Ethnic group
+    </dt>
+    <dd class="nhsuk-summary-list__value">
+      {% if data['jdr-ethnic-group'] %}{{ data['jdr-ethnic-group'] }}{% else %}White{% endif %}
+    </dd>
+    <dd class="nhsuk-summary-list__actions">
+      <a href="#" class="nhsuk-link">
+        Change<span class="nhsuk-u-visually-hidden"> ethnic group</span>
+      </a>
+    </dd>
+  </div>
+
+  {% if data['jdr-ethnicity-white'] %}
+  <div class="nhsuk-summary-list__row">
+    <dt class="nhsuk-summary-list__key">
+      White background
+    </dt>
+    <dd class="nhsuk-summary-list__value">
+      {{ data['jdr-ethnicity-white'] }}
+    </dd>
+    <dd class="nhsuk-summary-list__actions">
+      <a href="#" class="nhsuk-link">
+        Change<span class="nhsuk-u-visually-hidden"> white background</span>
+      </a>
+    </dd>
+  </div>
+  {% endif %}
+
+  {% if data['jdr-ethnicity-mixed'] %}
+  <div class="nhsuk-summary-list__row">
+    <dt class="nhsuk-summary-list__key">
+      Mixed or multiple ethnic groups background
+    </dt>
+    <dd class="nhsuk-summary-list__value">
+      {{ data['jdr-ethnicity-mixed'] }}
+    </dd>
+    <dd class="nhsuk-summary-list__actions">
+      <a href="#" class="nhsuk-link">
+        Change<span class="nhsuk-u-visually-hidden"> mixed or multiple ethnic group background</span>
+      </a>
+    </dd>
+  </div>
+  {% endif %}
+
+  {% if data['jdr-ethnicity-asian'] %}
+  <div class="nhsuk-summary-list__row">
+    <dt class="nhsuk-summary-list__key">
+      Asian or Asian British background
+    </dt>
+    <dd class="nhsuk-summary-list__value">
+      {{ data['jdr-ethnicity-asian'] }}
+    </dd>
+    <dd class="nhsuk-summary-list__actions">
+      <a href="#" class="nhsuk-link">
+        Change<span class="nhsuk-u-visually-hidden"> Asian or Asian British background</span>
+      </a>
+    </dd>
+  </div>
+  {% endif %}
+
+  {% if data['jdr-ethnicity-black'] %}
+  <div class="nhsuk-summary-list__row">
+    <dt class="nhsuk-summary-list__key">
+      Black, African, Black British or Caribbean background
+    </dt>
+    <dd class="nhsuk-summary-list__value">
+      {{ data['jdr-ethnicity-black'] }}
+    </dd>
+    <dd class="nhsuk-summary-list__actions">
+      <a href="#" class="nhsuk-link">
+        Change<span class="nhsuk-u-visually-hidden"> Black, African, Black British or Caribbean background</span>
+      </a>
+    </dd>
+  </div>
+  {% endif %}
+
+  {% if data['jdr-ethnicity-other'] %}
+  <div class="nhsuk-summary-list__row">
+    <dt class="nhsuk-summary-list__key">
+      Other background
+    </dt>
+    <dd class="nhsuk-summary-list__value">
+      {{ data['jdr-ethnicity-other'] }}
+    </dd>
+    <dd class="nhsuk-summary-list__actions">
+      <a href="#" class="nhsuk-link">
+        Change<span class="nhsuk-u-visually-hidden"> other background</span>
+      </a>
+    </dd>
+  </div>
+  {% endif %}
+
+</dl>
+
+<h2 class="nhsuk-heading-m">Health conditions</h2>
+
+<dl class="nhsuk-summary-list">
+
+  <div class="nhsuk-summary-list__row">
+    <dt class="nhsuk-summary-list__key">
+      Problems with memory
+    </dt>
+    <dd class="nhsuk-summary-list__value">
+      {% if data['jdr-memory-problems'] %}{{ data['jdr-memory-problems'] }}{% else %}No{% endif %}
+    </dd>
+    <dd class="nhsuk-summary-list__actions">
+      <a href="#" class="nhsuk-link">
+        Change<span class="nhsuk-u-visually-hidden"> if you have probems with your memory</span>
+      </a>
+    </dd>
+  </div>
+
+  {% if data['jdr-dementia-symptoms'] %}
+  <div class="nhsuk-summary-list__row">
+    <dt class="nhsuk-summary-list__key">
+      Dementia symptoms
+    </dt>
+    <dd class="nhsuk-summary-list__value">
+      {{ data['jdr-dementia-symptoms'] }}
+    </dd>
+    <dd class="nhsuk-summary-list__actions">
+      <a href="#" class="nhsuk-link">
+        Change<span class="nhsuk-u-visually-hidden"> dementia symptoms</span>
+      </a>
+    </dd>
+  </div>
+  {% endif %}
+
+  {% if data['jdr-mmse-exam'] %}
+  <div class="nhsuk-summary-list__row">
+    <dt class="nhsuk-summary-list__key">
+      Mini mental state examination
+    </dt>
+    <dd class="nhsuk-summary-list__value">
+      {{ data['jdr-mmse-exam'] }}
+    </dd>
+    <dd class="nhsuk-summary-list__actions">
+      <a href="#" class="nhsuk-link">
+        Change<span class="nhsuk-u-visually-hidden"> mini mental state examination</span>
+      </a>
+    </dd>
+  </div>
+  {% endif %}
+
+  {% if data['jdr-mmse-score'] %}
+  <div class="nhsuk-summary-list__row">
+    <dt class="nhsuk-summary-list__key">
+      Mini mental state examination score
+    </dt>
+    <dd class="nhsuk-summary-list__value">
+      {{ data['jdr-mmse-score'] }}
+    </dd>
+    <dd class="nhsuk-summary-list__actions">
+      <a href="#" class="nhsuk-link">
+        Change<span class="nhsuk-u-visually-hidden"> mini mental state examination score</span>
+      </a>
+    </dd>
+  </div>
+  {% endif %}
+
+  {% if data['jdr-memory-diagnosis'] %}
+  <div class="nhsuk-summary-list__row">
+    <dt class="nhsuk-summary-list__key">
+      Memory problem diagnosis
+    </dt>
+    <dd class="nhsuk-summary-list__value">
+      {{ data['jdr-memory-diagnosis'] }}
+    </dd>
+    <dd class="nhsuk-summary-list__actions">
+      <a href="#" class="nhsuk-link">
+        Change<span class="nhsuk-u-visually-hidden"> memory problem diagnosis</span>
+      </a>
+    </dd>
+  </div>
+  {% endif %}
+
+  <div class="nhsuk-summary-list__row">
+    <dt class="nhsuk-summary-list__key">
+      Dementia type
+    </dt>
+    <dd class="nhsuk-summary-list__value">
+      {% if data['jdr-dementia-type'] %}{{ data['jdr-dementia-type'] }}{% else %}Alzheimer's disease{% endif %}
+    </dd>
+    <dd class="nhsuk-summary-list__actions">
+      <a href="#" class="nhsuk-link">
+        Change<span class="nhsuk-u-visually-hidden"> dementia type</span>
+      </a>
+    </dd>
+  </div>
+
+  <div class="nhsuk-summary-list__row">
+    <dt class="nhsuk-summary-list__key">
+      Other medical conditions
+    </dt>
+    <dd class="nhsuk-summary-list__value">
+      {% if data['jdr-other-medical-conditions'] %}{{ data['jdr-other-medical-conditions'] }}{% else %}No{% endif %}
+    </dd>
+    <dd class="nhsuk-summary-list__actions">
+      <a href="#" class="nhsuk-link">
+        Change<span class="nhsuk-u-visually-hidden"> other medical conditions</span>
+      </a>
+    </dd>
+  </div>
+
+  {% if data['jdr-other-medical-conditions-type'] %}
+  <div class="nhsuk-summary-list__row">
+    <dt class="nhsuk-summary-list__key">
+      Type of other medical conditions
+    </dt>
+    <dd class="nhsuk-summary-list__value">
+      {{ data['jdr-other-medical-conditions-type'] }}
+    </dd>
+    <dd class="nhsuk-summary-list__actions">
+      <a href="#" class="nhsuk-link">
+        Change<span class="nhsuk-u-visually-hidden"> type of other medical conditions</span>
+      </a>
+    </dd>
+  </div>
+  {% endif %}
+
+  <div class="nhsuk-summary-list__row">
+    <dt class="nhsuk-summary-list__key">
+      Pacemaker
+    </dt>
+    <dd class="nhsuk-summary-list__value">
+      {% if data['jdr-pacemaker'] %}{{ data['jdr-pacemaker'] }}{% else %}No, or don't know{% endif %}
+    </dd>
+    <dd class="nhsuk-summary-list__actions">
+      <a href="#" class="nhsuk-link">
+        Change<span class="nhsuk-u-visually-hidden"> pacemaker</span>
+      </a>
+    </dd>
+  </div>
+
+  <div class="nhsuk-summary-list__row">
+    <dt class="nhsuk-summary-list__key">
+      Disabilities
+    </dt>
+    <dd class="nhsuk-summary-list__value">
+      {% if data['jdr-disabilities'] %}{{ data['jdr-disabilities'] }}{% else %}Hearing impairment{% endif %}
+    </dd>
+    <dd class="nhsuk-summary-list__actions">
+      <a href="#" class="nhsuk-link">
+        Change<span class="nhsuk-u-visually-hidden"> disabilities</span>
+      </a>
+    </dd>
+  </div>
+
+  <div class="nhsuk-summary-list__row">
+    <dt class="nhsuk-summary-list__key">
+      Carer role
+    </dt>
+    <dd class="nhsuk-summary-list__value">
+      {% if data['jdr-carer-role'] %}{{ data['jdr-carer-role'] }}{% else %}No{% endif %}
+    </dd>
+    <dd class="nhsuk-summary-list__actions">
+      <a href="#" class="nhsuk-link">
+        Change<span class="nhsuk-u-visually-hidden"> Carer role</span>
+      </a>
+    </dd>
+  </div>
+
+  {% if data['jdr-care-home-visits'] %}
+  <div class="nhsuk-summary-list__row">
+    <dt class="nhsuk-summary-list__key">
+      Care home visits
+    </dt>
+    <dd class="nhsuk-summary-list__value">
+      {{ data['jdr-care-home-visits'] }}
+    </dd>
+    <dd class="nhsuk-summary-list__actions">
+      <a href="#" class="nhsuk-link">
+        Change<span class="nhsuk-u-visually-hidden"> care home visits</span>
+      </a>
+    </dd>
+  </div>
+  {% endif %}
+
+  {% if data['jdr-visit-frequency'] %}
+  <div class="nhsuk-summary-list__row">
+    <dt class="nhsuk-summary-list__key">
+      Care home visit frequency
+    </dt>
+    <dd class="nhsuk-summary-list__value">
+      {{ data['jdr-visit-frequency'] }}
+    </dd>
+    <dd class="nhsuk-summary-list__actions">
+      <a href="#" class="nhsuk-link">
+        Change<span class="nhsuk-u-visually-hidden"> care home visit frequency</span>
+      </a>
+    </dd>
+  </div>
+  {% endif %}
+
+</dl>
+
+<h2 class="nhsuk-heading-m">Contact preferences</h2>
+
+<dl class="nhsuk-summary-list">
+
+  <div class="nhsuk-summary-list__row">
+    <dt class="nhsuk-summary-list__key">
+      Contact preference
+    </dt>
+    <dd class="nhsuk-summary-list__value">
+      {% if data['jdr-contact-preference'] %}{{ data['jdr-contact-preference'] }}{% else %}Email{% endif %}
+    </dd>
+    <dd class="nhsuk-summary-list__actions">
+      <a href="#" class="nhsuk-link">
+        Change<span class="nhsuk-u-visually-hidden"> contact preference</span>
+      </a>
+    </dd>
+  </div>
+
+  <div class="nhsuk-summary-list__row">
+    <dt class="nhsuk-summary-list__key">
+      Join Dementia Research updates
+    </dt>
+    <dd class="nhsuk-summary-list__value">
+      {% if data['jdr-marketing'] %}{{ data['jdr-marketing'] }}{% else %}No{% endif %}
+    </dd>
+    <dd class="nhsuk-summary-list__actions">
+      <a href="#" class="nhsuk-link">
+        Change<span class="nhsuk-u-visually-hidden"> Join Dementia Research updates</span>
+      </a>
+    </dd>
+  </div>
+
+  <div class="nhsuk-summary-list__row">
+    <dt class="nhsuk-summary-list__key">
+      Referal source
+    </dt>
+    <dd class="nhsuk-summary-list__value">
+      {% if data['jdr-referal-source'] %}{{ data['jdr-referal-source'] }}{% else %}Internet Search{% endif %}
+    </dd>
+    <dd class="nhsuk-summary-list__actions">
+      <a href="#" class="nhsuk-link">
+        Change<span class="nhsuk-u-visually-hidden"> referal source</span>
+      </a>
+    </dd>
+  </div>
+
+</dl>
+
+<form action="/{{folder}}/{{subfolder}}/jdr-check-answers" method="post" novalidate>
+  
+{{ button({
+  text: "Confirm and send"
+}) }}
+
+</form>
+
+
+
+
+    </div>
+  </div>
+{% endblock %}

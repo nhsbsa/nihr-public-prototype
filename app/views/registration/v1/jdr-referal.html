@@ -1,0 +1,191 @@
+{% set layout = "layout.html" %}
+
+{% if data['brand'] == "JDR" %}
+  {% set layout = "layout-volunteer-jdr.html" %}
+{% elseif data['brand'] == "BPOR" %}
+  {% set layout = "layout-volunteer-bpor.html" %}
+{% endif %}
+
+{% extends layout %}
+
+<!--
+  In /app/views/layout.html you can:
+    - change the header and footer
+    - add custom CSS and JavaScript
+-->
+
+<!--
+  Use this to set the page name which will appear at the
+  start of the <title> tag, followed by the service name.
+  This is often not needed on the homepage, where only the
+  service name is needed. You can also reuse this variable
+  within the <h1>, where they are the same.
+-->
+{% set pageName = "" %}
+
+<!-- For adding a breadcrumb or back link -->
+<!-- Code examples can be found at https://service-manual.nhs.uk/design-system/components/breadcrumbs and https://service-manual.nhs.uk/design-system/components/back-link -->
+{% block beforeContent %}
+
+{{ nhsukPhaseBanner({
+  tag: {
+    text: "Beta"
+  },
+  html: 'This is a new service - your <a target="_blank" href="https://bepartofresearch.nihr.ac.uk/get-in-touch/">feedback<span class="nhsuk-u-visually-hidden"> (opens in a new tab)</span></a> will help us to improve it'
+}) }}
+
+{{ backLink({
+    "href": "javascript:history.go(-1)",
+    "text": "Back"
+}) }}
+
+{% endblock %}
+
+{% block content %}
+  
+  <div class="nhsuk-grid-row">
+    <div class="nhsuk-grid-column-two-thirds">
+
+<form action="/{{folder}}/{{subfolder}}/jdr-referal" method="post" novalidate>
+
+{% call fieldset({
+  legend: {
+    text: "Who did you hear about Join Dementia Research from?",
+    size: "l",
+    isPageHeading: true
+  }
+}) %}
+
+{{ select({
+  label: {
+    text: "Referral source"
+  },
+  id: "jdr-referal",
+  name: "jdr-referal",
+  items: [
+    {
+      value: "",
+      text: ""
+    },
+    {
+      value: "Care Home",
+      text: "Care Home"
+    },
+    {
+      value: "GP",
+      text: "GP"
+    },
+    {
+      value: "Pharmacy",
+      text: "Pharmacy"
+    },
+    {
+      value: "Hospital - Memory Clinic",
+      text: "Hospital - Memory Clinic"
+    },
+    {
+      value: "Hospital - Neurology Clinic",
+      text: "Hospital - Neurology Clinic"
+    },
+    {
+      value: "Hospital - other / don't know",
+      text: "Hospital - other / don't know"
+    },
+    {
+      value: "Admiral Nurses",
+      text: "Admiral Nurses"
+    },
+    {
+      value: "Alzheimer's Society",
+      text: "Alzheimer's Society"
+    },
+    {
+      value: "Alzheimer's Research UK",
+      text: "Alzheimer's Research UK"
+    },
+    {
+      value: "Alzheimer Scotland",
+      text: "Alzheimer Scotland"
+    },
+    {
+      value: "Lewy Body Society",
+      text: "Lewy Body Society"
+    },
+    {
+      value: "Other charity",
+      text: "Other charity"
+    },
+    {
+      value: "Dementia Friends",
+      text: "Dementia Friends"
+    },
+    {
+      value: "Local dementia group",
+      text: "Local dementia group"
+    },
+    {
+      value: "Other dementia organisations",
+      text: "Other dementia organisations"
+    },
+    {
+      value: "Newspaper",
+      text: "Newspaper"
+    },
+    {
+      value: "Online news articles",
+      text: "Online news articles"
+    },
+    {
+      value: "Radio",
+      text: "Radio"
+    },
+    {
+      value: "TV",
+      text: "TV"
+    },
+    {
+      value: "Internet Search",
+      text: "Internet Search"
+    },
+    {
+      value: "Social Media",
+      text: "Social Media"
+    },
+    {
+      value: "Event exhibition",
+      text: "Event exhibition"
+    },
+    {
+      value: "A friend told me about it",
+      text: "A friend told me about it"
+    },
+    {
+      value: "Used Callback",
+      text: "Used Callback"
+    },
+    {
+      value: "Memory walks",
+      text: "Memory walks"
+    },
+    {
+      value: "Other",
+      text: "Other"
+    },
+    {
+      value: "Unsure",
+      text: "Unsure"
+    }
+  ]
+}) }}
+
+{% endcall %}
+
+{{ button({
+  text: "Continue"
+}) }}
+
+</form>
+
+    </div>
+  </div>
+{% endblock %}

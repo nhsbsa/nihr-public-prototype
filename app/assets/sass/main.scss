@@ -6,8 +6,10 @@
 $nihr-colour: #193E72;
 
 @import "jdr-header-footer";
-@import "jdr-buttons";
+@import "full-page-screenshots";
+// @import "jdr-buttons";
 @import "nhs-login";
+@import "nhs-login-button";
 @import "phase-banner";
 // Custom partials
 @import "nihr-header-footer";
