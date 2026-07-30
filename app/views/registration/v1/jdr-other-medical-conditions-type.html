@@ -1,0 +1,138 @@
+{% set layout = "layout.html" %}
+
+{% if data['brand'] == "JDR" %}
+  {% set layout = "layout-volunteer-jdr.html" %}
+{% elseif data['brand'] == "BPOR" %}
+  {% set layout = "layout-volunteer-bpor.html" %}
+{% endif %}
+
+{% extends layout %}
+
+<!--
+  In /app/views/layout.html you can:
+    - change the header and footer
+    - add custom CSS and JavaScript
+-->
+
+<!--
+  Use this to set the page name which will appear at the
+  start of the <title> tag, followed by the service name.
+  This is often not needed on the homepage, where only the
+  service name is needed. You can also reuse this variable
+  within the <h1>, where they are the same.
+-->
+{% set pageName = "" %}
+
+<!-- For adding a breadcrumb or back link -->
+<!-- Code examples can be found at https://service-manual.nhs.uk/design-system/components/breadcrumbs and https://service-manual.nhs.uk/design-system/components/back-link -->
+{% block beforeContent %}
+
+{{ nhsukPhaseBanner({
+  tag: {
+    text: "Beta"
+  },
+  html: 'This is a new service - your <a target="_blank" href="https://bepartofresearch.nihr.ac.uk/get-in-touch/">feedback<span class="nhsuk-u-visually-hidden"> (opens in a new tab)</span></a> will help us to improve it'
+}) }}
+
+{{ backLink({
+    "href": "javascript:history.go(-1)",
+    "text": "Back"
+}) }}
+
+{% endblock %}
+
+{% block content %}
+  
+  <div class="nhsuk-grid-row">
+    <div class="nhsuk-grid-column-two-thirds">
+
+
+<form action="/{{folder}}/{{subfolder}}/jdr-other-medical-conditions-type" method="post" novalidate>
+
+{% set jdrOtherMedicalCondition %}
+  {{ textarea({
+    id: "jdr-other-medical-conditions-type-other",
+    name: "jdr-other-medical-conditions-type-other",
+    classes: "nhsuk-input--width-20",
+    label: {
+      text: "Give details of your other medical conditions"
+    }
+  }) }}
+{% endset -%}
+
+{{ radios({
+  name: "jdr-other-medical-conditions-type",
+  fieldset: {
+    legend: {
+      text: "Which medical conditions do you have?",
+      size: "l",
+      isPageHeading: true
+    }
+  },
+  items: [
+    {
+      value: "Down’s syndrome",
+      text: "Down’s syndrome"
+    },
+    {
+      value: "A diagnosed sleep disorder",
+      text: "A diagnosed sleep disorder"
+    },
+    {
+      value: "Cancer (in the last 5 years)",
+      text: "Cancer (in the last 5 years)"
+    },
+    {
+      value: "Significant cardiac problems",
+      text: "Significant cardiac problems"
+    },
+    {
+      value: "Stroke",
+      text: "Stroke"
+    },
+    {
+      value: "High blood pressure",
+      text: "High blood pressure"
+    },
+    {
+      value: "Diabetes",
+      text: "Diabetes"
+    },
+    {
+      value: "Depression or anxiety",
+      text: "Depression or anxiety"
+    },
+    {
+      value: "Other mental health issues",
+      text: "Other mental health issues"
+    },
+    {
+      value: "Traumatic brain injury",
+      text: "Traumatic brain injury"
+    },
+    {
+      value: "Epilepsy",
+      text: "Epilepsy"
+    },
+    {
+      divider: "or"
+    },
+    {
+      value: "Other medical condition",
+      text: "Other medical condition",
+      conditional: {
+        html: jdrOtherMedicalCondition
+      }
+    }
+  ]
+}) }}
+
+{{ button({
+  text: "Continue"
+}) }}
+
+</form>
+
+    </div>
+  </div>
+{% endblock %}
