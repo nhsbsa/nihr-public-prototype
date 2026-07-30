@@ -1,55 +1,21 @@
 {% extends "layout-bpor.html" %}
 
+{% block beforeContent %}
+
+<button class="nhsuk-back-link" type="submit">
+  Back to: Home
+</button>
+
+{% endblock %}
+
 {% block content %}
-  
+
 <div class="nhsuk-grid-row">
   <div class="nhsuk-grid-column-two-thirds">
 
-    <div class="nhsuk-grid-row">
-    <div class="nhsuk-grid-column-two-thirds">
-
       <h1 class="nhsuk-heading-l">Log in to your account</h1>
 
-      <form action="/{{folder}}/{{subfolder}}/researcher-login" method="post" novalidate>
-  
-      {{ input({
-        id: "emailAddress",
-        name: "emailAddress",
-        type: "email",
-        classes: "nhsuk-input--width-20",
-        label: {
-          text: "Email address"
-        }
-      }) }}
-
-      {{ passwordInput({
-        label: {
-          text: "Password"
-        },
-        id: "password",
-        name: "password",
-        classes: "nhsuk-input--width-20"
-      }) }}
-
-      
-
-      <p><a href="/login/v1/bpor/forgot-password" class="nhsuk-link">Forgot your password?</a></p>
-
-      <a href="/login/v1/bpor/mfa-phone-number" role="button" draggable="false" class="nhsuk-button jdr-button-pink" data-module="nhsuk-button">
-        Log in
-      </a>
-
-      </form>
-
-    </div>
-  </div>
-
-        <br>
-        <p>OR</p>
-
-        <h2 class="nhsuk-heading-m">Log in with NHS login</h2>
-
-        <p>Use this option if you registered for Join Dementia Research or Be Part of Research with NHS login. NHS login is only available in England, Wales and the Isle of Man.</p>
+      <p>Use this option if you registered for Join Dementia Research or Be Part of Research with NHS login. NHS login is only available in England, Wales and the Isle of Man.</p>
 
         <p>
           <a href="" role="button" draggable="false" class="nhsuk-button nhs-login-button" data-module="nhsuk-button">
@@ -57,7 +23,46 @@
           </a>
         </p>
 
-        <br>
+
+        <p>OR</p>
+
+        <div class="nhsuk-grid-row">
+          <div class="nhsuk-grid-column-two-thirds">
+
+            <h2 class="nhsuk-heading-m">Log in with email and password</h1>
+
+            <form action="/{{folder}}/{{subfolder}}/researcher-login" method="post" novalidate>
+  
+            {{ input({
+              id: "emailAddress",
+              name: "emailAddress",
+              type: "email",
+              classes: "nhsuk-input--width-20",
+              label: {
+                text: "Email address"
+               }
+            }) }}
+
+            {{ passwordInput({
+              label: {
+                text: "Password"
+              },
+              id: "password",
+              name: "password",
+              classes: "nhsuk-input--width-20"
+            }) }}
+
+      
+            <p><a href="/login/v1/jdr/forgot-password" class="nhsuk-link jdr-link-pink">Forgot your password?</a></p>
+
+            <a href="/login/v1/bpor/mfa-phone-number" role="button" draggable="false" class="nhsuk-button jdr-button-pink" data-module="nhsuk-button">
+              Log in
+            </a>
+
+            </form>
+
+          </div>
+         </div>
         
       </form>
     </div>

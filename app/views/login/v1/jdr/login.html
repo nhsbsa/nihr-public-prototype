@@ -1,7 +1,15 @@
 {% extends "layout-volunteer-jdr.html" %}
 
+{% block beforeContent %}
+
+<button class="nhsuk-back-link" type="submit">
+  Back to: Home
+</button>
+
+{% endblock %}
+
 {% block content %}
-  
+
 <div class="nhsuk-grid-row">
   <div class="nhsuk-grid-column-two-thirds">
 
@@ -43,23 +51,7 @@
     </div>
   </div>
 
-        <br>
-        <p>OR</p>
-
-        <h2 class="nhsuk-heading-m">Log in with NHS login</h2>
-
-        <p>Use this option if you registered for Join Dementia Research or Be Part of Research with NHS login. NHS login is only available in England, Wales and the Isle of Man.</p>
-
-        <p>
-          <a href="" role="button" draggable="false" class="nhsuk-button nhs-login-button" data-module="nhsuk-button">
-            Continue to NHS login
-          </a>
-        </p>
-
-        <br>
-        
-      </form>
-    </div>
+   
   </div>
 </div>
 {% endblock %}

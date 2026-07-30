@@ -1,48 +1,40 @@
 {% extends "layout-volunteer-jdr.html" %}
 
+{% block beforeContent %}
+
+<button class="nhsuk-back-link" type="submit">
+  Back to: Log in to your account
+</button>
+
+{% endblock %}
+
 {% block content %}
- <div class="nhsuk-grid-row">
+<div class="nhsuk-grid-row">
     <div class="nhsuk-grid-column-two-thirds">
 
-      <h1 class="nhsuk-heading-l">What's your phone number?</h1>
-      <p>We will send you a 6-digit code to confirm your phone number and secure your account.</p></p>
+      <h1 class="nhsuk-heading-l">Enter the security code</h1>
+      <p>We will send you a 6 digit code to confirm your phone number ending in <strong>0865</strong>.</p>
+      <p>It may take a few minutes to arrive.</p>
 
 
       <div class="nhsuk-form-group">
-        <label class="nhsuk-label">
-        UK phone number
+        <label class="nhsuk-label" for="example-with-hint-text">
+          Security code
         </label>
-        <input class="nhsuk-input nhsuk-input--width-20">
+        <div class="nhsuk-hint" id="example-with-hint-text-hint">
+          The code is 6 digits
+        </div>
+        <input class="nhsuk-input nhsuk-input--width-10" id="example-with-hint-text" name="exampleWithHintText" type="text" spellcheck="false" aria-describedby="example-with-hint-text-hint" autocomplete="postal-code">
       </div>
 
-      <div class="nhsuk-form-group">
-        <fieldset class="nhsuk-fieldset">
-          <legend class="nhsuk-fieldset__legend nhsuk-fieldset__legend--m">
-            <h1 class="nhsuk-fieldset__heading">
-              How do you want to receive the code?
-            </h1>
-          </legend>
-          <div class="nhsuk-radios nhsuk-radios--small" data-module="nhsuk-radios">
-            <div class="nhsuk-radios__item">
-              <input class="nhsuk-radios__input" id="filter" name="filter" type="radio" value="monthly">
-              <label class="nhsuk-label nhsuk-radios__label" for="filter">
-                By text message (SMS)
-              </label>
-            </div>
-            <div class="nhsuk-radios__item">
-              <input class="nhsuk-radios__input" id="filter-2" name="filter" type="radio" value="yearly">
-              <label class="nhsuk-label nhsuk-radios__label" for="filter-2">
-                By phone call
-              </label>
-            </div>
-            <br>
-            <a href="/login/v1/jdr/mfa-security-code" role="button" draggable="false" class="nhsuk-button jdr-button-pink" data-module="nhsuk-button">
-            Continue
-            </a>
-          </div>
-        </fieldset>
-      </div>
-
+      <p><a href="/login/v1/bpor/">
+        I cannot log in with my mobile
+      </a></p>
+      <br>
+      <a href="" role="button" draggable="false" class="nhsuk-button" data-module="nhsuk-button">
+        Continue
+      </a>
     </div>
+</div>
 
 {% endblock %}
