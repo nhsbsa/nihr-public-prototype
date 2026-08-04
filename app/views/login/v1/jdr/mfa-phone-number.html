@@ -1,0 +1,40 @@
+{% extends "layout-volunteer-jdr.html" %}
+
+{% block beforeContent %}
+
+<button class="nhsuk-back-link" type="submit">
+  Back to: Log in to your account
+</button>
+
+{% endblock %}
+
+{% block content %}
+<div class="nhsuk-grid-row">
+    <div class="nhsuk-grid-column-two-thirds">
+
+      <h1 class="nhsuk-heading-l">Enter the security code</h1>
+      <p>We will send you a 6 digit code to confirm your phone number ending in <strong>0865</strong>.</p>
+      <p>It may take a few minutes to arrive.</p>
+
+
+      <div class="nhsuk-form-group">
+        <label class="nhsuk-label" for="example-with-hint-text">
+          Security code
+        </label>
+        <div class="nhsuk-hint" id="example-with-hint-text-hint">
+          The code is 6 digits
+        </div>
+        <input class="nhsuk-input nhsuk-input--width-10" id="example-with-hint-text" name="exampleWithHintText" type="text" spellcheck="false" aria-describedby="example-with-hint-text-hint" autocomplete="postal-code">
+      </div>
+
+      <p><a href="/login/v1/bpor/">
+        I cannot log in with my mobile
+      </a></p>
+      <br>
+      <a href="" role="button" draggable="false" class="nhsuk-button" data-module="nhsuk-button">
+        Continue
+      </a>
+    </div>
+</div>
+
+{% endblock %}

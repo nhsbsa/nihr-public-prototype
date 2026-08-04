@@ -1,0 +1,74 @@
+{% extends "layout-bpor.html" %}
+
+{% block content %}
+ <div class="nhsuk-grid-row">
+    <div class="nhsuk-grid-column-two-thirds">
+
+      <h1 class="nhsuk-heading-l">Enter the security code</h1>
+      <p>We have sent a 6-digit security code to your phone number ending in 0863.</p>
+      <p>It may take a few minutes to arrive.</p>
+      </details>
+        <details class="nhsuk-details">
+          <summary class="nhsuk-details__summary">
+            <span class="nhsuk-details__summary-text">
+            Not received a security code?
+            </span>
+          </summary>
+          <div class="nhsuk-details__text">
+            <p>When we are really busy it may take a bit longer for us to text you.</p>
+            <p><a>Send the security code again.</a></p>
+          </div>
+        </details>
+
+        <div class="nhsuk-form-group">
+          <label class="nhsuk-label" for="example-with-hint-text">
+          Security code
+          </label>
+          <div class="nhsuk-hint" id="example-with-hint-text-hint">
+          The code is 6 digits
+         </div>
+         <input class="nhsuk-input nhsuk-input--width-10" id="example-with-hint-text" name="exampleWithHintText" type="text" spellcheck="false" aria-describedby="example-with-hint-text-hint" autocomplete="postal-code">
+        </div>
+        <div class="nhsuk-checkboxes__item">
+          <input class="nhsuk-checkboxes__input" id="nationality" name="nationality" type="checkbox" value="alzheimers">
+          <label class="nhsuk-label nhsuk-checkboxes__label" for="nationality">
+          Remember this device and stop sending security codes
+          </label>
+      </div>
+
+            <br>
+
+            <details class="nhsuk-details">
+              <summary class="nhsuk-details__summary">
+                <span class="nhsuk-details__summary-text">
+                What does remember this device mean?
+                </span>
+              </summary>
+              <div class="nhsuk-details__text">
+                <p>We can remember the device you are using now, so you will not need to enter a security code when you log in with this device in the future.</p>
+                <p>To keep your NHS login secure, you should only do this on your own personal or trusted devices.</p>
+                <p>We may ask if you still want us to remember this device in the future.</p>
+          
+              </div>
+           </details>
+           <details class="nhsuk-details">
+             <summary class="nhsuk-details__summary">
+               <span class="nhsuk-details__summary-text">
+               I cannot log in using my mobile phone
+               </span>
+             </summary>
+             <div class="nhsuk-details__text">
+             <p>If you no longer have access to it, you can <a>change the mobile phone number you use to log in.</a></p>
+          
+             </div>
+           </details>
+            <button class="nhsuk-button" data-module="nhsuk-button" type="submit">
+            Continue
+            </button>
+          </div>
+        </fieldset>
+      </div>
+
+    </div>
+
+{% endblock %}

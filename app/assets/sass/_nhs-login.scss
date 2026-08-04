@@ -1,0 +1,11 @@
+.nhs-login-button {
+  background-color: #005eb8;
+  color: #ffffff;
+  border: 2px solid transparent;
+  border-radius: 4px;
+  box-shadow: 0 4px 0 #003087; /* Adds the signature flat bottom depth */
+}
+
+.nhs-login-button:hover {
+  background-color: #004da3; /* Slightly darker shift for visual feedback */
+}
