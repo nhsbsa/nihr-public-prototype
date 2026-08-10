@@ -1,0 +1,38 @@
+{% extends "layout-volunteer-jdr.html" %}
+
+{% block beforeContent %}
+
+<button class="nhsuk-back-link" type="submit">
+  Back to: I cannot log in using my mobile
+</button>
+
+{% endblock %}
+
+{% block content %}
+<div class="nhsuk-grid-row">
+    <div class="nhsuk-grid-column-two-thirds">
+
+      <h1 class="nhsuk-heading-l">Request a callback to verify your identity</h1>
+      <p>To protect your data, we need to verify your identity.</p>
+      <p>You will be contacted on your phone number ending <strong>0865</strong>.</p>
+      <p>You can enter an alternative number to be called on.</p>
+      <p>You should expect to be called within 10 working days.</p>
+
+      <div class="nhsuk-form-group">
+        <label class="nhsuk-label" for="example-with-hint-text">
+          Alternative phone number (optional)
+        </label>
+        <input class="nhsuk-input nhsuk-input--width-10" id="example-with-hint-text" name="exampleWithHintText" type="text" spellcheck="false" aria-describedby="example-with-hint-text-hint" autocomplete="postal-code">
+      </div>
+      
+      <a href="/login/v1/jdr/mfa-support-confirmation" role="button" draggable="false" class="nhsuk-button" data-module="nhsuk-button">
+        Request support
+      </a>
+      <a href="/login/v1/jdr/mfa-change-mobile" role="button" draggable="false" class="nhsuk-button nhsuk-button--secondary" data-module="nhsuk-button">
+        Cancel
+      </a>
+      
+    </div>
+</div>
+
+{% endblock %}

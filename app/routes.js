@@ -410,4 +410,83 @@ router.use('/registration/v1', require('./views/registration/v1/_routes'));
 
 router.use('/pre-screener/v1', require('./views/pre-screener/v1/_routes'));
 
+
+//LOGIN-----------
+router.post('/bpor-login-recovery-answer', function(request, response) {
+  
+  // Grab the value of the selected radio button from the session data
+  var recoveryChoice = request.session.data['exampleHints']
+
+  // Route the user based on the selected value
+  if (recoveryChoice == "bpor-phone") {
+    response.redirect("/login/v1/bpor/mfa-phone-number-resend")
+  } else if (recoveryChoice == "bpor-email") {
+    response.redirect("/login/v1/bpor/mfa-email")
+  } else if (recoveryChoice == "bpor-support") {
+    response.redirect("/login/v1/bpor/mfa-contact-support")
+  } else {
+    // A fallback page if they somehow submit without an answer
+    response.redirect("/error-page") 
+  }
+})
+
+
+router.post('/jdr-login-recovery-answer', function(request, response) {
+  
+  // Grab the value of the selected radio button from the session data
+  var recoveryChoice = request.session.data['exampleHints']
+
+  // Route the user based on the selected value
+  if (recoveryChoice == "jdr-phone") {
+    response.redirect("/login/v1/jdr/mfa-phone-number-resend")
+  } else if (recoveryChoice == "jdr-email") {
+    response.redirect("/login/v1/jdr/mfa-email")
+  } else if (recoveryChoice == "jdr-support") {
+    response.redirect("/login/v1/jdr/mfa-contact-support")
+  } else {
+    // A fallback page if they somehow submit without an answer
+    response.redirect("/error-page") 
+  }
+})
+
+
+
+router.post('/bpor-login-mfa-setup', function(request, response) {
+  
+  // Grab the value of the selected radio button from the session data
+  var recoveryChoice = request.session.data['exampleHints']
+
+  // Route the user based on the selected value
+  if (recoveryChoice == "bpor-phone") {
+    response.redirect("/login/v1/bpor/mfa-phone-number-setup")
+  } else if (recoveryChoice == "bpor-email") {
+    response.redirect("/login/v1/bpor/mfa-email-setup")
+  } else if (recoveryChoice == "bpor-authenticator") {
+    response.redirect("/login/v1/bpor/mfa-authenticator-app-setup")
+  } else {
+    // A fallback page if they somehow submit without an answer
+    response.redirect("/error-page") 
+  }
+})
+
+
+router.post('/jdr-login-mfa-setup', function(request, response) {
+  
+  // Grab the value of the selected radio button from the session data
+  var recoveryChoice = request.session.data['exampleHints']
+
+  // Route the user based on the selected value
+  if (recoveryChoice == "jdr-phone") {
+    response.redirect("/login/v1/jdr/mfa-phone-number-setup")
+  } else if (recoveryChoice == "jdr-email") {
+    response.redirect("/login/v1/jdr/mfa-email-setup")
+  } else if (recoveryChoice == "jdr-authenticator") {
+    response.redirect("/login/v1/jdr/mfa-authenticator-app-setup")
+  } else {
+    // A fallback page if they somehow submit without an answer
+    response.redirect("/error-page") 
+  }
+})
+
+
 module.exports = router

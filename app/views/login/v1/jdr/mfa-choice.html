@@ -1,0 +1,74 @@
+{% extends "layout-volunteer-jdr.html" %}
+
+{% block beforeContent %}
+
+<button class="nhsuk-back-link" type="submit">
+  Back to: Log in to your account
+</button>
+
+{% endblock %}
+
+{% block content %}
+
+      <div class="nhsuk-grid-row">
+    <div class="nhsuk-grid-column-two-thirds">
+
+      <h1 class="nhsuk-heading-l">Secure your account with two-factor authentication</h1>
+
+      <p>To keep your data safe and comply with our security policy, we require two-factor authentication (2FA). It should take a minute to set up.</p>
+
+      <form action="/jdr-login-mfa-setup" method="post">
+
+        <div class="nhsuk-form-group">
+          <fieldset class="nhsuk-fieldset" aria-describedby="example-hints-hint">
+            <legend class="nhsuk-fieldset__legend nhsuk-fieldset__legend--m">
+              <h2 class="nhsuk-fieldset__heading">
+                Choose your primary verification method
+              </h2>
+            </legend>
+
+            <div class="nhsuk-radios" data-module="nhsuk-radios">
+              <div class="nhsuk-radios__item">
+                <input class="nhsuk-radios__input" id="example-hints" name="exampleHints" type="radio" value="jdr-phone">
+                <label class="nhsuk-label nhsuk-radios__label" for="example-hints">
+                  By text message (SMS)
+                </label>
+                <div class="nhsuk-hint nhsuk-radios__hint" id="example-hints-item-hint">
+                  Receive a 6-digit verification code sent to your mobile device.
+                </div>
+              </div>
+              <div class="nhsuk-radios__item">
+                <input class="nhsuk-radios__input" id="example-hints-2" name="exampleHints" type="radio" value="jdr-email">
+                <label class="nhsuk-label nhsuk-radios__label" for="example-hints-2">
+                  By email
+                </label>
+                <div class="nhsuk-hint nhsuk-radios__hint" id="example-hints-item-hint">
+                  Receive a 6-digit verification code sent to your email.
+                </div>
+              </div>
+              <div class="nhsuk-radios__item">
+                <input class="nhsuk-radios__input" id="example-hints-3" name="exampleHints" type="radio" value="jdr-authenticator">
+                <label class="nhsuk-label nhsuk-radios__label" for="example-hints-3">
+                  By authenticator app
+                </label>
+                <div class="nhsuk-hint nhsuk-radios__hint" id="example-hints-item-hint">
+                 Generate secure verification codes on your device using an authentication app.
+                </div>
+              </div>
+            </div>
+          </fieldset>
+        </div>
+
+        <br>
+        <button class="nhsuk-button" data-module="nhsuk-button" type="submit">
+          Continue
+        </button>
+
+      </form>
+
+    </div>
+  </div>
+        
+      </form>
+    </div>
+{% endblock %}

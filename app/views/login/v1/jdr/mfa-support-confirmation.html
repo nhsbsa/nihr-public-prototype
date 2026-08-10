@@ -1,0 +1,29 @@
+{% extends "layout-volunteer-jdr.html" %}
+
+{% block beforeContent %}
+
+<button class="nhsuk-back-link" type="submit">
+  Back to: Request a callback to verify your identity
+</button>
+
+{% endblock %}
+
+{% block content %}
+
+      <div class="nhsuk-grid-row">
+    <div class="nhsuk-grid-column-two-thirds">
+
+      <h1 class="nhsuk-heading-l">Callback request received</h1>
+
+      <p>Our security team will call you within <strong>10 working days</strong> to verify your identity. We will attempt to reach you up to <strong>3 times</strong>.</p>
+
+      <a href="/login/v1/jdr-homepage" role="button" draggable="false" class="nhsuk-button" data-module="nhsuk-button">
+        Return to homepage
+      </a>
+
+    </div>
+  </div>
+        
+      </form>
+    </div>
+{% endblock %}
