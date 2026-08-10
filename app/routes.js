@@ -82,12 +82,12 @@ const locationPreferenceLabels = {
 // Initial Questionnaire Flow (1 to 5)
 // --------------------------------------------------------
 
-router.get('/v1/home', function (req, res) {
-  res.render('v1/home')
+router.get('/study-search/v1/home', function (req, res) {
+  res.render('study-search/v1/home')
 })
 
-router.get('/v1/questions/question-1', function (req, res) {
-  res.render('v1/questions/question-1', {
+router.get('/study-search/v1/questions/question-1', function (req, res) {
+  res.render('study-search/v1/questions/question-1', {
     currentQuestion: 1,
     totalQuestions: 5,
     step: 1,
@@ -95,12 +95,12 @@ router.get('/v1/questions/question-1', function (req, res) {
   });
 });
 
-router.post('/v1/questions/question-1', function (req, res) {
-  res.redirect('/v1/questions/question-2')
+router.post('/study-search/v1/questions/question-1', function (req, res) {
+  res.redirect('/study-search/v1/questions/question-2')
 });
 
-router.get('/v1/questions/question-2', function (req, res) {
-  res.render('v1/questions/question-2', {
+router.get('/study-search/v1/questions/question-2', function (req, res) {
+  res.render('study-search/v1/questions/question-2', {
     currentQuestion: 2,
     totalQuestions: 5,
     step: 2,
@@ -108,11 +108,11 @@ router.get('/v1/questions/question-2', function (req, res) {
   });
 });
 
-router.post('/v1/questions/question-2', function (req, res) {
-  res.redirect('/v1/questions/question-3')
+router.post('/study-search/v1/questions/question-2', function (req, res) {
+  res.redirect('/study-search/v1/questions/question-3')
 });
 
-router.get('/v1/questions/question-3', function (req, res) {
+router.get('/study-search/v1/questions/question-3', function (req, res) {
   if (req.session.data) {
     delete req.session.data.healthConditions;
     delete req.session.data.healthCondition;
@@ -137,22 +137,22 @@ router.get('/v1/questions/question-3', function (req, res) {
     }
   })
 
-  res.render('v1/questions/question-3', {
+  res.render('study-search/v1/questions/question-3', {
     currentQuestion: 3,
     totalQuestions: 5,
     step: 3,
     questionTitle: "Areas of research",
     healthConditionItems: buildHealthConditionItems(),
-    subCategoryGroups: subCategoryGroups 
+    subCategoryGroups: subCategoryGroups
   });
 });
 
-router.post('/v1/questions/question-3', function (req, res) {
-  res.redirect('/v1/questions/question-4')
+router.post('/study-search/v1/questions/question-3', function (req, res) {
+  res.redirect('/study-search/v1/questions/question-4')
 });
 
-router.get('/v1/questions/question-4', function (req, res) {
-  res.render('v1/questions/question-4', {
+router.get('/study-search/v1/questions/question-4', function (req, res) {
+  res.render('study-search/v1/questions/question-4', {
     currentQuestion: 4,
     totalQuestions: 5,
     step: 4,
@@ -160,12 +160,12 @@ router.get('/v1/questions/question-4', function (req, res) {
   });
 });
 
-router.post('/v1/questions/question-4', function (req, res) {
-  res.redirect('/v1/questions/question-5')
+router.post('/study-search/v1/questions/question-4', function (req, res) {
+  res.redirect('/study-search/v1/questions/question-5')
 });
 
-router.get('/v1/questions/question-5', function (req, res) {
-  res.render('v1/questions/question-5', {
+router.get('/study-search/v1/questions/question-5', function (req, res) {
+  res.render('study-search/v1/questions/question-5', {
     currentQuestion: 5,
     totalQuestions: 5,
     step: 5,
@@ -173,13 +173,13 @@ router.get('/v1/questions/question-5', function (req, res) {
   });
 });
 
-router.post('/v1/questions/question-5', function (req, res) {
-  res.redirect('/v1/questions/interruption-page')
+router.post('/study-search/v1/questions/question-5', function (req, res) {
+  res.redirect('/study-search/v1/questions/interruption-page')
 });
 
 // Interruption Card Bridge Page
-router.get('/v1/questions/interruption-page', function (req, res) {
-  res.render('v1/questions/question-6')
+router.get('/study-search/v1/questions/interruption-page', function (req, res) {
+  res.render('study-search/v1/questions/question-6')
 });
 
 
@@ -187,8 +187,8 @@ router.get('/v1/questions/interruption-page', function (req, res) {
 // Account Registration Flow (1 to 5)
 // --------------------------------------------------------
 
-router.get('/v1/register/register-1', function (req, res) {
-  res.render('v1/register/register-1', {
+router.get('/study-search/v1/register/register-1', function (req, res) {
+  res.render('study-search/v1/register/register-1', {
     currentQuestion: 1,
     totalQuestions: 4,
     step: 1,
@@ -196,12 +196,12 @@ router.get('/v1/register/register-1', function (req, res) {
   });
 });
 
-router.post('/v1/register/register-1', function (req, res) {
-  res.redirect('/v1/register/register-2')
+router.post('/study-search/v1/register/register-1', function (req, res) {
+  res.redirect('/study-search/v1/register/register-2')
 });
 
-router.get('/v1/register/register-2', function (req, res) {
-  res.render('v1/register/register-2', {
+router.get('/study-search/v1/register/register-2', function (req, res) {
+  res.render('study-search/v1/register/register-2', {
     currentQuestion: 2,
     totalQuestions: 4,
     step: 2,
@@ -209,12 +209,12 @@ router.get('/v1/register/register-2', function (req, res) {
   });
 });
 
-router.post('/v1/register/register-2', function (req, res) {
-  res.redirect('/v1/register/register-3')
+router.post('/study-search/v1/register/register-2', function (req, res) {
+  res.redirect('/study-search/v1/register/register-3')
 });
 
-router.get('/v1/register/register-3', function (req, res) {
-  res.render('v1/register/register-3', {
+router.get('/study-search/v1/register/register-3', function (req, res) {
+  res.render('study-search/v1/register/register-3', {
     currentQuestion: 3,
     totalQuestions: 4,
     step: 3,
@@ -222,12 +222,12 @@ router.get('/v1/register/register-3', function (req, res) {
   });
 });
 
-router.post('/v1/register/register-3', function (req, res) {
-  res.redirect('/v1/register/register-4')
+router.post('/study-search/v1/register/register-3', function (req, res) {
+  res.redirect('/study-search/v1/register/register-4')
 });
 
-router.get('/v1/register/register-4', function (req, res) {
-  res.render('v1/register/register-4', {
+router.get('/study-search/v1/register/register-4', function (req, res) {
+  res.render('study-search/v1/register/register-4', {
     currentQuestion: 4,
     totalQuestions: 4,
     step: 4,
@@ -235,34 +235,34 @@ router.get('/v1/register/register-4', function (req, res) {
   });
 });
 
-router.post('/v1/register/register-4', function (req, res) {
-  res.redirect('/v1/register/register-5')
+router.post('/study-search/v1/register/register-4', function (req, res) {
+  res.redirect('/study-search/v1/register/register-5')
 });
 
-router.get('/v1/register/register-5', function (req, res) {
-  res.render('v1/register/register-5', {
+router.get('/study-search/v1/register/register-5', function (req, res) {
+  res.render('study-search/v1/register/register-5', {
     questionTitle: "Check your answers"
   });
 });
 
-router.post('/v1/register/register-5', function (req, res) {
-  res.redirect('/v1/questions/check-your-answers')
+router.post('/study-search/v1/register/register-5', function (req, res) {
+  res.redirect('/study-search/v1/questions/check-your-answers')
 });
 
-router.get('/v1/questions/check-your-answers', function (req, res) {
+router.get('/study-search/v1/questions/check-your-answers', function (req, res) {
   const data = req.session.data || {}
-  res.render('v1/questions/check-your-answers', {
+  res.render('study-search/v1/questions/check-your-answers', {
     healthConditionLabels: getHealthConditionLabels(data.healthConditions).join(', '),
     locationPreferenceLabel: locationPreferenceLabels[data.locationPreference] || data.locationPreference
   });
 });
 
-router.post('/v1/questions/check-your-answers', function (req, res) {
-  res.redirect('/v1/register/confirmation')
+router.post('/study-search/v1/questions/check-your-answers', function (req, res) {
+  res.redirect('/study-search/v1/register/confirmation')
 });
 
-router.get('/v1/register/confirmation', function (req, res) {
-  res.render('v1/register/confirmation')
+router.get('/study-search/v1/register/confirmation', function (req, res) {
+  res.render('study-search/v1/register/confirmation')
 });
 
 
@@ -270,11 +270,11 @@ router.get('/v1/register/confirmation', function (req, res) {
 // Search Feed & Filtering Engine
 // --------------------------------------------------------
 
-router.get('/v1/search', function (req, res) {
-  res.render('v1/search')
+router.get('/study-search/v1/search', function (req, res) {
+  res.render('study-search/v1/search')
 })
 
-router.all('/v1/search-results', function (req, res) {
+router.all('/study-search/v1/search-results', function (req, res) {
   if (req.query.clear === 'true') {
     req.session.data = {}
     res.locals.data = {}
@@ -357,7 +357,7 @@ router.all('/v1/search-results', function (req, res) {
     }
   })
 
-  return res.render('v1/searchfeed/search-feed', {
+  return res.render('study-search/v1/searchfeed/search-feed', {
     resultsCount: formattedResults.length,
     results: formattedResults,
     healthConditionItems: buildHealthConditionItems(chosenCondition),
