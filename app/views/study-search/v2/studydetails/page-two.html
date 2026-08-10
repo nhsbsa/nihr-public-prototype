@@ -1,0 +1,116 @@
+{% extends "layout-bpor.html" %}
+
+
+{% from "breadcrumb/macro.njk" import breadcrumb %}
+{% from "contents-list/macro.njk" import contentsList %}
+{% from "pagination/macro.njk" import pagination %}
+{% from "tag/macro.njk" import tag %}
+{% from "inset-text/macro.njk" import insetText %}
+{% from "study-search/v2/_components/study-contents-list.njk" import studyContentsList %}
+
+{% block beforeContent %}
+  {{ breadcrumb({
+    items: [
+      {
+        href: "#",
+        text: "Search"
+      },
+      {
+        href: "#",
+        text: "Study details"
+      }
+    ]
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="nhsuk-grid-row">
+    <div class="nhsuk-grid-column-two-thirds">
+
+      <h1>
+        <span role="About the study">
+         About the study
+          <span class="nhsuk-caption-xl nhsuk-caption--bottom">
+            <span class="nhsuk-u-visually-hidden">
+            -
+            </span>
+              View the details below to find out more details about the study
+          </span>
+        </span>
+      </h1>
+
+{{ studyContentsList("page-two") }}
+
+{% from "tables/macro.njk" import table %}
+
+
+{{ table({
+  firstCellIsHeader: true,
+  rows: [
+    [
+      {
+        text: "Name of study"
+      },
+      {
+        text: "Biology and genetics of smouldering myeloma"
+      }
+    ],
+    [
+  {
+    text: "Status of study"
+  },
+  {
+    html: tag({
+      text: "Recruiting",
+      classes: "nhsuk-tag--blue"
+    }) + " until 26 June 2027"
+  }
+],
+    [
+      {
+        text: "Funders/sponsors"
+      },
+      {
+        text: "The study is sponsored by University College London and funded by CANCER RESEARCH UK."
+      }
+    ],
+    [
+      {
+        text: "Trial ID"
+      },
+      {
+        text: "CPMS 46567"
+      }
+    ]
+  ]
+
+  
+}) }}
+
+<h3 class="nhsuk-heading-s">Study description</h3>
+
+{% set insetTextHtml %}
+  <p>This information is provided directly by researchers, and we recognise that it isn't always easy to understand. We are working with researchers to improve the accessibility of this information. In some summaries, you may come across links to external websites. These websites will have more information to help you better understand the study.</p>
+{% endset %}
+
+{{ insetText({
+  html: insetTextHtml
+}) }}
+
+<p class="nhsuk-body-s">Myeloma(MM) is a common bone marrow cancer with over 5,000 patients diagnosed annually in the UK. Patients with MM have cancerous cells in their bone marrow that grow in an uncontrolled fashion and although new treatments have been developed for MM in the last 5 years, it remains an incurable disease, with nearly 3000 deaths yearly. MM is always preceded by defined precursor conditions, known as monoclonal gammopathy of uncertain significance (MGUS) and smouldering myeloma (SMM). However, only 7% of MGUS patients and 50% of SMM patients develop MM over a 5-year period. In the UK, patients are only given anti-MM treatment when the cancer causes damage within the body as the benefit of giving treatment in the pre-cancerous state is uncertain.There is increased understanding that the development of MM occurs due to changes in the cancer’s genetic make-up (genome) and in the cells surrounding the tumour in the bone marrow (immune microenvironment). The cells in the immune microenvironment can support tumour growth and lead to resistance to drugs used to kill MM cells.This project correlates changes in the genetic make-up of the precancerous cells to progression to MM compared to that in the bloodstream and changes that also occur within the cells in the immune microenvironment at the time of disease progression. By identifying which changes in the tumour genome cause the precancerous condition to develop into MM, we can develop a way to risk stratify patients with sMM and treat them according to their risk status. Furthermore, by defining which immune cells are important in helping to drive the conversion of sMM to MM, we can potentially develop new treatments to target not only the tumour cells but also the immune cells helping to drive disease progression.</p>
+
+
+{{ pagination({
+  previous: {
+    labelText: "Volunteer criteria",
+    href: "page-one.html"
+  },
+  next: {
+    labelText: "What's involved",
+    href: "page-three.html"
+  }
+}) }}
+
+    </div>
+  </div>
+{% endblock %}

@@ -16,6 +16,8 @@
   <link href="/assets/sass/main.css" rel="stylesheet">
 {% endblock %}
 
+
+
 <!-- Edit the header -->
 <!-- Header code examples can be found at https://service-manual.nhs.uk/design-system/components/header -->
 {% block header %}
@@ -50,11 +52,8 @@
         <li class="nhsuk-header__navigation-item">
           <a class="nhsuk-header__navigation-link" href="#">About us</a>
         </li>
-        <li class="nhsuk-header__navigation-item{% if currentPath == "search" %} nhsuk-header__navigation-item--current{% endif %}">
-          <a class="nhsuk-header__navigation-link" href="search"{% if currentPath == "search" %} aria-current="true"{% endif %}>Find a study</a>
-        </li>
         <li class="nhsuk-header__navigation-item">
-          <a class="nhsuk-header__navigation-link" href="#">Taking part in research</a>
+  <a class="nhsuk-header__navigation-link" href="/study-search/v2/search">Taking part in research</a>
         </li>
         <li class="nhsuk-header__navigation-item">
           <a class="nhsuk-header__navigation-link" href="#">Recruiting to your study</a>
