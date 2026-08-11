@@ -1,0 +1,130 @@
+{% extends "layout-bpor.html" %}
+
+
+{% from "breadcrumb/macro.njk" import breadcrumb %}
+{% from "contents-list/macro.njk" import contentsList %}
+{% from "pagination/macro.njk" import pagination %}
+{% from "tag/macro.njk" import tag %}
+{% from "inset-text/macro.njk" import insetText %}
+{% from "card/macro.njk" import card %}
+{% from "study-search/v2/_components/study-contents-list.njk" import studyContentsList %}
+
+{% block beforeContent %}
+  {{ breadcrumb({
+    items: [
+      {
+        href: "#",
+        text: "Search"
+      },
+      {
+        href: "#",
+        text: "Study details"
+      }
+    ]
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="nhsuk-grid-row">
+    <div class="nhsuk-grid-column-two-thirds">
+
+      <h1>
+        <span role="What's involved">
+         What's involved
+          <span class="nhsuk-caption-xl nhsuk-caption--bottom">
+            <span class="nhsuk-u-visually-hidden">
+            -
+            </span>
+              Find details below about logistics
+          </span>
+        </span>
+      </h1>
+
+{{ studyContentsList("page-three") }}
+
+{% from "tables/macro.njk" import table %}
+
+
+{{ table({
+  firstCellIsHeader: true,
+  rows: [
+    [
+      {
+        text: "Type of study"
+      },
+      {
+        text: "Observational type: Clinical Laboratory Study;"
+      }
+    ]
+  ]
+}) }}
+
+{% from "images/macro.njk" import image %}
+
+{{ image({
+  src: "/assets/images/map.png",
+  alt: "Map showing the location of Queen's Hospital in Romford",
+  sizes: "100vw",
+  srcset: "/assets/images/map.png 600w, /assets/images/map.png 1000w",
+  attributes: {
+    style: "width: 100%;"
+  }
+}) }}
+
+<div class="nhsuk-grid-row nhsuk-u-margin-bottom-4">
+  <div class="nhsuk-grid-column-one-half">
+    <p class="nhsuk-u-margin-bottom-0"><strong>3 locations</strong></p>
+  </div>
+  <div class="nhsuk-grid-column-one-half nhsuk-u-text-align-right">
+    <button class="nhsuk-button nhsuk-button--secondary nhsuk-u-margin-bottom-0" type="button">
+      Sort by
+    </button>
+  </div>
+</div>
+
+{% set cardDescriptionHtml %}
+  <p>Rom Valley Way, Romford, Essex, RM7 0AG</p>
+  <p><a href="#" class="nhsuk-link">Link</a></p>
+{% endset %}
+
+<ul class="nhsuk-grid-row nhsuk-card-group">
+  <li class="nhsuk-grid-column-full nhsuk-card-group__item">
+    {{ card({
+      heading: "Queen's Hospital",
+      headingSize: "m",
+      descriptionHtml: cardDescriptionHtml
+    }) }}
+  </li>
+  <li class="nhsuk-grid-column-full nhsuk-card-group__item">
+    {{ card({
+      heading: "Queen's Hospital",
+      headingSize: "m",
+      descriptionHtml: cardDescriptionHtml
+    }) }}
+  </li>
+    <li class="nhsuk-grid-column-full nhsuk-card-group__item">
+    {{ card({
+      heading: "Queen's Hospital",
+      headingSize: "m",
+      descriptionHtml: cardDescriptionHtml
+    }) }}
+  </li>
+
+</ul>
+
+
+
+{{ pagination({
+  previous: {
+    labelText: "About the study",
+    href: "page-two.html"
+  },
+  next: {
+    labelText: "Next steps",
+    href: "page-four.html"
+  }
+}) }}
+
+    </div>
+  </div>
+{% endblock %}

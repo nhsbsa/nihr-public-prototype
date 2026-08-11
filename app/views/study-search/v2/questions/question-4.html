@@ -1,0 +1,66 @@
+{% extends "layout-volunteer-bpor.html" %}
+
+{% block beforeContent %}
+
+{{ backLink({
+    "href": "javascript:history.go(-1)",
+    "text": "Back"
+}) }}
+
+<span class="nhsuk-caption-l">Question 4 of 5</span>
+
+{% endblock %}
+
+{% block content %}
+
+  <form action="/study-search/v1/questions/question-4" method="post">
+    {% set specificAreaHtml %}
+      {{ input({
+        id: "location",
+        name: "location",
+        type: "text",
+        label: {
+          text: "Town, city or postcode"
+        }
+      }) }}
+
+      {{ select({
+        id: "travelDistance",
+        name: "travelDistance",
+        label: {
+          text: "How far from this area would you be willing to travel?"
+        },
+        items: [
+          { value: "5", text: "Within 5 miles" },
+          { value: "10", text: "Within 10 miles" },
+          { value: "25", text: "Within 25 miles" },
+          { value: "50", text: "Within 50 miles" },
+          { value: "100", text: "Within 100 miles" }
+        ]
+      }) }}
+    {% endset %}
+
+    {{ radios({
+      idPrefix: "location-preference",
+      name: "locationPreference",
+      fieldset: {
+        legend: {
+          text: "Where could you take part?",
+          size: "l",
+          isPageHeading: true
+        }
+      },
+      items: [
+        { value: "anywhere-in-uk", text: "Anywhere in the UK" },
+        { value: "remote-only", text: "Remote only" },
+        {
+          value: "specific-area",
+          text: "A specific area",
+          conditional: { html: specificAreaHtml }
+        }
+      ]
+    }) }}
+
+    {{ button({ text: "Continue" }) }}
+  </form>
+{% endblock %}

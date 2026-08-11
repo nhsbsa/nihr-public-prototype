@@ -1,0 +1,28 @@
+{% from "contents-list/macro.njk" import contentsList %}
+
+{% macro studyContentsList(current) %}
+  {{ contentsList({
+    items: [
+      {
+        href: "page-one.html",
+        text: "Volunteer criteria",
+        current: current == "page-one"
+      },
+      {
+        href: "page-two.html",
+        text: "About the study",
+        current: current == "page-two"
+      },
+      {
+        href: "page-three.html",
+        text: "What's involved",
+        current: current == "page-three"
+      },
+      {
+        href: "page-four.html",
+        text: "Next steps",
+        current: current == "page-four"
+      }
+    ]
+  }) }}
+{% endmacro %}

@@ -1,0 +1,82 @@
+{% extends "layout-bpor.html" %}
+
+{% from "breadcrumb/macro.njk" import breadcrumb %}
+{% from "pagination/macro.njk" import pagination %}
+{% from "do-dont-list/macro.njk" import list %}
+{% from "tables/macro.njk" import table %}
+{% from "card/macro.njk" import card %}
+{% from "study-search/v2/_components/study-contents-list.njk" import studyContentsList %}
+
+{% block beforeContent %}
+  {{ breadcrumb({
+    items: [
+      {
+        href: "#",
+        text: "Search"
+      },
+      {
+        href: "#",
+        text: "Study details"
+      }
+    ]
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="nhsuk-grid-row">
+    <div class="nhsuk-grid-column-two-thirds">
+
+      <h1>
+        <span role="text">
+         Next steps
+          <span class="nhsuk-caption-xl nhsuk-caption--bottom">
+            <span class="nhsuk-u-visually-hidden">
+            -
+            </span>
+              Review BPOR's advice on what to researchers before contacting.
+          </span>
+        </span>
+      </h1>
+
+      {{ studyContentsList("page-four") }}
+
+
+<p class="nhsuk-body-m">Refer to <a href="#" class="nhsuk-link">questions to ask</a> page for support on what to ask the study team.</p>
+
+
+<ul class="nhsuk-grid-row nhsuk-card-group">
+  <li class="nhsuk-grid-column-full nhsuk-card-group__item">
+    {{ card({
+      heading: "Dr Kwee Yong",
+      headingSize: "m",
+      descriptionHtml: '<a href="#" class="nhsuk-link">kwee.yong@ucl.ac.uk</a>'
+    }) }}
+  </li>
+
+  <li class="nhsuk-grid-column-full nhsuk-card-group__item">
+    {{ card({
+      heading: "Rethina Shritharan",
+      headingSize: "m",
+      descriptionHtml: '<a href="#" class="nhsuk-link">rethina.shritharan@nhs.net</a>'
+    }) }}
+  </li>
+
+    <li class="nhsuk-grid-column-full nhsuk-card-group__item">
+    {{ card({
+      heading: "Anna Bote-Casamitjana",
+      headingSize: "m",
+      descriptionHtml: '<a href="#" class="nhsuk-link">anna.botecasamitjana@nhs.net</a>'
+    }) }}
+  </li>
+
+</ul>
+      {{ pagination({
+        previous: {
+          labelText: "What's involved",
+          href: "page-three.html"
+        }
+      }) }}
+
+    </div>
+  </div>
+{% endblock %}

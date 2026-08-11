@@ -1,0 +1,44 @@
+{% extends "layout-volunteer-bpor.html" %}
+
+{% block beforeContent %}
+
+{{ backLink({
+    "href": "javascript:history.go(-1)",
+    "text": "Back"
+}) }}
+
+<span class="nhsuk-caption-l">Question 2 of 5</span>
+
+{% endblock %}
+
+{% block content %}
+
+  <form action="/study-search/v1/questions/question-2" method="post">
+
+    {{ dateInput({
+      id: "date-of-birth",
+      namePrefix: "dateofbirth",
+      fieldset: {
+        legend: {
+          text: "What is your date of birth?",
+          size: "l",
+          isPageHeading: true
+        }
+      },
+      hint: {
+        text: "For example, 18 6 1989"
+      },
+      items: [
+        { name: "day", classes: "nhsuk-input--width-2" },
+        { name: "month", classes: "nhsuk-input--width-2" },
+        { name: "year", classes: "nhsuk-input--width-4" }
+      ]
+    }) }}
+
+    <!-- href removed! -->
+    {{ button({
+      text: "Continue"
+    }) }}
+
+  </form>
+{% endblock %}

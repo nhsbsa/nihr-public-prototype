@@ -1,0 +1,115 @@
+{% extends "layout-bpor.html" %}
+
+
+{% from "breadcrumb/macro.njk" import breadcrumb %}
+{% from "contents-list/macro.njk" import contentsList %}
+{% from "pagination/macro.njk" import pagination %}
+{% from "do-dont-list/macro.njk" import list %}
+{% from "tables/macro.njk" import table %}
+{% from "study-search/v2/_components/study-contents-list.njk" import studyContentsList %}
+
+{% block beforeContent %}
+  {{ breadcrumb({
+    items: [
+      {
+        href: "#",
+        text: "Search"
+      },
+      {
+        href: "#",
+        text: "Study details"
+      }
+    ]
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="nhsuk-grid-row">
+    <div class="nhsuk-grid-column-two-thirds">
+
+      <h1>
+        <span role="text">
+         Volunteer criteria
+          <span class="nhsuk-caption-xl nhsuk-caption--bottom">
+            <span class="nhsuk-u-visually-hidden">
+            -
+            </span>
+              View the details below to find out whether you might be a candidate for the study
+          </span>
+        </span>
+      </h1>
+
+{{ studyContentsList("page-one") }}
+
+      {{ table({
+        firstCellIsHeader: true,
+        rows: [
+          [
+            {
+              text: "Medical condition(s)"
+            },
+            {
+              text: "Malignant neoplasms, stated or presumed to be primary, of lymphoid, haematopoietic and related tissue, Neoplasms of uncertain or unknown behaviour"
+            }
+          ],
+          [
+            {
+              text: "Age"
+            },
+            {
+              text: "18 years - N/A"
+            }
+          ],
+          [
+            {
+              text: "Gender"
+            },
+            {
+              text: "Female/male"
+            }
+          ]
+        ]
+      }) }}
+
+      {{ list({
+        title: "Who we are looking for",
+        type: "tick",
+        items: [
+          {
+            text: "All patients with a diagnosis or suspected diagnosis of monoclonal gammopathy of uncertain significance (MGUS) or smouldering myeloma (sMM)."
+          }
+        ]
+      }) }}
+
+      {{ list({
+        title: "Who can't take part",
+        type: "cross",
+        items: [
+          {
+            text: "Patients under the age of 18."
+          },
+          {
+            text: "Patients with active symptomatic myeloma at diagnosis."
+          },
+          {
+            text: "Patients with no evidence of MGUS, sMM or MM."
+          },
+          {
+            text: "Patients with a known diagnosis of MGUS or sMM for more than 5 years."
+          },
+          {
+            text: "Patients with rapidly rising paraprotein or serum free light chains suggestive of progressive disease at time of diagnosis or inclusion into study."
+          }
+        ]
+      }) }}
+
+      {{ pagination({
+        next: {
+          labelText: "About the study",
+          href: "page-two.html"
+        }
+      }) }}
+
+    </div>
+  </div>
+{% endblock %}
