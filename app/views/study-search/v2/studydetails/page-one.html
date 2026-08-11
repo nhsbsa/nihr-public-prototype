@@ -29,12 +29,12 @@
 
       <h1>
         <span role="text">
-         Volunteer criteria
+         Who can take part
           <span class="nhsuk-caption-xl nhsuk-caption--bottom">
             <span class="nhsuk-u-visually-hidden">
             -
             </span>
-              View the details below to find out whether you might be a candidate for the study
+              Check these details to see if you can take part
           </span>
         </span>
       </h1>
@@ -46,7 +46,7 @@
         rows: [
           [
             {
-              text: "Medical condition(s)"
+              text: "Medical conditions"
             },
             {
               text: "Malignant neoplasms, stated or presumed to be primary, of lymphoid, haematopoietic and related tissue, Neoplasms of uncertain or unknown behaviour"
@@ -72,40 +72,41 @@
       }) }}
 
       {{ list({
-        title: "Who we are looking for",
+        title: "You can take part if you",
         type: "tick",
         items: [
           {
-            text: "All patients with a diagnosis or suspected diagnosis of monoclonal gammopathy of uncertain significance (MGUS) or smouldering myeloma (sMM)."
+            text: "have a diagnosis or suspected diagnosis of monoclonal gammopathy of uncertain significance (MGUS) or smouldering myeloma (sMM)"
           }
         ]
       }) }}
 
       {{ list({
-        title: "Who can't take part",
+        title: "You cannot take part if you",
         type: "cross",
+        hidePrefix: "true",
         items: [
           {
-            text: "Patients under the age of 18."
+            text: "are under the age of 18"
           },
           {
-            text: "Patients with active symptomatic myeloma at diagnosis."
+            text: "have active symptomatic myeloma at diagnosis"
           },
           {
-            text: "Patients with no evidence of MGUS, sMM or MM."
+            text: "show no evidence of MGUS, sMM or MM"
           },
           {
-            text: "Patients with a known diagnosis of MGUS or sMM for more than 5 years."
+            text: "have a known diagnosis of MGUS or sMM for more than 5 years"
           },
           {
-            text: "Patients with rapidly rising paraprotein or serum free light chains suggestive of progressive disease at time of diagnosis or inclusion into study."
+            text: "have rapidly rising paraprotein or serum free light chains suggestive of progressive disease at time of diagnosis or inclusion into study."
           }
         ]
       }) }}
 
       {{ pagination({
         next: {
-          labelText: "About the study",
+          labelText: "About this study",
           href: "page-two.html"
         }
       }) }}
