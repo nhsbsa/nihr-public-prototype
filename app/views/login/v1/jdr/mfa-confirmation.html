@@ -1,0 +1,31 @@
+{% extends "layout-volunteer-jdr.html" %}
+
+{% block beforeContent %}
+
+<button class="nhsuk-back-link" type="submit">
+  Back to: Enter the security code
+</button>
+
+{% endblock %}
+
+{% block content %}
+
+      <div class="nhsuk-grid-row">
+    <div class="nhsuk-grid-column-two-thirds">
+
+      <h1 class="nhsuk-heading-l">Two-factor authentication is active</h1>
+
+      <p>Your account is now protected. We have saved {Method Name} as your primary verification method.</p>
+      <p>You will be asked for a verification code using {Details} the next time you sign in on a new or unrecognised device.</p>
+      <p>You can update your verification method, view your backup codes, or change your settings at any time in your account profile.</p>
+
+      <a href="/login/v1/" role="button" draggable="false" class="nhsuk-button" data-module="nhsuk-button">
+        Continue
+      </a>
+
+    </div>
+  </div>
+        
+      </form>
+    </div>
+{% endblock %}

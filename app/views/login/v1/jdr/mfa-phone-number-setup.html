@@ -1,9 +1,9 @@
-{% extends "layout-bpor.html" %}
+{% extends "layout-volunteer-jdr.html" %}
 
 {% block beforeContent %}
 
 <button class="nhsuk-back-link" type="submit">
-  Back to: Log in to your account
+  Back to: Secure your account with 2-Factor Authentication
 </button>
 
 {% endblock %}
@@ -27,8 +27,8 @@
         <input class="nhsuk-input nhsuk-input--width-10" id="example-with-hint-text" name="exampleWithHintText" type="text" spellcheck="false" aria-describedby="example-with-hint-text-hint" autocomplete="postal-code">
       </div>
 
-      <p><a href="/login/v1/bpor/mfa-change-mobile">
-        I cannot log in using my mobile
+      <p><a href="/login/v1/bpor/">
+        Resend code to my mobile
       </a></p>
       <div class="nhsuk-checkboxes" data-module="nhsuk-checkboxes">
       <div class="nhsuk-checkboxes__item">
@@ -40,7 +40,7 @@
     </div>
     <br>
     <br>
-      <a href="" role="button" draggable="false" class="nhsuk-button" data-module="nhsuk-button">
+      <a href="/login/v1/jdr/mfa-confirmation" role="button" draggable="false" class="nhsuk-button" data-module="nhsuk-button">
         Continue
       </a>
     </div>
