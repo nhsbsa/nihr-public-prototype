@@ -757,13 +757,34 @@ router.post('/bpor-have-nhs-login', function (req, res) {
 router.post('/bpor-email', function (req, res) {
     let email = req.session.data['email'];
 
-    if (email) {
-        res.redirect('bpor-password');
-    } else {
-        // TODO: ADD ERROR MESSAGE FUNCTIONALITY HERE
-        res.redirect('fail');
+    let errors = {};
+
+    if (!email) {
+        errors.email = {
+            text: 'Enter your email address',
+            href: '#email'
+        };
+    } else if (!isValidEmail(email)) {
+        errors.email = {
+            text: 'Enter an email address in the correct format, like name@example.com',
+            href: '#email'
+        };
     }
+
+    if (errors.email) {
+        return res.render(path.join(__dirname, "bpor-email"), {
+            errors: errors,
+            errorList: [errors.email]
+        });
+    }
+
+    return res.redirect('bpor-password');
 });
+
+// Simple email format check
+function isValidEmail(email) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
 
 // Enter a password
 router.post('/bpor-password', function (req, res) {
