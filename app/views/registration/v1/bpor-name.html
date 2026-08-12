@@ -1,0 +1,59 @@
+{% set layout = "layout.html" %}
+
+{% set layout = "layout-volunteer-bpor.html" %}
+{% extends layout %}
+
+{% block pageTitle %}
+    What is your name?
+{% endblock %}
+
+{% block beforeContent %}
+    {{ nhsukPhaseBanner({
+    tag: {
+        text: "Beta"
+    },
+    html: 'This is a new service - your <a target="_blank" href="https://bepartofresearch.nihr.ac.uk/get-in-touch/">feedback<span class="nhsuk-u-visually-hidden"> (opens in a new tab)</span></a> will help us to improve it'
+    }) }}
+
+	{{ backLink({
+		href: "bpor-start",
+		text: "Back to: Registering to Be Part of Research"
+	}) }}
+{% endblock %}
+
+{% block content %}  
+<div class="nhsuk-grid-row">
+	<div class="nhsuk-grid-column-two-thirds">
+		<form action="/{{folder}}/{{subfolder}}/bpor-name" method="post">
+			{% call fieldset({
+				legend: {
+					text: "What is your name?",
+					size: "l",
+					isPageHeading: true
+				}
+				}) %}
+	
+				{{ input({
+					label: {
+					text: "First name"
+					},
+					id: "first-name",
+					name: "firstName"
+				}) }}
+	
+				{{ input({
+					label: {
+					text: "Last name"
+					},
+					id: "last-name",
+					name: "lastName"
+				}) }}
+			{% endcall %}
+
+			{{ button({
+				text: "Continue"
+			}) }}
+		</form>
+	</div>
+</div>
+{% endblock %}

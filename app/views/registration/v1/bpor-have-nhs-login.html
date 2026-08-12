@@ -1,0 +1,56 @@
+{% set layout = "layout.html" %}
+
+{% set layout = "layout-volunteer-bpor.html" %}
+{% extends layout %}
+
+{% block pageTitle %}
+    Do you have an NHS login?
+{% endblock %}
+
+{% block beforeContent %}
+    {{ nhsukPhaseBanner({
+    tag: {
+        text: "Beta"
+    },
+    html: 'This is a new service - your <a target="_blank" href="https://bepartofresearch.nihr.ac.uk/get-in-touch/">feedback<span class="nhsuk-u-visually-hidden"> (opens in a new tab)</span></a> will help us to improve it'
+    }) }}
+
+	{{ backLink({
+		href: "bpor-dob",
+		text: "Back to: What is your date of birth?"
+	}) }}
+{% endblock %}
+
+{% block content %}  
+<div class="nhsuk-grid-row">
+	<div class="nhsuk-grid-column-two-thirds">
+		<form action="/{{folder}}/{{subfolder}}/bpor-have-nhs-login" method="post">
+            {{ radios({
+                idPrefix: "have-nhs",
+                name: "have-nhs-login",
+                fieldset: {
+                    legend: {
+                    text: "Do you have an NHS login?",
+                    size: "l",
+                    isPageHeading: true
+                    }
+                },
+                items: [
+                    {
+                    value: "yes",
+                    text: "Yes"
+                    },
+                    {
+                    value: "no",
+                    text: "No"
+                    }
+                ]
+            }) }}
+
+			{{ button({
+				text: "Continue"
+			}) }}
+		</form>
+	</div>
+</div>
+{% endblock %}

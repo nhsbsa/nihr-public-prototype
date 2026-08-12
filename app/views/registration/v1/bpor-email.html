@@ -1,0 +1,52 @@
+{% set layout = "layout.html" %}
+
+{% set layout = "layout-volunteer-bpor.html" %}
+{% extends layout %}
+
+{% block pageTitle %}
+    What is your email address?
+{% endblock %}
+
+{% block beforeContent %}
+    {{ nhsukPhaseBanner({
+    tag: {
+        text: "Beta"
+    },
+    html: 'This is a new service - your <a target="_blank" href="https://bepartofresearch.nihr.ac.uk/get-in-touch/">feedback<span class="nhsuk-u-visually-hidden"> (opens in a new tab)</span></a> will help us to improve it'
+    }) }}
+
+	{{ backLink({
+		href: "bpor-have-nhs-login",
+		text: "Back to: Do you have an NHS login?"
+	}) }}
+{% endblock %}
+
+{% block content %}  
+<div class="nhsuk-grid-row">
+	<div class="nhsuk-grid-column-two-thirds">
+		<form action="/{{folder}}/{{subfolder}}/bpor-email" method="post">
+			{% call fieldset({
+                legend: {
+                    text: "What is your email address?",
+                    size: "l",
+                    isPageHeading: true
+                }
+            }) %}
+	
+				{{ input({
+					label: {
+					text: "Email address"
+					},
+					id: "email",
+					name: "email",
+                    type: "email"
+				}) }}
+			{% endcall %}
+
+			{{ button({
+				text: "Continue"
+			}) }}
+		</form>
+	</div>
+</div>
+{% endblock %}

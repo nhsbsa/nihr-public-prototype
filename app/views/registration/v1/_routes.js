@@ -605,6 +605,98 @@ router.post('/jdr-check-answers', function (req, res) {
 
 });
 
+// BPOR Registration routes
+
+// What is your name?
+router.post('/bpor-name', function (req, res) {
+    let name = req.session.data['firstName'];
+    let surname = req.session.data['lastName'];
+
+    if (name && surname) {
+        res.redirect('bpor-dob');
+    } else {
+        // TODO: ADD ERROR MESSAGE FUNCTIONALITY HERE
+        res.redirect('fail');
+    }
+});
+
+// What is your date of birth?
+router.post('/bpor-dob', function (req, res) {
+  let day = req.session.data['dob-day'];
+  let month = req.session.data['dob-month'];
+  let year = req.session.data['dob-year'];
+
+  if (!day || !month || !year) {
+    // TODO: ADD ERROR MESSAGE FUNCTIONALITY HERE
+    return res.redirect('fail');
+  }
+
+  let dob = new Date(year, month - 1, day);
+
+  // Check the date is valid
+  if (
+    dob.getFullYear() != Number(year) ||
+    dob.getMonth() != Number(month) - 1 ||
+    dob.getDate() != Number(day)
+  ) {
+    // TODO: ADD ERROR MESSAGE FUNCTIONALITY HERE
+    return res.redirect('fail');
+  }
+
+  // Work out when they turn 18
+  let eighteenthBirthday = new Date(
+    dob.getFullYear() + 18,
+    dob.getMonth(),
+    dob.getDate()
+  );
+
+  let today = new Date();
+
+  if (today < eighteenthBirthday) {
+    return res.redirect('bpor-under-18');
+  }
+
+  return res.redirect('bpor-have-nhs-login');
+});
+
+// Do you have an NHS login?
+router.post('/bpor-have-nhs-login', function (req, res) {
+    let nhs = req.session.data['have-nhs-login'];
+
+    if (nhs == "yes") {
+        res.redirect('bpor-check-email');
+    } else if (nhs == "no"){
+        res.redirect('bpor-email');
+    } else {
+        // TODO: ADD ERROR FUNCTIONALITY HERE 
+        res.redirect('fail');
+    }
+});
+
+// What is your email address?
+router.post('/bpor-email', function (req, res) {
+    let email = req.session.data['email'];
+
+    if (email) {
+        res.redirect('bpor-password');
+    } else {
+        // TODO: ADD ERROR MESSAGE FUNCTIONALITY HERE
+        res.redirect('fail');
+    }
+});
+
+// Enter a password
+router.post('/bpor-password', function (req, res) {
+    let password = req.session.data['password'];
+
+    if (password) {
+        res.redirect('bpor-check-email');
+    } else {
+        // TODO: ADD ERROR MESSAGE FUNCTIONALITY HERE
+        res.redirect('fail');
+    }
+});
+
 // End Routes
 
 module.exports = router;
