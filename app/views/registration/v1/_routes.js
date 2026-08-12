@@ -735,13 +735,22 @@ router.post('/bpor-have-nhs-login', function (req, res) {
     let nhs = req.session.data['have-nhs-login'];
 
     if (nhs == "yes") {
-        res.redirect('bpor-check-email');
-    } else if (nhs == "no"){
-        res.redirect('bpor-email');
-    } else {
-        // TODO: ADD ERROR FUNCTIONALITY HERE 
-        res.redirect('fail');
+        return res.redirect('bpor-check-email');
     }
+
+    if (nhs == "no") {
+        return res.redirect('bpor-email');
+    }
+
+    // Nothing selected
+    let errors = {
+        nhsLogin: { text: 'Select if you have an NHS login', href: '#have-nhs' }
+    };
+
+    return res.render(path.join(__dirname, "bpor-have-nhs-login"), {
+        errors: errors,
+        errorList: [errors.nhsLogin]
+    });
 });
 
 // What is your email address?

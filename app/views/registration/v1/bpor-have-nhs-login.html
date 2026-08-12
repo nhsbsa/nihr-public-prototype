@@ -24,6 +24,13 @@
 {% block content %}  
 <div class="nhsuk-grid-row">
 	<div class="nhsuk-grid-column-two-thirds">
+		{% if errorList and errorList.length %}
+			{{ errorSummary({
+				titleText: "There is a problem",
+				errorList: errorList
+			}) }}
+		{% endif %}
+
 		<form action="/{{folder}}/{{subfolder}}/bpor-have-nhs-login" method="post">
             {{ radios({
                 idPrefix: "have-nhs",
@@ -35,14 +42,17 @@
                     isPageHeading: true
                     }
                 },
+                errorMessage: errors.nhsLogin if errors.nhsLogin else null,
                 items: [
                     {
                     value: "yes",
-                    text: "Yes"
+                    text: "Yes",
+                    checked: data['have-nhs-login'] == "yes"
                     },
                     {
                     value: "no",
-                    text: "No"
+                    text: "No",
+                    checked: data['have-nhs-login'] == "no"
                     }
                 ]
             }) }}
