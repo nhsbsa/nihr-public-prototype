@@ -6,6 +6,7 @@
 const express = require('express');
 const router = express.Router();
 const { DateTime } = require("luxon");
+const path = require('path');
 
 // ROUTES GO HERE
 
@@ -608,16 +609,39 @@ router.post('/jdr-check-answers', function (req, res) {
 // BPOR Registration routes
 
 // What is your name?
-router.post('/bpor-name', function (req, res) {
+router.post('/bpor-name', function(req, res) {
     let name = req.session.data['firstName'];
     let surname = req.session.data['lastName'];
 
+    // Defaulted to show no errors
+    let errors = {};
+
+    // If name and surname are entered, proceed to DOB
     if (name && surname) {
-        res.redirect('bpor-dob');
-    } else {
-        // TODO: ADD ERROR MESSAGE FUNCTIONALITY HERE
-        res.redirect('fail');
+        return res.redirect('bpor-dob');
     }
+
+    // If name is missing, show error message for first name
+    if (!name) {
+        errors.firstName = {
+            text: 'Enter your first name',
+            href: '#first-name'
+        };
+    }
+
+    // If surname is missing, show error message for surname
+    if (!surname) {
+        errors.lastName = {
+            text: 'Enter your last name',
+            href: '#last-name'
+        };
+    }
+
+    // Render the template, apply error messages if needed (will show both if both are missing)
+    return res.render(path.join(__dirname, "bpor-name"), {
+        errors: errors,
+        errorList: Object.values(errors)
+    });
 });
 
 // What is your date of birth?

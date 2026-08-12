@@ -21,7 +21,7 @@
 	<div class="nhsuk-grid-column-two-thirds">
         <h1 class="nhsuk-heading-l">Check your email</h1>
         
-        <p>We have sent an email to <strong>email@email.co.uk</strong></p>
+        <p>We have sent an email to <strong>{{ data['email'] | default('email@email.com', true) }}</strong></p>
         <p>To continue to register for Be Part of Research you must follow the link in the email we have sent.</p>
         <p>The link will stop working after 24 hours.</p>
         <p><a href="#">Contact us</a> if you need help verifying your email.</p>
