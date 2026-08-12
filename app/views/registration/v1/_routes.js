@@ -650,38 +650,85 @@ router.post('/bpor-dob', function (req, res) {
   let month = req.session.data['dob-month'];
   let year = req.session.data['dob-year'];
 
-  if (!day || !month || !year) {
-    // TODO: ADD ERROR MESSAGE FUNCTIONALITY HERE
-    return res.redirect('fail');
+  let errors = {};
+
+  // Work out which parts are missing
+  let missing = [];
+  if (!day) missing.push('day');
+  if (!month) missing.push('month');
+  if (!year) missing.push('year');
+
+  if (missing.length) {
+    let message = missing.length === 3
+      ? 'Enter your date of birth'
+      : 'Date of birth must include a ' + joinWithAnd(missing);
+
+    errors.dob = { text: message, href: '#date-of-birth-day' };
+    errors.day = missing.includes('day');
+    errors.month = missing.includes('month');
+    errors.year = missing.includes('year');
+
+    return res.render(path.join(__dirname, "bpor-dob"), {
+      errors: errors,
+      errorList: [errors.dob]
+    });
   }
 
   let dob = new Date(year, month - 1, day);
 
-  // Check the date is valid
-  if (
-    dob.getFullYear() != Number(year) ||
-    dob.getMonth() != Number(month) - 1 ||
-    dob.getDate() != Number(day)
-  ) {
-    // TODO: ADD ERROR MESSAGE FUNCTIONALITY HERE
-    return res.redirect('fail');
+  // Check it's a real calendar date (not 31 Feb, etc)
+  let isRealDate =
+    dob.getFullYear() == Number(year) &&
+    dob.getMonth() == Number(month) - 1 &&
+    dob.getDate() == Number(day);
+
+  if (!isRealDate) {
+    errors.dob = { text: 'Date of birth must be a real date', href: '#date-of-birth-day' };
+    errors.day = true;
+    errors.month = true;
+    errors.year = true;
+
+    return res.render(path.join(__dirname, "bpor-dob"), {
+      errors: errors,
+      errorList: [errors.dob]
+    });
   }
 
-  // Work out when they turn 18
-  let eighteenthBirthday = new Date(
-    dob.getFullYear() + 18,
-    dob.getMonth(),
-    dob.getDate()
-  );
-
+  // Check it's not in the future
   let today = new Date();
+  if (dob > today) {
+    errors.dob = { text: 'Date of birth must be in the past', href: '#date-of-birth-day' };
+    errors.day = true;
+    errors.month = true;
+    errors.year = true;
 
-  if (today < eighteenthBirthday) {
+    return res.render(path.join(__dirname, "bpor-dob"), {
+      errors: errors,
+      errorList: [errors.dob]
+    });
+  }
+
+  // Work out age
+  let age = today.getFullYear() - dob.getFullYear();
+  let hasHadBirthdayThisYear =
+    today.getMonth() > dob.getMonth() ||
+    (today.getMonth() === dob.getMonth() && today.getDate() >= dob.getDate());
+  if (!hasHadBirthdayThisYear) {
+    age--;
+  }
+
+  if (age < 18) {
     return res.redirect('bpor-under-18');
   }
 
   return res.redirect('bpor-have-nhs-login');
 });
+
+// Small helper for grammatically correct error messages, e.g. "day and year"
+function joinWithAnd(arr) {
+  if (arr.length === 1) return arr[0];
+  return arr.slice(0, -1).join(', ') + ' and ' + arr[arr.length - 1];
+}
 
 // Do you have an NHS login?
 router.post('/bpor-have-nhs-login', function (req, res) {

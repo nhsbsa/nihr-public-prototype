@@ -24,6 +24,13 @@
 {% block content %}  
 <div class="nhsuk-grid-row">
 	<div class="nhsuk-grid-column-two-thirds">
+		{% if errorList and errorList.length %}
+			{{ errorSummary({
+				titleText: "There is a problem",
+				errorList: errorList
+			}) }}
+		{% endif %}
+
 		<form action="/{{folder}}/{{subfolder}}/bpor-dob" method="post">
             {{ dateInput({
                 id: "date-of-birth",
@@ -37,23 +44,27 @@
                 hint: {
                     text: "For example, 15 3 1984"
                 },
+                errorMessage: errors.dob if errors.dob else null,
                 items: [
                     {
                         label: "Day",
                         name: "dob-day",
-                        classes: "nhsuk-input--width-2",
+                        value: data['dob-day'],
+                        classes: "nhsuk-input--width-2" + (" nhsuk-input--error" if errors.day else ""),
                         autocomplete: "bday-day"
                     },
                     {
                         label: "Month",
                         name: "dob-month",
-                        classes: "nhsuk-input--width-2",
+                        value: data['dob-month'],
+                        classes: "nhsuk-input--width-2" + (" nhsuk-input--error" if errors.month else ""),
                         autocomplete: "bday-month"
                     },
                     {
                         label: "Year",
                         name: "dob-year",
-                        classes: "nhsuk-input--width-4",
+                        value: data['dob-year'],
+                        classes: "nhsuk-input--width-4" + (" nhsuk-input--error" if errors.year else ""),
                         autocomplete: "bday-year"
                     }
                 ]
