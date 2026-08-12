@@ -790,12 +790,21 @@ function isValidEmail(email) {
 router.post('/bpor-password', function (req, res) {
     let password = req.session.data['password'];
 
-    if (password) {
-        res.redirect('bpor-check-email');
-    } else {
-        // TODO: ADD ERROR MESSAGE FUNCTIONALITY HERE
-        res.redirect('fail');
+    let errors = {};
+
+    if (!password) {
+        errors.password = {
+            text: 'Enter a password',
+            href: '#password'
+        };
+
+        return res.render(path.join(__dirname, "bpor-password"), {
+            errors: errors,
+            errorList: [errors.password]
+        });
     }
+
+    return res.redirect('bpor-check-email');
 });
 
 // End Routes
