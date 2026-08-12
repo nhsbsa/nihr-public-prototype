@@ -1,3 +1,9 @@
+const express = require('express')
+const router = express.Router()
+
+// Load health conditions JSON data from app/data/
+const healthConditionsData = require('../../../data/health-conditions.json')
+
 // Works out the session's set of selected health condition slugs after
 // applying: initial seed, removeCondition, "_all" clear, or a new pick.
 function updateSelectedConditions(session, inputSource, query) {
@@ -52,7 +58,7 @@ function applyFilters(studies, { keywords, location, activeStatuses, selectedCon
   return results
 }
 
-router.all('/study-search/v1/search-results', function (req, res) {
+router.all('/search-results', function (req, res) {
   if (req.query.clear === 'true') {
     req.session.data = {}
     res.locals.data = {}
@@ -65,4 +71,89 @@ router.all('/study-search/v1/search-results', function (req, res) {
   const location = inputSource.location || sd.location
   const hasSubConditions = Object.keys(sd).some(key => key.endsWith('Sub') && Array.isArray(sd[key]) && sd[key].length > 0)
 
-  const selectedConditions = updateSelectedConditions(req.session,
+  const selectedConditions = updateSelectedConditions(req.session, inputSource, req.query)
+  const chosenCondition = resolveChosenCondition(inputSource, selectedConditions)
+
+  const activeStatuses = status
+    ? (Array.isArray(status) ? status : [status])
+    : (sd.activeStatuses || [])
+
+  req.session.data.location = location
+  req.session.data.activeStatuses = activeStatuses
+
+  const studies = req.session.data.studies || []
+
+  const results = applyFilters(studies, {
+    keywords,
+    location,
+    activeStatuses,
+    selectedConditions
+  })
+
+  res.render('study-search/v2/search-results', {
+    results,
+    keywords,
+    location,
+    activeStatuses,
+    selectedConditions,
+    chosenCondition,
+    hasSubConditions
+  })
+})
+
+// ****************************************
+// Questions 1–6
+// ****************************************
+
+router.post('/questions/question-1', function (req, res) {
+  req.session.data.sex = req.body.sex
+  req.session.data.genderSameAsSex = req.body.genderSameAsSex
+
+  res.redirect('/study-search/v2/questions/question-2')
+})
+
+router.post('/questions/question-2', function (req, res) {
+  req.session.data.dateofbirthDay = req.body['dateofbirth-day']
+  req.session.data.dateofbirthMonth = req.body['dateofbirth-month']
+  req.session.data.dateofbirthYear = req.body['dateofbirth-year']
+
+  res.redirect('/study-search/v2/questions/question-3')
+})
+
+// GET Question 3: Render template with the JSON data
+router.get('/questions/question-3', function (req, res) {
+  res.render('study-search/v2/questions/question-3', {
+    healthConditionsData: healthConditionsData
+  })
+})
+
+// POST Question 3: Save selected checkboxes into session
+router.post('/questions/question-3', function (req, res) {
+  let healthConditions = req.body.healthConditions
+
+  // Normalize single selected checkbox into an array
+  if (healthConditions && !Array.isArray(healthConditions)) {
+    healthConditions = [healthConditions]
+  }
+
+  req.session.data.healthConditions = healthConditions || []
+
+  res.redirect('/study-search/v2/questions/question-4')
+})
+
+router.post('/questions/question-4', function (req, res) {
+  // TODO: save question-4's fields into req.session.data here
+  res.redirect('/study-search/v2/questions/question-5')
+})
+
+router.post('/questions/question-5', function (req, res) {
+  // TODO: save question-5's fields into req.session.data here
+  res.redirect('/study-search/v2/questions/question-6')
+})
+
+router.post('/questions/question-6', function (req, res) {
+  // TODO: save question-6's fields into req.session.data here
+  res.redirect('/study-search/v2/search-results')
+})
+
+module.exports = router
