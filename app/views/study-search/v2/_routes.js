@@ -3,8 +3,9 @@ const router = express.Router()
 
 // Load health conditions JSON data from app/data/
 const healthConditionsData = require('../../../data/health-conditions.json')
+
 // Load the dummy studies from app/data/studies.json
-const studiesData = require('../../../data/studies.json') 
+const studiesData = require('../../../data/studies.json')
 
 // Works out the session's set of selected health condition slugs after
 // applying: initial seed, removeCondition, "_all" clear, or a new pick.
