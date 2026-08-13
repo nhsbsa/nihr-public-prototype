@@ -4034,5 +4034,185 @@
       "Liverpool",
       "Portsmouth"
     ]
+  },
+  {
+    "id": "58687",
+    "detailFolder": "studydetails-1",
+    "status": "recruiting",
+    "statusLabel": "Recruiting",
+    "closingDate": "Sep 2026",
+    "title": "A Combined Exercise Programme Involving Strengthening, Flexibility and Aerobic Exercise for Lower Back Pain",
+    "conditionCategories": [
+      "musculoskeletal-and-orthopaedics",
+      "anaesthesia-perioperative-medicine-and-pain-management",
+      "primary-care",
+      "general-practice",
+      "ageing"
+    ],
+    "ageingSub": [
+      "back-pain"
+    ],
+    "musculoskeletal-and-orthopaedicsSub": [
+      "back-pain"
+    ],
+    "anaesthesia-perioperative-medicine-and-pain-managementSub": [
+      "back-pain"
+    ],
+    "primary-careSub": [
+      "back-pain"
+    ],
+    "general-practiceSub": [
+      "back-pain"
+    ],
+    "conditionText": "Low Back Pain, Chronic",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 18,
+    "ageMax": 45,
+    "ageLabel": "18 - 45 Years",
+    "locations": [
+      "Nottingham"
+    ]
+  },{
+    "id": "58688",
+    "status": "recruiting",
+    "statusLabel": "Recruiting",
+    "closingDate": "Nov 2026",
+    "title": "Physiotherapy vs. Clinical Pilates for Chronic Lower Back Pain in Working Adults",
+    "conditionCategories": [
+      "musculoskeletal-and-orthopaedics",
+      "anaesthesia-perioperative-medicine-and-pain-management",
+      "primary-care",
+      "general-practice",
+      "ageing"
+    ],
+    "ageingSub": [
+      "back-pain"
+    ],
+    "musculoskeletal-and-orthopaedicsSub": [
+      "back-pain"
+    ],
+    "anaesthesia-perioperative-medicine-and-pain-managementSub": [
+      "back-pain"
+    ],
+    "primary-careSub": [
+      "back-pain"
+    ],
+    "general-practiceSub": [
+      "back-pain"
+    ],
+    "conditionText": "Lower Back Pain, Musculoskeletal Rehabilitation",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 18,
+    "ageMax": 65,
+    "ageLabel": "18 - 65 Years",
+    "locations": [
+      "London",
+      "Leeds"
+    ]
+  },
+  {
+    "id": "58689",
+    "status": "recruiting",
+    "statusLabel": "Recruiting",
+    "closingDate": "Jan 2027",
+    "title": "Digital App-Guided Mindfulness and Cognitive Therapy for Sciatica and Back Pain",
+    "conditionCategories": [
+      "musculoskeletal-and-orthopaedics",
+      "anaesthesia-perioperative-medicine-and-pain-management",
+      "primary-care",
+      "general-practice"
+    ],
+    "musculoskeletal-and-orthopaedicsSub": [
+      "back-pain"
+    ],
+    "anaesthesia-perioperative-medicine-and-pain-managementSub": [
+      "back-pain"
+    ],
+    "primary-careSub": [
+      "back-pain"
+    ],
+    "general-practiceSub": [
+      "back-pain"
+    ],
+    "conditionText": "Sciatica, Lumbar Pain",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 21,
+    "ageMax": 70,
+    "ageLabel": "21 - 70 Years",
+    "locations": [
+      "Manchester",
+      "Birmingham"
+    ]
+  },
+  {
+    "id": "58690",
+    "status": "completed",
+    "statusLabel": "Completed",
+    "closingDate": null,
+    "title": "Non-Invasive Wearable TENS Device for Acute Post-Work Flare-ups of Back Pain",
+    "conditionCategories": [
+      "musculoskeletal-and-orthopaedics",
+      "anaesthesia-perioperative-medicine-and-pain-management",
+      "primary-care"
+    ],
+    "musculoskeletal-and-orthopaedicsSub": [
+      "back-pain"
+    ],
+    "anaesthesia-perioperative-medicine-and-pain-managementSub": [
+      "back-pain"
+    ],
+    "primary-careSub": [
+      "back-pain"
+    ],
+    "conditionText": "Acute Back Pain, Postural Strain",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 18,
+    "ageMax": 80,
+    "ageLabel": "18 - 80 Years",
+    "locations": [
+      "Bristol",
+      "Edinburgh"
+    ]
+  },
+  {
+    "id": "58691",
+    "detailFolder": "studydetails-2",
+    "status": "recruiting",
+    "statusLabel": "Recruiting",
+    "closingDate": "Oct 2026",
+    "title": "EVOKE ECAP-Controlled Lead Placement and Programming in Chronic Pain Patients",
+    "conditionCategories": [
+      "musculoskeletal-and-orthopaedics",
+      "primary-care",
+      "general-practice",
+      "ageing"
+    ],
+    "ageingSub": [
+      "back-pain"
+    ],
+    "musculoskeletal-and-orthopaedicsSub": [
+      "back-pain"
+    ],
+    "primary-careSub": [
+      "back-pain"
+    ],
+    "general-practiceSub": [
+      "back-pain"
+    ],
+    "conditionText": "Spinal Cord Stimulation, Back Pain Lower Back Chronic",
+    "gender": "all",
+    "genderLabel": "open to all",
+    "ageMin": 18,
+    "ageMax": 75,
+    "ageLabel": "18 - 75 Years",
+    "locations": [
+      "Newcastle",
+      "Sheffield"
+    ]
   }
+
 ]

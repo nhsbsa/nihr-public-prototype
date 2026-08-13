@@ -1,0 +1,284 @@
+{% extends "layout-bpor.html" %}
+
+{% from "breadcrumb/macro.njk" import breadcrumb %}
+{% from "tables/macro.njk" import table %}
+{% from "do-dont-list/macro.njk" import list %}
+{% from "tag/macro.njk" import tag %}
+{% from "inset-text/macro.njk" import insetText %}
+{% from "images/macro.njk" import image %}
+{% from "card/macro.njk" import card %}
+{% from "pagination/macro.njk" import pagination %}
+
+{% block beforeContent %}
+  {{ breadcrumb({
+    items: [
+      {
+        href: "/study-search/v2/searchfeed/search-feed",
+        text: "Search results"
+      },
+      {
+        href: "#",
+        text: "Study details"
+      }
+    ]
+  }) }}
+{% endblock %}
+
+{% block content %}
+
+{# SMOOTH SCROLL & STICKY MENU STYLES #}
+<style>
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Force NHS grid row to use flexbox so columns match full page height */
+  .sticky-row {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  /* Prevent parent wrappers from blocking sticky behavior */
+  main, .nhsuk-main-wrapper, #main-content {
+    overflow: visible !important;
+  }
+
+  /* Offset for section headings when jumped to via anchor link */
+  .nhsuk-grid-column-two-thirds [id] {
+    scroll-margin-top: 32px;
+  }
+
+  /* Lock menu 24px from top of viewport while scrolling */
+  .sticky-contents-list {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 24px;
+  }
+</style>
+
+  {# FULL WIDTH HEADER TITLE BLOCK #}
+  <span class="nhsuk-caption-l">{{ study.title or "EVOKE ECAP-Controlled Lead Placement and Programming in Chronic Pain Patients" }}</span>
+  <h1 class="nhsuk-heading-xl nhsuk-u-margin-bottom-6">Study details</h1>
+
+  {# TWO COLUMN GRID LAYOUT WITH FLEX STRIP #}
+  <div class="nhsuk-grid-row sticky-row">
+
+    {# LEFT COLUMN (1/3 WIDTH): STICKY IN-PAGE SCROLL MENU #}
+    <div class="nhsuk-grid-column-one-third">
+      <nav class="nhsuk-contents-list sticky-contents-list" role="navigation" aria-label="Pages in this study section">
+        <h2 class="nhsuk-u-visually-hidden">Contents</h2>
+        <ul class="nhsuk-contents-list__list">
+          <li class="nhsuk-contents-list__item">
+            <a class="nhsuk-contents-list__link" href="#who-can-take-part">Who can take part</a>
+          </li>
+          <li class="nhsuk-contents-list__item">
+            <a class="nhsuk-contents-list__link" href="#about-this-study">About this study</a>
+          </li>
+          <li class="nhsuk-contents-list__item">
+            <a class="nhsuk-contents-list__link" href="#location">Location</a>
+          </li>
+          <li class="nhsuk-contents-list__item">
+            <a class="nhsuk-contents-list__link" href="#contact-study-team">Contact the study team</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+
+    {# RIGHT COLUMN (2/3 WIDTH): STUDY DETAILS CONTENT #}
+    <div class="nhsuk-grid-column-two-thirds">
+
+      {# ------------------------------------------------------------- #}
+      {# SECTION 1: WHO CAN TAKE PART #}
+      {# ------------------------------------------------------------- #}
+      <h2 class="nhsuk-heading-l nhsuk-u-margin-bottom-4" id="who-can-take-part">Who can take part</h2>
+
+      {{ table({
+        firstCellIsHeader: true,
+        rows: [
+          [
+            { text: "Medical conditions" },
+            { text: study.conditionText or "Spinal Cord Stimulation, Back Pain Lower Back Chronic" }
+          ],
+          [
+            { text: "Age" },
+            { text: study.ageLabel or "18 - 75 Years" }
+          ],
+          [
+            { text: "Gender" },
+            { text: study.genderLabel or "Open to all" }
+          ],
+          [
+            { text: "Location(s)" },
+            { text: (study.locations | join(", ")) if study.locations else "Newcastle, Sheffield" }
+          ]
+        ]
+      }) }}
+
+      {{ list({
+        title: "You can take part if you",
+        type: "tick",
+        items: [
+          { text: "are aged 18 to 75 years old" },
+          { text: "have been diagnosed with chronic lower back pain lasting longer than 6 months" },
+          { text: "are considered a suitable candidate for spinal cord stimulation (SCS) therapy" }
+        ]
+      }) }}
+
+      {{ list({
+        title: "You cannot take part if you",
+        type: "cross",
+        hidePrefix: "true",
+        items: [
+          { text: "are under 18 or over 75 years of age" },
+          { text: "have an active systemic infection or localized infection near the implantation site" },
+          { text: "are pregnant or planning to become pregnant during the trial period" },
+          { text: "have an active implanted cardiac device (such as a pacemaker)" }
+        ]
+      }) }}
+
+      <hr class="nhsuk-section-break nhsuk-section-break--xl nhsuk-section-break--visible">
+
+      {# ------------------------------------------------------------- #}
+      {# SECTION 2: ABOUT THIS STUDY #}
+      {# ------------------------------------------------------------- #}
+      <h2 class="nhsuk-heading-l nhsuk-u-margin-bottom-4" id="about-this-study">About this study</h2>
+
+      {{ table({
+        firstCellIsHeader: true,
+        rows: [
+          [
+            { text: "Name" },
+            { text: "Biology and genetics of smouldering myeloma" }
+          ],
+          [
+            { text: "Type" },
+            { text: "Observational type: Clinical Laboratory Study" }
+          ],
+          [
+            { text: "Status" },
+            {
+              html: tag({
+                text: "Recruiting",
+                classes: "nhsuk-tag--blue"
+              }) + " until 26 June 2027"
+            }
+          ],
+          [
+            { text: "Funders or sponsors" },
+            { text: "The study is sponsored by University College London and funded by CANCER RESEARCH UK." }
+          ],
+          [
+            { text: "Trial ID" },
+            { text: "CPMS 46567" }
+          ]
+        ]
+      }) }}
+
+      <h3 class="nhsuk-heading-s">Description</h3>
+
+      {% set insetTextHtml %}
+        <p>This information is provided directly by researchers, and we recognise that it isn't always easy to understand. We are working with researchers to improve the accessibility of this information. In some summaries, you may come across links to external websites. These websites will have more information to help you better understand the study.</p>
+      {% endset %}
+
+      {{ insetText({
+        html: insetTextHtml
+      }) }}
+
+      <p class="nhsuk-body-m">Myeloma(MM) is a common bone marrow cancer with over 5,000 patients diagnosed annually in the UK.</p>
+      <p class="nhsuk-body-m">Patients with MM have cancerous cells in their bone marrow that grow in an uncontrolled fashion and although new treatments have been developed for MM in the last 5 years, it remains an incurable disease, with nearly 3000 deaths yearly.</p>
+      <p class="nhsuk-body-m">MM is always preceded by defined precursor conditions, known as monoclonal gammopathy of uncertain significance (MGUS) and smouldering myeloma (SMM). However, only 7% of MGUS patients and 50% of SMM patients develop MM over a 5-year period.</p>
+      <p class="nhsuk-body-m">In the UK, patients are only given anti-MM treatment when the cancer causes damage within the body as the benefit of giving treatment in the pre-cancerous state is uncertain.</p>
+
+      <hr class="nhsuk-section-break nhsuk-section-break--xl nhsuk-section-break--visible">
+
+      {# ------------------------------------------------------------- #}
+      {# SECTION 3: LOCATION #}
+      {# ------------------------------------------------------------- #}
+      <h2 class="nhsuk-heading-l nhsuk-u-margin-bottom-4" id="location">Location</h2>
+
+      {{ image({
+        src: "/assets/images/map.png",
+        alt: "Map showing the location of Queen's Hospital in Romford",
+        sizes: "100vw",
+        srcset: "/assets/images/map.png 600w, /assets/images/map.png 1000w",
+        attributes: {
+          style: "width: 100%;"
+        }
+      }) }}
+
+      <div class="nhsuk-grid-row nhsuk-u-margin-bottom-4 nhsuk-u-margin-top-4">
+        <div class="nhsuk-grid-column-one-half">
+          <p class="nhsuk-u-margin-bottom-0"><strong>3 locations</strong></p>
+        </div>
+        <div class="nhsuk-grid-column-one-half nhsuk-u-text-align-right">
+          <button class="nhsuk-button nhsuk-button--secondary nhsuk-u-margin-bottom-0" type="button">
+            Sort by
+          </button>
+        </div>
+      </div>
+
+      {% set cardDescriptionHtml %}
+        <p>Rom Valley Way, Romford, Essex, RM7 0AG</p>
+        <p><a href="#" class="nhsuk-link">Link</a></p>
+      {% endset %}
+
+      <ul class="nhsuk-grid-row nhsuk-card-group">
+        <li class="nhsuk-grid-column-full nhsuk-card-group__item">
+          {{ card({
+            heading: "Queen's Hospital",
+            headingSize: "m",
+            descriptionHtml: cardDescriptionHtml
+          }) }}
+        </li>
+        <li class="nhsuk-grid-column-full nhsuk-card-group__item">
+          {{ card({
+            heading: "Queen's Hospital",
+            headingSize: "m",
+            descriptionHtml: cardDescriptionHtml
+          }) }}
+        </li>
+      </ul>
+
+      <hr class="nhsuk-section-break nhsuk-section-break--xl nhsuk-section-break--visible">
+
+      {# ------------------------------------------------------------- #}
+      {# SECTION 4: CONTACT THE STUDY TEAM #}
+      {# ------------------------------------------------------------- #}
+      <h2 class="nhsuk-heading-l nhsuk-u-margin-bottom-4" id="contact-study-team">Contact the study team</h2>
+
+      <h3 class="nhsuk-heading-m">Questions to ask</h3>
+      <p class="nhsuk-body-m">Reaching out to a study team can be a daunting prospect. That’s why <a href="https://bepartofresearch.nihr.ac.uk/Take-part-in-research/What-to-expect-on-a-study/Questions-to-ask-the-study-team/" class="nhsuk-link">we've put together a list of questions</a> that will help you get the most from that conversation.</p>
+
+      <h3 class="nhsuk-heading-m">Who to contact</h3>
+
+      <ul class="nhsuk-grid-row nhsuk-card-group">
+        <li class="nhsuk-grid-column-full nhsuk-card-group__item">
+          {{ card({
+            heading: "Dr Kwee Yong",
+            headingSize: "m",
+            descriptionHtml: '<a href="mailto:kwee.yong@ucl.ac.uk" class="nhsuk-link">kwee.yong@ucl.ac.uk</a>'
+          }) }}
+        </li>
+
+        <li class="nhsuk-grid-column-full nhsuk-card-group__item">
+          {{ card({
+            heading: "Rethina Shritharan",
+            headingSize: "m",
+            descriptionHtml: '<a href="mailto:rethina.shritharan@nhs.net" class="nhsuk-link">rethina.shritharan@nhs.net</a>'
+          }) }}
+        </li>
+
+        <li class="nhsuk-grid-column-full nhsuk-card-group__item">
+          {{ card({
+            heading: "Anna Bote-Casamitjana",
+            headingSize: "m",
+            descriptionHtml: '<a href="mailto:anna.botecasamitjana@nhs.net" class="nhsuk-link">anna.botecasamitjana@nhs.net</a>'
+          }) }}
+        </li>
+      </ul>
+
+    </div>
+
+  </div>
+
+{% endblock %}

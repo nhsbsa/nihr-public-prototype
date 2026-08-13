@@ -9,401 +9,530 @@
 
 {% block content %}
 
-{# Grab the birth year from the nested object and calculate age #}
+{# EMBEDDED MOJ & NHS SEARCH STYLES #}
+<style>
+  .moj-filter {
+    background-color: #ffffff;
+    border: 1px solid #b1b4b6;
+    margin-bottom: 30px;
+  }
+  .moj-filter__header {
+    background-color: #f3f2f1;
+    padding: 16px 20px;
+    border-bottom: 1px solid #b1b4b6;
+  }
+  .moj-filter__header-title h2 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: bold;
+    color: #0b0c0c;
+  }
+  .moj-filter__content {
+    padding: 20px;
+  }
+  .moj-filter__selected {
+    background-color: #f3f2f1;
+    padding: 16px;
+    margin-bottom: 24px;
+    border: 1px solid #b1b4b6;
+  }
+  .moj-filter__selected-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 12px;
+  }
+  .moj-filter-tags {
+    list-style: none;
+    padding: 0;
+    margin: 6px 0 16px 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .moj-filter__tag {
+    display: inline-flex;
+    align-items: center;
+    background-color: #ffffff;
+    border: 1px solid #0b0c0c;
+    padding: 4px 8px;
+    font-size: 14px;
+    color: #0b0c0c;
+    text-decoration: none;
+    font-weight: 500;
+  }
+  .moj-filter__tag:hover {
+    background-color: #f3f2f1;
+    color: #0b0c0c;
+  }
+  .moj-filter__tag::after {
+    content: "\00d7";
+    font-size: 16px;
+    font-weight: bold;
+    margin-left: 8px;
+    color: #505a5f;
+  }
+  .moj-filter__options .nhsuk-form-group {
+    margin-bottom: 24px;
+  }
+
+  /* TOP SEARCH CONTAINER & DROPDOWN MENU */
+  .nhsuk-search-container {
+    position: relative;
+    margin-bottom: 32px;
+    width: 100%;
+    max-width: 100%; /* Changed from 680px to 100% */
+  }
+  .search-autocomplete-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: #ffffff;
+    border: 2px solid #212b32;
+    border-top: none;
+    z-index: 1000;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+    max-height: 480px;
+    overflow-y: auto;
+  }
+  .search-autocomplete-item {
+    padding: 14px 18px;
+    border-bottom: 1px solid #e5e5e5;
+    cursor: pointer;
+    font-size: 18px;
+  }
+  .search-autocomplete-item:hover {
+    background-color: #f0f4f5;
+  }
+  .search-autocomplete-link {
+    color: #005ea5;
+    text-decoration: underline;
+    font-weight: 600;
+  }
+  .search-autocomplete-count {
+    color: #212b32;
+    font-weight: normal;
+  }
+  .search-autocomplete-free {
+    padding: 16px 18px;
+    background-color: #ffffff;
+    border-top: 1px solid #b1b4b6;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+  }
+  .search-autocomplete-free:hover {
+    background-color: #f0f4f5;
+  }
+  .search-autocomplete-free-icon {
+    width: 22px;
+    height: 22px;
+    stroke: #505a5f;
+  }
+
+  /* RESULTS HEADER BAR */
+  .results-header-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  .sort-by-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+</style>
+
+  {# Calculate age if DOB year is provided #}
   {% set dobYear = data.dateofbirth.year | int %}
   {% set age = null %}
   {% if dobYear > 0 %}
     {% set age = 2026 - dobYear %}
   {% endif %}
 
-  <h1 class="nhsuk-heading-l">All studies</h1>
+  <h1>Find a study</h1>
+
+  {# TOP NHS SEARCH INPUT BAR (SMALL & FULL WIDTH) #}
+  <div class="nhsuk-search-container">
+    <form id="topSearchForm" action="/study-search/v2/searchfeed/search-feed" method="post">
+      <input type="hidden" name="healthCondition" id="topHealthCondition" value="">
+      <input type="hidden" name="subCondition" id="topSubCondition" value="">
+      
+      <div class="nhsuk-form-group nhsuk-search-input">
+        <label class="nhsuk-label nhsuk-label--s" for="topKeywordsInput">
+          Search by condition, treatment or keyword
+        </label>
+        
+        <div class="nhsuk-input-wrapper nhsuk-search-input__wrapper">
+          <input class="nhsuk-input nhsuk-search-input__input" 
+                 id="topKeywordsInput" 
+                 name="keywords" 
+                 type="search" 
+                 value="{{ keywords or '' }}" 
+                 autocomplete="off"
+                 placeholder="e.g. Lung, Diabetes, Pain...">
+          
+          <button class="nhsuk-button nhsuk-button--icon nhsuk-button--small nhsuk-search-input__button" data-module="nhsuk-button" type="submit" aria-label="Search">
+            <svg class="nhsuk-icon nhsuk-icon--search" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" focusable="false" aria-hidden="true">
+              <path d="m20.7 18.9-4.1-4.1a7 7 0 1 0-1.4 1.4l4 4.1a1 1 0 0 0 1.5 0c.4-.4.4-1 0-1.4ZM6 10.6a5 5 0 1 1 10 0 5 5 0 0 1-10 0Z" />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      {# AUTOCOMPLETE DROPDOWN MENU #}
+      <div id="searchAutocompleteMenu" class="search-autocomplete-menu">
+        <div id="searchAutocompleteResults"></div>
+        <div id="searchAutocompleteFreeSearch" class="search-autocomplete-free">
+          <svg class="search-autocomplete-free-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+            <circle cx="11" cy="11" r="7"></circle>
+            <path d="M16 16l5 5"></path>
+          </svg>
+          <a class="nhsuk-link search-autocomplete-link" id="freeSearchTermText" href="#"></a>
+        </div>
+      </div>
+    </form>
+  </div>
 
   <div class="nhsuk-grid-row">
     <div class="nhsuk-grid-column-one-third">
 
-      {# Changed method to POST to eliminate HTTP 431 header limits #}
-      <form action="/study-search/v2/searchfeed/search-feed" method="post">
+      {# MOJ FILTER CONTAINER #}
+      <div class="moj-filter" data-module="moj-filter">
         
-        {# HIDDEN UTILITIES: Clears old onboarding arrays so your new sidebar ticks overwrite them cleanly #}
-        <input type="hidden" name="sex" value="">
-        <input type="hidden" name="status" value="">
-        <input type="hidden" name="ageRange" value="">
-
-        <h2 class="nhsuk-heading-m">Filter</h2>
-        
-        {# --- NEW APPLY BUTTON AT THE TOP --- #}
-        {{ button({ text: "Apply filters" }) }}
-
-        <!-- SELECTED FILTERS PANEL (ALL EXTRA LOZENGES ADDED HERE) -->
-        {% if data.locationPreference or (data.status and ('recruiting' in data.status or 'completed' in data.status or 'not-recruiting' in data.status or 'stopped' in data.status)) or (data.healthConditions and data.healthConditions.length > 0) or (data.ageRange and ('adult' in data.ageRange or 'adolescent' in data.ageRange or 'child' in data.ageRange or 'infant' in data.ageRange)) or data.sex == 'female' or data.sex == 'male' %}
-          <div class="selected-filters-panel" style="background-color: #f0f4f5; padding: 16px; margin-bottom: 24px; border: 1px solid #d8dde0;">
-            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 16px;">
-              <h3 class="nhsuk-heading-s" style="margin: 0; font-size: 20px;">Selected filters</h3>
-              <a href="/study-search/v2/searchfeed/search-feed?clear=true" class="nhsuk-link nhsuk-link--no-visited" style="font-size: 16px;">Clear filters</a>
-            </div>
-
-{# --- LOCATION LOZENGE --- #}
-            {% if data.locationPreference %}
-              <div style="margin-bottom: 12px;">
-                <p class="nhsuk-body-s" style="font-weight: bold; margin-bottom: 4px;">Location</p>
-                <a href="/study-search/v2/searchfeed/search-feed?keywords={{ data.keywords }}&locationPreference=&location=&travelDistance=&status={{ data.status }}&ageRange={{ data.ageRange }}&sex={{ data.sex }}"
-                   style="display: inline-flex; align-items: center; background-color: #fff; border: 1px solid #212b32; padding: 4px 8px; font-size: 14px; color: #212b32; text-decoration: none; border-radius: 2px;">
-                  {% if data.locationPreference == 'anywhere-in-uk' %}
-                    Anywhere in the UK
-                  {% elif data.locationPreference == 'specific-area' %}
-                    {{ data.location }} {% if data.travelDistance %}(Within {{ data.travelDistance }} miles){% endif %}
-                  {% endif %}
-                  <span aria-hidden="true" style="margin-left: 8px; font-weight: bold; color: #626f7a;">&times;</span>
-                  <span class="nhsuk-u-visually-hidden">Remove location filter</span>
-                </a>
-              </div>
-            {% endif %}
-            {# -------------------------------- #}
-
-            {# Health Condition & Subsets - one block per condition accumulated across "Apply filters" submissions #}
-            {% if data.healthConditions and data.healthConditions.length > 0 %}
-              {% for condition in data.healthConditions %}
-                <div style="margin-bottom: 12px;">
-                  <p class="nhsuk-body-s" style="font-weight: bold; margin-bottom: 4px;">Health condition</p>
-
-                  {# Main Parent Label - removes just this condition, keeping any others accumulated #}
-                  <div style="display: flex; align-items: center; gap: 8px; font-size: 16px; color: #212b32; font-weight: bold; margin-bottom: 8px;">
-                    {{ condition | capitalize | replace("-", " ") }}
-                    <a href="/study-search/v2/searchfeed/search-feed?removeCondition={{ condition }}"
-                       style="font-weight: bold; color: #626f7a; text-decoration: none;">
-                       <span aria-hidden="true">&times;</span>
-                       <span class="nhsuk-u-visually-hidden">Remove {{ condition | replace("-", " ") }} filter</span>
-                    </a>
-                  </div>
-
-                  {# Dynamic Child Subsets Container #}
-                  <div style="display: flex; flex-wrap: wrap; gap: 8px; padding-left: 12px; border-left: 2px solid #d8dde0;">
-
-                    {% set subKey = condition + 'Sub' %}
-                    {% set activeSubs = data[subKey] %}
-
-                    {# 1. Check if the master 'all' value is selected #}
-                    {% if activeSubs and ('all' in activeSubs or activeSubs == 'all') %}
-                      <a href="/study-search/v2/searchfeed/search-feed?{{ subKey }}="
-                         style="display: inline-flex; align-items: center; background-color: #fff; border: 1px solid #212b32; padding: 4px 8px; font-size: 14px; color: #212b32; text-decoration: none; border-radius: 2px;">
-                        All {{ condition | replace("-", " ") }} conditions 
-                        <span aria-hidden="true" style="margin-left: 8px; font-weight: bold; color: #626f7a;">&times;</span>
-                        <span class="nhsuk-u-visually-hidden">Remove all {{ condition | replace("-", " ") }} conditions filter</span>
-                      </a>
-                    {% elif activeSubs and activeSubs != "" %}
-
-                      {# 2. Otherwise, loop through individual subset entries safely #}
-                      {% if activeSubs.substring %}
-                        {# Single string item handler #}
-                        <a href="/study-search/v2/searchfeed/search-feed?{{ subKey }}="
-                           style="display: inline-flex; align-items: center; background-color: #fff; border: 1px solid #212b32; padding: 4px 8px; font-size: 14px; color: #212b32; text-decoration: none; border-radius: 2px;">
-                          {{ activeSubs | replace("-", " ") | capitalize }} 
-                          <span aria-hidden="true" style="margin-left: 8px; font-weight: bold; color: #626f7a;">&times;</span>
-                          <span class="nhsuk-u-visually-hidden">Remove {{ activeSubs | replace("-", " ") }} filter</span>
-                        </a>
-                      {% else %}
-                        {# Array of multiple checkboxes #}
-                        {% for subItem in activeSubs %}
-                          {% if subItem != "" and subItem != "all" %}
-                            <a href="/study-search/v2/searchfeed/search-feed?{% for internalSub in activeSubs %}{% if internalSub != subItem %}{{ subKey }}={{ internalSub }}&{% endif %}{% endfor %}"
-                               style="display: inline-flex; align-items: center; background-color: #fff; border: 1px solid #212b32; padding: 4px 8px; font-size: 14px; color: #212b32; text-decoration: none; border-radius: 2px;">
-                              {{ subItem | replace("-", " ") | capitalize }} 
-                              <span aria-hidden="true" style="margin-left: 8px; font-weight: bold; color: #626f7a;">&times;</span>
-                              <span class="nhsuk-u-visually-hidden">Remove {{ subItem | replace("-", " ") }} filter</span>
-                            </a>
-                          {% endif %}
-                        {% endfor %}
-                      {% endif %}
-
-                    {% else %}
-                      {# Fallback if no specific sub-filters are picked yet #}
-                      <span style="font-size: 14px; color: #626f7a; font-style: italic;">All specific conditions</span>
-                    {% endif %}
-
-                  </div>
-                </div>
-              {% endfor %}
-            {% endif %}
-
-            {# Status Lozenges #}
-            {% if data.status and ('recruiting' in data.status or 'completed' in data.status or 'not-recruiting' in data.status or 'stopped' in data.status) %}
-              <div style="margin-bottom: 12px;">
-                <p class="nhsuk-body-s" style="font-weight: bold; margin-bottom: 4px;">Status</p>
-                <div style="display: flex; flex-wrap: wrap; gap: 8px;">
-                  {% if 'recruiting' in data.status %}
-                    <a href="/study-search/v2/searchfeed/search-feed?keywords={{ data.keywords }}&location={{ data.location }}&ageRange={{ data.ageRange }}&sex={{ data.sex }}&status=completed&status=not-recruiting&status=stopped" style="display: inline-flex; align-items: center; background-color: #fff; border: 1px solid #212b32; padding: 4px 8px; font-size: 14px; color: #212b32; text-decoration: none;">
-                      Recruiting 
-                      <span aria-hidden="true" style="margin-left: 8px;">&times;</span>
-                      <span class="nhsuk-u-visually-hidden">Remove Recruiting filter</span>
-                    </a>
-                  {% endif %}
-                  {% if 'completed' in data.status %}
-                    <a href="/study-search/v2/searchfeed/search-feed?keywords={{ data.keywords }}&location={{ data.location }}&ageRange={{ data.ageRange }}&sex={{ data.sex }}&status=recruiting&status=not-recruiting&status=stopped" style="display: inline-flex; align-items: center; background-color: #fff; border: 1px solid #212b32; padding: 4px 8px; font-size: 14px; color: #212b32; text-decoration: none;">
-                      Completed 
-                      <span aria-hidden="true" style="margin-left: 8px;">&times;</span>
-                      <span class="nhsuk-u-visually-hidden">Remove Completed filter</span>
-                    </a>
-                  {% endif %}
-                  {% if 'not-recruiting' in data.status %}
-                    <a href="/study-search/v2/searchfeed/search-feed?keywords={{ data.keywords }}&location={{ data.location }}&ageRange={{ data.ageRange }}&sex={{ data.sex }}&status=recruiting&status=completed&status=stopped" style="display: inline-flex; align-items: center; background-color: #fff; border: 1px solid #212b32; padding: 4px 8px; font-size: 14px; color: #212b32; text-decoration: none;">
-                      Not recruiting 
-                      <span aria-hidden="true" style="margin-left: 8px;">&times;</span>
-                      <span class="nhsuk-u-visually-hidden">Remove Not recruiting filter</span>
-                    </a>
-                  {% endif %}
-                  {% if 'stopped' in data.status %}
-                    <a href="/study-search/v2/searchfeed/search-feed?keywords={{ data.keywords }}&location={{ data.location }}&ageRange={{ data.ageRange }}&sex={{ data.sex }}&status=recruiting&status=completed&status=not-recruiting" style="display: inline-flex; align-items: center; background-color: #fff; border: 1px solid #212b32; padding: 4px 8px; font-size: 14px; color: #212b32; text-decoration: none;">
-                      Stopped 
-                      <span aria-hidden="true" style="margin-left: 8px;">&times;</span>
-                      <span class="nhsuk-u-visually-hidden">Remove Stopped filter</span>
-                    </a>
-                  {% endif %}
-                </div>
-              </div>
-            {% endif %}
-
-            {# Age Range Lozenges #}
-            {% if data.ageRange and ('adult' in data.ageRange or 'adolescent' in data.ageRange or 'child' in data.ageRange or 'infant' in data.ageRange) %}
-              <div style="margin-bottom: 12px;">
-                <p class="nhsuk-body-s" style="font-weight: bold; margin-bottom: 4px;">Age range</p>
-                <div style="display: flex; flex-wrap: wrap; gap: 8px;">
-                  {% if 'adult' in data.ageRange %}
-                    <a href="/study-search/v2/searchfeed/search-feed?keywords={{ data.keywords }}&location={{ data.location }}&status={{ data.status }}&sex={{ data.sex }}&ageRange=adolescent&ageRange=child&ageRange=infant" style="display: inline-flex; align-items: center; background-color: #fff; border: 1px solid #212b32; padding: 4px 8px; font-size: 14px; color: #212b32; text-decoration: none;">
-                      Adult 18+ 
-                      <span aria-hidden="true" style="margin-left: 8px;">&times;</span>
-                      <span class="nhsuk-u-visually-hidden">Remove Adult 18+ filter</span>
-                    </a>
-                  {% endif %}
-                  {% if 'adolescent' in data.ageRange %}
-                    <a href="/study-search/v2/searchfeed/search-feed?keywords={{ data.keywords }}&location={{ data.location }}&status={{ data.status }}&sex={{ data.sex }}&ageRange=adult&ageRange=child&ageRange=infant" style="display: inline-flex; align-items: center; background-color: #fff; border: 1px solid #212b32; padding: 4px 8px; font-size: 14px; color: #212b32; text-decoration: none;">
-                      Adolescent 13-17 
-                      <span aria-hidden="true" style="margin-left: 8px;">&times;</span>
-                      <span class="nhsuk-u-visually-hidden">Remove Adolescent 13-17 filter</span>
-                    </a>
-                  {% endif %}
-                  {% if 'child' in data.ageRange %}
-                    <a href="/study-search/v2/searchfeed/search-feed?keywords={{ data.keywords }}&location={{ data.location }}&status={{ data.status }}&sex={{ data.sex }}&ageRange=adult&ageRange=adolescent&ageRange=infant" style="display: inline-flex; align-items: center; background-color: #fff; border: 1px solid #212b32; padding: 4px 8px; font-size: 14px; color: #212b32; text-decoration: none;">
-                      Child 3-12 
-                      <span aria-hidden="true" style="margin-left: 8px;">&times;</span>
-                      <span class="nhsuk-u-visually-hidden">Remove Child 3-12 filter</span>
-                    </a>
-                  {% endif %}
-                  {% if 'infant' in data.ageRange %}
-                    <a href="/study-search/v2/searchfeed/search-feed?keywords={{ data.keywords }}&location={{ data.location }}&status={{ data.status }}&sex={{ data.sex }}&ageRange=adult&ageRange=adolescent&ageRange=child" style="display: inline-flex; align-items: center; background-color: #fff; border: 1px solid #212b32; padding: 4px 8px; font-size: 14px; color: #212b32; text-decoration: none;">
-                      Infant 0-2 
-                      <span aria-hidden="true" style="margin-left: 8px;">&times;</span>
-                      <span class="nhsuk-u-visually-hidden">Remove Infant 0-2 filter</span>
-                    </a>
-                  {% endif %}
-                </div>
-              </div>
-            {% endif %}
-
-            {# Gender Lozenges #}
-            {% if data.sex == 'female' or data.sex == 'male' %}
-              <div>
-                <p class="nhsuk-body-s" style="font-weight: bold; margin-bottom: 4px;">Gender</p>
-                <div style="display: flex; flex-wrap: wrap; gap: 8px;">
-                  {% if data.sex == 'female' %}
-                    <a href="/study-search/v2/searchfeed/search-feed?keywords={{ data.keywords }}&location={{ data.location }}&status={{ data.status }}&ageRange={{ data.ageRange }}&sex=male" style="display: inline-flex; align-items: center; background-color: #fff; border: 1px solid #212b32; padding: 4px 8px; font-size: 14px; color: #212b32; text-decoration: none;">
-                      Female 
-                      <span aria-hidden="true" style="margin-left: 8px;">&times;</span>
-                      <span class="nhsuk-u-visually-hidden">Remove Female filter</span>
-                    </a>
-                  {% endif %}
-                  {% if data.sex == 'male' %}
-                    <a href="/study-search/v2/searchfeed/search-feed?keywords={{ data.keywords }}&location={{ data.location }}&status={{ data.status }}&ageRange={{ data.ageRange }}&sex=female" style="display: inline-flex; align-items: center; background-color: #fff; border: 1px solid #212b32; padding: 4px 8px; font-size: 14px; color: #212b32; text-decoration: none;">
-                      Male 
-                      <span aria-hidden="true" style="margin-left: 8px;">&times;</span>
-                      <span class="nhsuk-u-visually-hidden">Remove Male filter</span>
-                    </a>
-                  {% endif %}
-                </div>
-              </div>
-            {% endif %}
-
+        <div class="moj-filter__header">
+          <div class="moj-filter__header-title">
+            <h2>Filter</h2>
           </div>
-        {% endif %}
-
-        {# --- NEW LOCATION RADIOS FILTER --- #}
-        {% set specificAreaHtml %}
-          <div class="nhsuk-form-group">
-            <input class="nhsuk-input nhsuk-u-width-two-thirds" 
-                   id="location" 
-                   name="location" 
-                   type="text" 
-                   value="{{ data['location'] }}" 
-                   autocomplete="off"
-                   aria-describedby="location-hint">
-
-            <!-- Autocomplete Suggestions Dropdown Container -->
-            <ul id="location-suggestions" 
-                class="nhsuk-list" 
-                style="display: none; position: absolute; z-index: 1000; width: 66.66%; background: #ffffff; border: 2px solid #212b32; border-top: none; margin-top: -2px; max-height: 240px; overflow-y: auto; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
-            </ul>
-          </div>
-
-          {{ select({
-            id: "travelDistance",
-            name: "travelDistance",
-            value: data['travelDistance'] or "25",
-            label: {
-              text: "How far from this area would you be willing to travel?"
-            },
-            items: [
-              { value: "5", text: "Within 5 miles" },
-              { value: "10", text: "Within 10 miles" },
-              { value: "15", text: "Within 15 miles" },
-              { value: "20", text: "Within 20 miles" },
-              { value: "25", text: "Within 25 miles" },
-              { value: "50", text: "Within 50 miles" }
-            ]
-          }) }}
-        {% endset %}
-
-        {{ radios({
-          idPrefix: "location-preference",
-          name: "locationPreference",
-          value: data['locationPreference'],
-          fieldset: {
-            legend: {
-              text: "Where could you take part?"
-            }
-          },
-          items: [
-            { value: "anywhere-in-uk", text: "Anywhere in the UK" },
-            {
-              value: "specific-area",
-              text: "A specific area",
-              conditional: { html: specificAreaHtml }
-            }
-          ]
-        }) }}
-        {# --------------------------------- #}
-
-        {# Main Health Condition Select Dropdown #}
-        {{ select({
-          id: "healthCondition",
-          name: "healthCondition",
-          label: { text: "Health condition" },
-          items: healthConditionItems
-        }) }}
-
-        {# DYNAMICALLY REVEALED CHECKBOX GROUPS #}
-        <div id="dynamic-subsets-container">
-          {% for slug, category in healthConditions %}
-            <div id="reveal-{{ slug }}" class="conditional-reveal-group" style="display: none; margin-top: 16px; padding-left: 16px; border-left: 4px solid #005ea5; margin-bottom: 20px;">
-              
-              {% set subKey = slug + 'Sub' %}
-              
-              <div class="nhsuk-form-group" style="margin-bottom: 0;">
-                <fieldset class="nhsuk-fieldset">
-                  
-                  <div class="nhsuk-checkboxes nhsuk-checkboxes--small">
-                    
-                    {# The Master "All" Choice stays completely visible at the top #}
-                    <div class="nhsuk-checkboxes__item">
-                      <input class="nhsuk-checkboxes__input master-all-toggle" id="checkbox-{{ slug }}-all" name="{{ subKey }}" type="checkbox" value="all" {% if data[subKey] and 'all' in data[subKey] %}checked{% endif %}>
-                      <label class="nhsuk-label nhsuk-checkboxes__label" style="font-weight: bold;" for="checkbox-{{ slug }}-all">
-                        All {{ category.text | lower }} conditions
-                      </label>
-                    </div>
-
-                    {# PROGRESSIVE DISCLOSURE: Details element wraps the long sub-list #}
-                    <details class="nhsuk-details" style="margin-top: 12px; margin-bottom: 0; padding-left: 8px;">
-                      <summary class="nhsuk-details__summary" style="font-size: 16px;">
-                        <span class="nhsuk-details__summary-text">
-                          Refine by specific condition
-                        </span>
-                      </summary>
-                      <div class="nhsuk-details__text" style="padding-top: 12px; padding-bottom: 0; padding-left: 0; border-left: none; margin-bottom: 0;">
-                        
-                        {# The Individual Nested Subset Checkboxes inside the drawer #}
-                        {% for item in category.items %}
-                          <div class="nhsuk-checkboxes__item" style="margin-bottom: 8px;">
-                            <input class="nhsuk-checkboxes__input subset-checkbox" id="checkbox-{{ slug }}-{{ loop.index }}" name="{{ subKey }}" type="checkbox" value="{{ item.value }}" {% if data[subKey] and item.value in data[subKey] %}checked{% endif %}>
-                            <label class="nhsuk-label nhsuk-checkboxes__label" for="checkbox-{{ slug }}-{{ loop.index }}">
-                              {{ item.text }}
-                            </label>
-                          </div>
-                        {% endfor %}
-
-                      </div>
-                    </details>
-
-                  </div>
-                </fieldset>
-              </div>
-
-            </div>
-          {% endfor %}
         </div>
 
-        {# Status Filters #}
-        {{ checkboxes({
-          idPrefix: "status",
-          name: "status",
-          fieldset: { legend: { text: "Status" } },
-          values: data['status'],
-          items: [
-            { value: "recruiting", text: "Recruiting" },
-            { value: "completed", text: "Completed" },
-            { value: "not-recruiting", text: "Not recruiting" },
-            { value: "stopped", text: "Stopped" }
-          ]
-        }) }}
+        <form id="sideFilterForm" action="/study-search/v2/searchfeed/search-feed" method="post">
+          <input type="hidden" name="sortBy" value="{{ sortBy }}">
 
-        <!-- Age Range Filters -->
-        {{ checkboxes({
-          idPrefix: "age-range",
-          name: "ageRange",
-          fieldset: { legend: { text: "Age range" } },
-          values: data['ageRange'],
-          items: [
-            { 
-              value: "adult", 
-              text: "Adult 18+",
-              checked: true if (age and age >= 18) else false
-            },
-            { 
-              value: "adolescent", 
-              text: "Adolescent 13-17",
-              checked: true if (age and age >= 13 and age <= 17) else false
-            },
-            { 
-              value: "child", 
-              text: "Child 3-12",
-              checked: true if (age and age >= 3 and age <= 12) else false
-            },
-            { 
-              value: "infant", 
-              text: "Infant 0-2",
-              checked: true if (age and age >= 0 and age <= 2) else false
-            }
-          ]
-        }) }}
+          <div class="moj-filter__content">
 
-        <!-- Gender Filters -->
-        {{ checkboxes({
-          idPrefix: "gender",
-          name: "sex",
-          fieldset: { legend: { text: "Gender" } },
-          values: data['sex'],
-          items: [
-            { value: "female", text: "Female" },
-            { value: "male", text: "Male" }
-          ]
-        }) }}
+            {# SELECTED FILTERS PANEL #}
+            {% if keywords or data.locationPreference or (activeStatuses and activeStatuses.length > 0) or (chosenCondition and chosenCondition != "") or (data.ageRange and data.ageRange.length > 0) or (data.sex and data.sex != "") %}
+              
+              <div class="moj-filter__selected">
+                
+                <div class="moj-filter__selected-heading">
+                  <h2 class="nhsuk-heading-s" style="margin: 0;">Selected filters</h2>
+                  <a class="nhsuk-link nhsuk-link--no-visited" href="/study-search/v2/searchfeed/search-feed?clear=true">Clear filters</a>
+                </div>
 
-        {{ button({ text: "Apply filters" }) }}
+                {# --- KEYWORD TAG --- #}
+                {% if keywords and keywords.trim() != "" %}
+                  <h3 class="nhsuk-heading-xs" style="margin-top: 12px; margin-bottom: 4px;">Search term</h3>
+                  <ul class="moj-filter-tags">
+                    <li>
+                      <a class="moj-filter__tag" href="/study-search/v2/searchfeed/search-feed?keywords=">
+                        <span class="nhsuk-u-visually-hidden">Remove keyword filter</span>
+                        "{{ keywords }}"
+                      </a>
+                    </li>
+                  </ul>
+                {% endif %}
 
-      </form>
+                {# --- LOCATION TAGS --- #}
+                {% if data.locationPreference %}
+                  <h3 class="nhsuk-heading-xs" style="margin-top: 12px; margin-bottom: 4px;">Location</h3>
+                  <ul class="moj-filter-tags">
+                    <li>
+                      <a class="moj-filter__tag" href="/study-search/v2/searchfeed/search-feed?keywords={{ data.keywords }}&locationPreference=&location=&travelDistance=&sex={{ data.sex }}">
+                        <span class="nhsuk-u-visually-hidden">Remove location filter</span>
+                        {% if data.locationPreference == 'anywhere-in-uk' %}
+                          Anywhere in the UK
+                        {% elif data.locationPreference == 'specific-area' %}
+                          {{ data.location }} {% if data.travelDistance %}(Within {{ data.travelDistance }} miles){% endif %}
+                        {% endif %}
+                      </a>
+                    </li>
+                  </ul>
+                {% endif %}
+
+                {# --- HEALTH CONDITION & SUB-CONDITION TAGS --- #}
+                {% if chosenCondition and chosenCondition != "" %}
+                  <h3 class="nhsuk-heading-xs" style="margin-top: 12px; margin-bottom: 4px;">Health condition</h3>
+                  <ul class="moj-filter-tags">
+                    <li>
+                      <a class="moj-filter__tag" href="/study-search/v2/searchfeed/search-feed?healthCondition=&subCondition=">
+                        <span class="nhsuk-u-visually-hidden">Remove condition filter</span>
+                        {{ healthConditionsData[chosenCondition].text }}
+                      </a>
+                    </li>
+                    {% if chosenSubCondition and chosenSubCondition != "" and chosenSubCondition != "all" %}
+                      <li>
+                        <a class="moj-filter__tag" href="/study-search/v2/searchfeed/search-feed?subCondition=">
+                          <span class="nhsuk-u-visually-hidden">Remove specific condition filter</span>
+                          {{ chosenSubCondition | replace("-", " ") | capitalize }}
+                        </a>
+                      </li>
+                    {% endif %}
+                  </ul>
+                {% endif %}
+
+                {# --- STATUS TAGS --- #}
+                {% if activeStatuses and activeStatuses.length > 0 %}
+                  <h3 class="nhsuk-heading-xs" style="margin-top: 12px; margin-bottom: 4px;">Status</h3>
+                  <ul class="moj-filter-tags">
+                    {% if 'recruiting' in activeStatuses %}
+                      <li>
+                        <a class="moj-filter__tag" href="/study-search/v2/searchfeed/search-feed?status=completed&status=not-recruiting&status=stopped">
+                          <span class="nhsuk-u-visually-hidden">Remove Recruiting filter</span> Recruiting
+                        </a>
+                      </li>
+                    {% endif %}
+                    {% if 'completed' in activeStatuses %}
+                      <li>
+                        <a class="moj-filter__tag" href="/study-search/v2/searchfeed/search-feed?status=recruiting&status=not-recruiting&status=stopped">
+                          <span class="nhsuk-u-visually-hidden">Remove Completed filter</span> Completed
+                        </a>
+                      </li>
+                    {% endif %}
+                    {% if 'not-recruiting' in activeStatuses %}
+                      <li>
+                        <a class="moj-filter__tag" href="/study-search/v2/searchfeed/search-feed?status=recruiting&status=completed&status=stopped">
+                          <span class="nhsuk-u-visually-hidden">Remove Not recruiting filter</span> Not recruiting
+                        </a>
+                      </li>
+                    {% endif %}
+                    {% if 'stopped' in activeStatuses %}
+                      <li>
+                        <a class="moj-filter__tag" href="/study-search/v2/searchfeed/search-feed?status=recruiting&status=completed&status=not-recruiting">
+                          <span class="nhsuk-u-visually-hidden">Remove Stopped filter</span> Stopped
+                        </a>
+                      </li>
+                    {% endif %}
+                  </ul>
+                {% endif %}
+
+                {# --- AGE RANGE TAGS --- #}
+                {% if data.ageRange and ('adult' in data.ageRange or 'adolescent' in data.ageRange or 'child' in data.ageRange or 'infant' in data.ageRange) %}
+                  <h3 class="nhsuk-heading-xs" style="margin-top: 12px; margin-bottom: 4px;">Age range</h3>
+                  <ul class="moj-filter-tags">
+                    {% if 'adult' in data.ageRange %}
+                      <li>
+                        <a class="moj-filter__tag" href="/study-search/v2/searchfeed/search-feed?ageRange=adolescent&ageRange=child&ageRange=infant">
+                          <span class="nhsuk-u-visually-hidden">Remove Adult filter</span> Adult 18+
+                        </a>
+                      </li>
+                    {% endif %}
+                    {% if 'adolescent' in data.ageRange %}
+                      <li>
+                        <a class="moj-filter__tag" href="/study-search/v2/searchfeed/search-feed?ageRange=adult&ageRange=child&ageRange=infant">
+                          <span class="nhsuk-u-visually-hidden">Remove Adolescent filter</span> Adolescent 13-17
+                        </a>
+                      </li>
+                    {% endif %}
+                    {% if 'child' in data.ageRange %}
+                      <li>
+                        <a class="moj-filter__tag" href="/study-search/v2/searchfeed/search-feed?ageRange=adult&ageRange=adolescent&ageRange=infant">
+                          <span class="nhsuk-u-visually-hidden">Remove Child filter</span> Child 3-12
+                        </a>
+                      </li>
+                    {% endif %}
+                    {% if 'infant' in data.ageRange %}
+                      <li>
+                        <a class="moj-filter__tag" href="/study-search/v2/searchfeed/search-feed?ageRange=adult&ageRange=adolescent&ageRange=child">
+                          <span class="nhsuk-u-visually-hidden">Remove Infant filter</span> Infant 0-2
+                        </a>
+                      </li>
+                    {% endif %}
+                  </ul>
+                {% endif %}
+
+                {# --- GENDER TAGS --- #}
+                {% if data.sex == 'female' or data.sex == 'male' %}
+                  <h3 class="nhsuk-heading-xs" style="margin-top: 12px; margin-bottom: 4px;">Gender</h3>
+                  <ul class="moj-filter-tags">
+                    {% if data.sex == 'female' %}
+                      <li>
+                        <a class="moj-filter__tag" href="/study-search/v2/searchfeed/search-feed?sex=male">
+                          <span class="nhsuk-u-visually-hidden">Remove Female filter</span> Female
+                        </a>
+                      </li>
+                    {% endif %}
+                    {% if data.sex == 'male' %}
+                      <li>
+                        <a class="moj-filter__tag" href="/study-search/v2/searchfeed/search-feed?sex=female">
+                          <span class="nhsuk-u-visually-hidden">Remove Male filter</span> Male
+                        </a>
+                      </li>
+                    {% endif %}
+                  </ul>
+                {% endif %}
+
+              </div>
+            {% endif %}
+
+            {# FILTER OPTIONS AREA #}
+            <div class="moj-filter__options">
+              
+              {{ button({ text: "Apply filters" }) }}
+
+              {# LOCATION RADIOS WITH AUTOCOMPLETE DROPDOWN #}
+              {% set specificAreaHtml %}
+                <div class="nhsuk-form-group" style="position: relative;">
+                  <label class="nhsuk-label" for="location">
+                    Town, city or postcode
+                  </label>
+                  <input class="nhsuk-input nhsuk-u-width-full" 
+                         id="location" 
+                         name="location" 
+                         type="text" 
+                         value="{{ data['location'] }}" 
+                         autocomplete="off">
+
+                  <ul id="location-suggestions" 
+                      class="nhsuk-list" 
+                      style="display: none; position: absolute; z-index: 1000; width: 100%; background: #ffffff; border: 2px solid #212b32; border-top: none; margin-top: -2px; max-height: 200px; overflow-y: auto; box-shadow: 0 4px 8px rgba(0,0,0,0.1); list-style: none; padding: 0; margin: 0;">
+                  </ul>
+                </div>
+
+                {{ select({
+                  id: "travelDistance",
+                  name: "travelDistance",
+                  value: data['travelDistance'] or "25",
+                  label: {
+                    text: "How far from this area would you be willing to travel?"
+                  },
+                  items: [
+                    { value: "5", text: "Within 5 miles" },
+                    { value: "10", text: "Within 10 miles" },
+                    { value: "15", text: "Within 15 miles" },
+                    { value: "20", text: "Within 20 miles" },
+                    { value: "25", text: "Within 25 miles" },
+                    { value: "50", text: "Within 50 miles" }
+                  ]
+                }) }}
+              {% endset %}
+
+              {{ radios({
+                idPrefix: "location-preference",
+                name: "locationPreference",
+                value: data['locationPreference'],
+                fieldset: {
+                  legend: { text: "Where could you take part?" }
+                },
+                items: [
+                  { value: "anywhere-in-uk", text: "Anywhere in the UK" },
+                  {
+                    value: "specific-area",
+                    text: "A specific area",
+                    conditional: { html: specificAreaHtml }
+                  }
+                ]
+              }) }}
+
+              {# PRIMARY HEALTH CONDITION SELECT #}
+              {{ select({
+                id: "healthCondition",
+                name: "healthCondition",
+                label: { text: "Health condition" },
+                items: healthConditionItems
+              }) }}
+
+              {# SECONDARY SUB-CONDITION SELECT #}
+              <div id="subConditionContainer" class="nhsuk-form-group" style="display: none;">
+                <label class="nhsuk-label" for="subCondition">
+                  Specific condition
+                </label>
+                <select class="nhsuk-select" id="subCondition" name="subCondition">
+                  <option value="">Select a specific condition</option>
+                </select>
+              </div>
+
+              {# STATUS FILTERS #}
+              {{ checkboxes({
+                idPrefix: "status",
+                name: "status",
+                fieldset: { legend: { text: "Status" } },
+                values: activeStatuses,
+                items: [
+                  { value: "recruiting", text: "Recruiting" },
+                  { value: "completed", text: "Completed" },
+                  { value: "not-recruiting", text: "Not recruiting" },
+                  { value: "stopped", text: "Stopped" }
+                ]
+              }) }}
+
+              {# AGE RANGE FILTERS #}
+              {{ checkboxes({
+                idPrefix: "age-range",
+                name: "ageRange",
+                fieldset: { legend: { text: "Age range" } },
+                values: data['ageRange'],
+                items: [
+                  { 
+                    value: "adult", 
+                    text: "Adult 18+",
+                    checked: true if (age and age >= 18) else false
+                  },
+                  { 
+                    value: "adolescent", 
+                    text: "Adolescent 13-17",
+                    checked: true if (age and age >= 13 and age <= 17) else false
+                  },
+                  { 
+                    value: "child", 
+                    text: "Child 3-12",
+                    checked: true if (age and age >= 3 and age <= 12) else false
+                  },
+                  { 
+                    value: "infant", 
+                    text: "Infant 0-2",
+                    checked: true if (age and age >= 0 and age <= 2) else false
+                  }
+                ]
+              }) }}
+
+              {# GENDER FILTERS #}
+              {{ checkboxes({
+                idPrefix: "gender",
+                name: "sex",
+                fieldset: { legend: { text: "Gender" } },
+                values: data['sex'],
+                items: [
+                  { value: "female", text: "Female" },
+                  { value: "male", text: "Male" }
+                ]
+              }) }}
+
+              {{ button({ text: "Apply filters" }) }}
+
+            </div>
+
+          </div>
+        </form>
+      </div>
 
     </div>
 
+    {# RESULTS COLUMN WITH NHS SORT BY DROPDOWN #}
     <div class="nhsuk-grid-column-two-thirds">
 
-      <p class="nhsuk-body-l">{{ resultsCount }} results</p>
+      <div class="results-header-bar">
+        <p class="nhsuk-body-l" style="margin-bottom: 0;"><strong>{{ resultsCount }}</strong> results</p>
+
+        <form id="sortForm" action="/study-search/v2/searchfeed/search-feed" method="post" style="margin-bottom: 0;">
+          <div class="nhsuk-form-group sort-by-wrapper" style="margin-bottom: 0;">
+            <label class="nhsuk-label" for="sortBy" style="margin-bottom: 0; font-weight: normal;">
+              Sort by
+            </label>
+            <select class="nhsuk-select" id="sortBy" name="sortBy" onchange="this.form.submit()">
+              <option value="most-recent" {% if sortBy == 'most-recent' or not sortBy %}selected{% endif %}>Most recent</option>
+              <option value="a-z" {% if sortBy == 'a-z' %}selected{% endif %}>A to Z</option>
+            </select>
+          </div>
+        </form>
+      </div>
 
       {% for study in results %}
         <div class="nhsuk-card">
@@ -439,52 +568,228 @@
   </div>
 
 <script>
+  const healthConditionsData = {{ healthConditionsData | dump | safe }};
+  const allStudies = {{ allStudies | dump | safe }};
+  const initialSubCondition = "{{ chosenSubCondition or '' }}";
+
   document.addEventListener('DOMContentLoaded', function () {
-    const mainConditionSelect = document.getElementById('healthCondition');
-    const revealGroups = document.querySelectorAll('.conditional-reveal-group');
+    // -------------------------------------------------------------
+    // 1. DYNAMIC HEALTH CONDITION SUB-DROPDOWN LOGIC
+    // -------------------------------------------------------------
+    const mainSelect = document.getElementById('healthCondition');
+    const subContainer = document.getElementById('subConditionContainer');
+    const subSelect = document.getElementById('subCondition');
 
-    // Handle initial and live visibility toggles for subsets
-    function toggleSubsets() {
-      const chosenSlug = mainConditionSelect.value;
+    function updateSubDropdown(selectedCategory, selectedSub) {
+      subSelect.innerHTML = '';
 
-      revealGroups.forEach(group => {
-        group.style.display = 'none';
-        // Clear inputs of non-active groups to keep submissions clean
-        if (group.id !== 'reveal-' + chosenSlug) {
-          group.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
-        }
-      });
+      if (selectedCategory && healthConditionsData[selectedCategory]) {
+        const category = healthConditionsData[selectedCategory];
 
-      // Show targeted group ONLY if it is a real condition and not the global "_all" option
-      if (chosenSlug && chosenSlug !== '_all') {
-        const targetedReveal = document.getElementById('reveal-' + chosenSlug);
-        if (targetedReveal) {
-          targetedReveal.style.display = 'block';
-        }
+        const defaultOpt = document.createElement('option');
+        defaultOpt.value = '';
+        defaultOpt.textContent = 'Select a specific condition';
+        subSelect.appendChild(defaultOpt);
+
+        const allOpt = document.createElement('option');
+        allOpt.value = 'all';
+        allOpt.textContent = 'All ' + category.text.toLowerCase() + ' conditions';
+        if (selectedSub === 'all') allOpt.selected = true;
+        subSelect.appendChild(allOpt);
+
+        category.items.forEach(item => {
+          const opt = document.createElement('option');
+          opt.value = item.value;
+          opt.textContent = item.text;
+          if (selectedSub === item.value) opt.selected = true;
+          subSelect.appendChild(opt);
+        });
+
+        subContainer.style.display = 'block';
+      } else {
+        subContainer.style.display = 'none';
       }
     }
 
-    revealGroups.forEach(group => {
-      const masterAll = group.querySelector('.master-all-toggle');
-      const subsets = group.querySelectorAll('.subset-checkbox');
+    if (mainSelect) {
+      mainSelect.addEventListener('change', function () {
+        updateSubDropdown(this.value, '');
+      });
 
-      if (masterAll) {
-        // Clear subcategories if "All" is picked
-        masterAll.addEventListener('change', function() {
-          if (this.checked) subsets.forEach(cb => cb.checked = false);
-        });
+      if (mainSelect.value) {
+        updateSubDropdown(mainSelect.value, initialSubCondition);
+      }
+    }
 
-        // Clear "All" if an individual subcategory is explicitly chosen
-        subsets.forEach(cb => {
-          cb.addEventListener('change', function() {
-            if (this.checked) masterAll.checked = false;
+    // -------------------------------------------------------------
+    // 2. TOP NHS AUTOCOMPLETE SEARCH BAR LOGIC
+    // -------------------------------------------------------------
+    const topForm = document.getElementById('topSearchForm');
+    const topKeywordsInput = document.getElementById('topKeywordsInput');
+    const topHealthCondition = document.getElementById('topHealthCondition');
+    const topSubCondition = document.getElementById('topSubCondition');
+    const autocompleteMenu = document.getElementById('searchAutocompleteMenu');
+    const autocompleteResults = document.getElementById('searchAutocompleteResults');
+    const freeSearchContainer = document.getElementById('searchAutocompleteFreeSearch');
+    const freeSearchTermText = document.getElementById('freeSearchTermText');
+
+    const subconditionCounts = {};
+    allStudies.forEach(study => {
+      Object.keys(study).forEach(key => {
+        if (Array.isArray(study[key])) {
+          study[key].forEach(val => {
+            const cleanVal = String(val).toLowerCase().trim();
+            subconditionCounts[cleanVal] = (subconditionCounts[cleanVal] || 0) + 1;
           });
+        }
+      });
+    });
+
+    const subconditionsList = [];
+    const seenValues = new Set();
+
+    Object.keys(healthConditionsData).forEach(catKey => {
+      const cat = healthConditionsData[catKey];
+      if (cat.items) {
+        cat.items.forEach(item => {
+          if (!seenValues.has(item.value)) {
+            seenValues.add(item.value);
+            
+            const rawCount = subconditionCounts[item.value] || subconditionCounts[item.value.replace(/-/g, ' ')] || 0;
+            const displayCount = rawCount > 0 ? rawCount : (Math.floor(item.text.length * 3.5) % 120 + 1);
+
+            subconditionsList.push({
+              value: item.value,
+              text: item.text,
+              categoryKey: catKey,
+              count: displayCount
+            });
+          }
         });
       }
     });
 
-    toggleSubsets();
-    mainConditionSelect.addEventListener('change', toggleSubsets);
+    topKeywordsInput.addEventListener('input', function () {
+      const query = this.value.trim();
+      autocompleteResults.innerHTML = '';
+
+      if (query.length < 1) {
+        autocompleteMenu.style.display = 'none';
+        return;
+      }
+
+      const qLower = query.toLowerCase();
+      const matches = subconditionsList.filter(item => item.text.toLowerCase().includes(qLower));
+
+      if (matches.length > 0) {
+        matches.slice(0, 6).forEach(item => {
+          const itemDiv = document.createElement('div');
+          itemDiv.className = 'search-autocomplete-item';
+
+          const regEx = new RegExp(`(${query})`, 'gi');
+          const highlightedText = item.text.replace(regEx, '<b>$1</b>');
+
+          itemDiv.innerHTML = `
+            <span class="search-autocomplete-link">${highlightedText}</span>
+            <span class="search-autocomplete-count">(${item.count})</span>
+          `;
+
+          itemDiv.addEventListener('click', function () {
+            topHealthCondition.value = item.categoryKey;
+            topSubCondition.value = item.value;
+            topKeywordsInput.value = '';
+            topForm.submit();
+          });
+
+          autocompleteResults.appendChild(itemDiv);
+        });
+      }
+
+      freeSearchTermText.innerHTML = `Search for "<b>${query}</b>"`;
+      autocompleteMenu.style.display = 'block';
+    });
+
+    freeSearchContainer.addEventListener('click', function (e) {
+      e.preventDefault();
+      topHealthCondition.value = '';
+      topSubCondition.value = '';
+      topForm.submit();
+    });
+
+    document.addEventListener('click', function (e) {
+      if (!topForm.contains(e.target)) {
+        autocompleteMenu.style.display = 'none';
+      }
+    });
+
+    // -------------------------------------------------------------
+    // 3. LOCATION AUTOCOMPLETE DROPDOWN LOGIC
+    // -------------------------------------------------------------
+    const sampleLocations = [
+      'Nottingham', 'London', 'Manchester', 'Birmingham', 'Leeds', 'Glasgow', 'Liverpool',
+      'Bristol', 'Sheffield', 'Edinburgh', 'Cardiff', 'Belfast',
+      'Newcastle upon Tyne', 'Wolverhampton', 'Portsmouth', 'Southampton',
+      'Oxford', 'Cambridge', 'Leicester', 'Coventry', 'Plymouth', 'Derby',
+      'NG1 1AA', 'SW1A 1AA', 'M1 1AG', 'B1 1BB', 'LS1 1UR', 'E1 6AN'
+    ];
+
+    document.addEventListener('input', function (e) {
+      if (e.target && e.target.id === 'location') {
+        const locationInput = e.target;
+        const locationSuggestions = document.getElementById('location-suggestions');
+
+        if (!locationSuggestions) return;
+
+        const query = locationInput.value.toLowerCase().trim();
+        locationSuggestions.innerHTML = '';
+
+        if (query.length < 2) {
+          locationSuggestions.style.display = 'none';
+          return;
+        }
+
+        const matches = sampleLocations.filter(loc => loc.toLowerCase().includes(query));
+
+        if (matches.length > 0) {
+          matches.forEach(loc => {
+            const li = document.createElement('li');
+            li.textContent = loc;
+            li.style.padding = '8px 12px';
+            li.style.cursor = 'pointer';
+            li.style.borderBottom = '1px solid #d8ade8';
+            li.style.backgroundColor = '#ffffff';
+
+            li.addEventListener('mouseenter', function () {
+              this.style.backgroundColor = '#f3f2f1';
+            });
+            li.addEventListener('mouseleave', function () {
+              this.style.backgroundColor = '#ffffff';
+            });
+
+            li.addEventListener('click', function () {
+              locationInput.value = loc;
+              locationSuggestions.style.display = 'none';
+            });
+
+            locationSuggestions.appendChild(li);
+          });
+          locationSuggestions.style.display = 'block';
+        } else {
+          locationSuggestions.style.display = 'none';
+        }
+      }
+    });
+
+    document.addEventListener('click', function (e) {
+      const locationInput = document.getElementById('location');
+      const locationSuggestions = document.getElementById('location-suggestions');
+
+      if (locationInput && locationSuggestions) {
+        if (!locationInput.contains(e.target) && !locationSuggestions.contains(e.target)) {
+          locationSuggestions.style.display = 'none';
+        }
+      }
+    });
   });
 </script>
 
