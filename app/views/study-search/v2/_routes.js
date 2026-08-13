@@ -3,6 +3,8 @@ const router = express.Router()
 
 // Load health conditions JSON data from app/data/
 const healthConditionsData = require('../../../data/health-conditions.json')
+// Load the dummy studies from app/data/studies.json
+const studiesData = require('../../../data/studies.json') 
 
 // Works out the session's set of selected health condition slugs after
 // applying: initial seed, removeCondition, "_all" clear, or a new pick.
@@ -58,7 +60,8 @@ function applyFilters(studies, { keywords, location, activeStatuses, selectedCon
   return results
 }
 
-router.all('/search-results', function (req, res) {
+// UPDATED ROUTE PATH: Now points to the new search-feed URL
+router.all('/searchfeed/search-feed', function (req, res) {
   if (req.query.clear === 'true') {
     req.session.data = {}
     res.locals.data = {}
@@ -81,7 +84,8 @@ router.all('/search-results', function (req, res) {
   req.session.data.location = location
   req.session.data.activeStatuses = activeStatuses
 
-  const studies = req.session.data.studies || []
+  // UPDATED DATA SOURCE: Pull directly from the imported JSON file
+  const studies = studiesData || []
 
   const results = applyFilters(studies, {
     keywords,
@@ -90,8 +94,10 @@ router.all('/search-results', function (req, res) {
     selectedConditions
   })
 
-  res.render('study-search/v2/search-results', {
+  // UPDATED RENDER DESTINATION: Point to the new template location
+  res.render('study-search/v2/searchfeed/search-feed', {
     results,
+    resultsCount: results.length, // Added to populate {{ resultsCount }} in your HTML
     keywords,
     location,
     activeStatuses,
@@ -141,8 +147,18 @@ router.post('/questions/question-3', function (req, res) {
   res.redirect('/study-search/v2/questions/question-4')
 })
 
+// POST Question 4: Save location preference, town/city/postcode, and travel distance into session
 router.post('/questions/question-4', function (req, res) {
-  // TODO: save question-4's fields into req.session.data here
+  req.session.data.locationPreference = req.body.locationPreference
+
+  if (req.body.locationPreference === 'specific-area') {
+    req.session.data.location = req.body.location
+    req.session.data.travelDistance = req.body.travelDistance
+  } else {
+    req.session.data.location = ''
+    req.session.data.travelDistance = ''
+  }
+
   res.redirect('/study-search/v2/questions/question-5')
 })
 
@@ -153,7 +169,8 @@ router.post('/questions/question-5', function (req, res) {
 
 router.post('/questions/question-6', function (req, res) {
   // TODO: save question-6's fields into req.session.data here
-  res.redirect('/study-search/v2/search-results')
+  // UPDATED REDIRECT: Send the user to the correct final page
+  res.redirect('/study-search/v2/searchfeed/search-feed')
 })
 
 module.exports = router
