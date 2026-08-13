@@ -13,29 +13,49 @@
 
 {% block content %}
 
-  <form action="/study-search/v1/questions/question-4" method="post">
+  {% from "radios/macro.njk" import radios %}
+  {% from "select/macro.njk" import select %}
+  {% from "button/macro.njk" import button %}
+
+  <form action="/study-search/v2/questions/question-4" method="post">
+
     {% set specificAreaHtml %}
-      {{ input({
-        id: "location",
-        name: "location",
-        type: "text",
-        label: {
-          text: "Town, city or postcode"
-        }
-      }) }}
+      <div class="nhsuk-form-group" style="position: relative;">
+        <label class="nhsuk-label" for="location">
+          Town, city or postcode
+        </label>
+        <div class="nhsuk-hint" id="location-hint">
+          Enter a location, hospital or postcode (e.g. King's Cross, King's College Hospital, SW1A 1AA)
+        </div>
+        <input class="nhsuk-input nhsuk-u-width-two-thirds" 
+               id="location" 
+               name="location" 
+               type="text" 
+               value="{{ data['location'] }}" 
+               autocomplete="off"
+               aria-describedby="location-hint">
+
+        <!-- Autocomplete Suggestions Dropdown Container -->
+        <ul id="location-suggestions" 
+            class="nhsuk-list" 
+            style="display: none; position: absolute; z-index: 1000; width: 66.66%; background: #ffffff; border: 2px solid #212b32; border-top: none; margin-top: -2px; max-height: 240px; overflow-y: auto; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+        </ul>
+      </div>
 
       {{ select({
         id: "travelDistance",
         name: "travelDistance",
+        value: data['travelDistance'] or "25",
         label: {
           text: "How far from this area would you be willing to travel?"
         },
         items: [
           { value: "5", text: "Within 5 miles" },
           { value: "10", text: "Within 10 miles" },
+          { value: "15", text: "Within 15 miles" },
+          { value: "20", text: "Within 20 miles" },
           { value: "25", text: "Within 25 miles" },
-          { value: "50", text: "Within 50 miles" },
-          { value: "100", text: "Within 100 miles" }
+          { value: "50", text: "Within 50 miles" }
         ]
       }) }}
     {% endset %}
@@ -43,6 +63,7 @@
     {{ radios({
       idPrefix: "location-preference",
       name: "locationPreference",
+      value: data['locationPreference'],
       fieldset: {
         legend: {
           text: "Where could you take part?",
@@ -62,5 +83,94 @@
     }) }}
 
     {{ button({ text: "Continue" }) }}
+
   </form>
+
+  <!-- Autocomplete Client-Side Script -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      // Sample dataset for location prototype suggestions
+      const locationList = [
+        "King's College Hospital, London",
+        "King's Cross, London (N1 9AL)",
+        "Kingston Hospital, Kingston upon Thames",
+        "Kingston upon Thames, Surrey",
+        "Kingswood, Bristol",
+        "King's Lynn, Norfolk",
+        "Royal King's Hospital, Manchester",
+        "London (Central)",
+        "London Bridge, London (SE1 9SG)",
+        "Birmingham (B1 1BB)",
+        "Manchester Royal Infirmary",
+        "Leeds General Infirmary",
+        "Oxford (OX1 1ND)",
+        "Cambridge (CB1 1AA)",
+        "Edinburgh (EH1 1YZ)"
+      ];
+
+      const locationInput = document.getElementById('location');
+      const suggestionsList = document.getElementById('location-suggestions');
+
+      if (!locationInput || !suggestionsList) return;
+
+      function escapeRegExp(string) {
+        return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      }
+
+      function highlightMatch(text, query) {
+        const regex = new RegExp('(' + escapeRegExp(query) + ')', 'gi');
+        return text.replace(regex, '<strong>$1</strong>');
+      }
+
+      locationInput.addEventListener('input', function (e) {
+        const query = e.target.value.trim().toLowerCase();
+        suggestionsList.innerHTML = '';
+
+        if (query.length < 2) {
+          suggestionsList.style.display = 'none';
+          return;
+        }
+
+        const matches = locationList.filter(function (item) {
+          return item.toLowerCase().includes(query);
+        });
+
+        if (matches.length > 0) {
+          matches.forEach(function (match) {
+            const li = document.createElement('li');
+            li.style.padding = '8px 12px';
+            li.style.cursor = 'pointer';
+            li.style.borderBottom = '1px solid #d8e2e6';
+            li.style.fontSize = '16px';
+            li.innerHTML = highlightMatch(match, e.target.value.trim());
+
+            li.addEventListener('mouseenter', function () {
+              li.style.backgroundColor = '#ffeb3b'; // NHS yellow focus
+            });
+            li.addEventListener('mouseleave', function () {
+              li.style.backgroundColor = '#ffffff';
+            });
+
+            li.addEventListener('click', function () {
+              locationInput.value = match;
+              suggestionsList.style.display = 'none';
+            });
+
+            suggestionsList.appendChild(li);
+          });
+          suggestionsList.style.display = 'block';
+        } else {
+          suggestionsList.style.display = 'none';
+        }
+      });
+
+      // Close dropdown if user clicks outside
+      document.addEventListener('click', function (e) {
+        if (!locationInput.contains(e.target) && !suggestionsList.contains(e.target)) {
+          suggestionsList.style.display = 'none';
+        }
+      });
+    });
+  </script>
+
 {% endblock %}
