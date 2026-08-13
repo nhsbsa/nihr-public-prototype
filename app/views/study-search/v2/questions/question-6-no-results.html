@@ -19,28 +19,33 @@
       {# Capture your custom text, main primary button, and secondary action link #}
       {% set panelHtml %}
 
-        <p>View search results based on your answers and filter them further if you need to.</p>
+        <p>You can now either:</p>
+
+        <ul>
+          <li>register for an account and get matched to related studies when they are added</li>
+          <li>start your search again</li>
+        </ul>
 
         <div class="nhsuk-button-group" style="margin-top: 32px;">
 
           {# Primary Action: View results #}
           {{ button({
-            text: "View results now",
+            text: "Register for an account",
             classes: "nhsuk-button--reverse",
             href: "/v1/search-results?status=recruiting"
           }) }}
-          
+
           {# Secondary Action: Continue registering #}
-          <a class="nhsuk-link" href="/study-search/v2/register/register-1" style="color: #ffffff; font-weight: bold; align-self: center;">
-            Register your details first
+          <a class="nhsuk-link" href="/study-search/v1/register/register-1" style="color: #ffffff; font-weight: bold; align-self: center;">
+            Search again
           </a>
-          
+
         </div>
       {% endset %}
 
       {# Render the final Interruption panel wrapper #}
       {{ panel({
-        titleText: "We've matched your studies",
+        titleText: "We could not find any related studies",
         titleSize: "l",
         classes: "nhsuk-panel--interruption",
         html: panelHtml

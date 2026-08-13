@@ -5,6 +5,7 @@
 {% from "input/macro.njk" import input %}
 {% from "button/macro.njk" import button %}
 {% from "tag/macro.njk" import tag %}
+{% from "radios/macro.njk" import radios %}
 
 {% block content %}
 
@@ -21,7 +22,7 @@
     <div class="nhsuk-grid-column-one-third">
 
       {# Changed method to POST to eliminate HTTP 431 header limits #}
-      <form action="/study-search/v1/search-results" method="post">
+      <form action="/study-search/v2/searchfeed/search-feed" method="post">
         
         {# HIDDEN UTILITIES: Clears old onboarding arrays so your new sidebar ticks overwrite them cleanly #}
         <input type="hidden" name="sex" value="">
@@ -31,30 +32,32 @@
         <h2 class="nhsuk-heading-m">Filter</h2>
 
         <!-- SELECTED FILTERS PANEL (ALL EXTRA LOZENGES ADDED HERE) -->
-        {% if (data.status and ('recruiting' in data.status or 'completed' in data.status or 'not-recruiting' in data.status or 'stopped' in data.status)) or data.location or data.locationPreference or (data.healthConditions and data.healthConditions.length > 0) or (data.ageRange and ('adult' in data.ageRange or 'adolescent' in data.ageRange or 'child' in data.ageRange or 'infant' in data.ageRange)) or data.sex == 'female' or data.sex == 'male' %}
+        {% if data.locationPreference or (data.status and ('recruiting' in data.status or 'completed' in data.status or 'not-recruiting' in data.status or 'stopped' in data.status)) or (data.healthConditions and data.healthConditions.length > 0) or (data.ageRange and ('adult' in data.ageRange or 'adolescent' in data.ageRange or 'child' in data.ageRange or 'infant' in data.ageRange)) or data.sex == 'female' or data.sex == 'male' %}
           <div class="selected-filters-panel" style="background-color: #f0f4f5; padding: 16px; margin-bottom: 24px; border: 1px solid #d8dde0;">
             <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 16px;">
               <h3 class="nhsuk-heading-s" style="margin: 0; font-size: 20px;">Selected filters</h3>
-              <a href="/study-search/v1/search-results?clear=true" class="nhsuk-link nhsuk-link--no-visited" style="font-size: 16px;">Clear filters</a>
+              <a href="/study-search/v2/searchfeed/search-feed?clear=true" class="nhsuk-link nhsuk-link--no-visited" style="font-size: 16px;">Clear filters</a>
             </div>
 
-            {# Location Lozenges #}
-            {% if data.location or data.locationPreference %}
+            {# --- RESTORED LOCATION LOZENGE --- #}
+            {% if data.locationPreference %}
               <div style="margin-bottom: 12px;">
                 <p class="nhsuk-body-s" style="font-weight: bold; margin-bottom: 4px;">Location</p>
-                <a href="/study-search/v1/search-results?keywords={{ data.keywords }}&location=&locationPreference=&status={{ data.status }}&ageRange={{ data.ageRange }}&sex={{ data.sex }}"
+                <a href="/study-search/v2/searchfeed/search-feed?keywords={{ data.keywords }}&locationPreference=&location=&travelDistance=&status={{ data.status }}&ageRange={{ data.ageRange }}&sex={{ data.sex }}"
                    style="display: inline-flex; align-items: center; background-color: #fff; border: 1px solid #212b32; padding: 4px 8px; font-size: 14px; color: #212b32; text-decoration: none; border-radius: 2px;">
                   {% if data.locationPreference == 'anywhere-in-uk' %}
                     Anywhere in the UK
                   {% elif data.locationPreference == 'remote-only' %}
                     Remote only
-                  {% else %}
-                    {{ data.location }}
+                  {% elif data.locationPreference == 'specific-area' %}
+                    {{ data.location }} {% if data.travelDistance %}(Within {{ data.travelDistance }} miles){% endif %}
                   {% endif %}
-                  <span style="margin-left: 8px; font-weight: bold; color: #626f7a;">&times;</span>
+                  <span aria-hidden="true" style="margin-left: 8px; font-weight: bold; color: #626f7a;">&times;</span>
+                  <span class="nhsuk-u-visually-hidden">Remove location filter</span>
                 </a>
               </div>
             {% endif %}
+            {# -------------------------------- #}
 
             {# Health Condition & Subsets - one block per condition accumulated across "Apply filters" submissions #}
             {% if data.healthConditions and data.healthConditions.length > 0 %}
@@ -65,8 +68,11 @@
                   {# Main Parent Label - removes just this condition, keeping any others accumulated #}
                   <div style="display: flex; align-items: center; gap: 8px; font-size: 16px; color: #212b32; font-weight: bold; margin-bottom: 8px;">
                     {{ condition | capitalize | replace("-", " ") }}
-                    <a href="/study-search/v1/search-results?removeCondition={{ condition }}"
-                       style="font-weight: bold; color: #626f7a; text-decoration: none;">&times;</a>
+                    <a href="/study-search/v2/searchfeed/search-feed?removeCondition={{ condition }}"
+                       style="font-weight: bold; color: #626f7a; text-decoration: none;">
+                       <span aria-hidden="true">&times;</span>
+                       <span class="nhsuk-u-visually-hidden">Remove {{ condition | replace("-", " ") }} filter</span>
+                    </a>
                   </div>
 
                   {# Dynamic Child Subsets Container #}
@@ -77,26 +83,32 @@
 
                     {# 1. Check if the master 'all' value is selected #}
                     {% if activeSubs and ('all' in activeSubs or activeSubs == 'all') %}
-                      <a href="/study-search/v1/search-results?{{ subKey }}="
+                      <a href="/study-search/v2/searchfeed/search-feed?{{ subKey }}="
                          style="display: inline-flex; align-items: center; background-color: #fff; border: 1px solid #212b32; padding: 4px 8px; font-size: 14px; color: #212b32; text-decoration: none; border-radius: 2px;">
-                        All {{ condition | replace("-", " ") }} conditions <span style="margin-left: 8px; font-weight: bold; color: #626f7a;">&times;</span>
+                        All {{ condition | replace("-", " ") }} conditions 
+                        <span aria-hidden="true" style="margin-left: 8px; font-weight: bold; color: #626f7a;">&times;</span>
+                        <span class="nhsuk-u-visually-hidden">Remove all {{ condition | replace("-", " ") }} conditions filter</span>
                       </a>
                     {% elif activeSubs and activeSubs != "" %}
 
                       {# 2. Otherwise, loop through individual subset entries safely #}
                       {% if activeSubs.substring %}
                         {# Single string item handler #}
-                        <a href="/study-search/v1/search-results?{{ subKey }}="
+                        <a href="/study-search/v2/searchfeed/search-feed?{{ subKey }}="
                            style="display: inline-flex; align-items: center; background-color: #fff; border: 1px solid #212b32; padding: 4px 8px; font-size: 14px; color: #212b32; text-decoration: none; border-radius: 2px;">
-                          {{ activeSubs | replace("-", " ") | capitalize }} <span style="margin-left: 8px; font-weight: bold; color: #626f7a;">&times;</span>
+                          {{ activeSubs | replace("-", " ") | capitalize }} 
+                          <span aria-hidden="true" style="margin-left: 8px; font-weight: bold; color: #626f7a;">&times;</span>
+                          <span class="nhsuk-u-visually-hidden">Remove {{ activeSubs | replace("-", " ") }} filter</span>
                         </a>
                       {% else %}
                         {# Array of multiple checkboxes #}
                         {% for subItem in activeSubs %}
                           {% if subItem != "" and subItem != "all" %}
-                            <a href="/study-search/v1/search-results?{% for internalSub in activeSubs %}{% if internalSub != subItem %}{{ subKey }}={{ internalSub }}&{% endif %}{% endfor %}"
+                            <a href="/study-search/v2/searchfeed/search-feed?{% for internalSub in activeSubs %}{% if internalSub != subItem %}{{ subKey }}={{ internalSub }}&{% endif %}{% endfor %}"
                                style="display: inline-flex; align-items: center; background-color: #fff; border: 1px solid #212b32; padding: 4px 8px; font-size: 14px; color: #212b32; text-decoration: none; border-radius: 2px;">
-                              {{ subItem | replace("-", " ") | capitalize }} <span style="margin-left: 8px; font-weight: bold; color: #626f7a;">&times;</span>
+                              {{ subItem | replace("-", " ") | capitalize }} 
+                              <span aria-hidden="true" style="margin-left: 8px; font-weight: bold; color: #626f7a;">&times;</span>
+                              <span class="nhsuk-u-visually-hidden">Remove {{ subItem | replace("-", " ") }} filter</span>
                             </a>
                           {% endif %}
                         {% endfor %}
@@ -118,16 +130,32 @@
                 <p class="nhsuk-body-s" style="font-weight: bold; margin-bottom: 4px;">Status</p>
                 <div style="display: flex; flex-wrap: wrap; gap: 8px;">
                   {% if 'recruiting' in data.status %}
-                    <a href="/study-search/v1/search-results?keywords={{ data.keywords }}&location={{ data.location }}&ageRange={{ data.ageRange }}&sex={{ data.sex }}&status=completed&status=not-recruiting&status=stopped" style="display: inline-flex; align-items: center; background-color: #fff; border: 1px solid #212b32; padding: 4px 8px; font-size: 14px; color: #212b32; text-decoration: none;">Recruiting <span style="margin-left: 8px;">&times;</span></a>
+                    <a href="/study-search/v2/searchfeed/search-feed?keywords={{ data.keywords }}&location={{ data.location }}&ageRange={{ data.ageRange }}&sex={{ data.sex }}&status=completed&status=not-recruiting&status=stopped" style="display: inline-flex; align-items: center; background-color: #fff; border: 1px solid #212b32; padding: 4px 8px; font-size: 14px; color: #212b32; text-decoration: none;">
+                      Recruiting 
+                      <span aria-hidden="true" style="margin-left: 8px;">&times;</span>
+                      <span class="nhsuk-u-visually-hidden">Remove Recruiting filter</span>
+                    </a>
                   {% endif %}
                   {% if 'completed' in data.status %}
-                    <a href="/study-search/v1/search-results?keywords={{ data.keywords }}&location={{ data.location }}&ageRange={{ data.ageRange }}&sex={{ data.sex }}&status=recruiting&status=not-recruiting&status=stopped" style="display: inline-flex; align-items: center; background-color: #fff; border: 1px solid #212b32; padding: 4px 8px; font-size: 14px; color: #212b32; text-decoration: none;">Completed <span style="margin-left: 8px;">&times;</span></a>
+                    <a href="/study-search/v2/searchfeed/search-feed?keywords={{ data.keywords }}&location={{ data.location }}&ageRange={{ data.ageRange }}&sex={{ data.sex }}&status=recruiting&status=not-recruiting&status=stopped" style="display: inline-flex; align-items: center; background-color: #fff; border: 1px solid #212b32; padding: 4px 8px; font-size: 14px; color: #212b32; text-decoration: none;">
+                      Completed 
+                      <span aria-hidden="true" style="margin-left: 8px;">&times;</span>
+                      <span class="nhsuk-u-visually-hidden">Remove Completed filter</span>
+                    </a>
                   {% endif %}
                   {% if 'not-recruiting' in data.status %}
-                    <a href="/study-search/v1/search-results?keywords={{ data.keywords }}&location={{ data.location }}&ageRange={{ data.ageRange }}&sex={{ data.sex }}&status=recruiting&status=completed&status=stopped" style="display: inline-flex; align-items: center; background-color: #fff; border: 1px solid #212b32; padding: 4px 8px; font-size: 14px; color: #212b32; text-decoration: none;">Not recruiting <span style="margin-left: 8px;">&times;</span></a>
+                    <a href="/study-search/v2/searchfeed/search-feed?keywords={{ data.keywords }}&location={{ data.location }}&ageRange={{ data.ageRange }}&sex={{ data.sex }}&status=recruiting&status=completed&status=stopped" style="display: inline-flex; align-items: center; background-color: #fff; border: 1px solid #212b32; padding: 4px 8px; font-size: 14px; color: #212b32; text-decoration: none;">
+                      Not recruiting 
+                      <span aria-hidden="true" style="margin-left: 8px;">&times;</span>
+                      <span class="nhsuk-u-visually-hidden">Remove Not recruiting filter</span>
+                    </a>
                   {% endif %}
                   {% if 'stopped' in data.status %}
-                    <a href="/study-search/v1/search-results?keywords={{ data.keywords }}&location={{ data.location }}&ageRange={{ data.ageRange }}&sex={{ data.sex }}&status=recruiting&status=completed&status=not-recruiting" style="display: inline-flex; align-items: center; background-color: #fff; border: 1px solid #212b32; padding: 4px 8px; font-size: 14px; color: #212b32; text-decoration: none;">Stopped <span style="margin-left: 8px;">&times;</span></a>
+                    <a href="/study-search/v2/searchfeed/search-feed?keywords={{ data.keywords }}&location={{ data.location }}&ageRange={{ data.ageRange }}&sex={{ data.sex }}&status=recruiting&status=completed&status=not-recruiting" style="display: inline-flex; align-items: center; background-color: #fff; border: 1px solid #212b32; padding: 4px 8px; font-size: 14px; color: #212b32; text-decoration: none;">
+                      Stopped 
+                      <span aria-hidden="true" style="margin-left: 8px;">&times;</span>
+                      <span class="nhsuk-u-visually-hidden">Remove Stopped filter</span>
+                    </a>
                   {% endif %}
                 </div>
               </div>
@@ -139,16 +167,32 @@
                 <p class="nhsuk-body-s" style="font-weight: bold; margin-bottom: 4px;">Age range</p>
                 <div style="display: flex; flex-wrap: wrap; gap: 8px;">
                   {% if 'adult' in data.ageRange %}
-                    <a href="/study-search/v1/search-results?keywords={{ data.keywords }}&location={{ data.location }}&status={{ data.status }}&sex={{ data.sex }}&ageRange=adolescent&ageRange=child&ageRange=infant" style="display: inline-flex; align-items: center; background-color: #fff; border: 1px solid #212b32; padding: 4px 8px; font-size: 14px; color: #212b32; text-decoration: none;">Adult 18+ <span style="margin-left: 8px;">&times;</span></a>
+                    <a href="/study-search/v2/searchfeed/search-feed?keywords={{ data.keywords }}&location={{ data.location }}&status={{ data.status }}&sex={{ data.sex }}&ageRange=adolescent&ageRange=child&ageRange=infant" style="display: inline-flex; align-items: center; background-color: #fff; border: 1px solid #212b32; padding: 4px 8px; font-size: 14px; color: #212b32; text-decoration: none;">
+                      Adult 18+ 
+                      <span aria-hidden="true" style="margin-left: 8px;">&times;</span>
+                      <span class="nhsuk-u-visually-hidden">Remove Adult 18+ filter</span>
+                    </a>
                   {% endif %}
                   {% if 'adolescent' in data.ageRange %}
-                    <a href="/study-search/v1/search-results?keywords={{ data.keywords }}&location={{ data.location }}&status={{ data.status }}&sex={{ data.sex }}&ageRange=adult&ageRange=child&ageRange=infant" style="display: inline-flex; align-items: center; background-color: #fff; border: 1px solid #212b32; padding: 4px 8px; font-size: 14px; color: #212b32; text-decoration: none;">Adolescent 13-17 <span style="margin-left: 8px;">&times;</span></a>
+                    <a href="/study-search/v2/searchfeed/search-feed?keywords={{ data.keywords }}&location={{ data.location }}&status={{ data.status }}&sex={{ data.sex }}&ageRange=adult&ageRange=child&ageRange=infant" style="display: inline-flex; align-items: center; background-color: #fff; border: 1px solid #212b32; padding: 4px 8px; font-size: 14px; color: #212b32; text-decoration: none;">
+                      Adolescent 13-17 
+                      <span aria-hidden="true" style="margin-left: 8px;">&times;</span>
+                      <span class="nhsuk-u-visually-hidden">Remove Adolescent 13-17 filter</span>
+                    </a>
                   {% endif %}
                   {% if 'child' in data.ageRange %}
-                    <a href="/study-search/v1/search-results?keywords={{ data.keywords }}&location={{ data.location }}&status={{ data.status }}&sex={{ data.sex }}&ageRange=adult&ageRange=adolescent&ageRange=infant" style="display: inline-flex; align-items: center; background-color: #fff; border: 1px solid #212b32; padding: 4px 8px; font-size: 14px; color: #212b32; text-decoration: none;">Child 3-12 <span style="margin-left: 8px;">&times;</span></a>
+                    <a href="/study-search/v2/searchfeed/search-feed?keywords={{ data.keywords }}&location={{ data.location }}&status={{ data.status }}&sex={{ data.sex }}&ageRange=adult&ageRange=adolescent&ageRange=infant" style="display: inline-flex; align-items: center; background-color: #fff; border: 1px solid #212b32; padding: 4px 8px; font-size: 14px; color: #212b32; text-decoration: none;">
+                      Child 3-12 
+                      <span aria-hidden="true" style="margin-left: 8px;">&times;</span>
+                      <span class="nhsuk-u-visually-hidden">Remove Child 3-12 filter</span>
+                    </a>
                   {% endif %}
                   {% if 'infant' in data.ageRange %}
-                    <a href="/study-search/v1/search-results?keywords={{ data.keywords }}&location={{ data.location }}&status={{ data.status }}&sex={{ data.sex }}&ageRange=adult&ageRange=adolescent&ageRange=child" style="display: inline-flex; align-items: center; background-color: #fff; border: 1px solid #212b32; padding: 4px 8px; font-size: 14px; color: #212b32; text-decoration: none;">Infant 0-2 <span style="margin-left: 8px;">&times;</span></a>
+                    <a href="/study-search/v2/searchfeed/search-feed?keywords={{ data.keywords }}&location={{ data.location }}&status={{ data.status }}&sex={{ data.sex }}&ageRange=adult&ageRange=adolescent&ageRange=child" style="display: inline-flex; align-items: center; background-color: #fff; border: 1px solid #212b32; padding: 4px 8px; font-size: 14px; color: #212b32; text-decoration: none;">
+                      Infant 0-2 
+                      <span aria-hidden="true" style="margin-left: 8px;">&times;</span>
+                      <span class="nhsuk-u-visually-hidden">Remove Infant 0-2 filter</span>
+                    </a>
                   {% endif %}
                 </div>
               </div>
@@ -160,10 +204,18 @@
                 <p class="nhsuk-body-s" style="font-weight: bold; margin-bottom: 4px;">Gender</p>
                 <div style="display: flex; flex-wrap: wrap; gap: 8px;">
                   {% if data.sex == 'female' %}
-                    <a href="/study-search/v1/search-results?keywords={{ data.keywords }}&location={{ data.location }}&status={{ data.status }}&ageRange={{ data.ageRange }}&sex=male" style="display: inline-flex; align-items: center; background-color: #fff; border: 1px solid #212b32; padding: 4px 8px; font-size: 14px; color: #212b32; text-decoration: none;">Female <span style="margin-left: 8px;">&times;</span></a>
+                    <a href="/study-search/v2/searchfeed/search-feed?keywords={{ data.keywords }}&location={{ data.location }}&status={{ data.status }}&ageRange={{ data.ageRange }}&sex=male" style="display: inline-flex; align-items: center; background-color: #fff; border: 1px solid #212b32; padding: 4px 8px; font-size: 14px; color: #212b32; text-decoration: none;">
+                      Female 
+                      <span aria-hidden="true" style="margin-left: 8px;">&times;</span>
+                      <span class="nhsuk-u-visually-hidden">Remove Female filter</span>
+                    </a>
                   {% endif %}
                   {% if data.sex == 'male' %}
-                    <a href="/study-search/v1/search-results?keywords={{ data.keywords }}&location={{ data.location }}&status={{ data.status }}&ageRange={{ data.ageRange }}&sex=female" style="display: inline-flex; align-items: center; background-color: #fff; border: 1px solid #212b32; padding: 4px 8px; font-size: 14px; color: #212b32; text-decoration: none;">Male <span style="margin-left: 8px;">&times;</span></a>
+                    <a href="/study-search/v2/searchfeed/search-feed?keywords={{ data.keywords }}&location={{ data.location }}&status={{ data.status }}&ageRange={{ data.ageRange }}&sex=female" style="display: inline-flex; align-items: center; background-color: #fff; border: 1px solid #212b32; padding: 4px 8px; font-size: 14px; color: #212b32; text-decoration: none;">
+                      Male 
+                      <span aria-hidden="true" style="margin-left: 8px;">&times;</span>
+                      <span class="nhsuk-u-visually-hidden">Remove Male filter</span>
+                    </a>
                   {% endif %}
                 </div>
               </div>
@@ -172,7 +224,62 @@
           </div>
         {% endif %}
 
-        {{ button({ text: "Apply filters" }) }}
+        {# --- NEW LOCATION RADIOS FILTER --- #}
+        {% set specificAreaHtml %}
+          <div class="nhsuk-form-group">
+            <input class="nhsuk-input nhsuk-u-width-two-thirds" 
+                   id="location" 
+                   name="location" 
+                   type="text" 
+                   value="{{ data['location'] }}" 
+                   autocomplete="off"
+                   aria-describedby="location-hint">
+
+            <!-- Autocomplete Suggestions Dropdown Container -->
+            <ul id="location-suggestions" 
+                class="nhsuk-list" 
+                style="display: none; position: absolute; z-index: 1000; width: 66.66%; background: #ffffff; border: 2px solid #212b32; border-top: none; margin-top: -2px; max-height: 240px; overflow-y: auto; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+            </ul>
+          </div>
+
+          {{ select({
+            id: "travelDistance",
+            name: "travelDistance",
+            value: data['travelDistance'] or "25",
+            label: {
+              text: "How far from this area would you be willing to travel?"
+            },
+            items: [
+              { value: "5", text: "Within 5 miles" },
+              { value: "10", text: "Within 10 miles" },
+              { value: "15", text: "Within 15 miles" },
+              { value: "20", text: "Within 20 miles" },
+              { value: "25", text: "Within 25 miles" },
+              { value: "50", text: "Within 50 miles" }
+            ]
+          }) }}
+        {% endset %}
+
+        {{ radios({
+          idPrefix: "location-preference",
+          name: "locationPreference",
+          value: data['locationPreference'],
+          fieldset: {
+            legend: {
+              text: "Where could you take part?"
+            }
+          },
+          items: [
+            { value: "anywhere-in-uk", text: "Anywhere in the UK" },
+            { value: "remote-only", text: "Remote only" },
+            {
+              value: "specific-area",
+              text: "A specific area",
+              conditional: { html: specificAreaHtml }
+            }
+          ]
+        }) }}
+        {# --------------------------------- #}
 
         {# Main Health Condition Select Dropdown #}
         {{ select({
@@ -232,14 +339,6 @@
           {% endfor %}
         </div>
 
-        <!-- Location Field -->
-        {{ input({
-          id: "location",
-          name: "location",
-          label: { text: "Location" },
-          value: data['location']
-        }) }}
-
         {# Status Filters #}
         {{ checkboxes({
           idPrefix: "status",
@@ -295,6 +394,9 @@
             { value: "male", text: "Male" }
           ]
         }) }}
+
+        {{ button({ text: "Apply filters" }) }}
+
       </form>
 
     </div>
@@ -323,7 +425,7 @@
               <span class="nhsuk-u-float-right">Until {{ study.closingDate }}</span>
             {% endif %}
 
-            <h3 class="nhsuk-card__heading"><a href="/study-search/v1/search/study/{{ study.id }}">{{ study.title }}</a></h3>
+            <h3 class="nhsuk-card__heading"><a href="/study-search/v2/search/study/{{ study.id }}">{{ study.title }}</a></h3>
 
             <p class="nhsuk-body"><strong>Medical conditions</strong> {{ study.conditionText }}</p>
             <p class="nhsuk-body"><strong>Gender</strong> {{ study.genderLabel }}</p>
