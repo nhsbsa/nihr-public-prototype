@@ -30,17 +30,12 @@
             href: "/v1/search-results?status=recruiting"
           }) }}
           
-          {# Secondary Action: Continue registering #}
-          <a class="nhsuk-link" href="/study-search/v2/register/register-1" style="color: #ffffff; font-weight: bold; align-self: center;">
-            Register your details first
-          </a>
-          
         </div>
       {% endset %}
 
       {# Render the final Interruption panel wrapper #}
       {{ panel({
-        titleText: "We've matched your studies",
+        titleText: "We have found studies based on your search",
         titleSize: "l",
         classes: "nhsuk-panel--interruption",
         html: panelHtml
