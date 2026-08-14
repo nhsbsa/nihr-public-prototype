@@ -4071,7 +4071,7 @@
     "ageMax": 45,
     "ageLabel": "18 - 45 Years",
     "locations": [
-      "Nottingham"
+      "Nottingham", "Queen's Medical Centre, Nottingham"
     ]
   },{
     "id": "58688",
@@ -4210,8 +4210,10 @@
     "ageMax": 75,
     "ageLabel": "18 - 75 Years",
     "locations": [
-      "Newcastle",
-      "Sheffield"
+      "Liverpool",
+      "Sheffield",
+      "Royal Liverpool University Hospital, Liverpool", 
+      "Northern General Hospital, Sheffield"
     ]
   }
 

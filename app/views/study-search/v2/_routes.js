@@ -7,8 +7,19 @@ const healthConditionsData = require('../../../data/health-conditions.json')
 // Load the dummy studies from app/data/studies.json
 const studiesData = require('../../../data/studies.json')
 
-// Applies keywords, location, status, condition, sub-condition, AND sorting filters to the study list.
-function applyFilters(studies, { keywords, location, activeStatuses, selectedConditions, subCondition, sortBy }) {
+// Helper function to sanitize input strings and arrays against empty or '_unchecked' values
+function sanitizeInput(val) {
+  if (Array.isArray(val)) {
+    return val.filter(item => item && String(item).trim() !== '' && item !== '_unchecked')
+  }
+  if (!val || val === '_unchecked' || String(val).trim() === '') {
+    return ''
+  }
+  return String(val).trim()
+}
+
+// Applies keywords, location, status, condition, sub-condition, sex, AND sorting filters to the study list.
+function applyFilters(studies, { keywords, location, activeStatuses, selectedConditions, subCondition, sex, sortBy }) {
   let results = [...studies]
 
   // 1. Keyword Filter
@@ -17,7 +28,7 @@ function applyFilters(studies, { keywords, location, activeStatuses, selectedCon
   }
 
   // 2. Location Filter
-  if (location && location.trim() !== '') {
+  if (location) {
     results = results.filter(study => study.locations.some(loc => loc.toLowerCase().includes(location.toLowerCase())))
   }
 
@@ -34,8 +45,8 @@ function applyFilters(studies, { keywords, location, activeStatuses, selectedCon
     )
   }
 
-  // 5. Specific Sub-Condition Filter (Flexible matching)
-  if (subCondition && subCondition !== 'all' && subCondition !== '') {
+  // 5. Specific Sub-Condition Filter
+  if (subCondition && subCondition !== 'all') {
     const targetSub = subCondition.toLowerCase().replace(/[-_]/g, ' ').trim()
 
     results = results.filter(study => {
@@ -55,11 +66,18 @@ function applyFilters(studies, { keywords, location, activeStatuses, selectedCon
     })
   }
 
-  // 6. Sorting Logic
+  // 6. Sex/Gender Filter
+  if (sex) {
+    results = results.filter(study => {
+      if (!study.targetSex || study.targetSex === 'all') return true
+      return study.targetSex.toLowerCase() === sex.toLowerCase()
+    })
+  }
+
+  // 7. Sorting Logic
   if (sortBy === 'a-z') {
     results.sort((a, b) => a.title.localeCompare(b.title))
   } else {
-    // Default 'most-recent': Sort by ID descending
     results.sort((a, b) => Number(b.id) - Number(a.id))
   }
 
@@ -68,54 +86,76 @@ function applyFilters(studies, { keywords, location, activeStatuses, selectedCon
 
 // ROUTE HANDLER: Handles search feed, dynamic filters, autocomplete searches & sorting
 router.all('/searchfeed/search-feed', function (req, res) {
-  if (req.query.clear === 'true') {
+  if (!req.session.data) {
     req.session.data = {}
-    res.locals.data = {}
+  }
+
+  // Clear filters feature
+  // Clear filters feature
+  if (req.query.clear === 'true') {
+    req.session.data.keywords = ''
+    req.session.data.sex = ''
+    req.session.data.locationPreference = ''
+    req.session.data.location = ''
+    req.session.data.travelDistance = ''
+    req.session.data.healthCondition = ''
+    req.session.data.subCondition = ''
+    req.session.data.healthConditions = []
+    req.session.data.activeStatuses = []
+    req.session.data.ageRange = []
+    req.session.data.dateofbirth = { day: '', month: '', year: '' }
+    
     return res.redirect('/study-search/v2/searchfeed/search-feed')
   }
 
   const inputSource = req.method === 'POST' ? req.body : req.query
-  const { keywords, status, healthCondition, subCondition, locationPreference, sortBy } = inputSource
+  const sd = req.session.data
 
-  const sd = req.session.data || {}
+  // Sanitize incoming input overrides
+  if (inputSource.keywords !== undefined) sd.keywords = sanitizeInput(inputSource.keywords)
+  if (inputSource.sex !== undefined) sd.sex = sanitizeInput(inputSource.sex)
+  if (inputSource.locationPreference !== undefined) sd.locationPreference = sanitizeInput(inputSource.locationPreference)
+  if (inputSource.healthCondition !== undefined) sd.healthCondition = sanitizeInput(inputSource.healthCondition)
+  if (inputSource.subCondition !== undefined) sd.subCondition = sanitizeInput(inputSource.subCondition)
+  if (inputSource.sortBy !== undefined) sd.sortBy = sanitizeInput(inputSource.sortBy)
 
-  // Save location preference to session
-  if (locationPreference) {
-    req.session.data.locationPreference = locationPreference
-  }
-
-  // Only apply location filter if "specific-area" is selected
+  // Location logic
   let location = ""
-  const activeLocPref = req.session.data.locationPreference
-  if (activeLocPref === 'specific-area') {
-    location = inputSource.location || sd.location || ""
-    req.session.data.location = location
+  if (sd.locationPreference === 'specific-area') {
+    if (inputSource.location !== undefined) sd.location = sanitizeInput(inputSource.location)
+    location = sd.location || ""
   } else {
-    req.session.data.location = ""
+    sd.location = ""
   }
 
-  // Save selected condition, sub-condition & sortBy to session
-  if (healthCondition !== undefined) req.session.data.healthCondition = healthCondition
-  if (subCondition !== undefined) req.session.data.subCondition = subCondition
-  if (sortBy !== undefined) req.session.data.sortBy = sortBy
+  // Validate Health Condition choice against valid categories
+  let chosenCondition = sd.healthCondition || ''
+  if (!healthConditionsData[chosenCondition]) {
+    chosenCondition = ''
+  }
 
-  const chosenCondition = req.session.data.healthCondition || ''
-  const chosenSubCondition = req.session.data.subCondition || ''
-  const chosenSortBy = req.session.data.sortBy || 'most-recent'
+  // Fallback to Question 3 selection if search feed selection is empty
+  if (!chosenCondition && Array.isArray(sd.healthConditions) && sd.healthConditions.length > 0) {
+    const validCond = sd.healthConditions.find(c => healthConditionsData[c])
+    chosenCondition = validCond || ''
+  }
+
+  const chosenSubCondition = sd.subCondition || ''
+  const chosenSortBy = sd.sortBy || 'most-recent'
+  const chosenSex = sd.sex || ''
+  const keywords = sd.keywords || ''
 
   const selectedConditions = chosenCondition && chosenCondition !== '_all' ? [chosenCondition] : []
 
-  // Extract raw status array or string
-  let rawStatuses = status
-    ? (Array.isArray(status) ? status : [status])
+  // Status Filter Sanitization
+  let rawStatuses = inputSource.status !== undefined
+    ? (Array.isArray(inputSource.status) ? inputSource.status : [inputSource.status])
     : (sd.activeStatuses || [])
 
-  // SANITIZE: Filter out empty strings AND Nunjucks '_unchecked' dummy values
-  const activeStatuses = rawStatuses.filter(s => s && s.trim() !== '' && s !== '_unchecked')
+  const activeStatuses = sanitizeInput(rawStatuses)
+  sd.activeStatuses = activeStatuses
 
-  req.session.data.activeStatuses = activeStatuses
-
-  // Build the primary health condition dropdown list from health-conditions.json
+  // Build the primary health condition dropdown list
   const healthConditionItems = [
     { value: "", text: "Select a health condition" }
   ]
@@ -130,12 +170,14 @@ router.all('/searchfeed/search-feed', function (req, res) {
 
   const studies = studiesData || []
 
+  // Run unified filtering
   const results = applyFilters(studies, {
     keywords,
     location,
     activeStatuses,
     selectedConditions,
     subCondition: chosenSubCondition,
+    sex: chosenSex,
     sortBy: chosenSortBy
   })
 
@@ -151,88 +193,109 @@ router.all('/searchfeed/search-feed', function (req, res) {
     sortBy: chosenSortBy,
     healthConditionItems,
     healthConditionsData,
-    allStudies: studies
+    allStudies: studies,
+    data: sd
   })
 })
-
-// ****************************************
-// Study Detail Pages (Dynamic Routing)
-// ****************************************
 
 router.get('/search/study/:id', function (req, res) {
   const studyId = req.params.id
   const study = studiesData.find(s => s.id === studyId)
 
-  // Fallback to search feed if ID doesn't exist
   if (!study) {
     return res.redirect('/study-search/v2/searchfeed/search-feed')
   }
 
-  // Store the current study in session memory
   req.session.data.currentStudy = study
-
-  // Use the folder specified in studies.json, or default to 'studydetails-1'
   const detailFolder = study.detailFolder || 'studydetails-1'
 
-  return res.render(`study-search/v2/${detailFolder}/page-one`, { study })
+  // Redirecting updates the URL bar so relative links resolve correctly
+  return res.redirect(`/study-search/v2/${detailFolder}/page-one`)
 })
-
 // ****************************************
-// Questions 1–6
+// Onboarding Questions 1–4 & Question 6
 // ****************************************
 
+// Question 1: Sex / Gender
 router.post('/questions/question-1', function (req, res) {
-  req.session.data.sex = req.body.sex
-  req.session.data.genderSameAsSex = req.body.genderSameAsSex
+  const cleanSex = sanitizeInput(req.body.sex)
+  req.session.data.sex = cleanSex
+  req.session.data.genderSameAsSex = sanitizeInput(req.body.genderSameAsSex)
 
   res.redirect('/study-search/v2/questions/question-2')
 })
 
+// Question 2: Date of birth
 router.post('/questions/question-2', function (req, res) {
-  req.session.data.dateofbirthDay = req.body['dateofbirth-day']
-  req.session.data.dateofbirthMonth = req.body['dateofbirth-month']
-  req.session.data.dateofbirthYear = req.body['dateofbirth-year']
+  const day = sanitizeInput(req.body['dateofbirth-day'])
+  const month = sanitizeInput(req.body['dateofbirth-month'])
+  const year = sanitizeInput(req.body['dateofbirth-year'])
+
+  req.session.data.dateofbirthDay = day
+  req.session.data.dateofbirthMonth = month
+  req.session.data.dateofbirthYear = year
+
+  // Always keep as an object so auto-store-data middleware doesn't crash
+  req.session.data.dateofbirth = {
+    day: day || '',
+    month: month || '',
+    year: year || ''
+  }
 
   res.redirect('/study-search/v2/questions/question-3')
 })
 
-// GET Question 3: Render template with the JSON data
+// Question 3: Health Conditions
 router.get('/questions/question-3', function (req, res) {
   res.render('study-search/v2/questions/question-3', {
     healthConditionsData: healthConditionsData
   })
 })
 
-// POST Question 3: Save selected checkboxes into session
 router.post('/questions/question-3', function (req, res) {
-  let healthConditions = req.body.healthConditions
-
-  if (healthConditions && !Array.isArray(healthConditions)) {
-    healthConditions = [healthConditions]
+  let rawConditions = req.body.healthConditions
+  if (rawConditions && !Array.isArray(rawConditions)) {
+    rawConditions = [rawConditions]
   }
 
-  req.session.data.healthConditions = healthConditions || []
+  const cleanConditions = sanitizeInput(rawConditions || [])
+  req.session.data.healthConditions = cleanConditions
+
+  // Assign initial condition if valid
+  if (cleanConditions.length > 0 && healthConditionsData[cleanConditions[0]]) {
+    req.session.data.healthCondition = cleanConditions[0]
+  } else {
+    req.session.data.healthCondition = ''
+  }
 
   res.redirect('/study-search/v2/questions/question-4')
 })
 
-// POST Question 4: Save location preference, town/city/postcode, and travel distance into session
+// Question 4: Location Preference
 router.post('/questions/question-4', function (req, res) {
-  req.session.data.locationPreference = req.body.locationPreference
+  const pref = sanitizeInput(req.body.locationPreference)
 
-  if (req.body.locationPreference === 'specific-area') {
-    req.session.data.location = req.body.location
-    req.session.data.travelDistance = req.body.travelDistance
+  if (pref === 'specific-area' && sanitizeInput(req.body.location)) {
+    req.session.data.locationPreference = 'specific-area'
+    req.session.data.location = sanitizeInput(req.body.location)
+    req.session.data.travelDistance = sanitizeInput(req.body.travelDistance) || '25'
+  } else if (pref === 'anywhere-in-uk') {
+    req.session.data.locationPreference = 'anywhere-in-uk'
+    req.session.data.location = ''
+    req.session.data.travelDistance = ''
   } else {
+    // If skipped or empty, leave unselected
+    req.session.data.locationPreference = ''
     req.session.data.location = ''
     req.session.data.travelDistance = ''
   }
 
-  res.redirect('/study-search/v2/questions/question-5')
+  res.redirect('/study-search/v2/questions/question-6')
 })
 
-router.post('/questions/question-5', function (req, res) {
-  res.redirect('/study-search/v2/questions/question-6')
+// Question 6: Confirmation
+router.get('/questions/question-6', function (req, res) {
+  res.render('study-search/v2/questions/question-6')
 })
 
 router.post('/questions/question-6', function (req, res) {

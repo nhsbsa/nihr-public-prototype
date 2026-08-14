@@ -1,6 +1,5 @@
-{% extends "layout-bpor.html" %}
+{% extends "study-search/v2/_layout-study-details.html" %}
 
-{% from "breadcrumb/macro.njk" import breadcrumb %}
 {% from "tables/macro.njk" import table %}
 {% from "do-dont-list/macro.njk" import list %}
 {% from "tag/macro.njk" import tag %}
@@ -9,20 +8,6 @@
 {% from "card/macro.njk" import card %}
 {% from "pagination/macro.njk" import pagination %}
 
-{% block beforeContent %}
-  {{ breadcrumb({
-    items: [
-      {
-        href: "/study-search/v2/searchfeed/search-feed",
-        text: "Search results"
-      },
-      {
-        href: "#",
-        text: "Study details"
-      }
-    ]
-  }) }}
-{% endblock %}
 
 {% block content %}
 
@@ -101,26 +86,25 @@
           ],
           [
             { text: "Age" },
-            { text: study.ageLabel or "18 - 75 Years" }
+            { text: study.ageLabel or "18.0 - 75.0" }
           ],
           [
             { text: "Gender" },
             { text: study.genderLabel or "Open to all" }
-          ],
-          [
-            { text: "Location(s)" },
-            { text: (study.locations | join(", ")) if study.locations else "Newcastle, Sheffield" }
           ]
         ]
       }) }}
 
-      {{ list({
+{{ list({
         title: "You can take part if you",
         type: "tick",
         items: [
-          { text: "are aged 18 to 75 years old" },
-          { text: "have been diagnosed with chronic lower back pain lasting longer than 6 months" },
-          { text: "are considered a suitable candidate for spinal cord stimulation (SCS) therapy" }
+          { text: "Be 18-75 years of age or older at the time of enrolment." },
+          { text: "Symptoms of chronic predominant back pain for at least 6-months, with a minimum pain intensity of 5/10 in the primary pain area on VAS pain intensity questionnaire." },
+          { text: "Be an appropriate candidate for the surgical procedures required in this study based on the clinical judgment of the implanting physician." },
+          { text: "Be capable of subjective evaluation, able to read and understand English-written questionnaires, and able to read, understand and sign the written inform consent in English." },
+          { text: "Be willing and capable of giving informed consent." },
+          { text: "Be willing and able to comply with study-related requirements, procedures, and visits." }
         ]
       }) }}
 
@@ -129,10 +113,15 @@
         type: "cross",
         hidePrefix: "true",
         items: [
-          { text: "are under 18 or over 75 years of age" },
-          { text: "have an active systemic infection or localized infection near the implantation site" },
-          { text: "are pregnant or planning to become pregnant during the trial period" },
-          { text: "have an active implanted cardiac device (such as a pacemaker)" }
+          { text: "Have a medical condition or pain in other area(s), not intended to be treated with SCS, that could interfere with study procedures, accurate pain reporting, and/or confound evaluation of study endpoints, as determined by the Investigator." },
+          { text: "Have evidence of an active disruptive psychological or psychiatric disorder or other known condition significant enough to impact perception of pain, compliance of intervention, and/or ability to evaluate treatment outcomes." },
+          { text: "Subjects with chronic alcohol abuse or currently in rehabilitation. Be benefitting within from an interventional procedure and/or surgery to treat chronic pain (Subjects should be enrolled at least 30 days from last benefit)." },
+          { text: "Have prior experience with SCS. Have an existing drug pump and/or another active implantable device such as a pacemaker." },
+          { text: "Have a condition currently requiring or likely to require the use of diathermy." },
+          { text: "Have an active systemic or local infection at the anticipated needle entry site." },
+          { text: "Be pregnant (if female and sexually active, subject must be using a reliable form of birth control, be surgically sterile or be at least 2 years post-menopausal)." },
+          { text: "Are currently nursing (if female)." },
+          { text: "Be concomitantly participating in another clinical study." }
         ]
       }) }}
 
@@ -148,11 +137,11 @@
         rows: [
           [
             { text: "Name" },
-            { text: "Biology and genetics of smouldering myeloma" }
+            { text: "EVOKE ECAP-Controlled Lead Placement and Programming in Chronic Pain Patients" }
           ],
           [
             { text: "Type" },
-            { text: "Observational type: Clinical Laboratory Study" }
+            { text: "Intervention Type : DEVICE Intervention Description : EVOKE ECAP-Controlled Lead Placement and Programming in Chronic Pain Patients" }
           ],
           [
             { text: "Status" },
@@ -165,11 +154,11 @@
           ],
           [
             { text: "Funders or sponsors" },
-            { text: "The study is sponsored by University College London and funded by CANCER RESEARCH UK." }
+            { text: "The study is sponsored by Barts & The Liverpool NHS Trust" }
           ],
           [
             { text: "Trial ID" },
-            { text: "CPMS 46567" }
+            { text: "NCT05704751" }
           ]
         ]
       }) }}
@@ -184,10 +173,8 @@
         html: insetTextHtml
       }) }}
 
-      <p class="nhsuk-body-m">Myeloma(MM) is a common bone marrow cancer with over 5,000 patients diagnosed annually in the UK.</p>
-      <p class="nhsuk-body-m">Patients with MM have cancerous cells in their bone marrow that grow in an uncontrolled fashion and although new treatments have been developed for MM in the last 5 years, it remains an incurable disease, with nearly 3000 deaths yearly.</p>
-      <p class="nhsuk-body-m">MM is always preceded by defined precursor conditions, known as monoclonal gammopathy of uncertain significance (MGUS) and smouldering myeloma (SMM). However, only 7% of MGUS patients and 50% of SMM patients develop MM over a 5-year period.</p>
-      <p class="nhsuk-body-m">In the UK, patients are only given anti-MM treatment when the cancer causes damage within the body as the benefit of giving treatment in the pre-cancerous state is uncertain.</p>
+      <p class="nhsuk-body-m">This study is designed to evaluate the feasibility of using intra-operative ECAP and Late-Response (LR) recordings for confirmation of activating the neuronal target of the dorsal column in a single-stage SCS lead placement procedure.</p>
+      <p class="nhsuk-body-m">The collected ECAP and LR data will be analysed post-hoc to further evaluate its utility for determining the laterality of lead placement with respect to the physiologic midline of the dorsal column.</p>
 
       <hr class="nhsuk-section-break nhsuk-section-break--xl nhsuk-section-break--visible">
 
@@ -200,7 +187,7 @@
         src: "/assets/images/map.png",
         alt: "Map showing the location of Queen's Hospital in Romford",
         sizes: "100vw",
-        srcset: "/assets/images/map.png 600w, /assets/images/map.png 1000w",
+        srcset: "/assets/images/map.png 600w, /assets/images/map-liverpool.png 1000w",
         attributes: {
           style: "width: 100%;"
         }
@@ -208,36 +195,31 @@
 
       <div class="nhsuk-grid-row nhsuk-u-margin-bottom-4 nhsuk-u-margin-top-4">
         <div class="nhsuk-grid-column-one-half">
-          <p class="nhsuk-u-margin-bottom-0"><strong>3 locations</strong></p>
-        </div>
-        <div class="nhsuk-grid-column-one-half nhsuk-u-text-align-right">
-          <button class="nhsuk-button nhsuk-button--secondary nhsuk-u-margin-bottom-0" type="button">
-            Sort by
-          </button>
+          <p class="nhsuk-u-margin-bottom-0"><strong>2 locations</strong></p>
         </div>
       </div>
 
-      {% set cardDescriptionHtml %}
-        <p>Rom Valley Way, Romford, Essex, RM7 0AG</p>
-        <p><a href="#" class="nhsuk-link">Link</a></p>
-      {% endset %}
-
       <ul class="nhsuk-grid-row nhsuk-card-group">
-        <li class="nhsuk-grid-column-full nhsuk-card-group__item">
-          {{ card({
-            heading: "Queen's Hospital",
-            headingSize: "m",
-            descriptionHtml: cardDescriptionHtml
-          }) }}
-        </li>
-        <li class="nhsuk-grid-column-full nhsuk-card-group__item">
-          {{ card({
-            heading: "Queen's Hospital",
-            headingSize: "m",
-            descriptionHtml: cardDescriptionHtml
-          }) }}
-        </li>
-      </ul>
+  
+  {# CARD 1 #}
+  <li class="nhsuk-grid-column-full nhsuk-card-group__item">
+    {{ card({
+      heading: "Royal Liverpool University Hospital",
+      headingSize: "m",
+      descriptionHtml: '<p>Mount Vernon St, Liverpool L7 8YE</p><p><a href="https://www.google.com/maps/place/Royal+Liverpool+University+Hospital/data=!4m2!3m1!1s0x0:0x31ba8eb6e0c9bb7b?sa=X&ved=1t:2428&ictx=111" class="nhsuk-link">Plan your journey in Google Maps</a></p>'
+    }) }}
+  </li>
+
+  {# CARD 2 #}
+  <li class="nhsuk-grid-column-full nhsuk-card-group__item">
+    {{ card({
+      heading: "Northern General Hospital",
+      headingSize: "m",
+      descriptionHtml: '<p>Herries Rd, Sheffield S5 7AU</p><p><a href="https://www.google.com/maps/place/Northern+General+Hospital/data=!4m2!3m1!1s0x0:0x73c0c934cd519309?sa=X&ved=1t:2428&ictx=111" class="nhsuk-link">Plan your journey in Google Maps</a></p>'
+    }) }}
+  </li>
+
+</ul>
 
       <hr class="nhsuk-section-break nhsuk-section-break--xl nhsuk-section-break--visible">
 

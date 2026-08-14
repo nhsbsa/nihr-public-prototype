@@ -1,27 +1,9 @@
-{% extends "layout-bpor.html" %}
+{% extends "study-search/v2/_layout-study-details.html" %}
 
-
-{% from "breadcrumb/macro.njk" import breadcrumb %}
-{% from "contents-list/macro.njk" import contentsList %}
 {% from "pagination/macro.njk" import pagination %}
 {% from "do-dont-list/macro.njk" import list %}
 {% from "tables/macro.njk" import table %}
 {% from "study-search/v2/_components/study-contents-list.njk" import studyContentsList %}
-
-{% block beforeContent %}
-  {{ breadcrumb({
-    items: [
-      {
-        href: "#",
-        text: "Search results"
-      },
-      {
-        href: "#",
-        text: "Study details"
-      }
-    ]
-  }) }}
-{% endblock %}
 
 {% block content %}
   <div class="nhsuk-grid-row">
@@ -31,42 +13,28 @@
         <span role="text">
          Who can take part
           <span class="nhsuk-caption-xl nhsuk-caption--bottom">
-            <span class="nhsuk-u-visually-hidden">
-            -
-            </span>
-              Check these details to see if you can take part
+            <span class="nhsuk-u-visually-hidden">-</span>
+            Check these details to see if you can take part
           </span>
         </span>
       </h1>
 
-{{ studyContentsList("page-one") }}
+      {{ studyContentsList("page-one") }}
 
       {{ table({
         firstCellIsHeader: true,
         rows: [
           [
-            {
-              text: "Medical conditions"
-            },
-            {
-              text: "Malignant neoplasms, stated or presumed to be primary, of lymphoid, haematopoietic and related tissue, Neoplasms of uncertain or unknown behaviour"
-            }
+            { text: "Medical conditions" },
+            { text: "Low Back Pain, Chronic" }
           ],
           [
-            {
-              text: "Age"
-            },
-            {
-              text: "18 years - N/A"
-            }
+            { text: "Age" },
+            { text: "18.0 years - 45.0" }
           ],
           [
-            {
-              text: "Gender"
-            },
-            {
-              text: "Female/male"
-            }
+            { text: "Gender" },
+            { text: "All" }
           ]
         ]
       }) }}
@@ -76,7 +44,16 @@
         type: "tick",
         items: [
           {
-            text: "have a diagnosis or suspected diagnosis of monoclonal gammopathy of uncertain significance (MGUS) or smouldering myeloma (sMM)"
+            text: "Participant is willing and able to give informed consent for participation in the study"
+          },
+          {
+            text: "Suffering from chronic NSLBP (more than 3 months, localised below the costal margin and above the gluteal folds)"
+          },
+          {
+            text: "Suffers from pain or functional limitations as a result of their LBP (minimum VAS (back) score of 3/10 or ODI score of at least 5/50 or RMD score of at least 5/24 (note, unlike ODI, RMD does not describe specific cuts offs for different levels of disability)"
+          },
+          {
+            text: "Able to exercise"
           }
         ]
       }) }}
@@ -87,19 +64,43 @@
         hidePrefix: "true",
         items: [
           {
-            text: "are under the age of 18"
+            text: "Radiating pain to leg / sciatica / acute radiculopathy"
           },
           {
-            text: "have active symptomatic myeloma at diagnosis"
+            text: "Specific diagnosis/condition for LBP (e.g. herniated disk, degenerative disk disease, spondylolysis, spinal stenosis, spinal tumour, facet joint damage)"
           },
           {
-            text: "show no evidence of MGUS, sMM or MM"
+            text: "History of osteoporosis , arthritis, scoliosis, or kyphosis."
           },
           {
-            text: "have a known diagnosis of MGUS or sMM for more than 5 years"
+            text: "Current spinal infection, cancer or a current fracture (any bone)."
           },
           {
-            text: "have rapidly rising paraprotein or serum free light chains suggestive of progressive disease at time of diagnosis or inclusion into study."
+            text: "History of spinal/back surgery"
+          },
+          {
+            text: "Unable to participate in physical activity and exercise"
+          },
+          {
+            text: "Pregnant or breast feeding"
+          },
+          {
+            text: "History of substance abuse"
+          },
+          {
+            text: "History of psychiatric illness (eg. depression, dementia, schizophrenia) for which currently taking medication "
+          },
+          {
+            text: "History or current neurological condition (e.g. epilepsy)"
+          },
+          {
+            text: "Not in possession or have access to adapted equipment (phone, computer, functioning WIFI)"
+          },
+          {
+            text: "Unable to understand and communicate in English"
+          },
+          {
+            text: "Having taken part in a research study in the last 3 months involving invasive procedures or an inconvenience allowance"
           }
         ]
       }) }}
