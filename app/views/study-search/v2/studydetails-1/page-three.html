@@ -1,7 +1,5 @@
-{% extends "layout-bpor.html" %}
+{% extends "study-search/v2/_layout-study-details.html" %}
 
-
-{% from "breadcrumb/macro.njk" import breadcrumb %}
 {% from "contents-list/macro.njk" import contentsList %}
 {% from "pagination/macro.njk" import pagination %}
 {% from "tag/macro.njk" import tag %}
@@ -9,20 +7,6 @@
 {% from "card/macro.njk" import card %}
 {% from "study-search/v2/_components/study-contents-list.njk" import studyContentsList %}
 
-{% block beforeContent %}
-  {{ breadcrumb({
-    items: [
-      {
-        href: "#",
-        text: "Search"
-      },
-      {
-        href: "#",
-        text: "Study details"
-      }
-    ]
-  }) }}
-{% endblock %}
 
 {% block content %}
   <div class="nhsuk-grid-row">
@@ -51,7 +35,7 @@
   src: "/assets/images/map.png",
   alt: "Map showing the location of Queen's Hospital in Romford",
   sizes: "100vw",
-  srcset: "/assets/images/map.png 600w, /assets/images/map.png 1000w",
+  srcset: "/assets/images/map.png 600w, /assets/images/map-nottingham.png 1000w",
   attributes: {
     style: "width: 100%;"
   }
@@ -59,45 +43,21 @@
 
 <div class="nhsuk-grid-row nhsuk-u-margin-bottom-4">
   <div class="nhsuk-grid-column-one-half">
-    <p class="nhsuk-u-margin-bottom-0"><strong>3 locations</strong></p>
-  </div>
-  <div class="nhsuk-grid-column-one-half nhsuk-u-text-align-right">
-    <button class="nhsuk-button nhsuk-button--secondary nhsuk-u-margin-bottom-0" type="button">
-      Sort by
-    </button>
+    <p class="nhsuk-u-margin-bottom-0"><strong>1 location</strong></p>
   </div>
 </div>
 
-{% set cardDescriptionHtml %}
-  <p>Rom Valley Way, Romford, Essex, RM7 0AG</p>
-  <p><a href="#" class="nhsuk-link">Link</a></p>
-{% endset %}
-
 <ul class="nhsuk-grid-row nhsuk-card-group">
+  
+  {# CARD 1 #}
   <li class="nhsuk-grid-column-full nhsuk-card-group__item">
     {{ card({
-      heading: "Queen's Hospital",
+      heading: "University of Nottinham, Queen's Medical Centre",
       headingSize: "m",
-      descriptionHtml: cardDescriptionHtml
+      descriptionHtml: '<p>Nottingham, Notts, NG7 2UH</p><p><a href="https://www.google.com/maps?sca_esv=ecb4c95cb67ba1f8&output=search&q=University+of+Nottingham,+Queens+Medical+Centre&source=lnms&fbs=ABfTbFVyMZGZf1hfvX9uKjN_-G8c4u0nXx4bEIpwm1lnNH832f01nJrJQBh6ZiQ_SpYVjD31ZCEQrpgQNMYfl4dEtziqzXHrSdNAvOYvRLmw55fik5-tvwJJp6GAQ94YCy5nYMsfND2Tnvwc628r3MMPC_WX18ivEGgPUGddlz0XPoa5SRexMoCcCW1CeRiShKxa5ZCU5O4mnmsqjfrmE53qjAbtGCVr2Q&entry=mc&ved=1t:200715&ictx=111" class="nhsuk-link">Plan your journey in Google Maps</a></p>'
     }) }}
   </li>
-  <li class="nhsuk-grid-column-full nhsuk-card-group__item">
-    {{ card({
-      heading: "Queen's Hospital",
-      headingSize: "m",
-      descriptionHtml: cardDescriptionHtml
-    }) }}
-  </li>
-    <li class="nhsuk-grid-column-full nhsuk-card-group__item">
-    {{ card({
-      heading: "Queen's Hospital",
-      headingSize: "m",
-      descriptionHtml: cardDescriptionHtml
-    }) }}
-  </li>
-
 </ul>
-
 
 
 {{ pagination({

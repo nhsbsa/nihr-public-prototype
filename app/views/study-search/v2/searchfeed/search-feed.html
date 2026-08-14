@@ -6,6 +6,7 @@
 {% from "button/macro.njk" import button %}
 {% from "tag/macro.njk" import tag %}
 {% from "radios/macro.njk" import radios %}
+{% from "inset-text/macro.njk" import insetText %}
 
 {% block content %}
 
@@ -20,6 +21,10 @@
     background-color: #f3f2f1;
     padding: 16px 20px;
     border-bottom: 1px solid #b1b4b6;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
   }
   .moj-filter__header-title h2 {
     margin: 0;
@@ -39,8 +44,13 @@
   .moj-filter__selected-heading {
     display: flex;
     justify-content: space-between;
-    align-items: baseline;
+    align-items: flex-start;
     margin-bottom: 12px;
+  }
+  .moj-filter__selected-heading a {
+    text-align: right;
+    white-space: nowrap;
+    margin-left: 12px;
   }
   .moj-filter-tags {
     list-style: none;
@@ -81,7 +91,7 @@
     position: relative;
     margin-bottom: 32px;
     width: 100%;
-    max-width: 100%; /* Changed from 680px to 100% */
+    max-width: 100%;
   }
   .search-autocomplete-menu {
     display: none;
@@ -147,10 +157,55 @@
     align-items: center;
     gap: 12px;
   }
+
+  /* MOBILE COLLAPSIBLE FILTER STYLES */
+  .moj-filter__toggle-btn {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 16px;
+    font-weight: bold;
+    color: #0b0c0c;
+    cursor: pointer;
+    align-items: center;
+    gap: 8px;
+    padding: 0;
+  }
+
+  .moj-filter__chevron {
+    width: 16px;
+    height: 16px;
+    transition: transform 0.2s ease;
+  }
+
+  /* Mobile & Tablet screen rules (up to 768px) */
+  @media (max-width: 768px) {
+    .moj-filter__header {
+      cursor: pointer;
+    }
+
+    .moj-filter__toggle-btn {
+      display: inline-flex;
+    }
+
+    /* Hide filter content on mobile by default */
+    .moj-filter__content-wrapper {
+      display: none;
+    }
+
+    /* Show filter content when expanded */
+    .moj-filter__content-wrapper.is-expanded {
+      display: block !important;
+    }
+
+    .moj-filter__toggle-btn[aria-expanded="true"] .moj-filter__chevron {
+      transform: rotate(180deg);
+    }
+  }
 </style>
 
   {# Calculate age if DOB year is provided #}
-  {% set dobYear = data.dateofbirth.year | int %}
+  {% set dobYear = data.dateofbirth.year | int if data.dateofbirth else 0 %}
   {% set age = null %}
   {% if dobYear > 0 %}
     {% set age = 2026 - dobYear %}
@@ -158,7 +213,7 @@
 
   <h1>Find a study</h1>
 
-  {# TOP NHS SEARCH INPUT BAR (SMALL & FULL WIDTH) #}
+  {# TOP NHS SEARCH INPUT BAR #}
   <div class="nhsuk-search-container">
     <form id="topSearchForm" action="/study-search/v2/searchfeed/search-feed" method="post">
       <input type="hidden" name="healthCondition" id="topHealthCondition" value="">
@@ -204,21 +259,26 @@
     <div class="nhsuk-grid-column-one-third">
 
       {# MOJ FILTER CONTAINER #}
-      <div class="moj-filter" data-module="moj-filter">
+      <div class="moj-filter">
         
-        <div class="moj-filter__header">
+        <div class="moj-filter__header" id="filterHeader">
           <div class="moj-filter__header-title">
             <h2>Filter</h2>
           </div>
+          <button type="button" class="moj-filter__toggle-btn" id="filterToggleBtn" aria-expanded="false" aria-controls="sideFilterForm">
+            <span id="filterToggleText">Show filters</span>
+            <svg class="moj-filter__chevron" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </button>
         </div>
 
-        <form id="sideFilterForm" action="/study-search/v2/searchfeed/search-feed" method="post">
+        <form id="sideFilterForm" class="moj-filter__content-wrapper" action="/study-search/v2/searchfeed/search-feed" method="post">
           <input type="hidden" name="sortBy" value="{{ sortBy }}">
-
           <div class="moj-filter__content">
 
             {# SELECTED FILTERS PANEL #}
-            {% if keywords or data.locationPreference or (activeStatuses and activeStatuses.length > 0) or (chosenCondition and chosenCondition != "") or (data.ageRange and data.ageRange.length > 0) or (data.sex and data.sex != "") %}
+            {% if keywords or data.locationPreference or (activeStatuses and activeStatuses.length > 0) or (chosenCondition and chosenCondition != "" and healthConditionsData[chosenCondition]) or (data.ageRange and data.ageRange.length > 0) or (data.sex and data.sex != "") %}
               
               <div class="moj-filter__selected">
                 
@@ -232,7 +292,7 @@
                   <h3 class="nhsuk-heading-xs" style="margin-top: 12px; margin-bottom: 4px;">Search term</h3>
                   <ul class="moj-filter-tags">
                     <li>
-                      <a class="moj-filter__tag" href="/study-search/v2/searchfeed/search-feed?keywords=">
+                      <a class="moj-filter__tag" href="#" data-filter-type="keywords">
                         <span class="nhsuk-u-visually-hidden">Remove keyword filter</span>
                         "{{ keywords }}"
                       </a>
@@ -245,7 +305,7 @@
                   <h3 class="nhsuk-heading-xs" style="margin-top: 12px; margin-bottom: 4px;">Location</h3>
                   <ul class="moj-filter-tags">
                     <li>
-                      <a class="moj-filter__tag" href="/study-search/v2/searchfeed/search-feed?keywords={{ data.keywords }}&locationPreference=&location=&travelDistance=&sex={{ data.sex }}">
+                      <a class="moj-filter__tag" href="/study-search/v2/searchfeed/search-feed?locationPreference=&location=&travelDistance=">
                         <span class="nhsuk-u-visually-hidden">Remove location filter</span>
                         {% if data.locationPreference == 'anywhere-in-uk' %}
                           Anywhere in the UK
@@ -258,18 +318,18 @@
                 {% endif %}
 
                 {# --- HEALTH CONDITION & SUB-CONDITION TAGS --- #}
-                {% if chosenCondition and chosenCondition != "" %}
+                {% if chosenCondition and chosenCondition != "" and healthConditionsData[chosenCondition] %}
                   <h3 class="nhsuk-heading-xs" style="margin-top: 12px; margin-bottom: 4px;">Health condition</h3>
                   <ul class="moj-filter-tags">
                     <li>
-                      <a class="moj-filter__tag" href="/study-search/v2/searchfeed/search-feed?healthCondition=&subCondition=">
+                      <a class="moj-filter__tag" href="#" data-filter-type="healthCondition">
                         <span class="nhsuk-u-visually-hidden">Remove condition filter</span>
                         {{ healthConditionsData[chosenCondition].text }}
                       </a>
                     </li>
                     {% if chosenSubCondition and chosenSubCondition != "" and chosenSubCondition != "all" %}
                       <li>
-                        <a class="moj-filter__tag" href="/study-search/v2/searchfeed/search-feed?subCondition=">
+                        <a class="moj-filter__tag" href="#" data-filter-type="subCondition">
                           <span class="nhsuk-u-visually-hidden">Remove specific condition filter</span>
                           {{ chosenSubCondition | replace("-", " ") | capitalize }}
                         </a>
@@ -284,28 +344,28 @@
                   <ul class="moj-filter-tags">
                     {% if 'recruiting' in activeStatuses %}
                       <li>
-                        <a class="moj-filter__tag" href="/study-search/v2/searchfeed/search-feed?status=completed&status=not-recruiting&status=stopped">
+                        <a class="moj-filter__tag" href="#" data-filter-type="status" data-filter-value="recruiting">
                           <span class="nhsuk-u-visually-hidden">Remove Recruiting filter</span> Recruiting
                         </a>
                       </li>
                     {% endif %}
                     {% if 'completed' in activeStatuses %}
                       <li>
-                        <a class="moj-filter__tag" href="/study-search/v2/searchfeed/search-feed?status=recruiting&status=not-recruiting&status=stopped">
+                        <a class="moj-filter__tag" href="#" data-filter-type="status" data-filter-value="completed">
                           <span class="nhsuk-u-visually-hidden">Remove Completed filter</span> Completed
                         </a>
                       </li>
                     {% endif %}
                     {% if 'not-recruiting' in activeStatuses %}
                       <li>
-                        <a class="moj-filter__tag" href="/study-search/v2/searchfeed/search-feed?status=recruiting&status=completed&status=stopped">
+                        <a class="moj-filter__tag" href="#" data-filter-type="status" data-filter-value="not-recruiting">
                           <span class="nhsuk-u-visually-hidden">Remove Not recruiting filter</span> Not recruiting
                         </a>
                       </li>
                     {% endif %}
                     {% if 'stopped' in activeStatuses %}
                       <li>
-                        <a class="moj-filter__tag" href="/study-search/v2/searchfeed/search-feed?status=recruiting&status=completed&status=not-recruiting">
+                        <a class="moj-filter__tag" href="#" data-filter-type="status" data-filter-value="stopped">
                           <span class="nhsuk-u-visually-hidden">Remove Stopped filter</span> Stopped
                         </a>
                       </li>
@@ -319,28 +379,28 @@
                   <ul class="moj-filter-tags">
                     {% if 'adult' in data.ageRange %}
                       <li>
-                        <a class="moj-filter__tag" href="/study-search/v2/searchfeed/search-feed?ageRange=adolescent&ageRange=child&ageRange=infant">
+                        <a class="moj-filter__tag" href="#" data-filter-type="ageRange" data-filter-value="adult">
                           <span class="nhsuk-u-visually-hidden">Remove Adult filter</span> Adult 18+
                         </a>
                       </li>
                     {% endif %}
                     {% if 'adolescent' in data.ageRange %}
                       <li>
-                        <a class="moj-filter__tag" href="/study-search/v2/searchfeed/search-feed?ageRange=adult&ageRange=child&ageRange=infant">
+                        <a class="moj-filter__tag" href="#" data-filter-type="ageRange" data-filter-value="adolescent">
                           <span class="nhsuk-u-visually-hidden">Remove Adolescent filter</span> Adolescent 13-17
                         </a>
                       </li>
                     {% endif %}
                     {% if 'child' in data.ageRange %}
                       <li>
-                        <a class="moj-filter__tag" href="/study-search/v2/searchfeed/search-feed?ageRange=adult&ageRange=adolescent&ageRange=infant">
+                        <a class="moj-filter__tag" href="#" data-filter-type="ageRange" data-filter-value="child">
                           <span class="nhsuk-u-visually-hidden">Remove Child filter</span> Child 3-12
                         </a>
                       </li>
                     {% endif %}
                     {% if 'infant' in data.ageRange %}
                       <li>
-                        <a class="moj-filter__tag" href="/study-search/v2/searchfeed/search-feed?ageRange=adult&ageRange=adolescent&ageRange=child">
+                        <a class="moj-filter__tag" href="#" data-filter-type="ageRange" data-filter-value="infant">
                           <span class="nhsuk-u-visually-hidden">Remove Infant filter</span> Infant 0-2
                         </a>
                       </li>
@@ -354,14 +414,14 @@
                   <ul class="moj-filter-tags">
                     {% if data.sex == 'female' %}
                       <li>
-                        <a class="moj-filter__tag" href="/study-search/v2/searchfeed/search-feed?sex=male">
+                        <a class="moj-filter__tag" href="#" data-filter-type="sex" data-filter-value="female">
                           <span class="nhsuk-u-visually-hidden">Remove Female filter</span> Female
                         </a>
                       </li>
                     {% endif %}
                     {% if data.sex == 'male' %}
                       <li>
-                        <a class="moj-filter__tag" href="/study-search/v2/searchfeed/search-feed?sex=female">
+                        <a class="moj-filter__tag" href="#" data-filter-type="sex" data-filter-value="male">
                           <span class="nhsuk-u-visually-hidden">Remove Male filter</span> Male
                         </a>
                       </li>
@@ -519,7 +579,7 @@
     <div class="nhsuk-grid-column-two-thirds">
 
       <div class="results-header-bar">
-        <p class="nhsuk-body-l" style="margin-bottom: 0;"><strong>{{ resultsCount }}</strong> results</p>
+        <p class="nhsuk-body-m" style="margin-bottom: 0;"><strong>{{ resultsCount }}</strong> results</p>
 
         <form id="sortForm" action="/study-search/v2/searchfeed/search-feed" method="post" style="margin-bottom: 0;">
           <div class="nhsuk-form-group sort-by-wrapper" style="margin-bottom: 0;">
@@ -534,53 +594,113 @@
         </form>
       </div>
 
-      {% for study in results %}
-        <div class="nhsuk-card">
-          <div class="nhsuk-card__content">
-            
-            {% if study.status == "recruiting" %}
-              {% set tagClass = "nhsuk-tag--green" %}
-            {% elif study.status == "completed" %}
-              {% set tagClass = "nhsuk-tag--blue" %}
-            {% elif study.status == "not-recruiting" %}
-              {% set tagClass = "nhsuk-tag--grey" %}
-            {% else %}
-              {% set tagClass = "nhsuk-tag--red" %}
-            {% endif %}
+      {# NO RESULTS STATE #}
+      {% if results | length == 0 %}
 
-            {{ tag({ text: study.statusLabel, classes: tagClass }) }}
-            
-            {% if study.closingDate %}
-              <span class="nhsuk-u-float-right">Until {{ study.closingDate }}</span>
-            {% endif %}
+        <div class="nhsuk-u-margin-top-4">
+          <h2 class="nhsuk-heading-m">We could not find any related studies</h2>
+          
+          <p class="nhsuk-body">You can now either:</p>
+          <ul class="nhsuk-list nhsuk-list--bullet">
+            <li>register for an account and get matched to related studies when they are added</li>
+            <li>start your search again</li>
+          </ul>
+        {{ button({
+          text: "Register now",
+          href: "/registration/start",
+          classes: "nhsuk-button--secondary"
+        }) }}
 
-            <h3 class="nhsuk-card__heading"><a href="/study-search/v2/search/study/{{ study.id }}">{{ study.title }}</a></h3>
+      {% else %}
 
-            <p class="nhsuk-body"><strong>Medical conditions</strong> {{ study.conditionText }}</p>
-            <p class="nhsuk-body"><strong>Gender</strong> {{ study.genderLabel }}</p>
-            <p class="nhsuk-body"><strong>Age</strong> {{ study.ageLabel }}</p>
-            <p class="nhsuk-body"><strong>Locations</strong> {{ study.locations | join(", ") }}</p>
+        {% for study in results %}
+          <div class="nhsuk-card">
+            <div class="nhsuk-card__content">
+              
+              {% if study.status == "recruiting" %}
+                {% set tagClass = "nhsuk-tag--green" %}
+              {% elif study.status == "completed" %}
+                {% set tagClass = "nhsuk-tag--blue" %}
+              {% elif study.status == "not-recruiting" %}
+                {% set tagClass = "nhsuk-tag--grey" %}
+              {% else %}
+                {% set tagClass = "nhsuk-tag--red" %}
+              {% endif %}
+
+              {{ tag({ text: study.statusLabel, classes: tagClass }) }}
+              
+              {% if study.closingDate %}
+                <span class="nhsuk-u-float-right">Until {{ study.closingDate }}</span>
+              {% endif %}
+
+              {# ONLY STUDIES 58691 AND 58687 ARE CLICKABLE #}
+              <h3 class="nhsuk-card__heading">
+                {% if study.id == "58691" or study.id == "58687" or study.id == 58691 or study.id == 58687 %}
+                  <a href="/study-search/v2/search/study/{{ study.id }}">{{ study.title }}</a>
+                {% else %}
+                  {{ study.title }}
+                {% endif %}
+              </h3>
+
+              <p class="nhsuk-body"><strong>Medical conditions</strong> {{ study.conditionText }}</p>
+              <p class="nhsuk-body"><strong>Gender</strong> {{ study.genderLabel }}</p>
+              <p class="nhsuk-body"><strong>Age</strong> {{ study.ageLabel }}</p>
+              <p class="nhsuk-body"><strong>Locations</strong> {{ study.locations | join(", ") }}</p>
+            </div>
           </div>
-        </div>
-      {% endfor %}
+        {% endfor %}
+
+      {% endif %}
 
     </div>
   </div>
 
+{# 1. HIDDEN JSON DATA BLOCKS (Protects VS Code linter from Nunjucks syntax) #}
+<script id="healthConditionsJSON" type="application/json">
+  {{ healthConditionsData | dump | safe }}
+</script>
+
+<script id="allStudiesJSON" type="application/json">
+  {{ allStudies | dump | safe }}
+</script>
+
+{# 2. MAIN FRONTEND LOGIC #}
 <script>
-  const healthConditionsData = {{ healthConditionsData | dump | safe }};
-  const allStudies = {{ allStudies | dump | safe }};
+(function () {
+  'use strict';
+
+  // Safely parse JSON payload from hidden script tags
+  let healthConditionsData = {};
+  let allStudies = [];
+
+  try {
+    const rawConditions = document.getElementById('healthConditionsJSON');
+    if (rawConditions && rawConditions.textContent.trim()) {
+      healthConditionsData = JSON.parse(rawConditions.textContent);
+    }
+  } catch (err) {
+    console.warn('Could not parse healthConditionsJSON:', err);
+  }
+
+  try {
+    const rawStudies = document.getElementById('allStudiesJSON');
+    if (rawStudies && rawStudies.textContent.trim()) {
+      allStudies = JSON.parse(rawStudies.textContent);
+    }
+  } catch (err) {
+    console.warn('Could not parse allStudiesJSON:', err);
+  }
+
   const initialSubCondition = "{{ chosenSubCondition or '' }}";
 
   document.addEventListener('DOMContentLoaded', function () {
-    // -------------------------------------------------------------
     // 1. DYNAMIC HEALTH CONDITION SUB-DROPDOWN LOGIC
-    // -------------------------------------------------------------
     const mainSelect = document.getElementById('healthCondition');
     const subContainer = document.getElementById('subConditionContainer');
     const subSelect = document.getElementById('subCondition');
 
     function updateSubDropdown(selectedCategory, selectedSub) {
+      if (!subSelect) return;
       subSelect.innerHTML = '';
 
       if (selectedCategory && healthConditionsData[selectedCategory]) {
@@ -597,16 +717,18 @@
         if (selectedSub === 'all') allOpt.selected = true;
         subSelect.appendChild(allOpt);
 
-        category.items.forEach(item => {
-          const opt = document.createElement('option');
-          opt.value = item.value;
-          opt.textContent = item.text;
-          if (selectedSub === item.value) opt.selected = true;
-          subSelect.appendChild(opt);
-        });
+        if (Array.isArray(category.items)) {
+          category.items.forEach(function (item) {
+            const opt = document.createElement('option');
+            opt.value = item.value;
+            opt.textContent = item.text;
+            if (selectedSub === item.value) opt.selected = true;
+            subSelect.appendChild(opt);
+          });
+        }
 
-        subContainer.style.display = 'block';
-      } else {
+        if (subContainer) subContainer.style.display = 'block';
+      } else if (subContainer) {
         subContainer.style.display = 'none';
       }
     }
@@ -621,9 +743,7 @@
       }
     }
 
-    // -------------------------------------------------------------
     // 2. TOP NHS AUTOCOMPLETE SEARCH BAR LOGIC
-    // -------------------------------------------------------------
     const topForm = document.getElementById('topSearchForm');
     const topKeywordsInput = document.getElementById('topKeywordsInput');
     const topHealthCondition = document.getElementById('topHealthCondition');
@@ -634,97 +754,107 @@
     const freeSearchTermText = document.getElementById('freeSearchTermText');
 
     const subconditionCounts = {};
-    allStudies.forEach(study => {
-      Object.keys(study).forEach(key => {
-        if (Array.isArray(study[key])) {
-          study[key].forEach(val => {
-            const cleanVal = String(val).toLowerCase().trim();
-            subconditionCounts[cleanVal] = (subconditionCounts[cleanVal] || 0) + 1;
-          });
-        }
+    if (Array.isArray(allStudies)) {
+      allStudies.forEach(function (study) {
+        Object.keys(study).forEach(function (key) {
+          if (Array.isArray(study[key])) {
+            study[key].forEach(function (val) {
+              const cleanVal = String(val).toLowerCase().trim();
+              subconditionCounts[cleanVal] = (subconditionCounts[cleanVal] || 0) + 1;
+            });
+          }
+        });
       });
-    });
+    }
 
     const subconditionsList = [];
     const seenValues = new Set();
 
-    Object.keys(healthConditionsData).forEach(catKey => {
-      const cat = healthConditionsData[catKey];
-      if (cat.items) {
-        cat.items.forEach(item => {
-          if (!seenValues.has(item.value)) {
-            seenValues.add(item.value);
-            
-            const rawCount = subconditionCounts[item.value] || subconditionCounts[item.value.replace(/-/g, ' ')] || 0;
-            const displayCount = rawCount > 0 ? rawCount : (Math.floor(item.text.length * 3.5) % 120 + 1);
+    if (healthConditionsData) {
+      Object.keys(healthConditionsData).forEach(function (catKey) {
+        const cat = healthConditionsData[catKey];
+        if (cat && Array.isArray(cat.items)) {
+          cat.items.forEach(function (item) {
+            if (!seenValues.has(item.value)) {
+              seenValues.add(item.value);
 
-            subconditionsList.push({
-              value: item.value,
-              text: item.text,
-              categoryKey: catKey,
-              count: displayCount
-            });
-          }
-        });
-      }
-    });
+              const rawCount = subconditionCounts[item.value] || subconditionCounts[item.value.replace(/-/g, ' ')] || 0;
+              const displayCount = rawCount > 0 ? rawCount : (Math.floor(item.text.length * 3.5) % 120 + 1);
 
-    topKeywordsInput.addEventListener('input', function () {
-      const query = this.value.trim();
-      autocompleteResults.innerHTML = '';
-
-      if (query.length < 1) {
-        autocompleteMenu.style.display = 'none';
-        return;
-      }
-
-      const qLower = query.toLowerCase();
-      const matches = subconditionsList.filter(item => item.text.toLowerCase().includes(qLower));
-
-      if (matches.length > 0) {
-        matches.slice(0, 6).forEach(item => {
-          const itemDiv = document.createElement('div');
-          itemDiv.className = 'search-autocomplete-item';
-
-          const regEx = new RegExp(`(${query})`, 'gi');
-          const highlightedText = item.text.replace(regEx, '<b>$1</b>');
-
-          itemDiv.innerHTML = `
-            <span class="search-autocomplete-link">${highlightedText}</span>
-            <span class="search-autocomplete-count">(${item.count})</span>
-          `;
-
-          itemDiv.addEventListener('click', function () {
-            topHealthCondition.value = item.categoryKey;
-            topSubCondition.value = item.value;
-            topKeywordsInput.value = '';
-            topForm.submit();
+              subconditionsList.push({
+                value: item.value,
+                text: item.text,
+                categoryKey: catKey,
+                count: displayCount
+              });
+            }
           });
+        }
+      });
+    }
 
-          autocompleteResults.appendChild(itemDiv);
+    if (topKeywordsInput && autocompleteResults && autocompleteMenu) {
+      topKeywordsInput.addEventListener('input', function () {
+        const query = this.value.trim();
+        autocompleteResults.innerHTML = '';
+
+        if (query.length < 1) {
+          autocompleteMenu.style.display = 'none';
+          return;
+        }
+
+        const qLower = query.toLowerCase();
+        const matches = subconditionsList.filter(function (item) {
+          return item.text.toLowerCase().includes(qLower);
         });
-      }
 
-      freeSearchTermText.innerHTML = `Search for "<b>${query}</b>"`;
-      autocompleteMenu.style.display = 'block';
-    });
+        if (matches.length > 0) {
+          matches.slice(0, 6).forEach(function (item) {
+            const itemDiv = document.createElement('div');
+            itemDiv.className = 'search-autocomplete-item';
 
-    freeSearchContainer.addEventListener('click', function (e) {
-      e.preventDefault();
-      topHealthCondition.value = '';
-      topSubCondition.value = '';
-      topForm.submit();
-    });
+            const regEx = new RegExp(`(${query})`, 'gi');
+            const highlightedText = item.text.replace(regEx, '<b>$1</b>');
+
+            itemDiv.innerHTML = `
+              <span class="search-autocomplete-link">${highlightedText}</span>
+              <span class="search-autocomplete-count">(${item.count})</span>
+            `;
+
+            itemDiv.addEventListener('click', function () {
+              if (topHealthCondition) topHealthCondition.value = item.categoryKey;
+              if (topSubCondition) topSubCondition.value = item.value;
+              topKeywordsInput.value = '';
+              if (topForm) topForm.submit();
+            });
+
+            autocompleteResults.appendChild(itemDiv);
+          });
+        }
+
+        if (freeSearchTermText) {
+          freeSearchTermText.innerHTML = `Search for "<b>${query}</b>"`;
+        }
+        autocompleteMenu.style.display = 'block';
+      });
+    }
+
+    if (freeSearchContainer && topForm) {
+      freeSearchContainer.addEventListener('click', function (e) {
+        e.preventDefault();
+        if (topHealthCondition) topHealthCondition.value = '';
+        if (topSubCondition) topSubCondition.value = '';
+        topForm.submit();
+      });
+    }
 
     document.addEventListener('click', function (e) {
-      if (!topForm.contains(e.target)) {
+      if (topForm && !topForm.contains(e.target) && autocompleteMenu) {
         autocompleteMenu.style.display = 'none';
       }
     });
 
-    // -------------------------------------------------------------
     // 3. LOCATION AUTOCOMPLETE DROPDOWN LOGIC
-    // -------------------------------------------------------------
     const sampleLocations = [
       'Nottingham', 'London', 'Manchester', 'Birmingham', 'Leeds', 'Glasgow', 'Liverpool',
       'Bristol', 'Sheffield', 'Edinburgh', 'Cardiff', 'Belfast',
@@ -748,10 +878,12 @@
           return;
         }
 
-        const matches = sampleLocations.filter(loc => loc.toLowerCase().includes(query));
+        const matches = sampleLocations.filter(function (loc) {
+          return loc.toLowerCase().includes(query);
+        });
 
         if (matches.length > 0) {
-          matches.forEach(loc => {
+          matches.forEach(function (loc) {
             const li = document.createElement('li');
             li.textContent = loc;
             li.style.padding = '8px 12px';
@@ -790,7 +922,73 @@
         }
       }
     });
+
+    // 4. MOBILE COLLAPSIBLE FILTER TOGGLE LOGIC
+    const filterHeader = document.getElementById('filterHeader');
+    const filterToggleBtn = document.getElementById('filterToggleBtn');
+    const filterForm = document.getElementById('sideFilterForm');
+    const filterToggleText = document.getElementById('filterToggleText');
+
+    if (filterHeader && filterForm) {
+      filterHeader.addEventListener('click', function (e) {
+        if (window.matchMedia('(max-width: 768px)').matches) {
+          e.preventDefault();
+
+          const isExpanded = filterForm.classList.contains('is-expanded');
+
+          if (isExpanded) {
+            filterForm.classList.remove('is-expanded');
+            if (filterToggleBtn) filterToggleBtn.setAttribute('aria-expanded', 'false');
+            if (filterToggleText) filterToggleText.textContent = 'Show filters';
+          } else {
+            filterForm.classList.add('is-expanded');
+            if (filterToggleBtn) filterToggleBtn.setAttribute('aria-expanded', 'true');
+            if (filterToggleText) filterToggleText.textContent = 'Hide filters';
+          }
+        }
+      });
+    }
+
+    // 5. REMOVE INDIVIDUAL FILTER TAG LOGIC
+    document.querySelectorAll('.moj-filter__tag').forEach(function (tagLink) {
+      tagLink.addEventListener('click', function (e) {
+        e.preventDefault();
+        const filterType = this.getAttribute('data-filter-type');
+        const filterVal = this.getAttribute('data-filter-value');
+        const sideForm = document.getElementById('sideFilterForm');
+
+        if (!sideForm) return;
+
+        if (filterType === 'healthCondition') {
+          const hcSelect = document.getElementById('healthCondition');
+          if (hcSelect) hcSelect.value = '';
+          const scSelect = document.getElementById('subCondition');
+          if (scSelect) scSelect.value = '';
+        } else if (filterType === 'subCondition') {
+          const scSelect = document.getElementById('subCondition');
+          if (scSelect) scSelect.value = '';
+        } else if (filterType === 'keywords') {
+          const topKw = document.getElementById('topKeywordsInput');
+          if (topKw) topKw.value = '';
+        } else if (filterType === 'location') {
+          const locInput = document.getElementById('location');
+          if (locInput) locInput.value = '';
+          const locRadios = sideForm.querySelectorAll('input[name="locationPreference"]');
+          locRadios.forEach(function (r) { r.checked = false; });
+        } else if (filterType === 'status' || filterType === 'ageRange' || filterType === 'sex') {
+          const matchingInputs = sideForm.querySelectorAll('input[name="' + filterType + '"]');
+          matchingInputs.forEach(function (input) {
+            if (input.value === filterVal) {
+              input.checked = false;
+            }
+          });
+        }
+
+        sideForm.submit();
+      });
+    });
   });
+})();
 </script>
 
 {% endblock %}

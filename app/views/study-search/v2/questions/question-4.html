@@ -1,5 +1,10 @@
 {% extends "layout-volunteer-bpor.html" %}
 
+{% from "back-link/macro.njk" import backLink %}
+{% from "radios/macro.njk" import radios %}
+{% from "select/macro.njk" import select %}
+{% from "button/macro.njk" import button %}
+
 {% block beforeContent %}
 
 {{ backLink({
@@ -7,15 +12,11 @@
     "text": "Back"
 }) }}
 
-<span class="nhsuk-caption-l">Question 4 of 5</span>
+<span class="nhsuk-caption-l">Question 4 of 4</span>
 
 {% endblock %}
 
 {% block content %}
-
-  {% from "radios/macro.njk" import radios %}
-  {% from "select/macro.njk" import select %}
-  {% from "button/macro.njk" import button %}
 
   <form action="/study-search/v2/questions/question-4" method="post">
 
@@ -102,7 +103,19 @@
         "Leeds General Infirmary",
         "Oxford (OX1 1ND)",
         "Cambridge (CB1 1AA)",
-        "Edinburgh (EH1 1YZ)"
+        "Edinburgh (EH1 1YZ)",
+        "Royal Liverpool University Hospital, Liverpool",
+        "Northern General Hospital, Sheffield",
+        "Liverpool",
+        "Sheffield",
+        "Queen's Hospital, Essex",
+        "Essex",
+        "Royal Victoria Infirmary, Newcastle upon Tyne",
+        "Newcastle upon Tyne",
+        "The Christie Hospital NHS Foundation Trust, Manchester",
+        "Manchester",
+        "Nottingham",
+        "Queen's Medical Centre, Nottingham"
       ];
 
       const locationInput = document.getElementById('location');
