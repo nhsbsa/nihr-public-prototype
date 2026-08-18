@@ -1,0 +1,70 @@
+{% set layout = "layout.html" %}
+
+{% set layout = "layout-volunteer-bpor.html" %}
+{% extends layout %}
+
+{% block pageTitle %}
+    What is your phone number?
+{% endblock %}
+
+{% block beforeContent %}
+    {{ nhsukPhaseBanner({
+    tag: {
+        text: "Beta"
+    },
+    html: 'This is a new service - your <a target="_blank" href="https://bepartofresearch.nihr.ac.uk/get-in-touch/">feedback<span class="nhsuk-u-visually-hidden"> (opens in a new tab)</span></a> will help us to improve it'
+    }) }}
+{% endblock %}
+
+{% block content %}  
+<div class="nhsuk-grid-row">
+	<div class="nhsuk-grid-column-two-thirds">
+		{% if errorList and errorList.length %}
+			{{ errorSummary({
+				titleText: "There is a problem",
+				errorList: errorList
+			}) }}
+		{% endif %}
+
+		<form action="/{{folder}}/{{subfolder}}/bpor-phone-number" method="post">
+            {% call fieldset({
+                legend: {
+                    text: "What is your phone number?",
+                    size: "l",
+                    isPageHeading: true
+                }
+            }) %}
+
+                {{ input({
+                    label: {
+                    text: "Phone number"
+                    },
+                    id: "phone-number",
+                    name: "phone-number",
+                    type: "tel",
+                    autocomplete: "tel",
+                    classes: "nhsuk-input--width-20",
+                    value: data['phone-number'],
+                    errorMessage: errors.phone if errors.phone else null
+                }) }}
+
+                {{ input({
+                    label: {
+                    text: "Alternative phone number (optional)"
+                    },
+                    id: "alternative-phone-number",
+                    name: "alternative-phone-number",
+                    type: "tel",
+                    autocomplete: "tel",
+                    classes: "nhsuk-input--width-20"
+                }) }}
+
+            {% endcall %}
+
+            {{ button({
+                text: "Continue"
+            }) }}
+		</form>
+	</div>
+</div>
+{% endblock %}

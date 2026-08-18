@@ -1,0 +1,80 @@
+{% set layout = "layout-volunteer-bpor.html" %}
+{% extends layout %}
+
+{% block pageTitle %}
+    What is your home address?
+{% endblock %}
+
+{% block beforeContent %}
+    {{ nhsukPhaseBanner({
+    tag: {
+        text: "Beta"
+    },
+    	html: 'This is a new service - your <a target="_blank" href="https://bepartofresearch.nihr.ac.uk/get-in-touch/">feedback<span class="nhsuk-u-visually-hidden"> (opens in a new tab)</span></a> will help us to improve it'
+    }) }}
+
+	{{ backLink({
+		href: "bpor-find-address",
+		text: "Back to: Enter your post code"
+	}) }}
+{% endblock %}
+
+{% block content %}  
+	<div class="nhsuk-grid-row">
+    	<div class="nhsuk-grid-column-two-thirds">
+            {% if errorList and errorList.length %}
+                {{ errorSummary({
+                    titleText: "There is a problem",
+                    errorList: errorList
+                }) }}
+            {% endif %}
+
+            <form action="/{{folder}}/{{subfolder}}/bpor-select-address" method="post" novalidate>
+                {% call fieldset({
+                    legend: {
+                        text: "What is your home address?",
+                        size: "l",
+                        isPageHeading: true
+                    }
+                }) %}
+
+                    {{ select({
+                        label: {
+                            text: "Select your address"
+                        },
+                        id: "select-address",
+                        name: "select-address",
+                        classes: "nhsuk-u-three-quarters",
+                        value: "1 Street Name, City",
+                        items: [
+                            {
+                            value: "one",
+                            text: "1 Street Name, City"
+                            },
+                            {
+                            value: "two",
+                            text: "2 Street Name, City"
+                            },
+                            {
+                            value: "three",
+                            text: "3 Street Name, City"
+                            },
+                            {
+                            value: "four",
+                            text: "4 Street Name, City"
+                            }
+                        ]
+                    }) }}
+                {% endcall %}
+
+                <div class="nhsuk-form-group">
+                    <p><a href="bpor-enter-address">Enter your address manually</a></p>
+                </div>
+
+                {{ button({
+                    text: "Continue"
+                }) }}
+            </form>
+        </div>
+  </div>
+{% endblock %}

@@ -807,6 +807,93 @@ router.post('/bpor-password', function (req, res) {
     return res.redirect('bpor-check-email');
 });
 
+// What is your phone number?
+router.post('/bpor-phone-number', function (req, res) {
+    let phone = req.session.data['phone-number'];
+
+    let errors = {};
+
+    if (!phone) {
+        errors.phone = {
+            text: 'Enter a phone number',
+            href: '#phone-number'
+        };
+
+        return res.render(path.join(__dirname, "bpor-phone-number"), {
+            errors: errors,
+            errorList: [errors.phone]
+        });
+    }
+
+    return res.redirect('bpor-find-address');
+});
+
+// What is your address? (Enter your postcode)
+router.post('/bpor-find-address', function (req, res) {
+    let postcode = req.session.data['postcode'];
+
+    let errors = {};
+
+    if (!postcode) {
+        errors.postcode = {
+            text: 'Enter a postcode',
+            href: '#postcode'
+        };
+
+        return res.render(path.join(__dirname, "bpor-find-address"), {
+            errors: errors,
+            errorList: [errors.postcode]
+        });
+    }
+
+    return res.redirect('bpor-select-address');
+});
+
+// What is your address? (Select your address)
+router.post('/bpor-select-address', function (req, res) {
+    // An address is already pre-selected with current design, so error wont fire as select is not 'empty' therefore continue...
+    res.redirect('bpor-sex-and-gender');
+});
+
+// What is your address? (Enter manually)
+router.post('/bpor-enter-address', function (req, res) {
+    let addressLine1 = req.session.data['addressLine1'];
+    let city = req.session.data['city'];
+    let postcode = req.session.data['postcode'];
+
+    let errors = {};
+
+    if (!addressLine1) {
+        errors.addressLine1 = {
+            text: 'Enter address line 1',
+            href: '#address-line-1'
+        };
+    }
+
+    if (!city) {
+        errors.city = {
+            text: 'Enter town or city',
+            href: '#city'
+        };
+    }
+
+    if (!postcode) {
+        errors.postcode = {
+            text: 'Enter a postcode',
+            href: '#postcode'
+        };
+    }
+
+    if (Object.keys(errors).length) {
+        return res.render(path.join(__dirname, "bpor-enter-address"), {
+            errors: errors,
+            errorList: Object.values(errors)
+        });
+    }
+
+    return res.redirect('bpor-sex-and-gender');
+});
+
 // End Routes
 
 module.exports = router;

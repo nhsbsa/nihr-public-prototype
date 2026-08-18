@@ -1,0 +1,65 @@
+{% set layout = "layout-volunteer-bpor.html" %}
+{% extends layout %}
+
+{% block pageTitle %}
+    What is your home address?
+{% endblock %}
+
+{% block beforeContent %}
+    {{ nhsukPhaseBanner({
+    tag: {
+        text: "Beta"
+    },
+    	html: 'This is a new service - your <a target="_blank" href="https://bepartofresearch.nihr.ac.uk/get-in-touch/">feedback<span class="nhsuk-u-visually-hidden"> (opens in a new tab)</span></a> will help us to improve it'
+    }) }}
+
+	{{ backLink({
+		href: "bpor-phone-number",
+		text: "Back to: What is your phone number?"
+	}) }}
+{% endblock %}
+
+{% block content %}  
+	<div class="nhsuk-grid-row">
+    	<div class="nhsuk-grid-column-two-thirds">
+			{% if errorList and errorList.length %}
+				{{ errorSummary({
+					titleText: "There is a problem",
+					errorList: errorList
+				}) }}
+			{% endif %}
+
+        	<form action="/{{folder}}/{{subfolder}}/bpor-find-address" method="post" novalidate>
+        
+				{% call fieldset({
+					legend: {
+						text: "What is your home address?",
+						size: "l",
+						isPageHeading: true
+					}
+				}) %}
+				
+					{{ input({
+						label: {
+						"text": 'Enter your postcode. For example, WA4 1AB'
+						},
+						id: "postcode",
+						name: "postcode",
+						autocomplete: "postal-code",
+						classes: "nhsuk-input--width-10",
+						errorMessage: errors.postcode if errors.postcode else null
+					}) }}
+				
+				{% endcall %}
+
+				<div class="nhsuk-form-group">
+					<p><a href="bpor-enter-address">Enter your address manually</a></p>
+				</div>
+
+				{{ button({
+					text: "Continue"
+				}) }}
+        </form>
+    </div>
+  </div>
+{% endblock %}
