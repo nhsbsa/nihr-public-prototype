@@ -1,0 +1,87 @@
+{% set layout = "layout.html" %}
+
+{% set layout = "layout-volunteer-bpor.html" %}
+{% extends layout %}
+
+{% block pageTitle %}
+    Which of the following best describes your White background?
+{% endblock %}
+
+{% block beforeContent %}
+    {{ nhsukPhaseBanner({
+    tag: {
+        text: "Beta"
+    },
+    html: 'This is a new service - your <a target="_blank" href="https://bepartofresearch.nihr.ac.uk/get-in-touch/">feedback<span class="nhsuk-u-visually-hidden"> (opens in a new tab)</span></a> will help us to improve it'
+    }) }}
+
+    {{ backLink({
+		href: "bpor-ethnic-group",
+		text: "Back to: What is your ethnic group?"
+	}) }}
+{% endblock %}
+
+{% block content %}  
+<div class="nhsuk-grid-row">
+	<div class="nhsuk-grid-column-two-thirds">
+		{% if errorList and errorList.length %}
+			{{ errorSummary({
+				titleText: "There is a problem",
+				errorList: errorList
+			}) }}
+		{% endif %}
+
+		<form action="/{{folder}}/{{subfolder}}/bpor-ethnicity-white" method="post" novalidate>
+
+            {{ radios({
+            name: "bpor-ethnicity-white",
+            fieldset: {
+                legend: {
+                text: "Which of the following best describes your White background?",
+                size: "l",
+                isPageHeading: true
+                }
+            },
+            errorMessage: errors.background if errors.background else null,
+            items: [
+                {
+                value: "english",
+                text: "English, Welsh, Scottish, Northern Irish or British",
+                checked: data['bpor-ethnicity-white'] == "english"
+                },
+                {
+                value: "irish",
+                text: "Irish",
+                checked: data['bpor-ethnicity-white'] == "irish"
+                },
+                {
+                value: "traveller",
+                text: "Irish Traveller",
+                checked: data['bpor-ethnicity-white'] == "traveller"
+                },
+                {
+                value: "roma",
+                text: "Roma",
+                checked: data['bpor-ethnicity-white'] == "roma"
+                },
+                {
+                value: "another",
+                text: "Another White background",
+                checked: data['bpor-ethnicity-white'] == "another"
+                }
+            ]
+            }) }}
+
+			{{ button({
+			text: "Continue"
+			}) }}
+		</form>
+
+        {% call details({
+            summaryText: "Why we ask this question"
+        }) %}
+            <p>Studies often want to include people who are representative of the population. Studies sometimes only include people of a specific ethnicity.</p>
+        {% endcall %}
+	</div>
+</div>
+{% endblock %}

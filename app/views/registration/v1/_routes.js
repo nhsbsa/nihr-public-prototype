@@ -894,6 +894,181 @@ router.post('/bpor-enter-address', function (req, res) {
     return res.redirect('bpor-sex-and-gender');
 });
 
+// Sex and gender identity
+router.post('/bpor-sex-and-gender', function (req, res) {
+    let sex = req.session.data['sex'];
+    let gender = req.session.data['gender'];
+
+    let errors = {};
+
+    if (!sex) {
+        errors.sex = {
+            text: 'Select your sex',
+            href: '#sex'
+        };
+    }
+
+    if (!gender) {
+        errors.gender = {
+            text: 'Select if the gender you identify with is the same as your sex registered at birth',
+            href: '#gender'
+        };
+    }
+
+    if (Object.keys(errors).length) {
+        return res.render(path.join(__dirname, "bpor-sex-and-gender"), {
+            errors: errors,
+            errorList: Object.values(errors)
+        });
+    }
+
+    return res.redirect('bpor-ethnic-group');
+});
+
+// What is your ethnic group?
+router.post('/bpor-ethnic-group', function (req, res) {
+    let ethnicGroup = req.session.data['ethnic-group'];
+
+    if (!ethnicGroup) {
+        let errors = {
+            ethnicGroup: {
+                text: 'Select your ethnic group',
+                href: '#ethnic-group'
+            }
+        };
+
+        return res.render(path.join(__dirname, "bpor-ethnic-group"), {
+            errors: errors,
+            errorList: [errors.ethnicGroup]
+        });
+    }
+
+    if (ethnicGroup == "white") {
+        return res.redirect('bpor-ethnicity-white');
+    }
+
+    if (ethnicGroup == "mixed") {
+        return res.redirect('bpor-ethnicity-mixed');
+    }
+
+    if (ethnicGroup == "asian") {
+        return res.redirect('bpor-ethnicity-asian');
+    }
+
+    if (ethnicGroup == "black") {
+        return res.redirect('bpor-ethnicity-black');
+    }
+
+    if (ethnicGroup == "other") {
+        return res.redirect('bpor-ethnicity-other');
+    }
+});
+
+// Which of the following best describes your White background?
+router.post('/bpor-ethnicity-white', function (req, res) {
+    let background = req.session.data['bpor-ethnicity-white'];
+
+    if (background) {
+        return res.redirect('bpor-medical-conditions');
+    }
+
+    let errors = {
+        background: {
+            text: 'Select which of the following best describes your White background',
+            href: '#bpor-ethnicity-white'
+        }
+    };
+
+    return res.render(path.join(__dirname, "bpor-ethnicity-white"), {
+        errors: errors,
+        errorList: [errors.background]
+    });
+});
+
+// Which of the following best describes your mixed or multiple ethnic groups background?
+router.post('/bpor-ethnicity-mixed', function (req, res) {
+    let background = req.session.data['bpor-ethnicity-mixed'];
+
+    if (background) {
+        return res.redirect('bpor-medical-conditions');
+    }
+
+    let errors = {
+        background: {
+            text: 'Select which of the following best describes your mixed or multiple ethnic groups background',
+            href: '#bpor-ethnicity-mixed'
+        }
+    };
+
+    return res.render(path.join(__dirname, "bpor-ethnicity-mixed"), {
+        errors: errors,
+        errorList: [errors.background]
+    });
+});
+
+// Which of the following best describes your Asian or Asian British background?
+router.post('/bpor-ethnicity-asian', function (req, res) {
+    let background = req.session.data['bpor-ethnicity-asian'];
+
+    if (background) {
+        return res.redirect('bpor-medical-conditions');
+    }
+
+    let errors = {
+        background: {
+            text: 'Select which of the following best describes your Asian or Asian British background',
+            href: '#bpor-ethnicity-asian'
+        }
+    };
+
+    return res.render(path.join(__dirname, "bpor-ethnicity-asian"), {
+        errors: errors,
+        errorList: [errors.background]
+    });
+});
+
+// Which of the following best describes your Black, African, Caribbean or Black British background?
+router.post('/bpor-ethnicity-black', function (req, res) {
+    let background = req.session.data['bpor-ethnicity-black'];
+
+    if (background) {
+        return res.redirect('bpor-medical-conditions');
+    }
+
+    let errors = {
+        background: {
+            text: 'Select which of the following best describes your Black, African, Caribbean or Black British background',
+            href: '#bpor-ethnicity-black'
+        }
+    };
+
+    return res.render(path.join(__dirname, "bpor-ethnicity-black"), {
+        errors: errors,
+        errorList: [errors.background]
+    });
+});
+
+// Which of the following best describes your background?
+router.post('/bpor-ethnicity-other', function (req, res) {
+    let background = req.session.data['bpor-ethnicity-other'];
+
+    if (background) {
+        return res.redirect('bpor-medical-conditions');
+    }
+
+    let errors = {
+        background: {
+            text: 'Select which of the following best describes your background',
+            href: '#bpor-ethnicity-other'
+        }
+    };
+
+    return res.render(path.join(__dirname, "bpor-ethnicity-other"), {
+        errors: errors,
+        errorList: [errors.background]
+    });
+});
+
 // End Routes
 
 module.exports = router;

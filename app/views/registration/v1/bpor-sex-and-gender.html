@@ -1,0 +1,121 @@
+{% set layout = "layout.html" %}
+
+{% set layout = "layout-volunteer-bpor.html" %}
+{% extends layout %}
+
+{% block pageTitle %}
+    Sex and gender identity
+{% endblock %}
+
+{% block beforeContent %}
+    {{ nhsukPhaseBanner({
+    tag: {
+        text: "Beta"
+    },
+    html: 'This is a new service - your <a target="_blank" href="https://bepartofresearch.nihr.ac.uk/get-in-touch/">feedback<span class="nhsuk-u-visually-hidden"> (opens in a new tab)</span></a> will help us to improve it'
+    }) }}
+
+	{{ backLink({
+		href: "bpor-find-address",
+		text: "Back to: What is your address?"
+	}) }}
+{% endblock %}
+
+{% block content %}  
+<div class="nhsuk-grid-row">
+	<div class="nhsuk-grid-column-two-thirds">
+		{% if errorList and errorList.length %}
+			{{ errorSummary({
+				titleText: "There is a problem",
+				errorList: errorList
+			}) }}
+		{% endif %}
+
+		<form action="/{{folder}}/{{subfolder}}/bpor-sex-and-gender" method="post">
+
+            {{ fieldset({
+                legend: {
+                    text: "Sex and gender identity",
+                    size: "l",
+                    classes: "nhsuk-u-margin-bottom-6",
+                    isPageHeading: true
+                }
+            }) }}
+
+            {{ radios({
+                name: "sex",
+                fieldset: {
+                    legend: {
+                    text: "What is your sex?",
+                    size: "m",
+                    isPageHeading: false
+                    }
+                },
+                errorMessage: errors.sex if errors.sex else null,
+                items: [
+                    {
+                    value: "Female",
+                    text: "Female",
+                    checked: data['sex'] == "Female"
+                    },
+                    {
+                    value: "Male",
+                    text: "Male",
+                    checked: data['sex'] == "Male"
+                    },
+                    {
+                    divider: "or"
+                    },
+                    {
+                    value: "Prefer not to say",
+                    text: "Prefer not to say",
+                    checked: data['sex'] == "Prefer not to say"
+                    }
+                ]
+            }) }}
+
+            {{ radios({
+                name: "gender",
+                fieldset: {
+                    legend: {
+                    text: "Is the gender you identify with the same as your sex registered at birth?",
+                    size: "m",
+                    isPageHeading: false
+                    }
+                },
+                errorMessage: errors.gender if errors.gender else null,
+                items: [
+                    {
+                    value: "Yes",
+                    text: "Yes",
+                    checked: data['gender'] == "Yes"
+                    },
+                    {
+                    value: "No",
+                    text: "No",
+                    checked: data['gender'] == "No"
+                    },
+                    {
+                    divider: "or"
+                    },
+                    {
+                    value: "Prefer not to say",
+                    text: "Prefer not to say",
+                    checked: data['gender'] == "Prefer not to say"
+                    }
+                ]
+            }) }}
+
+            {{ button({
+                text: "Continue"
+            }) }}
+		</form>
+
+        {% call details({
+            summaryText: "Why we ask this question"
+        }) %}
+            <p>Studies sometimes only include people of a specific. Some may focus on people whose gender is different from their sex assigned at birth.</p>
+        {% endcall %}
+	</div>
+</div>
+{% endblock %}
