@@ -1,0 +1,86 @@
+{% set layout = "layout-volunteer-bpor.html" %}
+{% extends layout %}
+
+{% block pageTitle %}
+    Do you have any long-term conditions?
+{% endblock %}
+
+{% block beforeContent %}
+    {{ nhsukPhaseBanner({
+    tag: {
+        text: "Beta"
+    },
+    html: 'This is a new service - your <a target="_blank" href="https://bepartofresearch.nihr.ac.uk/get-in-touch/">feedback<span class="nhsuk-u-visually-hidden"> (opens in a new tab)</span></a> will help us to improve it'
+    }) }}
+
+    {{ backLink({
+		href: "javascript:history.go(-1)",
+		text: "Back to: Which of the following best describes your [ethnicity] background?"
+	}) }}
+{% endblock %}
+
+{% block content %}  
+<div class="nhsuk-grid-row">
+	<div class="nhsuk-grid-column-two-thirds">
+        {% if errorList and errorList.length %}
+			{{ errorSummary({
+				titleText: "There is a problem",
+				errorList: errorList
+			}) }}
+		{% endif %}
+
+		<form action="/{{folder}}/{{subfolder}}/bpor-medical-conditions" method="post" novalidate>
+            {{ radios({
+                name: "medical-conditions",
+            fieldset: {
+                legend: {
+                    text: "Do you have any long-term conditions?",
+                    size: "l",
+                    isPageHeading: true
+                }
+            },
+            hint: {
+                text: "This is any physical or mental conditions that you've had for more than a year, or you expect to last more than a year."
+            },
+            errorMessage: errors.medicalConditions if errors.medicalConditions else null,
+            items: [
+                {
+                    value: "yes",
+                    text: "Yes",
+                    checked: data['medical-conditions'] == "yes"
+                },
+                {
+                    value: "no",
+                    text: "No",
+                    checked: data['medical-conditions'] == "no"
+                },
+                {
+                divider: "or"
+                },
+                {
+                    value: "Prefer not to say",
+                    text: "Prefer not to say",
+                    checked: data['medical-conditions'] == "Prefer not to say"
+                }
+            ]
+            }) }}
+	
+			{{ button({
+			    text: "Continue"
+			}) }}
+		</form>
+
+        {% call details({
+            summaryText: "Why we ask this question"
+        }) %}
+            <p>Research studies will often want volunteers who:</p>
+            <ul>
+                <li>have particular conditions</li>
+                <li>are a representative sample of the population</li>
+            </ul>
+        {% endcall %}
+	</div>
+</div>
+{% endblock %}
+
+

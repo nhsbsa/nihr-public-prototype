@@ -15,3 +15,11 @@ $nihr-colour: #193E72;
 @import "nihr-header-footer";
 @import "bpor-header-footer";
 // @import "bpor-header";
+
+
+// Custom flex row - used on BPOR pages with button alongside input
+.nhsuk-flex-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}

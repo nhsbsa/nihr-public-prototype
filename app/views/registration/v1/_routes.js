@@ -1069,6 +1069,97 @@ router.post('/bpor-ethnicity-other', function (req, res) {
     });
 });
 
+// Do you have any long-term conditions?
+router.post('/bpor-medical-conditions', function (req, res) {
+    let medicalConditions = req.session.data['medical-conditions'];
+
+    if (medicalConditions == "yes") {
+        return res.redirect('bpor-enter-medical-conditions');
+    }
+
+    if (medicalConditions == "no" || medicalConditions == "Prefer not to say") {
+        return res.redirect('bpor-research-selection');
+    }
+
+    let errors = {
+        medicalConditions: {
+            text: 'Select yes if you have any long-term conditions',
+            href: '#medical-conditions'
+        }
+    };
+
+    return res.render(path.join(__dirname, "bpor-medical-conditions"), {
+        errors: errors,
+        errorList: [errors.medicalConditions]
+    });
+});
+
+// Enter which long-term conditions you have
+router.post('/bpor-enter-medical-conditions', function (req, res) {
+    // Page design WIP, so for now just progress on form submit without error checking
+    res.redirect('bpor-medical-conditions-effects');
+});
+
+// How much do your conditions affect your daily life?
+router.post('/bpor-medical-conditions-effects', function (req, res) {
+    let effects = req.session.data['effects'];
+
+    if (effects) {
+        return res.redirect('bpor-medical-conditions-invite');
+    }
+
+    let errors = {
+        effects: {
+            text: 'Select how much your conditions affect your daily life',
+            href: '#effects'
+        }
+    };
+
+    return res.render(path.join(__dirname, "bpor-medical-conditions-effects"), {
+        errors: errors,
+        errorList: [errors.effects]
+    });
+});
+
+// Which conditions would you like to be invited to be part of research in?
+router.post('/bpor-medical-conditions-invite', function (req, res) {
+    // Page design WIP, so for now just progress on form submit without error checking
+    res.redirect('bpor-healthy-volunteer');
+});
+
+// Do you want to be considered as a healthy volunteer for research into other conditions?
+router.post('/bpor-healthy-volunteer', function (req, res) {
+    let healthyVolunteer = req.session.data['healthy-volunteer'];
+
+    if (healthyVolunteer) {
+        return res.redirect('bpor-referalls');
+    }
+
+    let errors = {
+        healthyVolunteer: {
+            text: 'Select if you want to be considered as a healthy volunteer for research into other conditions',
+            href: '#healthy-volunteer'
+        }
+    };
+
+    return res.render(path.join(__dirname, "bpor-healthy-volunteer"), {
+        errors: errors,
+        errorList: [errors.healthyVolunteer]
+    });
+});
+
+// Who did you hear about Be Part of Research from?
+router.post('/bpor-referalls', function (req, res) {
+    // Page design WIP, so for now just progress on form submit without error checking
+    res.redirect('bpor-check-answers');
+});
+
+// Check your answers
+router.post('/bpor-check-answers', function (req, res) {
+    // Page design WIP, so for now just progress on form submit without error checking
+    res.redirect('bpor-registration-complete');
+});
+
 // End Routes
 
 module.exports = router;
