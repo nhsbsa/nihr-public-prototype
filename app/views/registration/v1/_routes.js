@@ -1078,12 +1078,12 @@ router.post('/bpor-medical-conditions', function (req, res) {
     }
 
     if (medicalConditions == "no" || medicalConditions == "Prefer not to say") {
-        return res.redirect('bpor-research-selection');
+        return res.redirect('bpor-medical-conditions-invite');
     }
 
     let errors = {
         medicalConditions: {
-            text: 'Select yes if you have any long-term conditions',
+            text: 'Select if you have any long-term conditions',
             href: '#medical-conditions'
         }
     };
