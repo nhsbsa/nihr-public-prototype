@@ -38,33 +38,24 @@
 
 {% block content %}
   
-  <div class="nhsuk-grid-row">
-    <div class="nhsuk-grid-column-two-thirds">
+<div class="nhsuk-grid-row">
+	<div class="nhsuk-grid-column-two-thirds">
+		<h1>Registering to Be Part of Research</h1>
+		
+		<p>We need some details so that we can match you with relevant research studies. You'll also need to create an account using NHS Login or your email address.</p>
+		
+		<p>Registering is voluntary and you can withdraw your consent at any time. Your medical care will not be affected if you withdraw from research.</p>
 
-<h1>Registering to Be Part of Research</h1>
+		<p>By registering, you are giving consent for researchers, NHS staff and partner organisations to access your medical records.</p>
 
-<p>We need some details so that we can match you with relevant research studies.</p>
+		{{ button({
+			text: "Start",
+			href: "bpor-name"
+		}) }}
 
-<p>You'll also need to create an account using NHS Login or your email address.</p>
+		<h2 class="nhsuk-heading-m">Before you start</h2>
 
-<p>Registering is voluntary and you can withdraw your consent at any time. Your medical care will not be affected if you withdraw from research.</p>
-
-<p>By registering, you are giving consent for researchers, NHS staff and partner organisations to access your medical records.</p>
-
-<form action="/{{folder}}/{{subfolder}}/index" method="post" novalidate>
-
-{{ button({
-    text: "Start now"
-}) }}
-
-</form>
-
-<h2 class="nhsuk-heading-m">Before you start</h2>
-
-<p>Make sure you have read the <a href="#">Be Part of Research privacy policy</a>.</p>
-
-
-
-    </div>
-  </div>
+		<p>Make sure you have read the <a href="#">Be Part of Research privacy policy</a>.</p>
+	</div>
+</div>
 {% endblock %}

@@ -1,0 +1,82 @@
+{% set layout = "layout-volunteer-bpor.html" %}
+{% extends layout %}
+
+{% block pageTitle %}
+    Enter which long-term conditions you have
+{% endblock %}
+
+{% block beforeContent %}
+    {{ nhsukPhaseBanner({
+    tag: {
+        text: "Beta"
+    },
+    html: 'This is a new service - your <a target="_blank" href="https://bepartofresearch.nihr.ac.uk/get-in-touch/">feedback<span class="nhsuk-u-visually-hidden"> (opens in a new tab)</span></a> will help us to improve it'
+    }) }}
+
+    {{ backLink({
+		href: "bpor-medical-conditions",
+		text: "Back to: Do you have any long-term conditions?"
+	}) }}
+{% endblock %}
+
+{% block content %}  
+<div class="nhsuk-grid-row">
+	<div class="nhsuk-grid-column-two-thirds">
+        {% if errorList and errorList.length %}
+			{{ errorSummary({
+				titleText: "There is a problem",
+				errorList: errorList
+			}) }}
+		{% endif %}
+
+		<form action="/{{folder}}/{{subfolder}}/bpor-enter-medical-conditions" method="post" novalidate>  
+            {{ fieldset({
+                legend: {
+                    text: "Enter which long-term conditions you have",
+                    size: "l",
+                    isPageHeading: true
+                }
+            }) }}
+
+            {{ hint({
+                text: "This is any physical or mental conditions that you've had for more than a year, or you expect to last more than a year. Start typing to see conditions."
+            }) }}
+     
+            <div class="nhsuk-flex-row">
+                <div class="nhsuk-u-width-two-thirds">
+                    {{ input({
+                        label: {
+                            text: "Enter a condition"
+                        },
+                        id: "condition",
+                        name: "condition"
+                    }) }}
+                </div>
+                    
+                {{ button({
+                    text: "Submit",
+                    type: "button",
+                    small: "true",
+                    classes: "nhsuk-u-margin-bottom-1"
+                }) }}
+            </div>
+
+            {{ button({
+                text: "Continue"
+            }) }}
+		</form>
+
+        {% call details({
+            summaryText: "Why we ask this question"
+        }) %}
+            <p>Research studies will often want volunteers who:</p>
+            <ul>
+                <li>have particular conditions</li>
+                <li>are a representative sample of the population</li>
+            </ul>
+        {% endcall %}
+	</div>
+</div>
+{% endblock %}
+
+

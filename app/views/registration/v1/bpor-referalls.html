@@ -1,0 +1,47 @@
+{% set layout = "layout-volunteer-bpor.html" %}
+{% extends layout %}
+
+{% block pageTitle %}
+    Who did you hear about Be Part of Research from?
+{% endblock %}
+
+{% block beforeContent %}
+    {{ nhsukPhaseBanner({
+    tag: {
+        text: "Beta"
+    },
+    html: 'This is a new service - your <a target="_blank" href="https://bepartofresearch.nihr.ac.uk/get-in-touch/">feedback<span class="nhsuk-u-visually-hidden"> (opens in a new tab)</span></a> will help us to improve it'
+    }) }}
+
+    {{ backLink({
+		href: "bpor-healthy-volunteer",
+		text: "Back to: Do you want to be considered as a healthy volunteer for research into other conditions?"
+	}) }}
+{% endblock %}
+
+{% block content %}  
+<div class="nhsuk-grid-row">
+	<div class="nhsuk-grid-column-two-thirds">
+		{% if errorList and errorList.length %}
+			{{ errorSummary({
+				titleText: "There is a problem",
+				errorList: errorList
+			}) }}
+		{% endif %}
+
+		<form action="/{{folder}}/{{subfolder}}/bpor-referalls" method="post" novalidate>
+            {{ fieldset({
+                legend: {
+                    text: "Who did you hear about Be Part of Research from?",
+                    size: "l",
+                    isPageHeading: true
+                }
+            }) }}
+
+			{{ button({
+			    text: "Continue"
+			}) }}
+		</form>
+	</div>
+</div>
+{% endblock %}

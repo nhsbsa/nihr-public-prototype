@@ -1,0 +1,85 @@
+{% set layout = "layout.html" %}
+
+{% set layout = "layout-volunteer-bpor.html" %}
+{% extends layout %}
+
+{% block pageTitle %}
+    What is your date of birth?
+{% endblock %}
+
+{% block beforeContent %}
+    {{ nhsukPhaseBanner({
+    tag: {
+        text: "Beta"
+    },
+    html: 'This is a new service - your <a target="_blank" href="https://bepartofresearch.nihr.ac.uk/get-in-touch/">feedback<span class="nhsuk-u-visually-hidden"> (opens in a new tab)</span></a> will help us to improve it'
+    }) }}
+
+	{{ backLink({
+		href: "bpor-name",
+		text: "Back to: What is your name?"
+	}) }}
+{% endblock %}
+
+{% block content %}  
+<div class="nhsuk-grid-row">
+	<div class="nhsuk-grid-column-two-thirds">
+		{% if errorList and errorList.length %}
+			{{ errorSummary({
+				titleText: "There is a problem",
+				errorList: errorList
+			}) }}
+		{% endif %}
+
+		<form action="/{{folder}}/{{subfolder}}/bpor-dob" method="post">
+            {{ dateInput({
+                id: "date-of-birth",
+                fieldset: {
+                    legend: {
+                    text: "What is your date of birth?",
+                    size: "l",
+                    isPageHeading: true
+                    }
+                },
+                hint: {
+                    text: "For example, 15 3 1984"
+                },
+                errorMessage: errors.dob if errors.dob else null,
+                items: [
+                    {
+                        label: "Day",
+                        name: "dob-day",
+                        value: data['dob-day'],
+                        classes: "nhsuk-input--width-2" + (" nhsuk-input--error" if errors.day else ""),
+                        autocomplete: "bday-day"
+                    },
+                    {
+                        label: "Month",
+                        name: "dob-month",
+                        value: data['dob-month'],
+                        classes: "nhsuk-input--width-2" + (" nhsuk-input--error" if errors.month else ""),
+                        autocomplete: "bday-month"
+                    },
+                    {
+                        label: "Year",
+                        name: "dob-year",
+                        value: data['dob-year'],
+                        classes: "nhsuk-input--width-4" + (" nhsuk-input--error" if errors.year else ""),
+                        autocomplete: "bday-year"
+                    }
+                ]
+            }) }}
+
+			{{ button({
+				text: "Continue"
+			}) }}
+		</form>
+
+        {% call details({
+            summaryText: "Why we are asking this question"
+            }) %}
+            <p>Only people aged 18 or over can register for Join Dementia Research. Many studies want to include people of certain age groups.</p>
+        {% endcall %}
+	</div>
+</div>
+{% endblock %}

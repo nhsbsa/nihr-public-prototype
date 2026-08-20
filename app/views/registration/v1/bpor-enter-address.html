@@ -1,0 +1,105 @@
+{% set layout = "layout-volunteer-bpor.html" %}
+{% extends layout %}
+
+{% block pageTitle %}
+    What is your home address?
+{% endblock %}
+
+{% block beforeContent %}
+    {{ nhsukPhaseBanner({
+    tag: {
+        text: "Beta"
+    },
+    	html: 'This is a new service - your <a target="_blank" href="https://bepartofresearch.nihr.ac.uk/get-in-touch/">feedback<span class="nhsuk-u-visually-hidden"> (opens in a new tab)</span></a> will help us to improve it'
+    }) }}
+
+	{{ backLink({
+		href: "bpor-find-address",
+		text: "Back to: Enter your post code"
+	}) }}
+{% endblock %}
+
+{% block content %}  
+<div class="nhsuk-grid-row">
+    <div class="nhsuk-grid-column-two-thirds">
+        {% if errorList and errorList.length %}
+            {{ errorSummary({
+                titleText: "There is a problem",
+                errorList: errorList
+            }) }}
+        {% endif %}
+
+        <form action="/{{folder}}/{{subfolder}}/bpor-enter-address" method="post" novalidate>
+
+            {% call fieldset({
+                legend: {
+                    text: "What is your home address?",
+                    size: "l",
+                    isPageHeading: true
+                }
+            }) %}
+
+                {{ input({
+                    label: {
+                        text: "Address line 1"
+                    },
+                    id: "address-line-1",
+                    name: "addressLine1",
+                    value: data['addressLine1'],
+                    autocomplete: "address-line1",
+                    errorMessage: errors.addressLine1 if errors.addressLine1 else null
+                }) }}
+
+                {{ input({
+                    label: {
+                        text: "Address line 2 (optional)"
+                    },
+                    id: "address-line-2",
+                    name: "addressLine2",
+                    value: data['addressLine2'],
+                    autocomplete: "address-line2"
+                }) }}
+
+                {{ input({
+                    label: {
+                        text: "Address line 3 (optional)"
+                    },
+                    id: "address-line-3",
+                    name: "addressLine3",
+                    value: data['addressLine3'],
+                    autocomplete: "address-line3"
+                }) }}
+
+                {{ input({
+                    label: {
+                        text: "Town or city"
+                    },
+                    id: "city",
+                    name: "city",
+                    value: data['city'],
+                    classes: "nhsuk-input--width-20",
+                    autocomplete: "address-level2",
+                    errorMessage: errors.city if errors.city else null
+                }) }}
+
+                {{ input({
+                    label: {
+                        text: "Postcode"
+                    },
+                    id: "postcode",
+                    name: "postcode",
+                    value: data['postcode'],
+                    classes: "nhsuk-input--width-10",
+                    autocomplete: "postal-code",
+                    errorMessage: errors.postcode if errors.postcode else null
+                }) }}
+
+            {% endcall %}
+
+            {{ button({
+                text: "Continue"
+            }) }}
+        </form>
+    </div>
+</div>
+{% endblock %}

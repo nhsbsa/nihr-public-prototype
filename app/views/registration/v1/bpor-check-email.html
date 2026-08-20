@@ -1,0 +1,32 @@
+{% set layout = "layout.html" %}
+
+{% set layout = "layout-volunteer-bpor.html" %}
+{% extends layout %}
+
+{% block pageTitle %}
+    Check your email
+{% endblock %}
+
+{% block beforeContent %}
+    {{ nhsukPhaseBanner({
+    tag: {
+        text: "Beta"
+    },
+    html: 'This is a new service - your <a target="_blank" href="https://bepartofresearch.nihr.ac.uk/get-in-touch/">feedback<span class="nhsuk-u-visually-hidden"> (opens in a new tab)</span></a> will help us to improve it'
+    }) }}
+{% endblock %}
+
+{% block content %}  
+<div class="nhsuk-grid-row">
+	<div class="nhsuk-grid-column-two-thirds">
+        <h1 class="nhsuk-heading-l">Check your email</h1>
+        
+        <p>We have sent an email to <strong>{{ data['email'] | default('email@email.com', true) }}</strong></p>
+        <p>To continue to register for Be Part of Research you must follow the link in the email we have sent.</p>
+        <p>The link will stop working after 24 hours.</p>
+        <p><a href="#">Contact us</a> if you need help verifying your email.</p>
+
+        <p><a href="bpor-email-mockup" class="nhsuk-link nhsuk-link--no-visited-state">[click here to see what the email you will receive will look like]</a></p>
+	</div>
+</div>
+{% endblock %}

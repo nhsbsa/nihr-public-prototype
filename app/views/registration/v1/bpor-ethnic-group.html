@@ -1,0 +1,85 @@
+{% set layout = "layout-volunteer-bpor.html" %}
+{% extends layout %}
+
+{% block pageTitle %}
+    What is your ethnic group?
+{% endblock %}
+
+{% block beforeContent %}
+    {{ nhsukPhaseBanner({
+    tag: {
+        text: "Beta"
+    },
+    html: 'This is a new service - your <a target="_blank" href="https://bepartofresearch.nihr.ac.uk/get-in-touch/">feedback<span class="nhsuk-u-visually-hidden"> (opens in a new tab)</span></a> will help us to improve it'
+    }) }}
+
+    {{ backLink({
+		href: "bpor-sex-and-gender",
+		text: "Back to: Sex and gender identity"
+	}) }}
+{% endblock %}
+
+{% block content %}  
+<div class="nhsuk-grid-row">
+	<div class="nhsuk-grid-column-two-thirds">
+		{% if errorList and errorList.length %}
+			{{ errorSummary({
+				titleText: "There is a problem",
+				errorList: errorList
+			}) }}
+		{% endif %}
+
+		<form action="/{{folder}}/{{subfolder}}/bpor-ethnic-group" method="post" novalidate>
+
+			{{ radios({
+			name: "ethnic-group",
+			fieldset: {
+				legend: {
+				text: "What is your ethnic group?",
+				size: "l",
+				isPageHeading: true
+				}
+			},
+			errorMessage: errors.ethnicGroup if errors.ethnicGroup else null,
+			items: [
+				{
+				value: "white",
+				text: "White",
+				checked: data['ethnic-group'] == "white"
+				},
+				{
+				value: "mixed",
+				text: "Mixed or multiple ethnic groups",
+				checked: data['ethnic-group'] == "mixed"
+				},
+				{
+				value: "asian",
+				text: "Asian or Asian British",
+				checked: data['ethnic-group'] == "asian"
+				},
+				{
+				value: "black",
+				text: "Black, African, Carribean or Black British",
+				checked: data['ethnic-group'] == "black"
+				},
+				{
+				value: "other",
+				text: "Other ethnic group",
+				checked: data['ethnic-group'] == "other"
+				}
+			]
+			}) }}
+
+			{{ button({
+			text: "Continue"
+			}) }}
+		</form>
+
+        {% call details({
+            summaryText: "Why we ask this question"
+        }) %}
+            <p>Studies often want to include people who are representative of the population. Studies sometimes only include people of a specific ethnicity.</p>
+        {% endcall %}
+	</div>
+</div>
+{% endblock %}

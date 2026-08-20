@@ -1,0 +1,58 @@
+{% set layout = "layout.html" %}
+
+{% set layout = "layout-volunteer-bpor.html" %}
+{% extends layout %}
+
+{% block pageTitle %}
+    Email
+{% endblock %}
+
+{% block header %}
+{% endblock %}
+
+{% block beforeContent %}
+{% endblock %}
+
+{% block content %}  
+<style>
+    html,body {
+        background-color: #fff !important;
+    }
+</style>
+
+<div class="nhsuk-grid-row" style="border: 1px solid grey">
+	<div class="nhsuk-grid-column-two-thirds">
+        {{ summaryList({
+            rows: [
+                {
+                key: {
+                    text: "From:"
+                },
+                value: {
+                    text: "no-reply@nihr.ac.uk"
+                }
+                },
+                {
+                key: {
+                    text: "Subject:"
+                },
+                value: {
+                    text: "Be Part of Research email verification"
+                }
+                }
+            ]
+        }) }}
+
+        <h1 class="nhsuk-heading-l">Confirm your email address</h1>
+            
+        <p>Confirm your email address and continue registering by following the link.</p>
+        <p><a href="bpor-phone-number" class="nhsuk-link nhsuk-link--no-visited-state">[URL should be spelt out in full to allow users to check and avoid phishing]</a></p>
+        <p>This link will stop working after 24 hours. </p>
+        <p>The Be Part of Research team</p>
+        <p>This is an automated email - do not reply directly to this email address.</p>
+	</div>
+</div>
+{% endblock %}
+
+{% block footer %}
+{% endblock %}

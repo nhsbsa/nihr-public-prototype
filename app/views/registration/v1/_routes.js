@@ -6,6 +6,7 @@
 const express = require('express');
 const router = express.Router();
 const { DateTime } = require("luxon");
+const path = require('path');
 
 // ROUTES GO HERE
 
@@ -603,6 +604,560 @@ router.post('/jdr-check-answers', function (req, res) {
 
     res.redirect('jdr-confirmation?brand=JDR');
 
+});
+
+// BPOR Registration routes
+
+// What is your name?
+router.post('/bpor-name', function(req, res) {
+    let name = req.session.data['firstName'];
+    let surname = req.session.data['lastName'];
+
+    // Defaulted to show no errors
+    let errors = {};
+
+    // If name and surname are entered, proceed to DOB
+    if (name && surname) {
+        return res.redirect('bpor-dob');
+    }
+
+    // If name is missing, show error message for first name
+    if (!name) {
+        errors.firstName = {
+            text: 'Enter your first name',
+            href: '#first-name'
+        };
+    }
+
+    // If surname is missing, show error message for surname
+    if (!surname) {
+        errors.lastName = {
+            text: 'Enter your last name',
+            href: '#last-name'
+        };
+    }
+
+    // Render the template, apply error messages if needed (will show both if both are missing)
+    return res.render(path.join(__dirname, "bpor-name"), {
+        errors: errors,
+        errorList: Object.values(errors)
+    });
+});
+
+// What is your date of birth?
+router.post('/bpor-dob', function (req, res) {
+  let day = req.session.data['dob-day'];
+  let month = req.session.data['dob-month'];
+  let year = req.session.data['dob-year'];
+
+  let errors = {};
+
+  // Work out which parts are missing
+  let missing = [];
+  if (!day) missing.push('day');
+  if (!month) missing.push('month');
+  if (!year) missing.push('year');
+
+  if (missing.length) {
+    let message = missing.length === 3
+      ? 'Enter your date of birth'
+      : 'Date of birth must include a ' + joinWithAnd(missing);
+
+    errors.dob = { text: message, href: '#date-of-birth-day' };
+    errors.day = missing.includes('day');
+    errors.month = missing.includes('month');
+    errors.year = missing.includes('year');
+
+    return res.render(path.join(__dirname, "bpor-dob"), {
+      errors: errors,
+      errorList: [errors.dob]
+    });
+  }
+
+  let dob = new Date(year, month - 1, day);
+
+  // Check it's a real calendar date (not 31 Feb, etc)
+  let isRealDate =
+    dob.getFullYear() == Number(year) &&
+    dob.getMonth() == Number(month) - 1 &&
+    dob.getDate() == Number(day);
+
+  if (!isRealDate) {
+    errors.dob = { text: 'Date of birth must be a real date', href: '#date-of-birth-day' };
+    errors.day = true;
+    errors.month = true;
+    errors.year = true;
+
+    return res.render(path.join(__dirname, "bpor-dob"), {
+      errors: errors,
+      errorList: [errors.dob]
+    });
+  }
+
+  // Check it's not in the future
+  let today = new Date();
+  if (dob > today) {
+    errors.dob = { text: 'Date of birth must be in the past', href: '#date-of-birth-day' };
+    errors.day = true;
+    errors.month = true;
+    errors.year = true;
+
+    return res.render(path.join(__dirname, "bpor-dob"), {
+      errors: errors,
+      errorList: [errors.dob]
+    });
+  }
+
+  // Work out age
+  let age = today.getFullYear() - dob.getFullYear();
+  let hasHadBirthdayThisYear =
+    today.getMonth() > dob.getMonth() ||
+    (today.getMonth() === dob.getMonth() && today.getDate() >= dob.getDate());
+  if (!hasHadBirthdayThisYear) {
+    age--;
+  }
+
+  if (age < 18) {
+    return res.redirect('bpor-under-18');
+  }
+
+  return res.redirect('bpor-have-nhs-login');
+});
+
+// Small helper for grammatically correct error messages, e.g. "day and year"
+function joinWithAnd(arr) {
+  if (arr.length === 1) return arr[0];
+  return arr.slice(0, -1).join(', ') + ' and ' + arr[arr.length - 1];
+}
+
+// Do you have an NHS login?
+router.post('/bpor-have-nhs-login', function (req, res) {
+    let nhs = req.session.data['have-nhs-login'];
+
+    if (nhs == "yes") {
+        return res.redirect('bpor-check-email');
+    }
+
+    if (nhs == "no") {
+        return res.redirect('bpor-email');
+    }
+
+    // Nothing selected
+    let errors = {
+        nhsLogin: { text: 'Select if you have an NHS login', href: '#have-nhs' }
+    };
+
+    return res.render(path.join(__dirname, "bpor-have-nhs-login"), {
+        errors: errors,
+        errorList: [errors.nhsLogin]
+    });
+});
+
+// What is your email address?
+router.post('/bpor-email', function (req, res) {
+    let email = req.session.data['email'];
+
+    let errors = {};
+
+    if (!email) {
+        errors.email = {
+            text: 'Enter your email address',
+            href: '#email'
+        };
+    } else if (!isValidEmail(email)) {
+        errors.email = {
+            text: 'Enter an email address in the correct format, like name@example.com',
+            href: '#email'
+        };
+    }
+
+    if (errors.email) {
+        return res.render(path.join(__dirname, "bpor-email"), {
+            errors: errors,
+            errorList: [errors.email]
+        });
+    }
+
+    return res.redirect('bpor-password');
+});
+
+// Simple email format check
+function isValidEmail(email) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
+// Enter a password
+router.post('/bpor-password', function (req, res) {
+    let password = req.session.data['password'];
+
+    let errors = {};
+
+    if (!password) {
+        errors.password = {
+            text: 'Enter a password',
+            href: '#password'
+        };
+
+        return res.render(path.join(__dirname, "bpor-password"), {
+            errors: errors,
+            errorList: [errors.password]
+        });
+    }
+
+    return res.redirect('bpor-check-email');
+});
+
+// What is your phone number?
+router.post('/bpor-phone-number', function (req, res) {
+    let phone = req.session.data['phone-number'];
+
+    let errors = {};
+
+    if (!phone) {
+        errors.phone = {
+            text: 'Enter a phone number',
+            href: '#phone-number'
+        };
+
+        return res.render(path.join(__dirname, "bpor-phone-number"), {
+            errors: errors,
+            errorList: [errors.phone]
+        });
+    }
+
+    return res.redirect('bpor-find-address');
+});
+
+// What is your address? (Enter your postcode)
+router.post('/bpor-find-address', function (req, res) {
+    let postcode = req.session.data['postcode'];
+
+    let errors = {};
+
+    if (!postcode) {
+        errors.postcode = {
+            text: 'Enter a postcode',
+            href: '#postcode'
+        };
+
+        return res.render(path.join(__dirname, "bpor-find-address"), {
+            errors: errors,
+            errorList: [errors.postcode]
+        });
+    }
+
+    return res.redirect('bpor-select-address');
+});
+
+// What is your address? (Select your address)
+router.post('/bpor-select-address', function (req, res) {
+    // An address is already pre-selected with current design, so error wont fire as select is not 'empty' therefore continue...
+    res.redirect('bpor-sex-and-gender');
+});
+
+// What is your address? (Enter manually)
+router.post('/bpor-enter-address', function (req, res) {
+    let addressLine1 = req.session.data['addressLine1'];
+    let city = req.session.data['city'];
+    let postcode = req.session.data['postcode'];
+
+    let errors = {};
+
+    if (!addressLine1) {
+        errors.addressLine1 = {
+            text: 'Enter address line 1',
+            href: '#address-line-1'
+        };
+    }
+
+    if (!city) {
+        errors.city = {
+            text: 'Enter town or city',
+            href: '#city'
+        };
+    }
+
+    if (!postcode) {
+        errors.postcode = {
+            text: 'Enter a postcode',
+            href: '#postcode'
+        };
+    }
+
+    if (Object.keys(errors).length) {
+        return res.render(path.join(__dirname, "bpor-enter-address"), {
+            errors: errors,
+            errorList: Object.values(errors)
+        });
+    }
+
+    return res.redirect('bpor-sex-and-gender');
+});
+
+// Sex and gender identity
+router.post('/bpor-sex-and-gender', function (req, res) {
+    let sex = req.session.data['sex'];
+    let gender = req.session.data['gender'];
+
+    let errors = {};
+
+    if (!sex) {
+        errors.sex = {
+            text: 'Select your sex',
+            href: '#sex'
+        };
+    }
+
+    if (!gender) {
+        errors.gender = {
+            text: 'Select if the gender you identify with is the same as your sex registered at birth',
+            href: '#gender'
+        };
+    }
+
+    if (Object.keys(errors).length) {
+        return res.render(path.join(__dirname, "bpor-sex-and-gender"), {
+            errors: errors,
+            errorList: Object.values(errors)
+        });
+    }
+
+    return res.redirect('bpor-ethnic-group');
+});
+
+// What is your ethnic group?
+router.post('/bpor-ethnic-group', function (req, res) {
+    let ethnicGroup = req.session.data['ethnic-group'];
+
+    if (!ethnicGroup) {
+        let errors = {
+            ethnicGroup: {
+                text: 'Select your ethnic group',
+                href: '#ethnic-group'
+            }
+        };
+
+        return res.render(path.join(__dirname, "bpor-ethnic-group"), {
+            errors: errors,
+            errorList: [errors.ethnicGroup]
+        });
+    }
+
+    if (ethnicGroup == "white") {
+        return res.redirect('bpor-ethnicity-white');
+    }
+
+    if (ethnicGroup == "mixed") {
+        return res.redirect('bpor-ethnicity-mixed');
+    }
+
+    if (ethnicGroup == "asian") {
+        return res.redirect('bpor-ethnicity-asian');
+    }
+
+    if (ethnicGroup == "black") {
+        return res.redirect('bpor-ethnicity-black');
+    }
+
+    if (ethnicGroup == "other") {
+        return res.redirect('bpor-ethnicity-other');
+    }
+});
+
+// Which of the following best describes your White background?
+router.post('/bpor-ethnicity-white', function (req, res) {
+    let background = req.session.data['bpor-ethnicity-white'];
+
+    if (background) {
+        return res.redirect('bpor-medical-conditions');
+    }
+
+    let errors = {
+        background: {
+            text: 'Select which of the following best describes your White background',
+            href: '#bpor-ethnicity-white'
+        }
+    };
+
+    return res.render(path.join(__dirname, "bpor-ethnicity-white"), {
+        errors: errors,
+        errorList: [errors.background]
+    });
+});
+
+// Which of the following best describes your mixed or multiple ethnic groups background?
+router.post('/bpor-ethnicity-mixed', function (req, res) {
+    let background = req.session.data['bpor-ethnicity-mixed'];
+
+    if (background) {
+        return res.redirect('bpor-medical-conditions');
+    }
+
+    let errors = {
+        background: {
+            text: 'Select which of the following best describes your mixed or multiple ethnic groups background',
+            href: '#bpor-ethnicity-mixed'
+        }
+    };
+
+    return res.render(path.join(__dirname, "bpor-ethnicity-mixed"), {
+        errors: errors,
+        errorList: [errors.background]
+    });
+});
+
+// Which of the following best describes your Asian or Asian British background?
+router.post('/bpor-ethnicity-asian', function (req, res) {
+    let background = req.session.data['bpor-ethnicity-asian'];
+
+    if (background) {
+        return res.redirect('bpor-medical-conditions');
+    }
+
+    let errors = {
+        background: {
+            text: 'Select which of the following best describes your Asian or Asian British background',
+            href: '#bpor-ethnicity-asian'
+        }
+    };
+
+    return res.render(path.join(__dirname, "bpor-ethnicity-asian"), {
+        errors: errors,
+        errorList: [errors.background]
+    });
+});
+
+// Which of the following best describes your Black, African, Caribbean or Black British background?
+router.post('/bpor-ethnicity-black', function (req, res) {
+    let background = req.session.data['bpor-ethnicity-black'];
+
+    if (background) {
+        return res.redirect('bpor-medical-conditions');
+    }
+
+    let errors = {
+        background: {
+            text: 'Select which of the following best describes your Black, African, Caribbean or Black British background',
+            href: '#bpor-ethnicity-black'
+        }
+    };
+
+    return res.render(path.join(__dirname, "bpor-ethnicity-black"), {
+        errors: errors,
+        errorList: [errors.background]
+    });
+});
+
+// Which of the following best describes your background?
+router.post('/bpor-ethnicity-other', function (req, res) {
+    let background = req.session.data['bpor-ethnicity-other'];
+
+    if (background) {
+        return res.redirect('bpor-medical-conditions');
+    }
+
+    let errors = {
+        background: {
+            text: 'Select which of the following best describes your background',
+            href: '#bpor-ethnicity-other'
+        }
+    };
+
+    return res.render(path.join(__dirname, "bpor-ethnicity-other"), {
+        errors: errors,
+        errorList: [errors.background]
+    });
+});
+
+// Do you have any long-term conditions?
+router.post('/bpor-medical-conditions', function (req, res) {
+    let medicalConditions = req.session.data['medical-conditions'];
+
+    if (medicalConditions == "yes") {
+        return res.redirect('bpor-enter-medical-conditions');
+    }
+
+    if (medicalConditions == "no" || medicalConditions == "Prefer not to say") {
+        return res.redirect('bpor-research-selection');
+    }
+
+    let errors = {
+        medicalConditions: {
+            text: 'Select yes if you have any long-term conditions',
+            href: '#medical-conditions'
+        }
+    };
+
+    return res.render(path.join(__dirname, "bpor-medical-conditions"), {
+        errors: errors,
+        errorList: [errors.medicalConditions]
+    });
+});
+
+// Enter which long-term conditions you have
+router.post('/bpor-enter-medical-conditions', function (req, res) {
+    // Page design WIP, so for now just progress on form submit without error checking
+    res.redirect('bpor-medical-conditions-effects');
+});
+
+// How much do your conditions affect your daily life?
+router.post('/bpor-medical-conditions-effects', function (req, res) {
+    let effects = req.session.data['effects'];
+
+    if (effects) {
+        return res.redirect('bpor-medical-conditions-invite');
+    }
+
+    let errors = {
+        effects: {
+            text: 'Select how much your conditions affect your daily life',
+            href: '#effects'
+        }
+    };
+
+    return res.render(path.join(__dirname, "bpor-medical-conditions-effects"), {
+        errors: errors,
+        errorList: [errors.effects]
+    });
+});
+
+// Which conditions would you like to be invited to be part of research in?
+router.post('/bpor-medical-conditions-invite', function (req, res) {
+    // Page design WIP, so for now just progress on form submit without error checking
+    res.redirect('bpor-healthy-volunteer');
+});
+
+// Do you want to be considered as a healthy volunteer for research into other conditions?
+router.post('/bpor-healthy-volunteer', function (req, res) {
+    let healthyVolunteer = req.session.data['healthy-volunteer'];
+
+    if (healthyVolunteer) {
+        return res.redirect('bpor-referalls');
+    }
+
+    let errors = {
+        healthyVolunteer: {
+            text: 'Select if you want to be considered as a healthy volunteer for research into other conditions',
+            href: '#healthy-volunteer'
+        }
+    };
+
+    return res.render(path.join(__dirname, "bpor-healthy-volunteer"), {
+        errors: errors,
+        errorList: [errors.healthyVolunteer]
+    });
+});
+
+// Who did you hear about Be Part of Research from?
+router.post('/bpor-referalls', function (req, res) {
+    // Page design WIP, so for now just progress on form submit without error checking
+    res.redirect('bpor-check-answers');
+});
+
+// Check your answers
+router.post('/bpor-check-answers', function (req, res) {
+    // Page design WIP, so for now just progress on form submit without error checking
+    res.redirect('bpor-registration-complete');
 });
 
 // End Routes
