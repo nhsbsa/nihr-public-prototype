@@ -11,7 +11,7 @@
   "license": "MIT",
   "dependencies": {
     "luxon": "^3.7.2",
-    "nhsuk-frontend": "^10.4.2",
+    "nhsuk-frontend": "^10.6.1",
     "nhsuk-prototype-kit": "^8.3.0"
   },
   "engines": {
