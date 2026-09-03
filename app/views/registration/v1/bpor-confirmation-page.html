@@ -1,0 +1,63 @@
+{% extends "layout-bpor.html" %}
+
+{% block beforeContent %}
+
+
+{% endblock %}
+
+{% block content %}
+
+<div class="nhsuk-grid-row">
+  <div class="nhsuk-grid-column-two-thirds">
+    
+    <div class="nhsuk-panel">
+      <h1 class="nhsuk-panel__heading">
+        Email address verified
+      </h1>
+    <div class="nhsuk-panel__body">
+        Log in to continue your registration.
+      </div>
+    </div>
+
+
+        <div class="nhsuk-grid-row">
+          <div class="nhsuk-grid-column-two-thirds">
+
+            <form action="/{{folder}}/{{subfolder}}/researcher-login" method="post" novalidate>
+  
+            {{ input({
+              id: "emailAddress",
+              name: "emailAddress",
+              type: "email",
+              classes: "nhsuk-input--width-20",
+              label: {
+                text: "Email address"
+               }
+            }) }}
+
+            {{ passwordInput({
+              label: {
+                text: "Password"
+              },
+              id: "password",
+              name: "password",
+              classes: "nhsuk-input--width-20"
+            }) }}
+
+      
+            <p><a href="/login/v1/bpor/forgot-password" class="nhsuk-link jdr-link-pink">Forgot your password?</a></p>
+
+            <a href="/registration/v1/bpor-mfa-choice" role="button" draggable="false" class="nhsuk-button jdr-button-pink" data-module="nhsuk-button">
+              Log in
+            </a>
+
+            </form>
+
+          </div>
+         </div>
+        
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

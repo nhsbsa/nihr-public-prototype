@@ -1,0 +1,32 @@
+{% extends "layout-bpor.html" %}
+
+{% block beforeContent %}
+
+<button class="nhsuk-back-link" type="submit">
+  Back to: Secure your account with 2-Factor Authentication
+</button>
+
+{% endblock %}
+
+{% block content %}
+<div class="nhsuk-grid-row">
+    <div class="nhsuk-grid-column-two-thirds">
+
+      <h1 class="nhsuk-heading-l">What is your UK mobile phone number?</h1>
+      <p>We’ll text you a 6-digit code to confirm your mobile phone number and secure your account.</p>
+
+
+      <div class="nhsuk-form-group">
+        <label class="nhsuk-label" for="example-with-hint-text">
+          UK mobile phone number
+        </label>
+        <input class="nhsuk-input nhsuk-input--width-10" id="example-with-hint-text" name="exampleWithHintText" type="text" spellcheck="false" aria-describedby="example-with-hint-text-hint" autocomplete="postal-code">
+      </div>
+
+      <a href="/registration/v1/bpor-mfa-phone-number-setup" role="button" draggable="false" class="nhsuk-button" data-module="nhsuk-button">
+        Continue
+      </a>
+    </div>
+</div>
+
+{% endblock %}

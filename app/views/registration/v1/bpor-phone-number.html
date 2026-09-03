@@ -29,7 +29,7 @@
 		<form action="/{{folder}}/{{subfolder}}/bpor-phone-number" method="post">
             {% call fieldset({
                 legend: {
-                    text: "What is your phone number?",
+                    text: "What is your phone number? (optional)",
                     size: "l",
                     isPageHeading: true
                 }
@@ -39,18 +39,16 @@
                     label: {
                     text: "Phone number"
                     },
-                    id: "phone-number",
+                    id: "alternative-phone-number",
                     name: "phone-number",
                     type: "tel",
                     autocomplete: "tel",
-                    classes: "nhsuk-input--width-20",
-                    value: data['phone-number'],
-                    errorMessage: errors.phone if errors.phone else null
+                    classes: "nhsuk-input--width-20"
                 }) }}
 
                 {{ input({
                     label: {
-                    text: "Alternative phone number (optional)"
+                    text: "Alternative phone number"
                     },
                     id: "alternative-phone-number",
                     name: "alternative-phone-number",

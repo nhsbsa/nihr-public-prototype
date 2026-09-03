@@ -34,6 +34,11 @@
   html: 'This is a new service - your <a target="_blank" href="https://bepartofresearch.nihr.ac.uk/get-in-touch/">feedback<span class="nhsuk-u-visually-hidden"> (opens in a new tab)</span></a> will help us to improve it'
 }) }}
 
+{{ backLink({
+    "href": "javascript:history.go(-1)",
+    "text": "Back to: What is your name?"
+}) }}
+
 {% endblock %}
 
 {% block content %}
@@ -41,37 +46,48 @@
   <div class="nhsuk-grid-row">
     <div class="nhsuk-grid-column-two-thirds">
 
-<h1>Registering to Join Dementia Research</h1>
+<form action="/{{folder}}/{{subfolder}}/jdr-proxy-date-of-birth" method="post" novalidate>
 
-<p>We need some details so that we can match you with relevant research studies.</p>
+{{ dateInput({
+  id: "jdr-date-of-birth",
+  "namePrefix": "jdr-date-of-birth",
+  fieldset: {
+    legend: {
+      text: "What is your date of birth?",
+      size: "l",
+      isPageHeading: true
+    }
+  },
+  hint: {
+    text: "For example, 31 7 2026"
+  },
+  items: [
+    {
+      name: "day",
+      classes: "nhsuk-input--width-2"
+    },
+    {
+      name: "month",
+      classes: "nhsuk-input--width-2"
+    },
+    {
+      name: "year",
+      classes: "nhsuk-input--width-4"
+    }
+  ]
+}) }}
 
-<p>Registering is voluntary and you can withdraw your consent at any time. Your medical care will not be affected if you withdraw from research.</p>
-
-<p>By registering, you are giving consent for researchers, NHS staff and partner organisations to access your medical records.</p>
-
-<h2 class="nhsuk-heading-m">Registering someone else for dementia research</h2>
-
-<p>You can only register another person for dementia research if:</p>
-
-<ul>
-  <li>they have mental capacity and they have consented to be part of research</li>
-  <li>you have Lasting Power of Attorney for health and wellfare (Welfare Power of Attorney in Scotland)</li>
-</ul>
-
-<form action="/{{folder}}/{{subfolder}}/jdr-start" method="post" novalidate>
+{% call details({
+  summaryText: "Why we are asking this question"
+}) %}
+  <p>Only people aged 18 or over can register for Join Dementia Research. Many studies want to include people of certain age groups.</p>
+{% endcall %}
 
 {{ button({
-    text: "Register yourself"
+  text: "Continue"
 }) }}
 
 </form>
-
-<p><a href="jdr-proxy-name">Register someone else for dementia research</a></p>
-
-<h2 class="nhsuk-heading-m">Before you start</h2>
-
-<p>Make sure you have read the <a href="#">Join Dementia Research volunteer guide</a> and the <a href="#">privacy policy</a>.</p>
-
 
 
     </div>

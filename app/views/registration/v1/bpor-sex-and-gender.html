@@ -106,16 +106,17 @@
                 ]
             }) }}
 
+            {% call details({
+                summaryText: "Why we ask this question"
+            }) %}
+                <p>Studies sometimes only include people of a specific. Some may focus on people whose gender is different from their sex assigned at birth.</p>
+            {% endcall %}
+
             {{ button({
                 text: "Continue"
             }) }}
 		</form>
 
-        {% call details({
-            summaryText: "Why we ask this question"
-        }) %}
-            <p>Studies sometimes only include people of a specific. Some may focus on people whose gender is different from their sex assigned at birth.</p>
-        {% endcall %}
 	</div>
 </div>
 {% endblock %}
