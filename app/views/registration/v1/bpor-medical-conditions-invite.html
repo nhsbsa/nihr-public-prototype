@@ -30,42 +30,26 @@
 		{% endif %}
 
 		<form action="/{{folder}}/{{subfolder}}/bpor-medical-conditions-invite" method="post" novalidate>  
-            {{ fieldset({
-                legend: {
-                    text: "Which conditions would you like to be invited to be part of research in?",
-                    size: "l",
-                    isPageHeading: true
-                }
-            }) }}
 
-            {{ hint({
-                text: "Start typing to see conditions."
-            }) }}
+        {{ searchableCheckboxes({
+            label: {
+            text: "Which conditions would you like to be invited to be part of research in?",
+            size: "l"
+            },
+            classes: "nhsuk-checkboxes--small",
+            hint: {
+            text: "Start typing to see conditions."
+            },
+            id: "conditionsInvite",
+            name: "conditionsInvite",
+            selectedLabel: "Selected conditions",
+            items: data.health_conditions
+        }) }}
 
-            <p>[Dummy data]</p>
-     
-            <div class="nhsuk-flex-row">
-                <div class="nhsuk-u-width-two-thirds">
-                    {{ input({
-                        label: {
-                            text: "Enter a condition"
-                        },
-                        id: "invite-condition",
-                        name: "invite-condition"
-                    }) }}
-                </div>
-                    
-                {{ button({
-                    text: "Submit",
-                    type: "button",
-                    small: "true",
-                    classes: "nhsuk-u-margin-bottom-1"
-                }) }}
-            </div>
-
-            {{ button({
-                text: "Continue"
-            }) }}
+        {{ button({
+            text: "Continue"
+        }) }}
+        
 		</form>
 	</div>
 </div>

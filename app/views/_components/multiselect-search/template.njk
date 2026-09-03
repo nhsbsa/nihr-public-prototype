@@ -1,0 +1,52 @@
+{# {% from "govuk/macros/attributes.njk" import nhsukAttributes %} #}
+{% from "nhsuk/macros/attributes.njk" import nhsukAttributes %}
+
+<div class="nhsuk-form-group" data-module="searchable-checkboxes" data-tags-id="{{ params.id }}-tags">
+
+  {% if params.label %}
+    <label class="nhsuk-label nhsuk-label--{{ params.label.size | default('m') }}" for="{{ params.id }}-search">
+      {{ params.label.text }}
+    </label>
+  {% endif %}
+  
+  {% if params.hint %}
+    <div id="{{ params.id }}-hint" class="nhsuk-hint">
+      {{- nhsukAttributes(params.attributes) }}
+      {{ params.hint.html | safe | trim | indent(2) if params.hint.html else params.hint.text }}
+    </div>
+  {% endif %}
+
+  <!-- Search (progressive enhancement: JS only) -->
+  <div class="js-only">
+    <input class="nhsuk-input" id="{{ params.id }}-search" type="text" aria-describedby="{{ params.id }}-hint">
+  </div>
+
+  <!-- Checkbox list -->
+
+  <div class="nhsuk-checkboxes scrollable-list {{ params.classes | default('') }}" id="{{ params.id }}-list" data-js-hidden="true">
+    {% for item in params.items %}
+    <div class="nhsuk-checkboxes__item searchable-item" data-label="{{ item.text | lower }}">
+      <input class="nhsuk-checkboxes__input" id="{{ params.id }}-{{ loop.index }}" name="{{ params.name }}" type="checkbox" value="{{ item.value }}" {% if item.checked %}checked{% endif %}>
+      <label class="nhsuk-label nhsuk-checkboxes__label" for="{{ params.id }}-{{ loop.index }}">
+      {{ item.text }}
+      </label>
+    </div>
+    {% endfor %}
+  </div>
+
+  <!-- Selected tags (JS only) -->
+  <div class="nhsuk-card nhsuk-u-margin-top-4 selected-medication-container js-only">
+    <div class="nhsuk-card__content">
+      <h2 class="nhsuk-card__heading nhsuk-heading-s">
+        {{ params.selectedLabel | default("Selected") }} (<span id="{{ params.id }}-tags-count">0</span>)
+      </h2>
+    <div class="nhsuk-card__description">
+      <p id="{{ params.id }}-none" class="nhsuk-hint nhsuk-u-margin-bottom-0">
+        {{ params.noneText | default("None added") }}
+      </p>
+      <ul class="nhsuk-list nhsuk-u-margin-bottom-0" id="{{ params.id }}-tags"></ul>
+    </div>
+    </div>
+  </div>
+
+</div>
