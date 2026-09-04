@@ -27,19 +27,24 @@
 		{% endif %}
 
 		<form action="/{{folder}}/{{subfolder}}/bpor-phone-number" method="post">
+           
             {% call fieldset({
                 legend: {
-                    text: "What is your phone number? (optional)",
+                    text: "What is your phone number?",
                     size: "l",
                     isPageHeading: true
-                }
+                } 
             }) %}
+
+                 <div class="nhsuk-hint">
+                   This question is optional.
+                 </div>
 
                 {{ input({
                     label: {
                     text: "Phone number"
                     },
-                    id: "alternative-phone-number",
+                    id: "phone-number",
                     name: "phone-number",
                     type: "tel",
                     autocomplete: "tel",

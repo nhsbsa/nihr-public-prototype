@@ -1,0 +1,112 @@
+{% set layout = "layout-volunteer-bpor.html" %}
+{% extends layout %}
+
+{% block pageTitle %}
+    Who did you hear about Be Part of Research from?
+{% endblock %}
+
+{% block beforeContent %}
+    {{ nhsukPhaseBanner({
+    tag: {
+        text: "Beta"
+    },
+    html: 'This is a new service - your <a target="_blank" href="https://bepartofresearch.nihr.ac.uk/get-in-touch/">feedback<span class="nhsuk-u-visually-hidden"> (opens in a new tab)</span></a> will help us to improve it'
+    }) }}
+
+    {{ backLink({
+		href: "bpor-healthy-volunteer",
+		text: "Back to: Do you want to be considered as a healthy volunteer for research into other conditions?"
+	}) }}
+{% endblock %}
+
+{% block content %}  
+<div class="nhsuk-grid-row">
+	<div class="nhsuk-grid-column-two-thirds">
+		{% if errorList and errorList.length %}
+			{{ errorSummary({
+				titleText: "There is a problem",
+				errorList: errorList
+			}) }}
+		{% endif %}
+
+		<form action="/{{folder}}/{{subfolder}}/bpor-referrals" method="post" novalidate>
+           
+  {% call fieldset({
+    legend: {
+      text: "Who did you hear about Be Part of Research from?",
+      size: "l",
+      isPageHeading: true
+    }
+  }) %}
+
+    <div class="nhsuk-hint">
+     This question is optional.
+    </div>
+
+    <!-- Standard HTML Form Group with NHS styling -->
+    <div class="nhsuk-form-group">
+      <select class="nhsuk-select nhsuk-u-three-quarters" id="select-referral" name="select-referral">
+        
+        <!-- Default unselected placeholder -->
+        <option value="" disabled selected>Select an option</option>
+        
+        <!-- Group 1 -->
+        <optgroup label="Healthcare provider">
+          <option value="one">Care home</option>
+          <option value="two">GP</option>
+          <option value="three">Pharmacy</option>
+          <option value="five">Hospital - memory clinic</option>
+		  <option value="six">Hospital - neurology clinic</option>
+		  <option value="seven">Hospital - other</option>
+        </optgroup>
+
+        <!-- Group 2 -->
+        <optgroup label="Charity">
+          <option value="eight">Admiral Nurses</option>
+          <option value="nine">Alzheimer's Society</option>
+		  <option value="ten">Alzheimer's Research UK</option>
+		  <option value="eleven">Alzheimer Scotland</option>
+		  <option value="twelve">Lewy Body Society</option>
+		  <option value="thirteen">Other charity</option>
+        </optgroup>
+
+		<!-- Group 3 -->
+        <optgroup label="Other dementia organisations">
+          <option value="fourteen">Dementia Friends</option>
+          <option value="fithteen">Local dementia group</option>
+		  <option value="sixteen">Other dementia organisations</option>
+        </optgroup>
+
+		<!-- Group 4 -->
+        <optgroup label="Media">
+          <option value="seventeen">Online news</option>
+          <option value="nineteen">Social media</option>
+		  <option value="twenty">Internet search</option>
+		  <option value="twenty-one">TV</option>
+		  <option value="twenty-two">Radio</option>
+		  <option value="twenty-three">Newspaper</option>
+        </optgroup>
+
+		<!-- Group 5 -->
+        <optgroup label="Other">
+          <option value="twenty-four">Event or exhibition</option>
+          <option value="twenty-five">By word-of-mouth</option>
+		  <option value="twenty-six">A callback service</option>
+		  <option value="twenty-seven">Memory walks</option>
+		  <option value="twenty-eight">Other</option>
+		  <option value="twenty-nine">Not sure</option>
+        </optgroup>
+
+      </select>
+    </div>
+
+  {% endcall %}
+
+  {{ 
+button({
+    text: "Continue"
+  }) }}
+</form>
+	</div>
+</div>
+{% endblock %}

@@ -115,11 +115,32 @@ router.post('/jdr-password', function (req, res) {
 
     } else {
 
-        res.redirect('jdr-password?brand=JDR');
+        res.redirect('jdr-check-your-email?brand=JDR');
 
     }
 
 });
+
+
+//MFA choice
+router.post('/jdr-mfa-setup', function(request, response) {
+  
+  // Grab the value of the selected radio button from the session data
+  var recoveryChoice = request.session.data['exampleHints']
+
+  // Route the user based on the selected value
+  if (recoveryChoice == "phone") {
+    response.redirect("/registration/v1/jdr-mfa-phone-number")
+  } else if (recoveryChoice == "email") {
+    response.redirect("/registration/v1/jdr-mfa-email-setup")
+  } else if (recoveryChoice == "authenticator") {
+    response.redirect("/registration/v1/jdr-mfa-authenticator-app-setup")
+  } else {
+    // A fallback page if they somehow submit without an answer
+    response.redirect("/error-page") 
+  }
+});
+
 
 router.post('/jdr-phone-number', function (req, res) {
 
@@ -663,25 +684,7 @@ router.post('/jdr-proxy-date-of-birth', function (req, res) {
 
 });
 
-router.post('/jdr-login-preference', function (req, res) {
 
-    var jdrLoginPreference = req.session.data['jdr-login-preference'];
-
-    if (jdrLoginPreference == "Yes") {
-
-        res.redirect('jdr-phone-number?brand=JDR');
-
-    } else if (jdrLoginPreference == "No") {
-
-        res.redirect('jdr-email?brand=JDR');
-
-    } else {
-
-        res.redirect('jdr-login-preference?brand=JDR');
-
-    }
-
-});
 
 router.post('/jdr-proxy-email', function (req, res) {
 
@@ -705,15 +708,98 @@ router.post('/jdr-proxy-password', function (req, res) {
 
     if (jdrPassword) {
 
-        res.redirect('jdr-proxy-check-your-email?brand=JDR');
+        res.redirect('jdr-proxy-verify-email?brand=JDR');
 
     } else {
 
-        res.redirect('jdr-proxy-password?brand=JDR');
+        res.redirect('jdr-proxy-verify-email?brand=JDR');
 
     }
 
 });
+
+
+//MFA choice
+router.post('/jdr-proxy-mfa-setup', function(request, response) {
+  
+  // Grab the value of the selected radio button from the session data
+  var recoveryChoice = request.session.data['exampleHints']
+
+  // Route the user based on the selected value
+  if (recoveryChoice == "phone") {
+    response.redirect("/registration/v1/jdr-proxy-mfa-phone-number")
+  } else if (recoveryChoice == "email") {
+    response.redirect("/registration/v1/jdr-proxy-mfa-email-setup")
+  } else if (recoveryChoice == "authenticator") {
+    response.redirect("/registration/v1/jdr-proxy-mfa-authenticator-app-setup")
+  } else {
+    // A fallback page if they somehow submit without an answer
+    response.redirect("/error-page") 
+  }
+});
+
+
+//contact choice
+router.post('/jdr-proxy-contact-choice', function(request, response) {
+  
+  // Grab the value of the selected radio button from the session data
+  var recoveryChoice = request.session.data['exampleHints']
+
+  // Route the user based on the selected value
+  if (recoveryChoice == "proxy") {
+    response.redirect("/registration/v1/jdr-proxy-mfa-phone-number")
+  } else if (recoveryChoice == "volunteer") {
+    response.redirect("/registration/v1/jdr-proxy-mfa-email-setup")
+  } else if (recoveryChoice == "both") {
+    response.redirect("/registration/v1/jdr-proxy-mfa-authenticator-app-setup")
+  } else {
+    // A fallback page if they somehow submit without an answer
+    response.redirect("/error-page") 
+  }
+});
+
+
+
+
+
+router.post('/jdr-proxy-volunteers-date-of-birth', function (req, res) {
+
+  const jdrDateOfBirthDay = req.session.data['jdr-date-of-birth']?.day;
+  const jdrDateOfBirthMonth = req.session.data['jdr-date-of-birth']?.month;
+  const jdrDateOfBirthYear = req.session.data['jdr-date-of-birth']?.year;
+
+  if (
+    /^\d+$/.test(jdrDateOfBirthDay) &&
+    /^\d+$/.test(jdrDateOfBirthMonth) &&
+    /^\d+$/.test(jdrDateOfBirthYear)
+  ) {
+
+    const dob = DateTime.fromObject({
+      day: Number(jdrDateOfBirthDay),
+      month: Number(jdrDateOfBirthMonth),
+      year: Number(jdrDateOfBirthYear)
+    });
+
+    req.session.data['jdr-proxy-volunteers-date-of-birth'] = dob.toFormat("d MMMM yyyy");
+
+    const age = Math.floor(DateTime.now().diff(dob, 'years').years);
+
+
+    return res.redirect('jdr-proxy-contact-choice');
+
+  } else {
+
+    res.redirect('jdr-proxy-contact-choice');
+
+  }
+
+});
+
+
+
+
+
+
 
 router.post('/jdr-phone-number', function (req, res) {
 
@@ -1753,7 +1839,7 @@ router.post('/bpor-healthy-volunteer', function (req, res) {
     let healthyVolunteer = req.session.data['healthy-volunteer'];
 
     if (healthyVolunteer) {
-        return res.redirect('bpor-referalls');
+        return res.redirect('bpor-referrals');
     }
 
     let errors = {
@@ -1770,7 +1856,13 @@ router.post('/bpor-healthy-volunteer', function (req, res) {
 });
 
 // Who did you hear about Be Part of Research from?
-router.post('/bpor-referalls', function (req, res) {
+router.post('/bpor-referrals', function (req, res) {
+    // Page design WIP, so for now just progress on form submit without error checking
+    res.redirect('bpor-referral-specifics');
+});
+
+// Who did you hear about Be Part of Research from?
+router.post('/bpor-referral-specifics', function (req, res) {
     // Page design WIP, so for now just progress on form submit without error checking
     res.redirect('bpor-check-answers');
 });
