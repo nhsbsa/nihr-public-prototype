@@ -36,7 +36,7 @@
 
 {{ backLink({
     "href": "javascript:history.go(-1)",
-    "text": "Back"
+    "text": "Back to: Sex and gender identity"
 }) }}
 
 {% endblock %}
@@ -46,13 +46,13 @@
   <div class="nhsuk-grid-row">
     <div class="nhsuk-grid-column-two-thirds">
 
-<form action="/{{folder}}/{{subfolder}}/jdr-ethnic-group" method="post" novalidate>
+<form action="/{{folder}}/{{subfolder}}/jdr-proxy-ethnic-group" method="post" novalidate>
 
 {{ radios({
   name: "jdr-ethnic-group",
   fieldset: {
     legend: {
-      text: "What is your ethnic group?",
+      text: "What is their ethnic group?",
       size: "l",
       isPageHeading: true
     }
@@ -80,6 +80,12 @@
     }
   ]
 }) }}
+
+{% call details({
+  summaryText: "Why we are asking this question"
+}) %}
+  <p>Studies often want to include people who are representative of the population. Studies sometimes only include people of a specific ethnicity.</p>
+{% endcall %}
 
 {{ button({
   text: "Continue"

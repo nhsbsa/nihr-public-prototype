@@ -1,0 +1,155 @@
+{% set layout = "layout-volunteer-bpor.html" %}
+{% extends layout %}
+
+{% block pageTitle %}
+    Who did you hear about Be Part of Research from? - Be Part of Research
+{% endblock %}
+
+{% block content %}
+<div class="nhsuk-grid-row">
+  <div class="nhsuk-grid-column-two-thirds">
+
+    <form action="/{{folder}}/{{subfolder}}/bpor-referrals" method="post" novalidate>
+               
+      {% call fieldset({
+        legend: {
+          text: "Who did you hear about Be Part of Research from?",
+          size: "l",
+          isPageHeading: true
+        }
+      }) %}
+
+        <div class="nhsuk-hint">
+          This question is optional.
+        </div>
+
+        <!-- Standard HTML Form Group with NHS styling -->
+        <div class="nhsuk-form-group">
+          <select class="nhsuk-select nhsuk-u-three-quarters" id="select-referral" name="select-referral">
+            
+            <!-- Default unselected placeholder -->
+            <option value="" disabled selected>Select an option</option>
+            
+            <!-- Group 1 -->
+            <optgroup label="Healthcare provider">
+              <option value="one">Care home</option>
+              <option value="two">GP</option>
+              <option value="three">Pharmacy</option>
+              <option value="five">Hospital - memory clinic</option>
+              <option value="six">Hospital - neurology clinic</option>
+              <option value="seven">Hospital - other</option>
+            </optgroup>
+
+            <!-- Group 2 -->
+            <optgroup label="Charity">
+              <option value="eight">Admiral Nurses</option>
+              <option value="nine">Alzheimer's Society</option>
+              <option value="ten">Alzheimer's Research UK</option>
+              <option value="eleven">Alzheimer Scotland</option>
+              <option value="twelve">Lewy Body Society</option>
+              <option value="thirteen">Other charity</option>
+            </optgroup>
+
+            <!-- Group 3 -->
+            <optgroup label="Other dementia organisations">
+              <option value="fourteen">Dementia Friends</option>
+              <option value="fithteen">Local dementia group</option>
+              <option value="sixteen">Other dementia organisations</option>
+            </optgroup>
+
+            <!-- Group 4 -->
+            <optgroup label="Media">
+              <option value="seventeen">Online news</option>
+              <option value="nineteen">Social media</option>
+              <option value="twenty">Internet search</option>
+              <option value="twenty-one">TV</option>
+              <option value="twenty-two">Radio</option>
+              <option value="twenty-three">Newspaper</option>
+            </optgroup>
+
+            <!-- Group 5 -->
+            <optgroup label="Other">
+              <option value="twenty-four">Event or exhibition</option>
+              <option value="twenty-five">By word-of-mouth</option>
+              <option value="twenty-six">A callback service</option>
+              <option value="twenty-seven">Memory walks</option>
+              <option value="twenty-eight">Other</option>
+              <option value="twenty-nine">Not sure</option>
+            </optgroup>
+
+          </select>
+        </div>
+
+        <!-- The Hidden Conditional Container -->
+        <div id="conditional-service-name" class="nhsuk-form-group nhsuk-u-three-quarters" style="display: none; border-left: 4px solid #b1b4b6; padding-left: 15px; margin-left: 5px; margin-top: 15px; margin-bottom: 25px;">
+          {{ input({
+            label: {
+              text: "Enter the name of the service"
+            },
+            id: "service-name",
+            name: "serviceName"
+          }) }}
+        </div>
+
+      {% endcall %}
+
+      {{ button({
+        text: "Continue"
+      }) }}
+    </form>
+
+  </div>
+</div>
+
+<!-- Script placed DIRECTLY inside content block to ensure execution -->
+<script>
+  (function() {
+    function initReveal() {
+      var selectElem = document.getElementById('select-referral');
+      var conditionalContainer = document.getElementById('conditional-service-name');
+
+      if (!selectElem || !conditionalContainer) return;
+
+      // Array containing ONLY the option values that trigger the text field
+      var triggerValues = [
+        'one',      // Care home
+        'two',      // GP
+        'three',    // Pharmacy
+        'five',     // Hospital - memory clinic
+        'six',      //Hospital - neurology clinic
+        'seven',    // Hospital - other
+        'thirteen', // Other charity
+        'fithteen', // Local dementia group
+        'sixteen',   // Other dementia organisations
+        'fithteen',  //Local dementia group
+        'sixteen',   //Other dementia organisations
+        'twenty-four',//Event or exhibition
+        'twenty-six', //A callback service
+        'twenty-eight'//Other
+      ];
+
+      function updateVisibility() {
+        var selectedValue = selectElem.value;
+
+        // Check if chosen value is inside the triggerValues array
+        if (triggerValues.indexOf(selectedValue) !== -1) {
+          conditionalContainer.style.display = 'block';
+        } else {
+          conditionalContainer.style.display = 'none';
+          var inputInside = conditionalContainer.querySelector('input');
+          if (inputInside) inputInside.value = '';
+        }
+      }
+
+      selectElem.addEventListener('change', updateVisibility);
+      updateVisibility();
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initReveal);
+    } else {
+      initReveal();
+    }
+  })();
+</script>
+{% endblock %}

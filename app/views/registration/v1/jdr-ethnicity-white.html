@@ -36,7 +36,7 @@
 
 {{ backLink({
     "href": "javascript:history.go(-1)",
-    "text": "Back"
+    "text": "Back to: What is your ethnic group?"
 }) }}
 
 {% endblock %}
@@ -80,6 +80,12 @@
     }
   ]
 }) }}
+
+{% call details({
+  summaryText: "Why we are asking this question"
+}) %}
+  <p>Studies often want to include people who are representative of the population. Studies sometimes only include people of a specific ethnicity.</p>
+{% endcall %}
 
 {{ button({
   text: "Continue"

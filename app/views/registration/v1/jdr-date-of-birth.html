@@ -36,7 +36,7 @@
 
 {{ backLink({
     "href": "javascript:history.go(-1)",
-    "text": "Back"
+    "text": "Back to: What is your name?"
 }) }}
 
 {% endblock %}
@@ -77,17 +77,18 @@
   ]
 }) }}
 
+{% call details({
+  summaryText: "Why we are asking this question"
+}) %}
+  <p>Only people aged 18 or over can register for Join Dementia Research. Many studies want to include people of certain age groups.</p>
+{% endcall %}
+
 {{ button({
   text: "Continue"
 }) }}
 
 </form>
 
-{% call details({
-  summaryText: "Why we are asking this question"
-}) %}
-  <p>Only people aged 18 or over can register for Join Dementia Research. Many studies want to include people of certain age groups.</p>
-{% endcall %}
 
     </div>
   </div>

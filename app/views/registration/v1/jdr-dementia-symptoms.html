@@ -36,7 +36,7 @@
 
 {{ backLink({
     "href": "javascript:history.go(-1)",
-    "text": "Back"
+    "text": "Back to: Do you have problems with your memory?"
 }) }}
 
 {% endblock %}
@@ -77,12 +77,6 @@
   ]
 }) }}
 
-{{ button({
-  text: "Continue"
-}) }}
-
-</form>
-
 {% call details({
   summaryText: "What are mild symptoms of dementia?"
 }) %}
@@ -119,6 +113,13 @@
     <li>Becoming increasingly frail and starting to shuffle or walk unsteadily</li>
   </ul>
 {% endcall %}
+
+{{ button({
+  text: "Continue"
+}) }}
+
+</form>
+
 
     </div>
   </div>

@@ -30,53 +30,42 @@
 		{% endif %}
 
 		<form action="/{{folder}}/{{subfolder}}/bpor-enter-medical-conditions" method="post" novalidate>  
-            {{ fieldset({
-                legend: {
-                    text: "Enter which long-term conditions you have",
-                    size: "l",
-                    isPageHeading: true
-                }
-            }) }}
 
-            {{ hint({
-                text: "This is any physical or mental conditions that you've had for more than a year, or you expect to last more than a year. Start typing to see conditions."
-            }) }}
-     
-            <div class="nhsuk-flex-row">
-                <div class="nhsuk-u-width-two-thirds">
-                    {{ input({
-                        label: {
-                            text: "Enter a condition"
-                        },
-                        id: "condition",
-                        name: "condition"
-                    }) }}
-                </div>
-                    
-                {{ button({
-                    text: "Submit",
-                    type: "button",
-                    small: "true",
-                    classes: "nhsuk-u-margin-bottom-1"
-                }) }}
-            </div>
+    {{ searchableCheckboxes({
+      label: {
+        text: "Enter which long-term conditions you have",
+        size: "l"
+      },
+      classes: "nhsuk-checkboxes--small",
+      hint: {
+        text: "This is any physical or mental conditions that you've had for more than a year, or you expect to last more than a year. Start typing to see conditions."
+      },
+      id: "conditions",
+      name: "conditions",
+      selectedLabel: "Selected long-term conditions",
+      items: data.health_conditions
+    }) }}
 
-            {{ button({
-                text: "Continue"
-            }) }}
+    {% call details({
+        summaryText: "Why we ask this question",
+        classes: "nhsuk-u-margin-bottom-7"
+    }) %}
+        <p>Research studies will often want volunteers who:</p>
+        <ul>
+            <li>have particular conditions</li>
+            <li>are a representative sample of the population</li>
+        </ul>
+    {% endcall %}
+
+    {{ button({
+        text: "Continue"
+    }) }}
 		</form>
 
-        {% call details({
-            summaryText: "Why we ask this question"
-        }) %}
-            <p>Research studies will often want volunteers who:</p>
-            <ul>
-                <li>have particular conditions</li>
-                <li>are a representative sample of the population</li>
-            </ul>
-        {% endcall %}
+
 	</div>
 </div>
-{% endblock %}
 
+
+{% endblock %}
 

@@ -1,0 +1,105 @@
+{% set layout = "layout.html" %}
+
+{% if data['brand'] == "JDR" %}
+  {% set layout = "layout-volunteer-jdr.html" %}
+{% elseif data['brand'] == "BPOR" %}
+  {% set layout = "layout-volunteer-bpor.html" %}
+{% endif %}
+
+{% extends layout %}
+
+<!--
+  In /app/views/layout.html you can:
+    - change the header and footer
+    - add custom CSS and JavaScript
+-->
+
+<!--
+  Use this to set the page name which will appear at the
+  start of the <title> tag, followed by the service name.
+  This is often not needed on the homepage, where only the
+  service name is needed. You can also reuse this variable
+  within the <h1>, where they are the same.
+-->
+{% set pageName = "" %}
+
+<!-- For adding a breadcrumb or back link -->
+<!-- Code examples can be found at https://service-manual.nhs.uk/design-system/components/breadcrumbs and https://service-manual.nhs.uk/design-system/components/back-link -->
+{% block beforeContent %}
+
+{{ nhsukPhaseBanner({
+  tag: {
+    text: "Beta"
+  },
+  html: 'This is a new service - your <a target="_blank" href="https://bepartofresearch.nihr.ac.uk/get-in-touch/">feedback<span class="nhsuk-u-visually-hidden"> (opens in a new tab)</span></a> will help us to improve it'
+}) }}
+
+
+{% endblock %}
+
+{% block content %}
+ 
+      <div class="nhsuk-grid-row">
+    <div class="nhsuk-grid-column-two-thirds">
+
+      <h1 class="nhsuk-heading-l">Secure your account with two-factor authentication</h1>
+
+      <p>To keep your data safe and comply with our security policy, we require two-factor authentication (2FA). It should take a minute to set up.</p>
+
+      <form action="/{{folder}}/{{subfolder}}/jdr-mfa-setup" method="post">
+
+        <div class="nhsuk-form-group">
+          <fieldset class="nhsuk-fieldset" aria-describedby="example-hints-hint">
+            <legend class="nhsuk-fieldset__legend nhsuk-fieldset__legend--m">
+              <h2 class="nhsuk-fieldset__heading">
+                Choose your primary verification method
+              </h2>
+            </legend>
+
+            <div class="nhsuk-radios" data-module="nhsuk-radios">
+              <div class="nhsuk-radios__item">
+                <input class="nhsuk-radios__input" id="example-hints" name="exampleHints" type="radio" value="phone">
+                <label class="nhsuk-label nhsuk-radios__label" for="example-hints">
+                  By text message (SMS)
+                </label>
+                <div class="nhsuk-hint nhsuk-radios__hint" id="example-hints-item-hint">
+                  Receive a 6-digit verification code sent to your mobile device.
+                </div>
+              </div>
+              <div class="nhsuk-radios__item">
+                <input class="nhsuk-radios__input" id="example-hints-2" name="exampleHints" type="radio" value="email">
+                <label class="nhsuk-label nhsuk-radios__label" for="example-hints-2">
+                  By email
+                </label>
+                <div class="nhsuk-hint nhsuk-radios__hint" id="example-hints-item-hint">
+                  Receive a 6-digit verification code sent to your email.
+                </div>
+              </div>
+              <div class="nhsuk-radios__item">
+                <input class="nhsuk-radios__input" id="example-hints-3" name="exampleHints" type="radio" value="authenticator">
+                <label class="nhsuk-label nhsuk-radios__label" for="example-hints-3">
+                  By authenticator app
+                </label>
+                <div class="nhsuk-hint nhsuk-radios__hint" id="example-hints-item-hint">
+                 Generate secure verification codes on your device using an authentication app.
+                </div>
+              </div>
+            </div>
+          </fieldset>
+        </div>
+
+        <br>
+        <button class="nhsuk-button" data-module="nhsuk-button" type="submit">
+          Continue
+        </button>
+
+      </form>
+
+    </div>
+  </div>
+        
+      </form>
+    </div>
+
+
+{% endblock %}

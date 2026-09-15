@@ -64,21 +64,22 @@
                 }
             ]
             }) }}
+
+            {% call details({
+                summaryText: "Why we ask this question"
+            }) %}
+                <p>Research studies will often want volunteers who:</p>
+                <ul>
+                    <li>have particular conditions</li>
+                    <li>are a representative sample of the population</li>
+                </ul>
+            {% endcall %}
 	
 			{{ button({
 			    text: "Continue"
 			}) }}
 		</form>
 
-        {% call details({
-            summaryText: "Why we ask this question"
-        }) %}
-            <p>Research studies will often want volunteers who:</p>
-            <ul>
-                <li>have particular conditions</li>
-                <li>are a representative sample of the population</li>
-            </ul>
-        {% endcall %}
 	</div>
 </div>
 {% endblock %}

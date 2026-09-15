@@ -1,0 +1,49 @@
+{% extends "layout-bpor.html" %}
+
+{% block beforeContent %}
+
+<button class="nhsuk-back-link" type="submit">
+  Back to: Secure your account with two-factor authentication
+</button>
+
+{% endblock %}
+
+{% block content %}
+<div class="nhsuk-grid-row">
+    <div class="nhsuk-grid-column-two-thirds">
+
+      <h1 class="nhsuk-heading-l">Enter the security code</h1>
+      <p>We have sent a 6-digit code to confirm your email <strong>mail@mail.com</strong>.</p>
+      <p>It may take a few minutes to arrive.</p>
+
+
+      <div class="nhsuk-form-group">
+        <label class="nhsuk-label" for="example-with-hint-text">
+          Security code
+        </label>
+        <div class="nhsuk-hint" id="example-with-hint-text-hint">
+          The code is 6 digits
+        </div>
+        <input class="nhsuk-input nhsuk-input--width-10" id="example-with-hint-text" name="exampleWithHintText" type="text" spellcheck="false" aria-describedby="example-with-hint-text-hint" autocomplete="postal-code">
+      </div>
+
+      <p><a href="/login/v1/bpor/">
+        Resend code to my email
+      </a></p>
+      <div class="nhsuk-checkboxes" data-module="nhsuk-checkboxes">
+      <div class="nhsuk-checkboxes__item">
+        <input class="nhsuk-checkboxes__input" id="example" name="example" type="checkbox" value="ambulance or urgent and emergency care">
+        <label class="nhsuk-label nhsuk-checkboxes__label" for="example">
+          Remember this device and stop sending security codes
+        </label>
+      </div>
+    </div>
+    <br>
+    <br>
+      <a href="/registration/v1/bpor-phone-number" role="button" draggable="false" class="nhsuk-button" data-module="nhsuk-button">
+        Continue
+      </a>
+    </div>
+</div>
+
+{% endblock %}

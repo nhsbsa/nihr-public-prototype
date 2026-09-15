@@ -1,0 +1,93 @@
+{% set layout = "layout-volunteer-jdr.html" %}
+
+{% extends layout %}
+
+<!--
+  In /app/views/layout.html you can:
+    - change the header and footer
+    - add custom CSS and JavaScript
+-->
+
+<!--
+  Use this to set the page name which will appear at the
+  start of the <title> tag, followed by the service name.
+  This is often not needed on the homepage, where only the
+  service name is needed. You can also reuse this variable
+  within the <h1>, where they are the same.
+-->
+{% set pageName = "" %}
+
+<!-- For adding a breadcrumb or back link -->
+<!-- Code examples can be found at https://service-manual.nhs.uk/design-system/components/breadcrumbs and https://service-manual.nhs.uk/design-system/components/back-link -->
+{% block beforeContent %}
+
+{{ nhsukPhaseBanner({
+  tag: {
+    text: "Beta"
+  },
+  html: 'This is a new service - your <a target="_blank" href="https://bepartofresearch.nihr.ac.uk/get-in-touch/">feedback<span class="nhsuk-u-visually-hidden"> (opens in a new tab)</span></a> will help us to improve it'
+}) }}
+
+{{ backLink({
+    "href": "javascript:history.go(-1)",
+    "text": "Back to:  What is their date of birth?"
+}) }}
+
+{% endblock %}
+
+{% block content %}
+ 
+<div class="nhsuk-grid-row">
+    <div class="nhsuk-grid-column-two-thirds">
+
+      <form action="/{{folder}}/{{subfolder}}/jdr-proxy-contact-choice" method="post">
+
+        <div class="nhsuk-form-group">
+          <fieldset class="nhsuk-fieldset" aria-describedby="example-hints-hint">
+            <legend class="nhsuk-fieldset__legend nhsuk-fieldset__legend--m">
+              <h1 class="nhsuk-heading-l">
+                Who should we contact?
+              </h1>
+              <div id="phone-number-hint" class="nhsuk-hint">
+                This will be the contact from researchers about studies and contact from Join Dementia Research.
+              </div>
+            </legend>
+
+            <div class="nhsuk-radios" data-module="nhsuk-radios">
+              <div class="nhsuk-radios__item">
+                <input class="nhsuk-radios__input" id="jdr-contact-choice-proxy" name="You, the representative" type="radio" value="proxy">
+                <label class="nhsuk-label nhsuk-radios__label" for="example-hints">
+                  You, the representative
+                </label>
+              </div>
+              <div class="nhsuk-radios__item">
+                <input class="nhsuk-radios__input" id="jdr-contact-choice-volunteer" name="The person volunteering for dementia research" type="radio" value="volunteer">
+                <label class="nhsuk-label nhsuk-radios__label" for="example-hints-2">
+                  The person volunteering for dementia research
+                </label>
+              </div>
+              <div class="nhsuk-radios__item">
+                <input class="nhsuk-radios__input" id="jdr-contact-choice-both" name="Both" type="radio" value="both">
+                <label class="nhsuk-label nhsuk-radios__label" for="example-hints-3">
+                  Both
+                </label>
+              </div>
+            </div>
+          </fieldset>
+        </div>
+
+        <br>
+        <button class="nhsuk-button" data-module="nhsuk-button" type="submit">
+          Continue
+        </button>
+
+      </form>
+
+    </div>
+  </div>
+        
+      </form>
+    </div>
+
+
+{% endblock %}

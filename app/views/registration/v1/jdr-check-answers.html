@@ -36,7 +36,7 @@
 
 {{ backLink({
     "href": "javascript:history.go(-1)",
-    "text": "Back"
+    "text": "Back to: How did you hear about Join Dementia Research?"
 }) }}
 
 {% endblock %}
@@ -268,7 +268,7 @@
 
 </dl>
 
-<h2 class="nhsuk-heading-m">Health conditions</h2>
+<h2 class="nhsuk-heading-m">Health conditions & Care</h2>
 
 <dl class="nhsuk-summary-list">
 
@@ -305,7 +305,7 @@
   {% if data['jdr-mmse-exam'] %}
   <div class="nhsuk-summary-list__row">
     <dt class="nhsuk-summary-list__key">
-      Mini mental state examination
+      Mini mental state examination (MMSE)
     </dt>
     <dd class="nhsuk-summary-list__value">
       {{ data['jdr-mmse-exam'] }}
@@ -321,7 +321,7 @@
   {% if data['jdr-mmse-score'] %}
   <div class="nhsuk-summary-list__row">
     <dt class="nhsuk-summary-list__key">
-      Mini mental state examination score
+      Mini mental state examination (MMSE) score
     </dt>
     <dd class="nhsuk-summary-list__value">
       {{ data['jdr-mmse-score'] }}
@@ -422,6 +422,22 @@
     </dd>
   </div>
 
+  {% if data['jdr-disabilities-type'] %}
+  <div class="nhsuk-summary-list__row">
+    <dt class="nhsuk-summary-list__key">
+      Type of disabilities
+    </dt>
+    <dd class="nhsuk-summary-list__value">
+      {{ data['jdr-disabilities-type'] }}
+    </dd>
+    <dd class="nhsuk-summary-list__actions">
+      <a href="#" class="nhsuk-link">
+        Change<span class="nhsuk-u-visually-hidden"> type of disabilities</span>
+      </a>
+    </dd>
+  </div>
+  {% endif %}
+
   <div class="nhsuk-summary-list__row">
     <dt class="nhsuk-summary-list__key">
       Carer role
@@ -439,14 +455,14 @@
   {% if data['jdr-care-home-visits'] %}
   <div class="nhsuk-summary-list__row">
     <dt class="nhsuk-summary-list__key">
-      Care home visits
+      Family member with dementia in care home
     </dt>
     <dd class="nhsuk-summary-list__value">
       {{ data['jdr-care-home-visits'] }}
     </dd>
     <dd class="nhsuk-summary-list__actions">
       <a href="#" class="nhsuk-link">
-        Change<span class="nhsuk-u-visually-hidden"> care home visits</span>
+        Change<span class="nhsuk-u-visually-hidden"> family member with dementia in care home</span>
       </a>
     </dd>
   </div>
@@ -455,14 +471,14 @@
   {% if data['jdr-visit-frequency'] %}
   <div class="nhsuk-summary-list__row">
     <dt class="nhsuk-summary-list__key">
-      Care home visit frequency
+      Weekly care home visit
     </dt>
     <dd class="nhsuk-summary-list__value">
       {{ data['jdr-visit-frequency'] }}
     </dd>
     <dd class="nhsuk-summary-list__actions">
       <a href="#" class="nhsuk-link">
-        Change<span class="nhsuk-u-visually-hidden"> care home visit frequency</span>
+        Change<span class="nhsuk-u-visually-hidden"> weekly care home visit</span>
       </a>
     </dd>
   </div>
@@ -470,7 +486,7 @@
 
 </dl>
 
-<h2 class="nhsuk-heading-m">Contact preferences</h2>
+<h2 class="nhsuk-heading-m">Marketing preferences</h2>
 
 <dl class="nhsuk-summary-list">
 
@@ -504,7 +520,7 @@
 
   <div class="nhsuk-summary-list__row">
     <dt class="nhsuk-summary-list__key">
-      Referal source
+      Referral source
     </dt>
     <dd class="nhsuk-summary-list__value">
       {% if data['jdr-referal-source'] %}{{ data['jdr-referal-source'] }}{% else %}Internet Search{% endif %}
@@ -512,6 +528,20 @@
     <dd class="nhsuk-summary-list__actions">
       <a href="#" class="nhsuk-link">
         Change<span class="nhsuk-u-visually-hidden"> referal source</span>
+      </a>
+    </dd>
+  </div>
+
+    <div class="nhsuk-summary-list__row">
+    <dt class="nhsuk-summary-list__key">
+      Referral media
+    </dt>
+    <dd class="nhsuk-summary-list__value">
+      {% if data['jdr-referral-specifics'] %}{{ data['jdr-referral-specifics'] }}{% else %}Letter{% endif %}
+    </dd>
+    <dd class="nhsuk-summary-list__actions">
+      <a href="#" class="nhsuk-link">
+        Change<span class="nhsuk-u-visually-hidden"> referral media</span>
       </a>
     </dd>
   </div>

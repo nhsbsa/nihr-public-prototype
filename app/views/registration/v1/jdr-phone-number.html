@@ -34,58 +34,60 @@
   html: 'This is a new service - your <a target="_blank" href="https://bepartofresearch.nihr.ac.uk/get-in-touch/">feedback<span class="nhsuk-u-visually-hidden"> (opens in a new tab)</span></a> will help us to improve it'
 }) }}
 
-{{ backLink({
-    "href": "javascript:history.go(-1)",
-    "text": "Back"
-}) }}
-
 {% endblock %}
 
-{% block content %}
-  
-  <div class="nhsuk-grid-row">
-    <div class="nhsuk-grid-column-two-thirds">
+{% block content %}  
+<div class="nhsuk-grid-row">
+	<div class="nhsuk-grid-column-two-thirds">
+		{% if errorList and errorList.length %}
+			{{ errorSummary({
+				titleText: "There is a problem",
+				errorList: errorList
+			}) }}
+		{% endif %}
 
-<form action="/{{folder}}/{{subfolder}}/jdr-phone-number" method="post" novalidate>
+		<form action="/{{folder}}/{{subfolder}}/jdr-phone-number" method="post">
+           
+            {% call fieldset({
+                legend: {
+                    text: "What is your phone number?",
+                    size: "l",
+                    isPageHeading: true
+                } 
+            }) %}
 
-{% call fieldset({
-  legend: {
-    text: "What is your phone number?",
-    size: "l",
-    isPageHeading: true
-  }
-}) %}
+                 <div class="nhsuk-hint">
+                   This question is optional.
+                 </div>
 
-  {{ input({
-    label: {
-      text: "Phone number"
-    },
-    id: "jdr-phone-number",
-    name: "jdr-phone-number",
-    type: "tel",
-    autocomplete: "tel",
-    classes: "nhsuk-input--width-20"
-  }) }}
+                {{ input({
+                    label: {
+                    text: "Phone number"
+                    },
+                    id: "phone-number",
+                    name: "phone-number",
+                    type: "tel",
+                    autocomplete: "tel",
+                    classes: "nhsuk-input--width-20"
+                }) }}
 
-  {{ input({
-    label: {
-      text: "Alternative phone number (optional)"
-    },
-    id: "jdr-alternative-phone-number",
-    name: "jdr-alternative-phone-number",
-    type: "tel",
-    autocomplete: "tel",
-    classes: "nhsuk-input--width-20"
-  }) }}
+                {{ input({
+                    label: {
+                    text: "Alternative phone number"
+                    },
+                    id: "alternative-phone-number",
+                    name: "alternative-phone-number",
+                    type: "tel",
+                    autocomplete: "tel",
+                    classes: "nhsuk-input--width-20"
+                }) }}
 
-{% endcall %}
+            {% endcall %}
 
-{{ button({
-  text: "Continue"
-}) }}
-
-</form>
-
-    </div>
-  </div>
+            {{ button({
+                text: "Continue"
+            }) }}
+		</form>
+	</div>
+</div>
 {% endblock %}
