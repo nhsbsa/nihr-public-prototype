@@ -36,7 +36,7 @@
 
 {{ backLink({
     "href": "javascript:history.go(-1)",
-    "text": "Back"
+    "text": "Back to: Have you had a Mini Mental State Examination (MMSE)?"
 }) }}
 
 {% endblock %}
@@ -50,14 +50,15 @@
 
 {{ fieldset({
   legend: {
-    text: "What was your Mini Mental State Examination (MMSE) score? (optional)",
+    text: "What was your Mini Mental State Examination (MMSE) score?",
     size: "l",
     isPageHeading: true
   }
 }) }}
 
 {{ hint({
-  text: "Your MMSE score will be a number from 0 to 30."
+  html: '<p>Your MMSE score will be a number from 0 to 30.</p>
+  <p>This question is optional.</p>'
 }) }}
 
 {{ input({

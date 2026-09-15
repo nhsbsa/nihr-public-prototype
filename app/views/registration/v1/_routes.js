@@ -153,7 +153,7 @@ router.post('/jdr-phone-number', function (req, res) {
 
     } else {
 
-        res.redirect('jdr-phone-number?brand=JDR');
+        res.redirect('jdr-find-address?brand=JDR');
 
     }
 
@@ -206,7 +206,7 @@ router.post('/jdr-enter-address', function (req, res) {
 
     } else {
 
-        res.redirect('jdr-enter-address?brand=JDR');
+        res.redirect('jdr-sex-and-gender?brand=JDR');
 
     }
 
@@ -505,13 +505,33 @@ router.post('/jdr-disabilities', function (req, res) {
 
     var jdrDisabilities = req.session.data['jdr-disabilities'];
 
-    if (jdrDisabilities) {
+    if (jdrDisabilities == "Yes") {
+
+        res.redirect('jdr-disabilities-type?brand=JDR');
+
+    } else if (jdrDisabilities == "No") {
 
         res.redirect('jdr-carer-role?brand=JDR');
 
     } else {
 
         res.redirect('jdr-disabilities?brand=JDR');
+
+    }
+
+});
+
+router.post('/jdr-disabilities-type', function (req, res) {
+
+    var jdrDisabilities = req.session.data['jdr-disabilities'];
+
+    if (jdrDisabilities) {
+
+        res.redirect('jdr-carer-role?brand=JDR');
+
+    } else {
+
+        res.redirect('jdr-disabilities-type?brand=JDR');
 
     }
 
@@ -595,7 +615,7 @@ router.post('/jdr-marketing', function (req, res) {
 
     if (jdrMarketing) {
 
-        res.redirect('jdr-referal?brand=JDR');
+        res.redirect('jdr-referrals?brand=JDR');
 
     } else {
 
@@ -605,17 +625,33 @@ router.post('/jdr-marketing', function (req, res) {
 
 });
 
-router.post('/jdr-referal', function (req, res) {
+router.post('/jdr-referrals', function (req, res) {
 
-    var jdrReferal = req.session.data['jdr-referal'];
+    var jdrReferral = req.session.data['jdr-referral'];
 
-    if (jdrReferal) {
+    if (jdrReferral) {
+
+        res.redirect('jdr-referral-specifics?brand=JDR');
+
+    } else {
+
+        res.redirect('jdr-referral-specifics?brand=JDR');
+
+    }
+
+});
+
+router.post('/jdr-referral-specifics', function (req, res) {
+
+    var jdrReferral = req.session.data['jdr-referral-specifics'];
+
+    if (jdrReferral) {
 
         res.redirect('jdr-check-answers?brand=JDR');
 
     } else {
 
-        res.redirect('jdr-referal?brand=JDR');
+        res.redirect('jdr-check-answers?brand=JDR');
 
     }
 
@@ -747,11 +783,11 @@ router.post('/jdr-proxy-contact-choice', function(request, response) {
 
   // Route the user based on the selected value
   if (recoveryChoice == "proxy") {
-    response.redirect("/registration/v1/jdr-proxy-mfa-phone-number")
+    response.redirect("/registration/v1/jdr-proxy-phone-number-proxy")
   } else if (recoveryChoice == "volunteer") {
-    response.redirect("/registration/v1/jdr-proxy-mfa-email-setup")
+    response.redirect("/registration/v1/jdr-proxy-phone-number-volunteer")
   } else if (recoveryChoice == "both") {
-    response.redirect("/registration/v1/jdr-proxy-mfa-authenticator-app-setup")
+    response.redirect("/registration/v1/jdr-proxy-phone-number-both-proxy")
   } else {
     // A fallback page if they somehow submit without an answer
     response.redirect("/error-page") 
@@ -797,60 +833,123 @@ router.post('/jdr-proxy-volunteers-date-of-birth', function (req, res) {
 
 
 
-
-
-
-
-router.post('/jdr-phone-number', function (req, res) {
-
-    var jdrPhoneNumber = req.session.data['jdr-phone-number'];
-    var jdrAlternativePhoneNumber = req.session.data['jdr-alternative-phone-number'];
-
-    if (jdrPhoneNumber) {
-
-        res.redirect('jdr-find-address?brand=JDR');
-
-    } else {
-
-        res.redirect('jdr-phone-number?brand=JDR');
-
-    }
-
-});
-
-router.post('/jdr-find-address', function (req, res) {
+router.post('/jdr-proxy-find-address-proxy', function (req, res) {
 
     var jdrFindAddress = req.session.data['jdr-postcode'];
 
     if (jdrFindAddress) {
 
-        res.redirect('jdr-select-address?brand=JDR');
+        res.redirect('jdr-proxy-select-address-proxy?brand=JDR');
 
     } else {
 
-        res.redirect('jdr-find-address?brand=JDR');
+        res.redirect('jdr-proxy-select-address-proxy?brand=JDR');
 
     }
 
 });
 
-router.post('/jdr-select-address', function (req, res) {
+router.post('/jdr-proxy-find-address-volunteer', function (req, res) {
+
+    var jdrFindAddress = req.session.data['jdr-postcode'];
+
+    if (jdrFindAddress) {
+
+        res.redirect('jdr-proxy-select-address-volunteer?brand=JDR');
+
+    } else {
+
+        res.redirect('jdr-proxy-select-address-volunteer?brand=JDR');
+
+    }
+
+});
+
+router.post('/jdr-proxy-find-address-both-proxy', function (req, res) {
+
+    var jdrFindAddress = req.session.data['jdr-postcode'];
+
+    if (jdrFindAddress) {
+
+        res.redirect('jdr-proxy-select-address-both-proxy?brand=JDR');
+
+    } else {
+
+        res.redirect('jdr-proxy-select-address-both-proxy?brand=JDR');
+
+    }
+
+});
+
+router.post('/jdr-proxy-find-address-both-volunteer', function (req, res) {
+
+    var jdrFindAddress = req.session.data['jdr-postcode'];
+
+    if (jdrFindAddress) {
+
+        res.redirect('jdr-proxy-select-address-volunteer?brand=JDR');
+
+    } else {
+
+        res.redirect('jdr-proxy-select-address-volunteer?brand=JDR');
+
+    }
+
+});
+
+
+router.post('/jdr-proxy-select-address-proxy', function (req, res) {
 
     var jdrSelectAddress = req.session.data['jdr-select-address'];
 
     if (jdrSelectAddress) {
 
-        res.redirect('jdr-sex-and-gender?brand=JDR');
+        res.redirect('jdr-proxy-sex-and-gender?brand=JDR');
 
     } else {
 
-        res.redirect('jdr-find-address?brand=JDR');
+        res.redirect('jdr-proxy-sex-and-gender?brand=JDR');
 
     }
 
 });
 
-router.post('/jdr-enter-address', function (req, res) {
+router.post('/jdr-proxy-select-address-volunteer', function (req, res) {
+
+    var jdrSelectAddress = req.session.data['jdr-select-address'];
+
+    if (jdrSelectAddress) {
+
+        res.redirect('jdr-proxy-sex-and-gender?brand=JDR');
+
+    } else {
+
+        res.redirect('jdr-proxy-sex-and-gender?brand=JDR');
+
+    }
+
+});
+
+router.post('/jdr-proxy-select-address-both-proxy', function (req, res) {
+
+    var jdrSelectAddress = req.session.data['jdr-select-address'];
+
+    if (jdrSelectAddress) {
+
+        res.redirect('jdr-proxy-phone-number-both-volunteer?brand=JDR');
+
+    } else {
+
+        res.redirect('jdr-proxy-phone-number-both-volunteer?brand=JDR');
+
+    }
+
+});
+
+
+
+
+router.post('/jdr-proxy-enter-address', function (req, res) {
 
     var jdrAddress1 = req.session.data['jdr-address-1'];
     var jdrAddress2 = req.session.data['jdr-address-2'];
@@ -861,428 +960,464 @@ router.post('/jdr-enter-address', function (req, res) {
 
     if (jdrAddress1 && jdrTown && jdrPostcode) {
 
-        res.redirect('jdr-sex-and-gender?brand=JDR');
+        res.redirect('jdr-proxy-sex-and-gender?brand=JDR');
 
     } else {
 
-        res.redirect('jdr-enter-address?brand=JDR');
+        res.redirect('jdr-proxy-enter-address?brand=JDR');
 
     }
 
 });
 
-router.post('/jdr-sex-and-gender', function (req, res) {
+router.post('/jdr-proxy-sex-and-gender', function (req, res) {
 
     var jdrSex = req.session.data['jdr-sex'];
     var jdrGender = req.session.data['jdr-gender'];
 
     if (jdrSex && jdrGender) {
 
-        res.redirect('jdr-ethnic-group?brand=JDR');
+        res.redirect('jdr-proxy-ethnic-group?brand=JDR');
 
     } else {
 
-        res.redirect('jdr-sex-and-gender?brand=JDR');
+        res.redirect('jdr-proxy-sex-and-gender?brand=JDR');
 
     }
 
 });
 
-router.post('/jdr-ethnic-group', function (req, res) {
+router.post('/jdr-proxy-ethnic-group', function (req, res) {
 
     var jdrEthnicGroup = req.session.data['jdr-ethnic-group'];
 
     if (jdrEthnicGroup == "White") {
 
-        res.redirect('jdr-ethnicity-white?brand=JDR');
+        res.redirect('jdr-proxy-ethnicity-white?brand=JDR');
 
     } else if (jdrEthnicGroup == "Mixed or multiple ethnic groups") {
 
-        res.redirect('jdr-ethnicity-mixed?brand=JDR');
+        res.redirect('jdr-proxy-ethnicity-mixed?brand=JDR');
 
     } else if (jdrEthnicGroup == "Asian or Asian British") {
 
-        res.redirect('jdr-ethnicity-asian?brand=JDR');
+        res.redirect('jdr-proxy-ethnicity-asian?brand=JDR');
 
     } else if (jdrEthnicGroup == "Black, African, Carribean or Black British") {
 
-        res.redirect('jdr-ethnicity-black?brand=JDR');
+        res.redirect('jdr-proxy-ethnicity-black?brand=JDR');
 
     } else if (jdrEthnicGroup == "Other ethnic group") {
 
-        res.redirect('jdr-ethnicity-other?brand=JDR');
+        res.redirect('jdr-proxy-ethnicity-other?brand=JDR');
 
     } else {
 
-        res.redirect('jdr-ethnic-group?brand=JDR');
+        res.redirect('jdr-proxy-ethnic-group?brand=JDR');
 
     }
 
 });
 
-router.post('/jdr-ethnicity-white', function (req, res) {
+router.post('/jdr-proxy-ethnicity-white', function (req, res) {
 
     var jdrEthnicityWhite = req.session.data['jdr-ethnicity-white'];
 
     if (jdrEthnicityWhite) {
 
-        res.redirect('jdr-memory-problems?brand=JDR');
+        res.redirect('jdr-proxy-memory-problems?brand=JDR');
 
     } else {
 
-        res.redirect('jdr-ethnicity-white?brand=JDR');
+        res.redirect('jdr-proxy-ethnicity-white?brand=JDR');
 
     }
 
 });
 
-router.post('/jdr-ethnicity-mixed', function (req, res) {
+router.post('/jdr-proxy-ethnicity-mixed', function (req, res) {
 
     var jdrEthnicityMixed = req.session.data['jdr-ethnicity-mixed'];
 
     if (jdrEthnicityMixed) {
 
-        res.redirect('jdr-memory-problems?brand=JDR');
+        res.redirect('jdr-proxy-memory-problems?brand=JDR');
 
     } else {
 
-        res.redirect('jdr-ethnicity-mixed?brand=JDR');
+        res.redirect('jdr-proxy-ethnicity-mixed?brand=JDR');
 
     }
 
 });
 
-router.post('/jdr-ethnicity-asian', function (req, res) {
+router.post('/jdr-proxy-ethnicity-asian', function (req, res) {
 
     var jdrEthnicityAsian = req.session.data['jdr-ethnicity-asian'];
 
     if (jdrEthnicityAsian) {
 
-        res.redirect('jdr-memory-problems?brand=JDR');
+        res.redirect('jdr-proxy-memory-problems?brand=JDR');
 
     } else {
 
-        res.redirect('jdr-ethnicity-asian?brand=JDR');
+        res.redirect('jdr-proxy-ethnicity-asian?brand=JDR');
 
     }
 
 });
 
-router.post('/jdr-ethnicity-black', function (req, res) {
+router.post('/jdr-proxy-ethnicity-black', function (req, res) {
 
     var jdrEthnicityBlack = req.session.data['jdr-ethnicity-black'];
 
     if (jdrEthnicityBlack) {
 
-        res.redirect('jdr-memory-problems?brand=JDR');
+        res.redirect('jdr-proxy-memory-problems?brand=JDR');
 
     } else {
 
-        res.redirect('jdr-ethnicity-black?brand=JDR');
+        res.redirect('jdr-proxy-ethnicity-black?brand=JDR');
 
     }
 
 });
 
-router.post('/jdr-ethnicity-other', function (req, res) {
+router.post('/jdr-proxy-ethnicity-other', function (req, res) {
 
     var jdrEthnicityOther = req.session.data['jdr-ethnicity-other'];
 
     if (jdrEthnicityOther) {
 
-        res.redirect('jdr-memory-problems?brand=JDR');
+        res.redirect('jdr-proxy-memory-problems?brand=JDR');
 
     } else {
 
-        res.redirect('jdr-ethnicity-other?brand=JDR');
+        res.redirect('jdr-proxy-ethnicity-other?brand=JDR');
 
     }
 
 });
 
-router.post('/jdr-memory-problems', function (req, res) {
+router.post('/jdr-proxy-memory-problems', function (req, res) {
 
     var jdrMemoryProblems = req.session.data['jdr-memory-problems'];
 
     if (jdrMemoryProblems == "Yes") {
 
-        res.redirect('jdr-dementia-symptoms?brand=JDR');
+        res.redirect('jdr-proxy-dementia-symptoms?brand=JDR');
 
     } else if (jdrMemoryProblems == "No") {
 
-        res.redirect('jdr-other-medical-conditions?brand=JDR');
+        res.redirect('jdr-proxy-other-medical-conditions?brand=JDR');
 
     } else {
 
-        res.redirect('jdr-memory-problems?brand=JDR');
+        res.redirect('jdr-proxy-memory-problems?brand=JDR');
 
     }
 
 });
 
-router.post('/jdr-dementia-symptoms', function (req, res) {
+router.post('/jdr-proxy-dementia-symptoms', function (req, res) {
 
     var jdrDementiaSymptoms = req.session.data['jdr-dementia-symptoms'];
 
     if (jdrDementiaSymptoms) {
 
-        res.redirect('jdr-mmse-exam?brand=JDR');
+        res.redirect('jdr-proxy-mmse-exam?brand=JDR');
 
     } else {
 
-        res.redirect('jdr-dementia-symptoms?brand=JDR');
+        res.redirect('jdr-proxy-dementia-symptoms?brand=JDR');
 
     }
 
 });
 
-router.post('/jdr-mmse-exam', function (req, res) {
+router.post('/jdr-proxy-mmse-exam', function (req, res) {
 
     var jdrMMSEExam = req.session.data['jdr-mmse-exam'];
 
     if (jdrMMSEExam == "Yes") {
 
-        res.redirect('jdr-mmse-score?brand=JDR');
+        res.redirect('jdr-proxy-mmse-score?brand=JDR');
 
     } else if (jdrMMSEExam == "No") {
 
-        res.redirect('jdr-memory-diagnosis?brand=JDR');
+        res.redirect('jdr-proxy-memory-diagnosis?brand=JDR');
 
     } else {
 
-        res.redirect('jdr-mmse-exam?brand=JDR');
+        res.redirect('jdr-proxy-mmse-exam?brand=JDR');
 
     }
 
 });
 
-router.post('/jdr-mmse-score', function (req, res) {
+router.post('/jdr-proxy-mmse-score', function (req, res) {
 
     var jdrMMSEScore = Number(req.session.data['jdr-mmse-score']);
 
     if (!isNaN(jdrMMSEScore) && jdrMMSEScore >= 0 && jdrMMSEScore <= 30) {
 
-        res.redirect('jdr-memory-diagnosis?brand=JDR');
+        res.redirect('jdr-proxy-memory-diagnosis?brand=JDR');
 
     } else {
 
-        res.redirect('jdr-mmse-score?brand=JDR');
+        res.redirect('jdr-proxy-mmse-score?brand=JDR');
 
     }
 
 });
 
-router.post('/jdr-memory-diagnosis', function (req, res) {
+router.post('/jdr-proxy-memory-diagnosis', function (req, res) {
 
     var jdrMMSEExam = req.session.data['jdr-memory-diagnosis'];
 
     if (jdrMMSEExam == "Yes") {
 
-        res.redirect('jdr-dementia-type?brand=JDR');
+        res.redirect('jdr-proxy-dementia-type?brand=JDR');
 
     } else if (jdrMMSEExam == "No") {
 
-        res.redirect('jdr-other-medical-conditions?brand=JDR');
+        res.redirect('jdr-proxy-other-medical-conditions?brand=JDR');
 
     } else {
 
-        res.redirect('jdr-memory-diagnosis?brand=JDR');
+        res.redirect('jdr-proxy-memory-diagnosis?brand=JDR');
 
     }
 
 });
 
-router.post('/jdr-dementia-type', function (req, res) {
+router.post('/jdr-proxy-dementia-type', function (req, res) {
 
     var jdrDementiaType = req.session.data['jdr-dementia-type'];
 
     if (jdrDementiaType) {
 
-        res.redirect('jdr-other-medical-conditions?brand=JDR');
+        res.redirect('jdr-proxy-other-medical-conditions?brand=JDR');
 
     } else {
 
-        res.redirect('jdr-dementia-type?brand=JDR');
+        res.redirect('jdr-proxy-dementia-type?brand=JDR');
 
     }
 
 });
 
-router.post('/jdr-other-medical-conditions', function (req, res) {
+router.post('/jdr-proxy-other-medical-conditions', function (req, res) {
 
     var jdrOtherMedicalConditions = req.session.data['jdr-other-medical-conditions'];
 
     if (jdrOtherMedicalConditions == "Yes") {
 
-        res.redirect('jdr-other-medical-conditions-type?brand=JDR');
+        res.redirect('jdr-proxy-other-medical-conditions-type?brand=JDR');
 
     } else if (jdrOtherMedicalConditions == "No") {
 
-        res.redirect('jdr-pacemaker?brand=JDR');
+        res.redirect('jdr-proxy-pacemaker?brand=JDR');
 
     } else {
 
-        res.redirect('jdr-other-medical-conditions?brand=JDR');
+        res.redirect('jdr-proxy-other-medical-conditions?brand=JDR');
 
     }
 
 });
 
-router.post('/jdr-other-medical-conditions-type', function (req, res) {
+router.post('/jdr-proxy-other-medical-conditions-type', function (req, res) {
 
     var jdrOtherMedicalConditionsType = req.session.data['jdr-other-medical-conditions-type'];
 
     if (jdrOtherMedicalConditionsType) {
 
-        res.redirect('jdr-pacemaker?brand=JDR');
+        res.redirect('jdr-proxy-pacemaker?brand=JDR');
 
     } else {
 
-        res.redirect('jdr-other-medical-conditions-type?brand=JDR');
+        res.redirect('jdr-proxy-other-medical-conditions-type?brand=JDR');
 
     }
 
 });
 
-router.post('/jdr-pacemaker', function (req, res) {
+router.post('/jdr-proxy-pacemaker', function (req, res) {
 
     var jdrPacemaker = req.session.data['jdr-pacemaker'];
 
     if (jdrPacemaker) {
 
-        res.redirect('jdr-disabilities?brand=JDR');
+        res.redirect('jdr-proxy-disabilities?brand=JDR');
 
     } else {
 
-        res.redirect('jdr-pacemaker?brand=JDR');
+        res.redirect('jdr-proxy-pacemaker?brand=JDR');
 
     }
 
 });
 
-router.post('/jdr-disabilities', function (req, res) {
+router.post('/jdr-proxy-disabilities', function (req, res) {
+
+    var jdrDisabilities = req.session.data['jdr-disabilities'];
+
+    if (jdrDisabilities == "Yes") {
+
+        res.redirect('jdr-proxy-disabilities-type?brand=JDR');
+
+    } else if (jdrDisabilities == "No") {
+
+        res.redirect('jdr-proxy-carer-role?brand=JDR');
+
+    } else {
+
+        res.redirect('jdr-proxy-disabilities?brand=JDR');
+
+    }
+
+});
+
+router.post('/jdr-proxy-disabilities-type', function (req, res) {
 
     var jdrDisabilities = req.session.data['jdr-disabilities'];
 
     if (jdrDisabilities) {
 
-        res.redirect('jdr-carer-role?brand=JDR');
+        res.redirect('jdr-proxy-carer-role?brand=JDR');
 
     } else {
 
-        res.redirect('jdr-disabilities?brand=JDR');
+        res.redirect('jdr-proxy-carer-role?brand=JDR');
 
     }
 
 });
 
-router.post('/jdr-carer-role', function (req, res) {
+router.post('/jdr-proxy-carer-role', function (req, res) {
 
     var jdrCarerRole = req.session.data['jdr-carer-role'];
 
     if (jdrCarerRole == "Yes") {
 
-        res.redirect('jdr-care-home-visits?brand=JDR');
+        res.redirect('jdr-proxy-care-home-visits?brand=JDR');
 
     } else if (jdrCarerRole == "No") {
 
-        res.redirect('jdr-contact-preference?brand=JDR');
+        res.redirect('jdr-proxy-contact-preference?brand=JDR');
 
     } else {
 
-        res.redirect('jdr-carer-role?brand=JDR');
+        res.redirect('jdr-proxy-carer-role?brand=JDR');
 
     }
 
 });
 
-router.post('/jdr-care-home-visits', function (req, res) {
+router.post('/jdr-proxy-care-home-visits', function (req, res) {
 
     var jdrCareHomeVisits = req.session.data['jdr-care-home-visits'];
 
     if (jdrCareHomeVisits == "Yes") {
 
-        res.redirect('jdr-visit-frequency?brand=JDR');
+        res.redirect('jdr-proxy-visit-frequency?brand=JDR');
 
     } else if (jdrCareHomeVisits == "No") {
 
-        res.redirect('jdr-contact-preference?brand=JDR');
+        res.redirect('jdr-proxy-contact-preference?brand=JDR');
 
     } else {
 
-        res.redirect('jdr-care-home-visits?brand=JDR');
+        res.redirect('jdr-proxy-care-home-visits?brand=JDR');
 
     }
 
 });
 
-router.post('/jdr-visit-frequency', function (req, res) {
+router.post('/jdr-proxy-visit-frequency', function (req, res) {
 
     var jdrVisitFrequency = req.session.data['jdr-visit-frequency'];
 
     if (jdrVisitFrequency) {
 
-        res.redirect('jdr-contact-preference?brand=JDR');
+        res.redirect('jdr-proxy-contact-preference?brand=JDR');
 
     } else {
 
-        res.redirect('jdr-visit-frequency?brand=JDR');
+        res.redirect('jdr-proxy-visit-frequency?brand=JDR');
 
     }
 
 });
 
-router.post('/jdr-contact-preference', function (req, res) {
+router.post('/jdr-proxy-contact-preference', function (req, res) {
 
     var jdrContactPreference = req.session.data['jdr-contact-preference'];
 
     if (jdrContactPreference) {
 
-        res.redirect('jdr-marketing?brand=JDR');
+        res.redirect('jdr-proxy-marketing?brand=JDR');
 
     } else {
 
-        res.redirect('jdr-contact-preference?brand=JDR');
+        res.redirect('jdr-proxy-contact-preference?brand=JDR');
 
     }
 
 });
 
-router.post('/jdr-marketing', function (req, res) {
+router.post('/jdr-proxy-marketing', function (req, res) {
 
     var jdrMarketing = req.session.data['jdr-marketing'];
 
     if (jdrMarketing) {
 
-        res.redirect('jdr-referal?brand=JDR');
+        res.redirect('jdr-proxy-referrals?brand=JDR');
 
     } else {
 
-        res.redirect('jdr-marketing?brand=JDR');
+        res.redirect('jdr-proxy-marketing?brand=JDR');
 
     }
 
 });
 
-router.post('/jdr-referal', function (req, res) {
+router.post('/jdr-proxy-referrals', function (req, res) {
 
-    var jdrReferal = req.session.data['jdr-referal'];
+    var jdrReferral = req.session.data['jdr-referral'];
 
-    if (jdrReferal) {
+    if (jdrReferral) {
 
-        res.redirect('jdr-check-answers?brand=JDR');
+        res.redirect('jdr-proxy-referral-specifics?brand=JDR');
 
     } else {
 
-        res.redirect('jdr-referal?brand=JDR');
+        res.redirect('jdr-proxy-referral-specifics?brand=JDR');
 
     }
 
 });
 
-router.post('/jdr-check-answers', function (req, res) {
+router.post('/jdr-proxy-referral-specifics', function (req, res) {
 
-    res.redirect('jdr-confirmation?brand=JDR');
+    var jdrReferral = req.session.data['jdr-referral-specifics'];
+
+    if (jdrReferral) {
+
+        res.redirect('jdr-proxy-check-answers?brand=JDR');
+
+    } else {
+
+        res.redirect('jdr-proxy-check-answers?brand=JDR');
+
+    }
+
+});
+
+router.post('/jdr-proxy-check-answers', function (req, res) {
+
+    res.redirect('jdr-proxy-confirmation?brand=JDR');
 
 });
 
@@ -1564,39 +1699,6 @@ router.post('/bpor-select-address', function (req, res) {
 
 // What is your address? (Enter manually)
 router.post('/bpor-enter-address', function (req, res) {
-    let addressLine1 = req.session.data['addressLine1'];
-    let city = req.session.data['city'];
-    let postcode = req.session.data['postcode'];
-
-    let errors = {};
-
-    if (!addressLine1) {
-        errors.addressLine1 = {
-            text: 'Enter address line 1',
-            href: '#address-line-1'
-        };
-    }
-
-    if (!city) {
-        errors.city = {
-            text: 'Enter town or city',
-            href: '#city'
-        };
-    }
-
-    if (!postcode) {
-        errors.postcode = {
-            text: 'Enter a postcode',
-            href: '#postcode'
-        };
-    }
-
-    if (Object.keys(errors).length) {
-        return res.render(path.join(__dirname, "bpor-enter-address"), {
-            errors: errors,
-            errorList: Object.values(errors)
-        });
-    }
 
     return res.redirect('bpor-sex-and-gender');
 });

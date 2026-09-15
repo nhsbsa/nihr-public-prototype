@@ -1,0 +1,82 @@
+{% set layout = "layout.html" %}
+
+{% if data['brand'] == "JDR" %}
+  {% set layout = "layout-volunteer-jdr.html" %}
+{% elseif data['brand'] == "BPOR" %}
+  {% set layout = "layout-volunteer-bpor.html" %}
+{% endif %}
+
+{% extends layout %}
+
+{% block pageTitle %}
+    How did you hear about Join Dementia Research?
+{% endblock %}
+
+{% block beforeContent %}
+    {{ nhsukPhaseBanner({
+    tag: {
+        text: "Beta"
+    },
+    html: 'This is a new service - your <a target="_blank" href="https://bepartofresearch.nihr.ac.uk/get-in-touch/">feedback<span class="nhsuk-u-visually-hidden"> (opens in a new tab)</span></a> will help us to improve it'
+    }) }}
+
+    {{ backLink({
+		href: "bpor-referrals",
+		text: "Back to: Who did you hear about Join Dementia Research from?"
+	}) }}
+{% endblock %}
+
+{% block content %}  
+<div class="nhsuk-grid-row">
+	<div class="nhsuk-grid-column-two-thirds">
+		{% if errorList and errorList.length %}
+			{{ errorSummary({
+				titleText: "There is a problem",
+				errorList: errorList
+			}) }}
+		{% endif %}
+
+		<form action="/{{folder}}/{{subfolder}}/jdr-proxy-referral-specifics" method="post" novalidate>
+           
+  {% call fieldset({
+    legend: {
+      text: "How did you hear about Join Dementia Research?",
+      size: "l",
+      isPageHeading: true
+    }
+  }) %}
+
+    <div class="nhsuk-hint">
+     This question is optional.
+    </div>
+
+    <!-- Standard HTML Form Group with NHS styling -->
+    <div class="nhsuk-form-group">
+      <select class="nhsuk-select nhsuk-u-three-quarters" id="select-referral" name="select-referral">
+        
+        <!-- Default unselected placeholder -->
+        <option value="" disabled selected>Select an option</option>
+        
+          <option value="one">Letter</option>
+          <option value="two">Text message</option>
+          <option value="three">Medical appointment</option>
+          <option value="four">Phone call</option>
+          <option value="five">Charity website</option>
+		      <option value="six">Presentation or event</option>
+		      <option value="seven">Callback</option>
+          <option value="eight">Leaflet or poster</option>
+          <option value="nine">Not sure</option>
+
+      </select>
+    </div>
+
+  {% endcall %}
+
+  {{ 
+button({
+    text: "Continue"
+  }) }}
+</form>
+	</div>
+</div>
+{% endblock %}

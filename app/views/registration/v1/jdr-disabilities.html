@@ -36,7 +36,7 @@
 
 {{ backLink({
     "href": "javascript:history.go(-1)",
-    "text": "Back"
+    "text": "Back to: Have you had a pacemaker fitted?"
 }) }}
 
 {% endblock %}
@@ -50,6 +50,7 @@
 
 {{ radios({
   name: "jdr-disabilities",
+  classes: "nhsuk-radios--inline",
   fieldset: {
     legend: {
       text: "Do you have any disabilities?",
@@ -59,28 +60,12 @@
   },
   items: [
     {
-      value: "Hearing impairment",
-      text: "Hearing impairment"
+      value: "Yes",
+      text: "Yes"
     },
     {
-      value: "Visual impairment",
-      text: "Visual impairment"
-    },
-    {
-      value: "Mobility problems",
-      text: "Mobility problems"
-    },
-    {
-      value: "Learning difficulties",
-      text: "Learning difficulties"
-    },
-    {
-      value: "Communication problems",
-      text: "Communication problems"
-    },
-    {
-      value: "Other disability",
-      text: "Other disability"
+      value: "No",
+      text: "No"
     }
   ]
 }) }}

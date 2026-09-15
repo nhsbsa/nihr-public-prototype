@@ -36,7 +36,7 @@
 
 {{ backLink({
     "href": "javascript:history.go(-1)",
-    "text": "Back"
+    "text": "Back to: Enter your post code"
 }) }}
 
 {% endblock %}
@@ -48,68 +48,72 @@
 
 <form action="/{{folder}}/{{subfolder}}/jdr-enter-address" method="post" novalidate>
 
-          {% call fieldset({
-            legend: {
-              text: "Enter your address",
-              size: "l",
-              isPageHeading: true
-            }
-          }) %}
-          
-            {{ input({
-              label: {
-                "text": 'Address line 1'
-              },
-              classes: "nhsuk-input--width-20",
-              id: "jdr-address-1",
-              name: "jdr-address-1",
-              autocomplete: "address-line1"
-            }) }}
-          
-            {{ input({
-              label: {
-                "text": 'Address line 2 (optional)'
-              },
-              classes: "nhsuk-input--width-20",
-              id: "jdr-address-2",
-              name: "jdr-address-2",
-              autocomplete: "address-line2"
-            }) }}
-          
-            {{ input({
-              label: {
-                "text": "Town or city"
-              },
-              classes: "nhsuk-input--width-20",
-              id: "jdr-town",
-              name: "jdr-town",
-              autocomplete: "address-town"
-            }) }}
-          
-            {{ input({
-              label: {
-                "text": "County (optional)"
-              },
-              classes: "nhsuk-input--width-20",
-              id: "jdr-county",
-              name: "jdr-county"
-            }) }}
-          
-            {{ input({
-              label: {
-                "text": "Postcode"
-              },
-              classes: "nhsuk-input--width-10",
-              id: "jdr-postcode",
-              name: "jdr-postcode",
-              autocomplete: "postal-code"
-            }) }}
-          
-          {% endcall %}
 
-        {{ button({
-          "text": "Continue"
-        }) }}
+            {% call fieldset({
+                legend: {
+                    text: "What is your home address?",
+                    size: "l",
+                    isPageHeading: true
+                }
+            }) %}
+
+                {{ input({
+                    label: {
+                        text: "Address line 1"
+                    },
+                    id: "address-line-1",
+                    name: "addressLine1",
+                    value: data['addressLine1'],
+                    autocomplete: "address-line1"
+                }) }}
+
+                {{ input({
+                    label: {
+                        text: "Address line 2 (optional)"
+                    },
+                    id: "address-line-2",
+                    name: "addressLine2",
+                    value: data['addressLine2'],
+                    autocomplete: "address-line2"
+                }) }}
+
+                {{ input({
+                    label: {
+                        text: "Address line 3 (optional)"
+                    },
+                    id: "address-line-3",
+                    name: "addressLine3",
+                    value: data['addressLine3'],
+                    autocomplete: "address-line3"
+                }) }}
+
+                {{ input({
+                    label: {
+                        text: "Town or city"
+                    },
+                    id: "city",
+                    name: "city",
+                    value: data['city'],
+                    classes: "nhsuk-input--width-20",
+                    autocomplete: "address-level2"
+                }) }}
+
+                {{ input({
+                    label: {
+                        text: "Postcode"
+                    },
+                    id: "postcode",
+                    name: "postcode",
+                    value: data['postcode'],
+                    classes: "nhsuk-input--width-10",
+                    autocomplete: "postal-code"
+                }) }}
+
+            {% endcall %}
+
+            {{ button({
+                text: "Continue"
+            }) }}
 
 </form>
 
