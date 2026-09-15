@@ -1,0 +1,67 @@
+{% extends "study-search/v3/_layout-study-details.html" %}
+
+{% from "pagination/macro.njk" import pagination %}
+{% from "do-dont-list/macro.njk" import list %}
+{% from "tables/macro.njk" import table %}
+{% from "card/macro.njk" import card %}
+{% from "study-search/v3/_components/study-contents-list.njk" import studyContentsList %}
+
+{% block content %}
+  <div class="nhsuk-grid-row">
+    <div class="nhsuk-grid-column-two-thirds">
+
+      <h1>
+        <span role="text">
+         Contact the study team
+          <span class="nhsuk-caption-xl nhsuk-caption--bottom">
+            <span class="nhsuk-u-visually-hidden">
+            -
+            </span>
+              Advice on what to ask the study team and how to contact them
+          </span>
+        </span>
+      </h1>
+
+      {{ studyContentsList("page-four") }}
+
+      <h2>Questions to ask</h2>
+      <p>Reaching out to a study team can be a daunting prospect. That’s why <a href="https://bepartofresearch.nihr.ac.uk/Take-part-in-research/What-to-expect-on-a-study/Questions-to-ask-the-study-team/">we've put together a list of questions</a> that will help you get the most from that conversation.</p>
+
+      <h2>Who to contact</h2>
+
+      <ul class="nhsuk-grid-row nhsuk-card-group">
+        <li class="nhsuk-grid-column-full nhsuk-card-group__item">
+          {{ card({
+            heading: "Dr Kwee Yong",
+            headingSize: "m",
+            descriptionHtml: '<a href="#" class="nhsuk-link">kwee.yong@ucl.ac.uk</a>'
+          }) }}
+        </li>
+
+        <li class="nhsuk-grid-column-full nhsuk-card-group__item">
+          {{ card({
+            heading: "Rethina Shritharan",
+            headingSize: "m",
+            descriptionHtml: '<a href="#" class="nhsuk-link">rethina.shritharan@nhs.net</a>'
+          }) }}
+        </li>
+
+        <li class="nhsuk-grid-column-full nhsuk-card-group__item">
+          {{ card({
+            heading: "Anna Bote-Casamitjana",
+            headingSize: "m",
+            descriptionHtml: '<a href="#" class="nhsuk-link">anna.botecasamitjana@nhs.net</a>'
+          }) }}
+        </li>
+      </ul>
+
+      {{ pagination({
+        previous: {
+          labelText: "Location",
+          href: "page-three.html"
+        }
+      }) }}
+
+    </div>
+  </div>
+{% endblock %}

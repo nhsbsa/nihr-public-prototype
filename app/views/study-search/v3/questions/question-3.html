@@ -1,0 +1,54 @@
+{% extends "layout-volunteer-bpor.html" %}
+
+{% from "checkboxes/macro.njk" import checkboxes %}
+{% from "_components/multiselect-search/macro.njk" import searchableCheckboxes with context %}
+
+{% block beforeContent %}
+
+  {{ backLink({
+    "href": "javascript:history.go(-1)",
+    "text": "Back"
+  }) }}
+
+  <span class="nhsuk-caption-l">Question 3 of 4</span>
+
+{% endblock %}
+
+{% block content %}
+
+  <form action="/study-search/v3/questions/question-3" method="post">
+
+    {% call fieldset({
+      legend: {
+        text: "Include volunteers by health condition",
+        size: "xl",
+        isPageHeading: true
+      }
+    }) %}
+
+      <p>You can add one or more health conditions to your inclusion criteria.</p>
+
+      {{ searchableCheckboxes({
+        label: {
+          text: "Health condition",
+          size: "m"
+        },
+        classes: "nhsuk-checkboxes--small",
+        hint: {
+          text: "Start typing the name of the health condition you'd like to add. The health conditions in our database follow UK naming standards."
+        },
+        id: "conditions",
+        name: "conditions",
+        selectedLabel: "Selected health conditions",
+        items: data.health_conditions
+      }) }}
+
+    {% endcall %}
+
+    {{ button({
+      text: "Continue"
+    }) }}
+
+  </form>
+
+{% endblock %}

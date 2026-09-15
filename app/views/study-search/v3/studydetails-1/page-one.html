@@ -1,0 +1,117 @@
+{% extends "study-search/v3/_layout-study-details.html" %}
+
+{% from "pagination/macro.njk" import pagination %}
+{% from "do-dont-list/macro.njk" import list %}
+{% from "tables/macro.njk" import table %}
+{% from "study-search/v3/_components/study-contents-list.njk" import studyContentsList %}
+
+{% block content %}
+  <div class="nhsuk-grid-row">
+    <div class="nhsuk-grid-column-two-thirds">
+
+      <h1>
+        <span role="text">
+         Who can take part
+          <span class="nhsuk-caption-xl nhsuk-caption--bottom">
+            <span class="nhsuk-u-visually-hidden">-</span>
+            Check these details to see if you can take part
+          </span>
+        </span>
+      </h1>
+
+      {{ studyContentsList("page-one") }}
+
+      {{ table({
+        firstCellIsHeader: true,
+        rows: [
+          [
+            { text: "Medical conditions" },
+            { text: "Low Back Pain, Chronic" }
+          ],
+          [
+            { text: "Age" },
+            { text: "18.0 years - 45.0" }
+          ],
+          [
+            { text: "Gender" },
+            { text: "All" }
+          ]
+        ]
+      }) }}
+
+      {{ list({
+        title: "You can take part if you",
+        type: "tick",
+        items: [
+          {
+            text: "Participant is willing and able to give informed consent for participation in the study"
+          },
+          {
+            text: "Suffering from chronic NSLBP (more than 3 months, localised below the costal margin and above the gluteal folds)"
+          },
+          {
+            text: "Suffers from pain or functional limitations as a result of their LBP (minimum VAS (back) score of 3/10 or ODI score of at least 5/50 or RMD score of at least 5/24 (note, unlike ODI, RMD does not describe specific cuts offs for different levels of disability)"
+          },
+          {
+            text: "Able to exercise"
+          }
+        ]
+      }) }}
+
+      {{ list({
+        title: "You cannot take part if you",
+        type: "cross",
+        hidePrefix: "true",
+        items: [
+          {
+            text: "Radiating pain to leg / sciatica / acute radiculopathy"
+          },
+          {
+            text: "Specific diagnosis/condition for LBP (e.g. herniated disk, degenerative disk disease, spondylolysis, spinal stenosis, spinal tumour, facet joint damage)"
+          },
+          {
+            text: "History of osteoporosis , arthritis, scoliosis, or kyphosis."
+          },
+          {
+            text: "Current spinal infection, cancer or a current fracture (any bone)."
+          },
+          {
+            text: "History of spinal/back surgery"
+          },
+          {
+            text: "Unable to participate in physical activity and exercise"
+          },
+          {
+            text: "Pregnant or breast feeding"
+          },
+          {
+            text: "History of substance abuse"
+          },
+          {
+            text: "History of psychiatric illness (eg. depression, dementia, schizophrenia) for which currently taking medication "
+          },
+          {
+            text: "History or current neurological condition (e.g. epilepsy)"
+          },
+          {
+            text: "Not in possession or have access to adapted equipment (phone, computer, functioning WIFI)"
+          },
+          {
+            text: "Unable to understand and communicate in English"
+          },
+          {
+            text: "Having taken part in a research study in the last 3 months involving invasive procedures or an inconvenience allowance"
+          }
+        ]
+      }) }}
+
+      {{ pagination({
+        next: {
+          labelText: "About this study",
+          href: "/study-search/v3/studydetails-1/page-two"
+        }
+      }) }}
+
+    </div>
+  </div>
+{% endblock %}
