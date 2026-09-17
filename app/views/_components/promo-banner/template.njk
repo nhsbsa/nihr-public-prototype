@@ -1,0 +1,12 @@
+<div class="app-promo-banner">
+  <div class="app-promo-banner__content">
+    <p class="app-promo-banner__text">{{ params.text }}</p>
+<a href="{{ params.button.href }}" class="nhsuk-button nhsuk-button--secondary app-promo-banner__button" role="button" draggable="false" data-module="nhsuk-button">      {{ params.button.text }}
+    </a>
+  </div>
+  {% if params.logo %}
+    <div class="app-promo-banner__logo">
+      <img src="{{ params.logo.src }}" alt="{{ params.logo.alt }}">
+    </div>
+  {% endif %}
+</div>
