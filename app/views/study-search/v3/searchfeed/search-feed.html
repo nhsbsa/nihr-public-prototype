@@ -1,0 +1,1028 @@
+{% extends "layout-bpor.html" %}
+
+{% from "checkboxes/macro.njk" import checkboxes %}
+{% from "select/macro.njk" import select %}
+{% from "input/macro.njk" import input %}
+{% from "button/macro.njk" import button %}
+{% from "tag/macro.njk" import tag %}
+{% from "radios/macro.njk" import radios %}
+{% from "inset-text/macro.njk" import insetText %}
+{% from "pagination/macro.njk" import pagination %}
+
+{% block content %}
+
+{# EMBEDDED MOJ & NHS SEARCH STYLES #}
+<style>
+  .moj-filter {
+    background-color: #ffffff;
+    border: 1px solid #b1b4b6;
+    margin-bottom: 30px;
+  }
+  .moj-filter__header {
+    background-color: #f3f2f1;
+    padding: 16px 20px;
+    border-bottom: 1px solid #b1b4b6;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+  }
+  .moj-filter__header-title h2 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: bold;
+    color: #0b0c0c;
+  }
+  .moj-filter__content {
+    padding: 20px;
+  }
+  .moj-filter__selected {
+    background-color: #f3f2f1;
+    padding: 16px;
+    margin-bottom: 24px;
+    border: 1px solid #b1b4b6;
+  }
+  .moj-filter__selected-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 12px;
+  }
+  .moj-filter__selected-heading a {
+    text-align: right;
+    white-space: nowrap;
+    margin-left: 12px;
+  }
+  .moj-filter-tags {
+    list-style: none;
+    padding: 0;
+    margin: 6px 0 16px 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .moj-filter__tag {
+    display: inline-flex;
+    align-items: center;
+    background-color: #ffffff;
+    border: 1px solid #0b0c0c;
+    padding: 4px 8px;
+    font-size: 14px;
+    color: #0b0c0c;
+    text-decoration: none;
+    font-weight: 500;
+  }
+  .moj-filter__tag:hover {
+    background-color: #f3f2f1;
+    color: #0b0c0c;
+  }
+  .moj-filter__tag::after {
+    content: "\00d7";
+    font-size: 16px;
+    font-weight: bold;
+    margin-left: 8px;
+    color: #505a5f;
+  }
+  .moj-filter__options .nhsuk-form-group {
+    margin-bottom: 24px;
+  }
+
+  /* TOP SEARCH CONTAINER & DROPDOWN MENU */
+  .nhsuk-search-container {
+    position: relative;
+    margin-bottom: 32px;
+    width: 100%;
+    max-width: 100%;
+  }
+  .search-autocomplete-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: #ffffff;
+    border: 2px solid #212b32;
+    border-top: none;
+    z-index: 1000;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+    max-height: 480px;
+    overflow-y: auto;
+  }
+  .search-autocomplete-item {
+    padding: 14px 18px;
+    border-bottom: 1px solid #e5e5e5;
+    cursor: pointer;
+    font-size: 18px;
+  }
+  .search-autocomplete-item:hover {
+    background-color: #f0f4f5;
+  }
+  .search-autocomplete-link {
+    color: #005ea5;
+    text-decoration: underline;
+    font-weight: 600;
+  }
+  .search-autocomplete-count {
+    color: #212b32;
+    font-weight: normal;
+  }
+  .search-autocomplete-free {
+    padding: 16px 18px;
+    background-color: #ffffff;
+    border-top: 1px solid #b1b4b6;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+  }
+  .search-autocomplete-free:hover {
+    background-color: #f0f4f5;
+  }
+  .search-autocomplete-free-icon {
+    width: 22px;
+    height: 22px;
+    stroke: #505a5f;
+  }
+
+  /* RESULTS HEADER BAR */
+  .results-header-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  .sort-by-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  /* MOBILE COLLAPSIBLE FILTER STYLES */
+  .moj-filter__toggle-btn {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 16px;
+    font-weight: bold;
+    color: #0b0c0c;
+    cursor: pointer;
+    align-items: center;
+    gap: 8px;
+    padding: 0;
+  }
+
+  .moj-filter__chevron {
+    width: 16px;
+    height: 16px;
+    transition: transform 0.2s ease;
+  }
+
+  /* Mobile & Tablet screen rules (up to 768px) */
+  @media (max-width: 768px) {
+    .moj-filter__header {
+      cursor: pointer;
+    }
+
+    .moj-filter__toggle-btn {
+      display: inline-flex;
+    }
+
+    /* Hide filter content on mobile by default */
+    .moj-filter__content-wrapper {
+      display: none;
+    }
+
+    /* Show filter content when expanded */
+    .moj-filter__content-wrapper.is-expanded {
+      display: block !important;
+    }
+
+    .moj-filter__toggle-btn[aria-expanded="true"] .moj-filter__chevron {
+      transform: rotate(180deg);
+    }
+  }
+</style>
+
+  {# Calculate age if DOB year is provided #}
+  {% set dobYear = data.dateofbirth.year | int if data.dateofbirth else 0 %}
+  {% set age = null %}
+  {% if dobYear > 0 %}
+    {% set age = 2026 - dobYear %}
+  {% endif %}
+
+  <h1>Find a study</h1>
+
+  {# TOP NHS SEARCH INPUT BAR #}
+  <div class="nhsuk-search-container">
+    <form id="topSearchForm" action="/study-search/v3/searchfeed/search-feed" method="post">
+      <input type="hidden" name="healthCondition" id="topHealthCondition" value="">
+      <input type="hidden" name="subCondition" id="topSubCondition" value="">
+      
+      <div class="nhsuk-form-group nhsuk-search-input">
+        <label class="nhsuk-label nhsuk-label--s" for="topKeywordsInput">
+          Search by condition, treatment or keyword
+        </label>
+        
+        <div class="nhsuk-input-wrapper nhsuk-search-input__wrapper">
+          <input class="nhsuk-input nhsuk-search-input__input" 
+                 id="topKeywordsInput" 
+                 name="keywords" 
+                 type="search" 
+                 value="{{ keywords or '' }}" 
+                 autocomplete="off"
+                 placeholder="e.g. Lung, Diabetes, Pain...">
+          
+          <button class="nhsuk-button nhsuk-button--icon nhsuk-button--small nhsuk-search-input__button" data-module="nhsuk-button" type="submit" aria-label="Search">
+            <svg class="nhsuk-icon nhsuk-icon--search" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" focusable="false" aria-hidden="true">
+              <path d="m20.7 18.9-4.1-4.1a7 7 0 1 0-1.4 1.4l4 4.1a1 1 0 0 0 1.5 0c.4-.4.4-1 0-1.4ZM6 10.6a5 5 0 1 1 10 0 5 5 0 0 1-10 0Z" />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      {# AUTOCOMPLETE DROPDOWN MENU #}
+      <div id="searchAutocompleteMenu" class="search-autocomplete-menu">
+        <div id="searchAutocompleteResults"></div>
+        <div id="searchAutocompleteFreeSearch" class="search-autocomplete-free">
+          <svg class="search-autocomplete-free-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+            <circle cx="11" cy="11" r="7"></circle>
+            <path d="M16 16l5 5"></path>
+          </svg>
+          <a class="nhsuk-link search-autocomplete-link" id="freeSearchTermText" href="#"></a>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div class="nhsuk-grid-row">
+    <div class="nhsuk-grid-column-one-third">
+
+      {# MOJ FILTER CONTAINER #}
+      <div class="moj-filter">
+        
+        <div class="moj-filter__header" id="filterHeader">
+          <div class="moj-filter__header-title">
+            <h2>Filter</h2>
+          </div>
+          <button type="button" class="moj-filter__toggle-btn" id="filterToggleBtn" aria-expanded="false" aria-controls="sideFilterForm">
+            <span id="filterToggleText">Show filters</span>
+            <svg class="moj-filter__chevron" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </button>
+        </div>
+
+        <form id="sideFilterForm" class="moj-filter__content-wrapper" action="/study-search/v3/searchfeed/search-feed" method="post">
+          <input type="hidden" name="sortBy" value="{{ sortBy }}">
+          <div class="moj-filter__content">
+
+            {# SELECTED FILTERS PANEL #}
+            {% if keywords or data.locationPreference or (activeStatuses and activeStatuses.length > 0) or (chosenCondition and chosenCondition != "" and healthConditionsData[chosenCondition]) or (data.ageRange and data.ageRange.length > 0) or (data.sex and data.sex != "") %}
+              
+              <div class="moj-filter__selected">
+                
+                <div class="moj-filter__selected-heading">
+                  <h2 class="nhsuk-heading-s" style="margin: 0;">Selected filters</h2>
+                  <a class="nhsuk-link nhsuk-link--no-visited" href="/study-search/v3/searchfeed/search-feed?clear=true">Clear filters</a>
+                </div>
+
+                {# --- KEYWORD TAG --- #}
+                {% if keywords and keywords.trim() != "" %}
+                  <h3 class="nhsuk-heading-xs" style="margin-top: 12px; margin-bottom: 4px;">Search term</h3>
+                  <ul class="moj-filter-tags">
+                    <li>
+                      <a class="moj-filter__tag" href="#" data-filter-type="keywords">
+                        <span class="nhsuk-u-visually-hidden">Remove keyword filter</span>
+                        "{{ keywords }}"
+                      </a>
+                    </li>
+                  </ul>
+                {% endif %}
+
+                {# --- LOCATION TAGS --- #}
+                {% if data.locationPreference %}
+                  <h3 class="nhsuk-heading-xs" style="margin-top: 12px; margin-bottom: 4px;">Location</h3>
+                  <ul class="moj-filter-tags">
+                    <li>
+                      <a class="moj-filter__tag" href="/study-search/v3/searchfeed/search-feed?locationPreference=&location=&travelDistance=">
+                        <span class="nhsuk-u-visually-hidden">Remove location filter</span>
+                        {% if data.locationPreference == 'anywhere-in-uk' %}
+                          Anywhere in the UK
+                        {% elif data.locationPreference == 'specific-area' %}
+                          {{ data.location }} {% if data.travelDistance %}(Within {{ data.travelDistance }} miles){% endif %}
+                        {% endif %}
+                      </a>
+                    </li>
+                  </ul>
+                {% endif %}
+
+                {# --- HEALTH CONDITION & SUB-CONDITION TAGS --- #}
+                {% if chosenCondition and chosenCondition != "" and healthConditionsData[chosenCondition] %}
+                  <h3 class="nhsuk-heading-xs" style="margin-top: 12px; margin-bottom: 4px;">Health condition</h3>
+                  <ul class="moj-filter-tags">
+                    <li>
+                      <a class="moj-filter__tag" href="#" data-filter-type="healthCondition">
+                        <span class="nhsuk-u-visually-hidden">Remove condition filter</span>
+                        {{ healthConditionsData[chosenCondition].text }}
+                      </a>
+                    </li>
+                    {% if chosenSubCondition and chosenSubCondition != "" and chosenSubCondition != "all" %}
+                      <li>
+                        <a class="moj-filter__tag" href="#" data-filter-type="subCondition">
+                          <span class="nhsuk-u-visually-hidden">Remove specific condition filter</span>
+                          {{ chosenSubCondition | replace("-", " ") | capitalize }}
+                        </a>
+                      </li>
+                    {% endif %}
+                  </ul>
+                {% endif %}
+
+                {# --- STATUS TAGS --- #}
+                {% if activeStatuses and activeStatuses.length > 0 %}
+                  <h3 class="nhsuk-heading-xs" style="margin-top: 12px; margin-bottom: 4px;">Status</h3>
+                  <ul class="moj-filter-tags">
+                    {% if 'recruiting' in activeStatuses %}
+                      <li>
+                        <a class="moj-filter__tag" href="#" data-filter-type="status" data-filter-value="recruiting">
+                          <span class="nhsuk-u-visually-hidden">Remove Recruiting filter</span> Recruiting
+                        </a>
+                      </li>
+                    {% endif %}
+                    {% if 'completed' in activeStatuses %}
+                      <li>
+                        <a class="moj-filter__tag" href="#" data-filter-type="status" data-filter-value="completed">
+                          <span class="nhsuk-u-visually-hidden">Remove Completed filter</span> Completed
+                        </a>
+                      </li>
+                    {% endif %}
+                    {% if 'not-recruiting' in activeStatuses %}
+                      <li>
+                        <a class="moj-filter__tag" href="#" data-filter-type="status" data-filter-value="not-recruiting">
+                          <span class="nhsuk-u-visually-hidden">Remove Not recruiting filter</span> Not recruiting
+                        </a>
+                      </li>
+                    {% endif %}
+                    {% if 'stopped' in activeStatuses %}
+                      <li>
+                        <a class="moj-filter__tag" href="#" data-filter-type="status" data-filter-value="stopped">
+                          <span class="nhsuk-u-visually-hidden">Remove Stopped filter</span> Stopped
+                        </a>
+                      </li>
+                    {% endif %}
+                  </ul>
+                {% endif %}
+
+                {# --- AGE RANGE TAGS --- #}
+                {% if data.ageRange and ('adult' in data.ageRange or 'adolescent' in data.ageRange or 'child' in data.ageRange or 'infant' in data.ageRange) %}
+                  <h3 class="nhsuk-heading-xs" style="margin-top: 12px; margin-bottom: 4px;">Age range</h3>
+                  <ul class="moj-filter-tags">
+                    {% if 'adult' in data.ageRange %}
+                      <li>
+                        <a class="moj-filter__tag" href="#" data-filter-type="ageRange" data-filter-value="adult">
+                          <span class="nhsuk-u-visually-hidden">Remove Adult filter</span> Adult 18+
+                        </a>
+                      </li>
+                    {% endif %}
+                    {% if 'adolescent' in data.ageRange %}
+                      <li>
+                        <a class="moj-filter__tag" href="#" data-filter-type="ageRange" data-filter-value="adolescent">
+                          <span class="nhsuk-u-visually-hidden">Remove Adolescent filter</span> Adolescent 13-17
+                        </a>
+                      </li>
+                    {% endif %}
+                    {% if 'child' in data.ageRange %}
+                      <li>
+                        <a class="moj-filter__tag" href="#" data-filter-type="ageRange" data-filter-value="child">
+                          <span class="nhsuk-u-visually-hidden">Remove Child filter</span> Child 3-12
+                        </a>
+                      </li>
+                    {% endif %}
+                    {% if 'infant' in data.ageRange %}
+                      <li>
+                        <a class="moj-filter__tag" href="#" data-filter-type="ageRange" data-filter-value="infant">
+                          <span class="nhsuk-u-visually-hidden">Remove Infant filter</span> Infant 0-2
+                        </a>
+                      </li>
+                    {% endif %}
+                  </ul>
+                {% endif %}
+
+                {# --- GENDER TAGS --- #}
+                {% if data.sex == 'female' or data.sex == 'male' %}
+                  <h3 class="nhsuk-heading-xs" style="margin-top: 12px; margin-bottom: 4px;">Gender</h3>
+                  <ul class="moj-filter-tags">
+                    {% if data.sex == 'female' %}
+                      <li>
+                        <a class="moj-filter__tag" href="#" data-filter-type="sex" data-filter-value="female">
+                          <span class="nhsuk-u-visually-hidden">Remove Female filter</span> Female
+                        </a>
+                      </li>
+                    {% endif %}
+                    {% if data.sex == 'male' %}
+                      <li>
+                        <a class="moj-filter__tag" href="#" data-filter-type="sex" data-filter-value="male">
+                          <span class="nhsuk-u-visually-hidden">Remove Male filter</span> Male
+                        </a>
+                      </li>
+                    {% endif %}
+                  </ul>
+                {% endif %}
+
+              </div>
+            {% endif %}
+
+            {# FILTER OPTIONS AREA #}
+            <div class="moj-filter__options">
+              
+              {{ button({ text: "Apply filters" }) }}
+
+              {# LOCATION RADIOS WITH AUTOCOMPLETE DROPDOWN #}
+              {% set specificAreaHtml %}
+                <div class="nhsuk-form-group" style="position: relative;">
+                  <label class="nhsuk-label" for="location">
+                    Town, city or postcode
+                  </label>
+                  <input class="nhsuk-input nhsuk-u-width-full" 
+                         id="location" 
+                         name="location" 
+                         type="text" 
+                         value="{{ data['location'] }}" 
+                         autocomplete="off">
+
+                  <ul id="location-suggestions" 
+                      class="nhsuk-list" 
+                      style="display: none; position: absolute; z-index: 1000; width: 100%; background: #ffffff; border: 2px solid #212b32; border-top: none; margin-top: -2px; max-height: 200px; overflow-y: auto; box-shadow: 0 4px 8px rgba(0,0,0,0.1); list-style: none; padding: 0; margin: 0;">
+                  </ul>
+                </div>
+
+                {{ select({
+                  id: "travelDistance",
+                  name: "travelDistance",
+                  value: data['travelDistance'] or "25",
+                  label: {
+                    text: "How far from this area would you be willing to travel?"
+                  },
+                  items: [
+                    { value: "5", text: "Within 5 miles" },
+                    { value: "10", text: "Within 10 miles" },
+                    { value: "15", text: "Within 15 miles" },
+                    { value: "20", text: "Within 20 miles" },
+                    { value: "25", text: "Within 25 miles" },
+                    { value: "50", text: "Within 50 miles" }
+                  ]
+                }) }}
+              {% endset %}
+
+              {{ radios({
+                idPrefix: "location-preference",
+                name: "locationPreference",
+                value: data['locationPreference'],
+                fieldset: {
+                  legend: { text: "Where could you take part?" }
+                },
+                items: [
+                  { value: "anywhere-in-uk", text: "Anywhere in the UK" },
+                  {
+                    value: "specific-area",
+                    text: "A specific area",
+                    conditional: { html: specificAreaHtml }
+                  }
+                ]
+              }) }}
+
+              {# PRIMARY HEALTH CONDITION SELECT #}
+              {{ select({
+                id: "healthCondition",
+                name: "healthCondition",
+                label: { text: "Health condition" },
+                items: healthConditionItems
+              }) }}
+
+              {# SECONDARY SUB-CONDITION SELECT #}
+              <div id="subConditionContainer" class="nhsuk-form-group" style="display: none;">
+                <label class="nhsuk-label" for="subCondition">
+                  Specific condition
+                </label>
+                <select class="nhsuk-select" id="subCondition" name="subCondition">
+                  <option value="">Select a specific condition</option>
+                </select>
+              </div>
+
+              {# STATUS FILTERS #}
+              {{ checkboxes({
+                idPrefix: "status",
+                name: "status",
+                fieldset: { legend: { text: "Status" } },
+                values: activeStatuses,
+                items: [
+                  { value: "recruiting", text: "Recruiting" },
+                  { value: "completed", text: "Completed" },
+                  { value: "not-recruiting", text: "Not recruiting" },
+                  { value: "stopped", text: "Stopped" }
+                ]
+              }) }}
+
+              {# AGE RANGE FILTERS #}
+              {{ checkboxes({
+                idPrefix: "age-range",
+                name: "ageRange",
+                fieldset: { legend: { text: "Age range" } },
+                values: data['ageRange'],
+                items: [
+                  { 
+                    value: "adult", 
+                    text: "Adult 18+",
+                    checked: true if (age and age >= 18) else false
+                  },
+                  { 
+                    value: "adolescent", 
+                    text: "Adolescent 13-17",
+                    checked: true if (age and age >= 13 and age <= 17) else false
+                  },
+                  { 
+                    value: "child", 
+                    text: "Child 3-12",
+                    checked: true if (age and age >= 3 and age <= 12) else false
+                  },
+                  { 
+                    value: "infant", 
+                    text: "Infant 0-2",
+                    checked: true if (age and age >= 0 and age <= 2) else false
+                  }
+                ]
+              }) }}
+
+              {# GENDER FILTERS #}
+              {{ checkboxes({
+                idPrefix: "gender",
+                name: "sex",
+                fieldset: { legend: { text: "Gender" } },
+                values: data['sex'],
+                items: [
+                  { value: "female", text: "Female" },
+                  { value: "male", text: "Male" }
+                ]
+              }) }}
+
+              {{ button({ text: "Apply filters" }) }}
+
+            </div>
+
+          </div>
+        </form>
+      </div>
+
+    </div>
+
+    {# RESULTS COLUMN WITH NHS SORT BY DROPDOWN #}
+    <div class="nhsuk-grid-column-two-thirds">
+
+      <div class="results-header-bar">
+        <p class="nhsuk-body-m" style="margin-bottom: 0;">
+          {% if resultsCount > 0 %}
+            Showing <strong>{{ resultsStart }}</strong> to <strong>{{ resultsEnd }}</strong> of <strong>{{ resultsCount }}</strong> results
+          {% else %}
+            <strong>0</strong> results
+          {% endif %}
+        </p>
+
+        <form id="sortForm" action="/study-search/v3/searchfeed/search-feed" method="post" style="margin-bottom: 0;">
+          <div class="nhsuk-form-group sort-by-wrapper" style="margin-bottom: 0;">
+            <label class="nhsuk-label" for="sortBy" style="margin-bottom: 0; font-weight: normal;">
+              Sort by
+            </label>
+            <select class="nhsuk-select" id="sortBy" name="sortBy" onchange="this.form.submit()">
+              <option value="most-recent" {% if sortBy == 'most-recent' or not sortBy %}selected{% endif %}>Most recent</option>
+              <option value="a-z" {% if sortBy == 'a-z' %}selected{% endif %}>A to Z</option>
+            </select>
+          </div>
+        </form>
+      </div>
+
+      {# NO RESULTS STATE #}
+      {% if results | length == 0 %}
+
+        <div class="nhsuk-u-margin-top-4">
+          <h2 class="nhsuk-heading-m">We could not find any related studies</h2>
+          
+          <p class="nhsuk-body">You can now either:</p>
+          <ul class="nhsuk-list nhsuk-list--bullet">
+            <li>register for an account and get matched to related studies when they are added</li>
+            <li>start your search again</li>
+          </ul>
+          {{ button({
+            text: "Register now",
+            href: "/registration/start",
+            classes: "nhsuk-button--secondary"
+          }) }}
+        </div>
+
+      {% else %}
+
+        {% for study in results %}
+          <div class="nhsuk-card">
+            <div class="nhsuk-card__content">
+              
+              {% if study.status == "recruiting" %}
+                {% set tagClass = "nhsuk-tag--green" %}
+              {% elif study.status == "completed" %}
+                {% set tagClass = "nhsuk-tag--blue" %}
+              {% elif study.status == "not-recruiting" %}
+                {% set tagClass = "nhsuk-tag--grey" %}
+              {% else %}
+                {% set tagClass = "nhsuk-tag--red" %}
+              {% endif %}
+
+              {{ tag({ text: study.statusLabel, classes: tagClass }) }}
+              
+              {% if study.closingDate %}
+                <span class="nhsuk-u-float-right">Until {{ study.closingDate }}</span>
+              {% endif %}
+
+              {# ONLY STUDIES 58691 AND 58687 ARE CLICKABLE #}
+              <h3 class="nhsuk-card__heading">
+                {% if study.id == "58691" or study.id == "58687" or study.id == 58691 or study.id == 58687 %}
+                  <a href="/study-search/v3/search/study/{{ study.id }}">{{ study.title }}</a>
+                {% else %}
+                  {{ study.title }}
+                {% endif %}
+              </h3>
+
+              <p class="nhsuk-body"><strong>Medical conditions</strong> {{ study.conditionText }}</p>
+              <p class="nhsuk-body"><strong>Gender</strong> {{ study.genderLabel }}</p>
+              <p class="nhsuk-body"><strong>Age</strong> {{ study.ageLabel }}</p>
+              <p class="nhsuk-body"><strong>Locations</strong> {{ study.locations | join(", ") }}</p>
+            </div>
+          </div>
+                {% endfor %}
+
+        {% if paginationData %}
+          {{ pagination(paginationData) }}
+        {% endif %}
+
+      {% endif %}
+
+    </div>
+  </div>
+
+{# 1. HIDDEN JSON DATA BLOCKS (Protects VS Code linter from Nunjucks syntax) #}
+<script id="healthConditionsJSON" type="application/json">
+  {{ healthConditionsData | dump | safe }}
+</script>
+
+<script id="allStudiesJSON" type="application/json">
+  {{ allStudies | dump | safe }}
+</script>
+
+{# 2. MAIN FRONTEND LOGIC #}
+<script>
+(function () {
+  'use strict';
+
+  // Safely parse JSON payload from hidden script tags
+  let healthConditionsData = {};
+  let allStudies = [];
+
+  try {
+    const rawConditions = document.getElementById('healthConditionsJSON');
+    if (rawConditions && rawConditions.textContent.trim()) {
+      healthConditionsData = JSON.parse(rawConditions.textContent);
+    }
+  } catch (err) {
+    console.warn('Could not parse healthConditionsJSON:', err);
+  }
+
+  try {
+    const rawStudies = document.getElementById('allStudiesJSON');
+    if (rawStudies && rawStudies.textContent.trim()) {
+      allStudies = JSON.parse(rawStudies.textContent);
+    }
+  } catch (err) {
+    console.warn('Could not parse allStudiesJSON:', err);
+  }
+
+  const initialSubCondition = "{{ chosenSubCondition or '' }}";
+
+  document.addEventListener('DOMContentLoaded', function () {
+    // 1. DYNAMIC HEALTH CONDITION SUB-DROPDOWN LOGIC
+    const mainSelect = document.getElementById('healthCondition');
+    const subContainer = document.getElementById('subConditionContainer');
+    const subSelect = document.getElementById('subCondition');
+
+    function updateSubDropdown(selectedCategory, selectedSub) {
+      if (!subSelect) return;
+      subSelect.innerHTML = '';
+
+      if (selectedCategory && healthConditionsData[selectedCategory]) {
+        const category = healthConditionsData[selectedCategory];
+
+        const defaultOpt = document.createElement('option');
+        defaultOpt.value = '';
+        defaultOpt.textContent = 'Select a specific condition';
+        subSelect.appendChild(defaultOpt);
+
+        const allOpt = document.createElement('option');
+        allOpt.value = 'all';
+        allOpt.textContent = 'All ' + category.text.toLowerCase() + ' conditions';
+        if (selectedSub === 'all') allOpt.selected = true;
+        subSelect.appendChild(allOpt);
+
+        if (Array.isArray(category.items)) {
+          category.items.forEach(function (item) {
+            const opt = document.createElement('option');
+            opt.value = item.value;
+            opt.textContent = item.text;
+            if (selectedSub === item.value) opt.selected = true;
+            subSelect.appendChild(opt);
+          });
+        }
+
+        if (subContainer) subContainer.style.display = 'block';
+      } else if (subContainer) {
+        subContainer.style.display = 'none';
+      }
+    }
+
+    if (mainSelect) {
+      mainSelect.addEventListener('change', function () {
+        updateSubDropdown(this.value, '');
+      });
+
+      if (mainSelect.value) {
+        updateSubDropdown(mainSelect.value, initialSubCondition);
+      }
+    }
+
+    // 2. TOP NHS AUTOCOMPLETE SEARCH BAR LOGIC
+    const topForm = document.getElementById('topSearchForm');
+    const topKeywordsInput = document.getElementById('topKeywordsInput');
+    const topHealthCondition = document.getElementById('topHealthCondition');
+    const topSubCondition = document.getElementById('topSubCondition');
+    const autocompleteMenu = document.getElementById('searchAutocompleteMenu');
+    const autocompleteResults = document.getElementById('searchAutocompleteResults');
+    const freeSearchContainer = document.getElementById('searchAutocompleteFreeSearch');
+    const freeSearchTermText = document.getElementById('freeSearchTermText');
+
+    const subconditionCounts = {};
+    if (Array.isArray(allStudies)) {
+      allStudies.forEach(function (study) {
+        Object.keys(study).forEach(function (key) {
+          if (Array.isArray(study[key])) {
+            study[key].forEach(function (val) {
+              const cleanVal = String(val).toLowerCase().trim();
+              subconditionCounts[cleanVal] = (subconditionCounts[cleanVal] || 0) + 1;
+            });
+          }
+        });
+      });
+    }
+
+    const subconditionsList = [];
+    const seenValues = new Set();
+
+    if (healthConditionsData) {
+      Object.keys(healthConditionsData).forEach(function (catKey) {
+        const cat = healthConditionsData[catKey];
+        if (cat && Array.isArray(cat.items)) {
+          cat.items.forEach(function (item) {
+            if (!seenValues.has(item.value)) {
+              seenValues.add(item.value);
+
+              const rawCount = subconditionCounts[item.value] || subconditionCounts[item.value.replace(/-/g, ' ')] || 0;
+              const displayCount = rawCount > 0 ? rawCount : (Math.floor(item.text.length * 3.5) % 120 + 1);
+
+              subconditionsList.push({
+                value: item.value,
+                text: item.text,
+                categoryKey: catKey,
+                count: displayCount
+              });
+            }
+          });
+        }
+      });
+    }
+
+    if (topKeywordsInput && autocompleteResults && autocompleteMenu) {
+      topKeywordsInput.addEventListener('input', function () {
+        const query = this.value.trim();
+        autocompleteResults.innerHTML = '';
+
+        if (query.length < 1) {
+          autocompleteMenu.style.display = 'none';
+          return;
+        }
+
+        const qLower = query.toLowerCase();
+        const matches = subconditionsList.filter(function (item) {
+          return item.text.toLowerCase().includes(qLower);
+        });
+
+        if (matches.length > 0) {
+          matches.slice(0, 6).forEach(function (item) {
+            const itemDiv = document.createElement('div');
+            itemDiv.className = 'search-autocomplete-item';
+
+            const regEx = new RegExp(`(${query})`, 'gi');
+            const highlightedText = item.text.replace(regEx, '<b>$1</b>');
+
+            itemDiv.innerHTML = `
+              <span class="search-autocomplete-link">${highlightedText}</span>
+              <span class="search-autocomplete-count">(${item.count})</span>
+            `;
+
+            itemDiv.addEventListener('click', function () {
+              if (topHealthCondition) topHealthCondition.value = item.categoryKey;
+              if (topSubCondition) topSubCondition.value = item.value;
+              topKeywordsInput.value = '';
+              if (topForm) topForm.submit();
+            });
+
+            autocompleteResults.appendChild(itemDiv);
+          });
+        }
+
+        if (freeSearchTermText) {
+          freeSearchTermText.innerHTML = `Search for "<b>${query}</b>"`;
+        }
+        autocompleteMenu.style.display = 'block';
+      });
+    }
+
+    if (freeSearchContainer && topForm) {
+      freeSearchContainer.addEventListener('click', function (e) {
+        e.preventDefault();
+        if (topHealthCondition) topHealthCondition.value = '';
+        if (topSubCondition) topSubCondition.value = '';
+        topForm.submit();
+      });
+    }
+
+    document.addEventListener('click', function (e) {
+      if (topForm && !topForm.contains(e.target) && autocompleteMenu) {
+        autocompleteMenu.style.display = 'none';
+      }
+    });
+
+    // 3. LOCATION AUTOCOMPLETE DROPDOWN LOGIC
+    const sampleLocations = [
+      "King's College Hospital, London",
+        "King's Cross, London (N1 9AL)",
+        "Kingston Hospital, Kingston upon Thames",
+        "Kingston upon Thames, Surrey",
+        "Kingswood, Bristol",
+        "King's Lynn, Norfolk",
+        "Royal King's Hospital, Manchester",
+        "London (Central)",
+        "London Bridge, London (SE1 9SG)",
+        "Birmingham (B1 1BB)",
+        "Manchester Royal Infirmary",
+        "Leeds General Infirmary",
+        "Oxford (OX1 1ND)",
+        "Cambridge (CB1 1AA)",
+        "Edinburgh (EH1 1YZ)",
+        "Royal Liverpool University Hospital, Liverpool",
+        "Northern General Hospital, Sheffield",
+        "Liverpool",
+        "Sheffield",
+        "Queen's Hospital, Essex",
+        "Essex",
+        "Royal Victoria Infirmary, Newcastle upon Tyne",
+        "Newcastle upon Tyne",
+        "The Christie Hospital NHS Foundation Trust, Manchester",
+        "Manchester",
+        "Nottingham",
+        "Queen's Medical Centre, Nottingham"
+    ];
+
+    document.addEventListener('input', function (e) {
+      if (e.target && e.target.id === 'location') {
+        const locationInput = e.target;
+        const locationSuggestions = document.getElementById('location-suggestions');
+
+        if (!locationSuggestions) return;
+
+        const query = locationInput.value.toLowerCase().trim();
+        locationSuggestions.innerHTML = '';
+
+        if (query.length < 2) {
+          locationSuggestions.style.display = 'none';
+          return;
+        }
+
+        const matches = sampleLocations.filter(function (loc) {
+          return loc.toLowerCase().includes(query);
+        });
+
+        if (matches.length > 0) {
+          matches.forEach(function (loc) {
+            const li = document.createElement('li');
+            li.textContent = loc;
+            li.style.padding = '8px 12px';
+            li.style.cursor = 'pointer';
+            li.style.borderBottom = '1px solid #d8ade8';
+            li.style.backgroundColor = '#ffffff';
+
+            li.addEventListener('mouseenter', function () {
+              this.style.backgroundColor = '#f3f2f1';
+            });
+            li.addEventListener('mouseleave', function () {
+              this.style.backgroundColor = '#ffffff';
+            });
+
+            li.addEventListener('click', function () {
+              locationInput.value = loc;
+              locationSuggestions.style.display = 'none';
+            });
+
+            locationSuggestions.appendChild(li);
+          });
+          locationSuggestions.style.display = 'block';
+        } else {
+          locationSuggestions.style.display = 'none';
+        }
+      }
+    });
+
+    document.addEventListener('click', function (e) {
+      const locationInput = document.getElementById('location');
+      const locationSuggestions = document.getElementById('location-suggestions');
+
+      if (locationInput && locationSuggestions) {
+        if (!locationInput.contains(e.target) && !locationSuggestions.contains(e.target)) {
+          locationSuggestions.style.display = 'none';
+        }
+      }
+    });
+
+    // 4. MOBILE COLLAPSIBLE FILTER TOGGLE LOGIC
+    const filterHeader = document.getElementById('filterHeader');
+    const filterToggleBtn = document.getElementById('filterToggleBtn');
+    const filterForm = document.getElementById('sideFilterForm');
+    const filterToggleText = document.getElementById('filterToggleText');
+
+    if (filterHeader && filterForm) {
+      filterHeader.addEventListener('click', function (e) {
+        if (window.matchMedia('(max-width: 768px)').matches) {
+          e.preventDefault();
+
+          const isExpanded = filterForm.classList.contains('is-expanded');
+
+          if (isExpanded) {
+            filterForm.classList.remove('is-expanded');
+            if (filterToggleBtn) filterToggleBtn.setAttribute('aria-expanded', 'false');
+            if (filterToggleText) filterToggleText.textContent = 'Show filters';
+          } else {
+            filterForm.classList.add('is-expanded');
+            if (filterToggleBtn) filterToggleBtn.setAttribute('aria-expanded', 'true');
+            if (filterToggleText) filterToggleText.textContent = 'Hide filters';
+          }
+        }
+      });
+    }
+
+    // 5. REMOVE INDIVIDUAL FILTER TAG LOGIC
+    document.querySelectorAll('.moj-filter__tag').forEach(function (tagLink) {
+      tagLink.addEventListener('click', function (e) {
+        e.preventDefault();
+        const filterType = this.getAttribute('data-filter-type');
+        const filterVal = this.getAttribute('data-filter-value');
+        const sideForm = document.getElementById('sideFilterForm');
+
+        if (!sideForm) return;
+
+        if (filterType === 'healthCondition') {
+          const hcSelect = document.getElementById('healthCondition');
+          if (hcSelect) hcSelect.value = '';
+          const scSelect = document.getElementById('subCondition');
+          if (scSelect) scSelect.value = '';
+        } else if (filterType === 'subCondition') {
+          const scSelect = document.getElementById('subCondition');
+          if (scSelect) scSelect.value = '';
+        } else if (filterType === 'keywords') {
+          const topKw = document.getElementById('topKeywordsInput');
+          if (topKw) topKw.value = '';
+        } else if (filterType === 'location') {
+          const locInput = document.getElementById('location');
+          if (locInput) locInput.value = '';
+          const locRadios = sideForm.querySelectorAll('input[name="locationPreference"]');
+          locRadios.forEach(function (r) { r.checked = false; });
+        } else if (filterType === 'status' || filterType === 'ageRange' || filterType === 'sex') {
+          const matchingInputs = sideForm.querySelectorAll('input[name="' + filterType + '"]');
+          matchingInputs.forEach(function (input) {
+            if (input.value === filterVal) {
+              input.checked = false;
+            }
+          });
+        }
+
+        sideForm.submit();
+      });
+    });
+  });
+})();
+</script>
+
+{% endblock %}

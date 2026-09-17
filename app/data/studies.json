@@ -4179,18 +4179,6 @@
     ]
   },
   {
-    "id": "58691",
-    "detailFolder": "studydetails-2",
-    "status": "recruiting",
-    "statusLabel": "Recruiting",
-    "closingDate": "Oct 2026",
-    "title": "EVOKE ECAP-Controlled Lead Placement and Programming in Chronic Pain Patients",
-    "conditionCategories": [
-      "musculoskeletal-and-orthopaedics",
-      "primary-care",
-      "general-practice",
-      "ageing"
-    ],
     "ageingSub": [
       "back-pain"
     ],

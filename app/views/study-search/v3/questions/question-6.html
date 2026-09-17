@@ -1,0 +1,46 @@
+{% extends 'layout-volunteer-bpor.html' %}
+
+{# Limits the content width for readability on interruption pages #}
+{% set mainClasses = "nhsuk-main-wrapper--s" %}
+
+{% block beforeContent %}
+
+{{ backLink({
+    "href": "javascript:history.go(-1)",
+    "text": "Back"
+}) }}
+
+{% endblock %}
+
+{% block content %}
+  <div class="nhsuk-grid-row">
+    <div class="nhsuk-grid-column-two-thirds">
+
+      {# Capture your custom text, main primary button, and secondary action link #}
+      {% set panelHtml %}
+
+        <p>View search results based on your answers and filter them further if you need to.</p>
+
+        <div class="nhsuk-button-group" style="margin-top: 32px;">
+
+          {# Primary Action: View results #}
+          {{ button({
+            text: "View results now",
+            classes: "nhsuk-button--reverse",
+            href: "/study-search/v3/searchfeed/search-feed?status=recruiting"
+          }) }}
+          
+        </div>
+      {% endset %}
+
+      {# Render the final Interruption panel wrapper #}
+      {{ panel({
+        titleText: "We have found studies based on your search",
+        titleSize: "l",
+        classes: "nhsuk-panel--interruption",
+        html: panelHtml
+      }) }}
+
+    </div>
+  </div>
+{% endblock %}

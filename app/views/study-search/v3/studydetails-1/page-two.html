@@ -1,0 +1,89 @@
+{% extends "study-search/v3/_layout-study-details.html" %}
+
+{% from "pagination/macro.njk" import pagination %}
+{% from "tag/macro.njk" import tag %}
+{% from "inset-text/macro.njk" import insetText %}
+{% from "tables/macro.njk" import table %}
+{% from "study-search/v3/_components/study-contents-list.njk" import studyContentsList %}
+
+{% block content %}
+  <div class="nhsuk-grid-row">
+    <div class="nhsuk-grid-column-two-thirds">
+
+      <h1>
+        <span role="text">
+          About this study
+          <span class="nhsuk-caption-xl nhsuk-caption--bottom">
+            <span class="nhsuk-u-visually-hidden">-</span>
+            Read more details about this study
+          </span>
+        </span>
+      </h1>
+
+      {{ studyContentsList("page-two") }}
+
+      {{ table({
+        firstCellIsHeader: true,
+        rows: [
+          [
+            { text: "Name" },
+            { text: "A Combined Exercise Programme Involving Strengthening, Flexibility and Aerobic Exercise for Lower Back Pain" }
+          ],
+          [
+            { text: "Type" },
+            { 
+              html: "<strong>INTERVENTIONAL</strong><br><br>" +
+                    "<strong>Intervention Type:</strong> BEHAVIORAL<br>" +
+                    "<strong>Description:</strong> The intervention groups undertake 8 weeks of a combined exercise programme including aerobic elements (running), a schedule of gradually intensifying strengthening exercises and flexibility exercises.<br>" +
+                    "<strong>Arm Group:</strong> Runner Group<br><br>" +
+                    "<strong>Intervention Type:</strong> BEHAVIORAL<br>" +
+                    "<strong>Description:</strong> The intervention groups undertake 8 weeks of a combined exercise programme including aerobic elements (swim/cycle), a schedule of gradually intensifying strengthening exercises and flexibility exercises.<br>" +
+                    "<strong>Arm Group:</strong> Swim/Cycle group"
+            }
+          ],
+          [
+            { text: "Status" },
+            { 
+              html: tag({
+                text: "Recruiting",
+                classes: "nhsuk-tag--green"
+              }) + " until 26 June 2027"
+            }
+          ],
+          [
+            { text: "Funders or sponsors" },
+            { text: "The study is sponsored by University of Nottingham" }
+          ],
+          [
+            { text: "Trial ID" },
+            { text: "NCT06921694" }
+          ]
+        ]
+      }) }}
+
+      <h2 class="nhsuk-heading-m">Summary</h2>
+
+      {% set insetTextHtml %}
+        <p>This information is provided directly by researchers, and we recognise that it isn't always easy to understand. We are working with researchers to improve the accessibility of this information. In some summaries, you may come across links to external websites. These websites will have more information to help you better understand the study.</p>
+      {% endset %}
+
+      {{ insetText({
+        html: insetTextHtml
+      }) }}
+
+      <p class="nhsuk-body-m">This randomised controlled trial will evaluate the effectiveness of different exercise modalities for individuals with low back pain. Participants will be allocated to one of three groups: a control arm (usual exercise), a running-based intervention, or a swimming/cycling-based intervention. Outcomes related to pain and function will be measured at baseline, 8 weeks, and 12 months.</p>
+
+      {{ pagination({
+        previous: {
+          labelText: "Who can take part",
+          href: "/study-search/v3/studydetails-1/page-one"
+        },
+        next: {
+          labelText: "Location",
+          href: "/study-search/v3/studydetails-1/page-three"
+        }
+      }) }}
+
+    </div>
+  </div>
+{% endblock %}

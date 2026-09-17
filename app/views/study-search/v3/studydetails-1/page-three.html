@@ -1,0 +1,76 @@
+{% extends "study-search/v3/_layout-study-details.html" %}
+
+{% from "contents-list/macro.njk" import contentsList %}
+{% from "pagination/macro.njk" import pagination %}
+{% from "tag/macro.njk" import tag %}
+{% from "inset-text/macro.njk" import insetText %}
+{% from "card/macro.njk" import card %}
+{% from "study-search/v3/_components/study-contents-list.njk" import studyContentsList %}
+
+
+{% block content %}
+  <div class="nhsuk-grid-row">
+    <div class="nhsuk-grid-column-two-thirds">
+
+      <h1>
+        <span role="What's involved">
+         Location
+          <span class="nhsuk-caption-xl nhsuk-caption--bottom">
+            <span class="nhsuk-u-visually-hidden">
+            -
+            </span>
+              Where you can take part in this study
+          </span>
+        </span>
+      </h1>
+
+{{ studyContentsList("page-three") }}
+
+{% from "tables/macro.njk" import table %}
+
+
+{% from "images/macro.njk" import image %}
+
+{{ image({
+  src: "/assets/images/map.png",
+  alt: "Map showing the location of Queen's Hospital in Romford",
+  sizes: "100vw",
+  srcset: "/assets/images/map.png 600w, /assets/images/map-nottingham.png 1000w",
+  attributes: {
+    style: "width: 100%;"
+  }
+}) }}
+
+<div class="nhsuk-grid-row nhsuk-u-margin-bottom-4">
+  <div class="nhsuk-grid-column-one-half">
+    <p class="nhsuk-u-margin-bottom-0"><strong>1 location</strong></p>
+  </div>
+</div>
+
+<ul class="nhsuk-grid-row nhsuk-card-group">
+  
+  {# CARD 1 #}
+  <li class="nhsuk-grid-column-full nhsuk-card-group__item">
+    {{ card({
+      heading: "University of Nottinham, Queen's Medical Centre",
+      headingSize: "m",
+      descriptionHtml: '<p>Nottingham, Notts, NG7 2UH</p><p><a href="https://www.google.com/maps?sca_esv=ecb4c95cb67ba1f8&output=search&q=University+of+Nottingham,+Queens+Medical+Centre&source=lnms&fbs=ABfTbFVyMZGZf1hfvX9uKjN_-G8c4u0nXx4bEIpwm1lnNH832f01nJrJQBh6ZiQ_SpYVjD31ZCEQrpgQNMYfl4dEtziqzXHrSdNAvOYvRLmw55fik5-tvwJJp6GAQ94YCy5nYMsfND2Tnvwc628r3MMPC_WX18ivEGgPUGddlz0XPoa5SRexMoCcCW1CeRiShKxa5ZCU5O4mnmsqjfrmE53qjAbtGCVr2Q&entry=mc&ved=1t:200715&ictx=111" class="nhsuk-link">Plan your journey in Google Maps</a></p>'
+    }) }}
+  </li>
+</ul>
+
+
+{{ pagination({
+  previous: {
+    labelText: "About the study",
+    href: "page-two.html"
+  },
+  next: {
+    labelText: "Contact the study team",
+    href: "page-four.html"
+  }
+}) }}
+
+    </div>
+  </div>
+{% endblock %}
