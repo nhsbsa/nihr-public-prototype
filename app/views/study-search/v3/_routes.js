@@ -1,11 +1,20 @@
 const express = require('express')
 const router = express.Router()
 
+// Tells the shared layout that these pages are v3
+router.use(function (req, res, next) {
+  res.locals.studySearchVersion = 'v3'
+  next()
+})
+
 // Load health conditions JSON data from app/data/
 const healthConditionsData = require('../../../data/health-conditions.json')
 
 // Load the dummy studies from app/data/studies.json
 const studiesData = require('../../../data/studies.json')
+
+// Number of studies shown per page
+const PAGE_SIZE = 10
 
 // Helper function to sanitize input strings and arrays against empty or '_unchecked' values
 function sanitizeInput(val) {
@@ -16,6 +25,36 @@ function sanitizeInput(val) {
     return ''
   }
   return String(val).trim()
+}
+
+// Builds the data object for the NHS pagination component
+function buildPagination (currentPage, totalPages, baseUrl) {
+  if (totalPages <= 1) return null
+
+  const pageHref = n => `${baseUrl}?page=${n}`
+  const pages = new Set([1, totalPages])
+  for (let n = currentPage - 2; n <= currentPage + 2; n++) {
+    if (n >= 1 && n <= totalPages) pages.add(n)
+  }
+
+  const sorted = [...pages].sort((a, b) => a - b)
+  const items = []
+  let last = 0
+
+  sorted.forEach(n => {
+    if (n - last === 2) {
+      items.push({ number: last + 1, href: pageHref(last + 1) })
+    } else if (n - last > 2) {
+      items.push({ ellipsis: true })
+    }
+    items.push({ number: n, href: pageHref(n), current: n === currentPage })
+    last = n
+  })
+
+  const pagination = { items }
+  if (currentPage > 1) pagination.previous = { href: pageHref(currentPage - 1) }
+  if (currentPage < totalPages) pagination.next = { href: pageHref(currentPage + 1) }
+  return pagination
 }
 
 // Applies keywords, location, status, condition, sub-condition, sex, AND sorting filters to the study list.
@@ -52,7 +91,7 @@ function applyFilters(studies, { keywords, location, activeStatuses, selectedCon
     results = results.filter(study => {
       const matchingSub = Object.keys(study).some(key => {
         if (Array.isArray(study[key])) {
-          return study[key].some(val => 
+          return study[key].some(val =>
             String(val).toLowerCase().replace(/[-_]/g, ' ').trim() === targetSub
           )
         }
@@ -84,13 +123,12 @@ function applyFilters(studies, { keywords, location, activeStatuses, selectedCon
   return results
 }
 
-// ROUTE HANDLER: Handles search feed, dynamic filters, autocomplete searches & sorting
+// ROUTE HANDLER: Handles search feed, dynamic filters, autocomplete searches, sorting & pagination
 router.all('/searchfeed/search-feed', function (req, res) {
   if (!req.session.data) {
     req.session.data = {}
   }
 
-  // Clear filters feature
   // Clear filters feature
   if (req.query.clear === 'true') {
     req.session.data.keywords = ''
@@ -104,7 +142,7 @@ router.all('/searchfeed/search-feed', function (req, res) {
     req.session.data.activeStatuses = []
     req.session.data.ageRange = []
     req.session.data.dateofbirth = { day: '', month: '', year: '' }
-    
+
     return res.redirect('/study-search/v3/searchfeed/search-feed')
   }
 
@@ -171,7 +209,7 @@ router.all('/searchfeed/search-feed', function (req, res) {
   const studies = studiesData || []
 
   // Run unified filtering
-  const results = applyFilters(studies, {
+  const filteredStudies = applyFilters(studies, {
     keywords,
     location,
     activeStatuses,
@@ -181,9 +219,21 @@ router.all('/searchfeed/search-feed', function (req, res) {
     sortBy: chosenSortBy
   })
 
+  // Pagination
+  // POSTs (filters or sort) have no ?page, so they go back to page 1
+  const baseUrl = '/study-search/v3/searchfeed/search-feed'
+  const requestedPage = parseInt(req.query.page, 10) || 1
+  const totalPages = Math.max(1, Math.ceil(filteredStudies.length / PAGE_SIZE))
+  const currentPage = Math.min(Math.max(requestedPage, 1), totalPages)
+  const start = (currentPage - 1) * PAGE_SIZE
+  const results = filteredStudies.slice(start, start + PAGE_SIZE)
+
   res.render('study-search/v3/searchfeed/search-feed', {
     results,
-    resultsCount: results.length,
+    resultsCount: filteredStudies.length,
+    resultsStart: start + 1,
+    resultsEnd: start + results.length,
+    paginationData: buildPagination(currentPage, totalPages, baseUrl),
     keywords,
     location,
     activeStatuses,
@@ -198,6 +248,7 @@ router.all('/searchfeed/search-feed', function (req, res) {
   })
 })
 
+// Study detail page
 router.get('/search/study/:id', function (req, res) {
   const studyId = req.params.id
   const study = studiesData.find(s => s.id === studyId)
@@ -212,6 +263,7 @@ router.get('/search/study/:id', function (req, res) {
   // Redirecting updates the URL bar so relative links resolve correctly
   return res.redirect(`/study-search/v3/${detailFolder}/page-one`)
 })
+
 // ****************************************
 // Onboarding Questions 1–4 & Question 6
 // ****************************************

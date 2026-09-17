@@ -7,6 +7,7 @@
 {% from "tag/macro.njk" import tag %}
 {% from "radios/macro.njk" import radios %}
 {% from "inset-text/macro.njk" import insetText %}
+{% from "pagination/macro.njk" import pagination %}
 
 {% block content %}
 
@@ -579,7 +580,13 @@
     <div class="nhsuk-grid-column-two-thirds">
 
       <div class="results-header-bar">
-        <p class="nhsuk-body-m" style="margin-bottom: 0;"><strong>{{ resultsCount }}</strong> results</p>
+        <p class="nhsuk-body-m" style="margin-bottom: 0;">
+          {% if resultsCount > 0 %}
+            Showing <strong>{{ resultsStart }}</strong> to <strong>{{ resultsEnd }}</strong> of <strong>{{ resultsCount }}</strong> results
+          {% else %}
+            <strong>0</strong> results
+          {% endif %}
+        </p>
 
         <form id="sortForm" action="/study-search/v3/searchfeed/search-feed" method="post" style="margin-bottom: 0;">
           <div class="nhsuk-form-group sort-by-wrapper" style="margin-bottom: 0;">
@@ -605,11 +612,12 @@
             <li>register for an account and get matched to related studies when they are added</li>
             <li>start your search again</li>
           </ul>
-        {{ button({
-          text: "Register now",
-          href: "/registration/start",
-          classes: "nhsuk-button--secondary"
-        }) }}
+          {{ button({
+            text: "Register now",
+            href: "/registration/start",
+            classes: "nhsuk-button--secondary"
+          }) }}
+        </div>
 
       {% else %}
 
@@ -648,7 +656,11 @@
               <p class="nhsuk-body"><strong>Locations</strong> {{ study.locations | join(", ") }}</p>
             </div>
           </div>
-        {% endfor %}
+                {% endfor %}
+
+        {% if paginationData %}
+          {{ pagination(paginationData) }}
+        {% endif %}
 
       {% endif %}
 
