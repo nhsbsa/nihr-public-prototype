@@ -14,12 +14,15 @@
          Who can take part
           <span class="nhsuk-caption-xl nhsuk-caption--bottom">
             <span class="nhsuk-u-visually-hidden">-</span>
-            Check these details to see if you can take part
+            A Combined Exercise Programme Involving Strengthening, Flexibility and Aerobic Exercise for Lower Back Pain
           </span>
         </span>
       </h1>
 
+
       {{ studyContentsList("page-one") }}
+
+      <h2 class="nhsuk-heading-m">Person criteria</h2>
 
       {{ table({
         firstCellIsHeader: true,
@@ -39,8 +42,10 @@
         ]
       }) }}
 
+      <h2 class="nhsuk-heading-m">Detailed criteria</h2>
+
       {{ list({
-        title: "You can take part if you",
+        title: "Eligible",
         type: "tick",
         items: [
           {
@@ -59,7 +64,7 @@
       }) }}
 
       {{ list({
-        title: "You cannot take part if you",
+        title: "Not eilgible",
         type: "cross",
         hidePrefix: "true",
         items: [
