@@ -18,7 +18,10 @@ Who can take part          <span class="nhsuk-caption-xl nhsuk-caption--bottom">
         </span>
       </h1>
 
+
       {{ studyContentsList("page-one") }}
+
+      <h2 class="nhsuk-heading-m">Person criteria</h2>
 
       {{ table({
         firstCellIsHeader: true,
@@ -38,8 +41,10 @@ Who can take part          <span class="nhsuk-caption-xl nhsuk-caption--bottom">
         ]
       }) }}
 
+      <h2 class="nhsuk-heading-m">Detailed criteria</h2>
+
       {{ list({
-        title: "You can take part if you",
+        title: "Eligible",
         type: "tick",
         items: [
           {
@@ -58,7 +63,7 @@ Who can take part          <span class="nhsuk-caption-xl nhsuk-caption--bottom">
       }) }}
 
       {{ list({
-        title: "You cannot take part if you",
+        title: "Not eilgible",
         type: "cross",
         hidePrefix: "true",
         items: [
