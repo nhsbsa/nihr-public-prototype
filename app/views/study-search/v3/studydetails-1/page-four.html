@@ -5,6 +5,7 @@
 {% from "tables/macro.njk" import table %}
 {% from "card/macro.njk" import card %}
 {% from "study-search/v3/_components/study-contents-list.njk" import studyContentsList %}
+{% from "_components/promo-banner/macro.njk" import promoBanner with context %}
 
 {% block content %}
   <div class="nhsuk-grid-row">
@@ -17,7 +18,7 @@
             <span class="nhsuk-u-visually-hidden">
             -
             </span>
-              Advice on what to ask the study team and how to contact them
+         A Combined Exercise Programme Involving Strengthening, Flexibility and Aerobic Exercise for Lower Back Pain
           </span>
         </span>
       </h1>
@@ -54,6 +55,18 @@
           }) }}
         </li>
       </ul>
+
+      {{ promoBanner({
+  text: "We’re Breast Cancer Now, the research and support charity. However you’re experiencing breast cancer, we’re here.",
+  button: {
+    text: "Visit website",
+    href: "/https://breastcancernow.org/"
+  },
+  logo: {
+    src: "/assets/images/cancerlogo.png",
+    alt: "Breast Cancer Now"
+  }
+}) }}
 
       {{ pagination({
         previous: {
