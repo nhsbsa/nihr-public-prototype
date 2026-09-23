@@ -24,13 +24,12 @@
 
       {{ notificationBanner({
         variant: "success",
-        heading: { text: "Application sent successfully", level: 3 },
-        html: "<p>Thank you for answering those questions. We've sent your details to the research team.</p>"
+        html: "<h3 class=\"nhsuk-notification-banner__heading\">Application sent successfully</h3><p>Thank you for answering those questions. We've sent your details to the research team.</p>"
       }) }}
 
       {% call card({ classes: "nhsuk-u-margin-top-6" }) %}
         {{ tag({ text: "Awaiting researcher", classes: "nhsuk-tag--blue nhsuk-u-margin-bottom-3" }) }}
-        {{ heading({ text: "Your application is with the research team", level: 2, size: "m" }) }}
+        <h2 class="nhsuk-heading-m">Your application is with the research team</h2>
         <p class="nhsuk-body">You have completed the pre-screener for the Alzheimer's early detection study. The team at University Hospitals Birmingham will contact you within 5 working days.</p>
         {{ button({
           text: "View study details",
@@ -45,7 +44,7 @@
       {% if query.state != "dismissed" %}
         {% call card() %}
           {{ tag({ text: "New match", classes: "nhsuk-tag--blue nhsuk-u-margin-bottom-3" }) }}
-          {{ heading({ html: '<a href="details">Early detection screening for Alzheimer\'s disease</a>', level: 2, size: "m" }) }}
+          <h2 class="nhsuk-heading-m"><a href="details">Early detection screening for Alzheimer's disease</a></h2>
           <p class="nhsuk-body">Based on your health records, you might be a great match for a new trial run by Birmingham NHS Trust.</p>
           {{ button({
             text: "View study details",
@@ -59,7 +58,7 @@
       {% endif %}
 
       {% call card({ classes: "nhsuk-u-margin-top-6" }) %}
-        {{ heading({ text: "Increase your chances of a match", level: 2, size: "m" }) }}
+        <h2 class="nhsuk-heading-m">Increase your chances of a match</h2>
         <p class="nhsuk-body">We are actively checking for live clinical trials that match your details.</p>
 
         {{ button({
@@ -70,14 +69,15 @@
       {% endcall %}
 
       {% call card({ classes: "nhsuk-u-margin-top-6" }) %}
-        {{ heading({ text: "Available right now", level: 2, size: "m" }) }}
+        <h2 class="nhsuk-heading-m">Available right now</h2>
         <p class="nhsuk-body">While you wait for trial matches, you can help shape future NHS research by taking a short health survey.</p>
         {{ button({ text: "Take a general health survey", href: "dummy-survey", classes: "nhsuk-u-margin-bottom-0" }) }}
       {% endcall %}
 
     {% endif %}
 
-    {% call card({ classes: "nhsuk-u-margin-top-6", heading: { text: "Your active applications", level: 3, size: "m" } }) %}
+    {% call card({ classes: "nhsuk-u-margin-top-6" }) %}
+      <h3 class="nhsuk-heading-m">Your active applications</h3>
       {% call insetText() %}
         {% if query.state == "enrolled" %}
           <p class="nhsuk-body-s nhsuk-u-margin-bottom-2"><strong>Alzheimer's Early Screening Trial status:</strong></p>
@@ -92,7 +92,8 @@
       {% endcall %}
     {% endcall %}
 
-    {% call card({ classes: "nhsuk-u-margin-top-6", heading: { text: "Past studies", level: 3, size: "m" } }) %}
+    {% call card({ classes: "nhsuk-u-margin-top-6" }) %}
+      <h3 class="nhsuk-heading-m">Past studies</h3>
       <p class="nhsuk-body-s nhsuk-u-margin-bottom-0">You do not have any past study activity.</p>
     {% endcall %}
 
@@ -111,10 +112,10 @@
 
   <div class="nhsuk-grid-column-one-third">
     {% call card({ classes: "nhsuk-card--grey" }) %}
-      {{ heading({ text: "Managing profile:", level: 3, size: "xs", classes: "nhsuk-u-margin-bottom-1" }) }}
+      <h3 class="nhsuk-heading-xs nhsuk-u-margin-bottom-1">Managing profile:</h3>
       <p class="nhsuk-body nhsuk-u-margin-bottom-4"><strong>John Jones</strong></p>
 
-      {{ heading({ text: "Proxy access", level: 3, size: "xs", classes: "nhsuk-u-margin-bottom-2" }) }}
+      <h3 class="nhsuk-heading-xs nhsuk-u-margin-bottom-2">Proxy access</h3>
       {{ radios({
         classes: "nhsuk-radios--small",
         name: "activeProfile",
@@ -128,7 +129,7 @@
     {% endcall %}
 
     {% call card({ classes: "nhsuk-card--grey nhsuk-u-margin-top-6" }) %}
-      {{ heading({ text: "Account status:", level: 3, size: "xs", classes: "nhsuk-u-margin-bottom-2" }) }}
+      <h3 class="nhsuk-heading-xs nhsuk-u-margin-bottom-2">Account status:</h3>
       {{ radios({
         classes: "nhsuk-radios--small",
         name: "accountStatus",
@@ -148,7 +149,7 @@
     {% endcall %}
 
     {% call card({ classes: "nhsuk-card--grey nhsuk-u-margin-top-6" }) %}
-      {{ heading({ text: "Profile completeness:", level: 3, size: "xs", classes: "nhsuk-u-margin-bottom-2" }) }}
+      <h3 class="nhsuk-heading-xs nhsuk-u-margin-bottom-2">Profile completeness:</h3>
       <progress value="40" max="100" class="app-progress">40%</progress>
       <p class="nhsuk-body-s nhsuk-u-margin-top-1 nhsuk-u-margin-bottom-0"><strong>40% complete</strong></p>
     {% endcall %}

@@ -17,7 +17,7 @@
 
   <div class="nhsuk-grid-column-two-thirds">
 
-    {{ heading({ text: "Personal details", level: 2, size: "m" }) }}
+    <h2 class="nhsuk-heading-m">Personal details</h2>
     {{ summaryList({
       rows: [
         {
@@ -38,7 +38,7 @@
       ]
     }) }}
 
-    {{ heading({ text: "Research preferences", level: 2, size: "m", classes: "nhsuk-u-margin-top-6" }) }}
+    <h2 class="nhsuk-heading-m nhsuk-u-margin-top-6">Research preferences</h2>
     {{ summaryList({
       rows: [
         {
@@ -54,9 +54,9 @@
       ]
     }) }}
 
-    {{ heading({ text: "Data and consent", level: 2, size: "m", classes: "nhsuk-u-margin-top-6" }) }}
+    <h2 class="nhsuk-heading-m nhsuk-u-margin-top-6">Data and consent</h2>
     {% call card() %}
-      {{ heading({ text: "Pause or close your account", level: 3, size: "s" }) }}
+      <h3 class="nhsuk-heading-s">Pause or close your account</h3>
       <p class="nhsuk-body">You can pause matching for a while, or opt out and close your account. This will not delete your existing information, and you can start matching again at any time.</p>
       {{ button({ text: "Manage account status", href: "archive", classes: "nhsuk-button--secondary nhsuk-u-margin-bottom-0" }) }}
     {% endcall %}
@@ -65,7 +65,7 @@
 
   <div class="nhsuk-grid-column-one-third">
     {% call card({ classes: "nhsuk-card--grey nhsuk-u-margin-top-2" }) %}
-      {{ heading({ text: "Proxy access", level: 3, size: "xs", classes: "nhsuk-u-margin-bottom-2" }) }}
+      <h3 class="nhsuk-heading-xs nhsuk-u-margin-bottom-2">Proxy access</h3>
       {{ radios({
         classes: "nhsuk-radios--small",
         name: "activeProfile",

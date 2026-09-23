@@ -18,7 +18,7 @@
 
     {% call card() %}
       {{ tag({ text: "Opted out", classes: "nhsuk-tag--grey nhsuk-u-margin-bottom-3" }) }}
-      {{ heading({ text: "Your account is opted out", level: 2, size: "m" }) }}
+      <h2 class="nhsuk-heading-m">Your account is opted out</h2>
       <p class="nhsuk-body">As you asked, we have changed your account status to opted out. We have paused all study matching for your account.</p>
 
       {% call insetText() %}
@@ -32,7 +32,8 @@
     <div class="nhsuk-grid-row nhsuk-u-margin-top-6">
 
       <div class="nhsuk-grid-column-one-half">
-        {% call card({ classes: "nhsuk-card--grey", heading: { text: "Your details", level: 3, size: "xs" } }) %}
+        {% call card({ classes: "nhsuk-card--grey" }) %}
+          <h3 class="nhsuk-heading-xs">Your details</h3>
           <p class="nhsuk-body-s nhsuk-u-margin-bottom-1"><strong>John Jones</strong></p>
           <p class="nhsuk-body-s nhsuk-u-margin-bottom-1">john.j@email.com</p>
           <p class="nhsuk-body-s nhsuk-u-margin-bottom-3">B44 0AA</p>
@@ -41,7 +42,8 @@
       </div>
 
       <div class="nhsuk-grid-column-one-half">
-        {% call card({ classes: "nhsuk-card--grey", heading: { text: "Your consents", level: 3, size: "xs" } }) %}
+        {% call card({ classes: "nhsuk-card--grey" }) %}
+          <h3 class="nhsuk-heading-xs">Your consents</h3>
           <p class="nhsuk-body-s nhsuk-u-margin-bottom-3">
             UK General Registry<br>
             Matching paused
@@ -52,13 +54,15 @@
 
     </div>
 
-    {% call card({ classes: "nhsuk-card--grey nhsuk-u-margin-top-6", heading: { text: "Your active applications", level: 3, size: "m" } }) %}
+    {% call card({ classes: "nhsuk-card--grey nhsuk-u-margin-top-6" }) %}
+      <h3 class="nhsuk-heading-m">Your active applications</h3>
       {% call insetText() %}
         <p class="nhsuk-body-s nhsuk-u-margin-bottom-0">You will not see your matching history while your account is opted out.</p>
       {% endcall %}
     {% endcall %}
 
-    {% call card({ classes: "nhsuk-u-margin-top-6", heading: { text: "Past studies", level: 3, size: "m" } }) %}
+    {% call card({ classes: "nhsuk-u-margin-top-6" }) %}
+      <h3 class="nhsuk-heading-m">Past studies</h3>
       <p class="nhsuk-body-s nhsuk-u-margin-bottom-0">You do not have any past study activity.</p>
     {% endcall %}
 
@@ -66,10 +70,10 @@
 
   <div class="nhsuk-grid-column-one-third">
     {% call card({ classes: "nhsuk-card--grey" }) %}
-      {{ heading({ text: "Managing profile:", level: 3, size: "xs", classes: "nhsuk-u-margin-bottom-1" }) }}
+      <h3 class="nhsuk-heading-xs nhsuk-u-margin-bottom-1">Managing profile:</h3>
       <p class="nhsuk-body nhsuk-u-margin-bottom-4"><strong>John Jones</strong></p>
 
-      {{ heading({ text: "Proxy access", level: 3, size: "xs", classes: "nhsuk-u-margin-bottom-2" }) }}
+      <h3 class="nhsuk-heading-xs nhsuk-u-margin-bottom-2">Proxy access</h3>
       {{ radios({
         classes: "nhsuk-radios--small", name: "activeProfile",
         formGroup: { classes: "nhsuk-u-margin-bottom-2" },
@@ -82,7 +86,7 @@
     {% endcall %}
 
     {% call card({ classes: "nhsuk-card--grey nhsuk-u-margin-top-6" }) %}
-      {{ heading({ text: "Account status:", level: 3, size: "xs", classes: "nhsuk-u-margin-bottom-2" }) }}
+      <h3 class="nhsuk-heading-xs nhsuk-u-margin-bottom-2">Account status:</h3>
       {{ radios({
         classes: "nhsuk-radios--small", name: "accountStatus",
         formGroup: { classes: "nhsuk-u-margin-bottom-4" },
@@ -96,7 +100,7 @@
     {% endcall %}
 
     {% call card({ classes: "nhsuk-card--grey nhsuk-u-margin-top-6" }) %}
-      {{ heading({ text: "Profile completeness:", level: 3, size: "xs", classes: "nhsuk-u-margin-bottom-2" }) }}
+      <h3 class="nhsuk-heading-xs nhsuk-u-margin-bottom-2">Profile completeness:</h3>
       <progress value="40" max="100" class="app-progress">40%</progress>
       <p class="nhsuk-body-s nhsuk-u-margin-top-1 nhsuk-u-margin-bottom-0"><strong>40% complete</strong></p>
     {% endcall %}

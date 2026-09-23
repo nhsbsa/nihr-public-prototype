@@ -15,14 +15,14 @@
       <p class="nhsuk-panel__body">The research team for the Alzheimer's study will contact you soon.</p>
     {% endcall %}
 
-    {{ heading({ text: "What happens next", level: 2, size: "m" }) }}
+    <h2 class="nhsuk-heading-m">What happens next</h2>
 
     <p class="nhsuk-body">
       The researchers will contact you directly at your registered email address (<strong>jo**@email.com</strong>) within 5 working days.
     </p>
 
     {% call card({ classes: "nhsuk-u-margin-top-6" }) %}
-      {{ heading({ text: "While you wait", level: 3, size: "s" }) }}
+      <h3 class="nhsuk-heading-s">While you wait</h3>
       <ul class="nhsuk-list nhsuk-list--bullet nhsuk-u-margin-bottom-0">
         <li>Check your spam or junk folder if you do not receive an email.</li>
         <li>If you have not heard anything after 5 working days, contact the research team for an update.</li>
@@ -35,15 +35,15 @@
 
   <div class="nhsuk-grid-column-one-third">
     {% call card({ classes: "nhsuk-card--grey" }) %}
-      {{ heading({ text: "Managing profile:", level: 3, size: "xs", classes: "nhsuk-u-margin-bottom-1" }) }}
+      <h3 class="nhsuk-heading-xs nhsuk-u-margin-bottom-1">Managing profile:</h3>
       <p class="nhsuk-body nhsuk-u-margin-bottom-4"><strong>John Jones</strong></p>
 
-      {{ heading({ text: "Account status:", level: 3, size: "xs", classes: "nhsuk-u-margin-bottom-2" }) }}
+      <h3 class="nhsuk-heading-xs nhsuk-u-margin-bottom-2">Account status:</h3>
       <p class="nhsuk-u-margin-bottom-6">
         {{ tag({ text: "On pause (in study)", classes: "nhsuk-tag--blue" }) }}
       </p>
 
-      {{ heading({ text: "Profile completeness:", level: 3, size: "xs", classes: "nhsuk-u-margin-bottom-2" }) }}
+      <h3 class="nhsuk-heading-xs nhsuk-u-margin-bottom-2">Profile completeness:</h3>
       <progress value="40" max="100" class="app-progress">40%</progress>
       <p class="nhsuk-body-s nhsuk-u-margin-top-1 nhsuk-u-margin-bottom-0"><strong>40% complete</strong></p>
     {% endcall %}
