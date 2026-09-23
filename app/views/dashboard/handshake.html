@@ -10,10 +10,10 @@
 
   <div class="nhsuk-grid-column-two-thirds">
 
-    {{ panel({
-      heading: { text: "Your details have been sent", level: 1 },
-      html: "The research team for the Alzheimer's study will contact you soon."
-    }) }}
+    {% call panel() %}
+      <h1 class="nhsuk-panel__title">Your details have been sent</h1>
+      <p class="nhsuk-panel__body">The research team for the Alzheimer's study will contact you soon.</p>
+    {% endcall %}
 
     {{ heading({ text: "What happens next", level: 2, size: "m" }) }}
 

@@ -9,10 +9,10 @@
 <div class="nhsuk-grid-row">
   <div class="nhsuk-grid-column-two-thirds">
 
-    {{ panel({
-      heading: { text: "You are eligible for this study", level: 1 },
-      html: "Your application reference is<br><strong>BPR-4521-2026</strong>"
-    }) }}
+    {% call panel() %}
+      <h1 class="nhsuk-panel__title">You are eligible for this study</h1>
+      <p class="nhsuk-panel__body">Your application reference is<br><strong>BPR-4521-2026</strong></p>
+    {% endcall %}
 
     {{ heading({ text: "What happens next", level: 2, size: "m" }) }}
 
