@@ -1,0 +1,33 @@
+{% extends "dashboard/layout.html" %}
+
+{% block pageTitle %}
+  You are not eligible for this study - Be Part of Research
+{% endblock %}
+
+{% block content %}
+
+<div class="nhsuk-grid-row">
+  <div class="nhsuk-grid-column-two-thirds">
+
+    <h1 class="nhsuk-heading-xl">You are not eligible for this study</h1>
+
+    <p class="nhsuk-body">Based on your answers, you do not meet the specific criteria for the <strong>Alzheimer's early detection screening study</strong> at this time.</p>
+
+    {% call card({ classes: "nhsuk-card--grey nhsuk-u-margin-top-6" }) %}
+      {{ heading({ text: "What you can do next", level: 2, size: "m" }) }}
+      <ul class="nhsuk-list nhsuk-list--bullet">
+        <li>Keep your profile details up to date so we can match you with other studies.</li>
+        <li>Take our general health survey to expand your matching criteria.</li>
+      </ul>
+    {% endcall %}
+
+    <div class="nhsuk-u-margin-top-6">
+      {{ button({ text: "Return to dashboard", href: "/dashboard/home?state=active", classes: "nhsuk-u-margin-bottom-0" }) }}
+    </div>
+
+  </div>
+</div>
+
+{% include "dashboard/partials/prototype-nav.html" %}
+
+{% endblock %}

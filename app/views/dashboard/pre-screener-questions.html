@@ -1,0 +1,75 @@
+{% extends "dashboard/layout.html" %}
+
+{% block pageTitle %}
+  Eligibility questions - Be Part of Research
+{% endblock %}
+
+{% block content %}
+
+<div class="nhsuk-grid-row">
+  <div class="nhsuk-grid-column-two-thirds">
+    {{ backLink({ text: "Back", href: "pre-screener-start", classes: "nhsuk-u-margin-bottom-4" }) }}
+
+    <h1 class="nhsuk-heading-xl">Eligibility questions</h1>
+
+    <form id="eligibility-form" action="pre-screener-cya" method="post">
+
+      {{ radios({
+        name: "ageCriteria",
+        fieldset: {
+          legend: { text: "Are you aged between 50 and 85?", classes: "nhsuk-fieldset__legend--m" }
+        },
+        items: [
+          { value: "Yes", text: "Yes" },
+          { value: "No", text: "No" }
+        ]
+      }) }}
+
+      {{ radios({
+        name: "diagnosisCriteria",
+        fieldset: {
+          legend: { text: "Do you have a clinical diagnosis of early-stage cognitive impairment?", classes: "nhsuk-fieldset__legend--m" }
+        },
+        items: [
+          { value: "Yes", text: "Yes" },
+          { value: "No", text: "No" }
+        ]
+      }) }}
+
+      {{ radios({
+        name: "partnerCriteria",
+        fieldset: {
+          legend: { text: "Do you have a family member, partner or friend who can help confirm any changes?", classes: "nhsuk-fieldset__legend--m" }
+        },
+        items: [
+          { value: "Yes", text: "Yes" },
+          { value: "No", text: "No" }
+        ]
+      }) }}
+
+      {{ button({ text: "Continue", classes: "nhsuk-u-margin-top-4 nhsuk-u-margin-bottom-0" }) }}
+      
+    </form>
+  </div>
+</div>
+
+{% include "dashboard/partials/prototype-nav.html" %}
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var form = document.getElementById('eligibility-form');
+    if (form) {
+      form.addEventListener('submit', function(e) {
+        var ageNo = document.querySelector('input[name="ageCriteria"][value="No"]:checked');
+        var diagNo = document.querySelector('input[name="diagnosisCriteria"][value="No"]:checked');
+        var partnerNo = document.querySelector('input[name="partnerCriteria"][value="No"]:checked');
+
+        if (ageNo || diagNo || partnerNo) {
+          form.action = "pre-screener-ineligible";
+        }
+      });
+    }
+  });
+</script>
+
+{% endblock %}

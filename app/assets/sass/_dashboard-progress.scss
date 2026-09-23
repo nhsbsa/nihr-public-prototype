@@ -1,0 +1,15 @@
+// Volunteer Dashboard concept: profile-completeness progress bar
+// (used across app/views/dashboard/*.html)
+
+.app-progress {
+  width: 100%;
+  height: 16px;
+  display: block;
+  border: 1px solid #a6b5bd;
+  border-radius: 4px;
+  background-color: #e8edee;
+
+  &::-webkit-progress-bar { background-color: #e8edee; border-radius: 4px; }
+  &::-webkit-progress-value { background-color: #005eb8; border-radius: 4px; }
+  &::-moz-progress-bar { background-color: #005eb8; border-radius: 4px; }
+}

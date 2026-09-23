@@ -1,0 +1,103 @@
+{% extends "dashboard/layout.html" %}
+
+{% block pageTitle %}
+  Profile and preferences - Be Part of Research
+{% endblock %}
+
+{% block content %}
+
+<div class="nhsuk-grid-row">
+  <div class="nhsuk-grid-column-full">
+    {{ backLink({ text: "Back to dashboard", href: "/dashboard/home?state=active", classes: "nhsuk-u-margin-bottom-4" }) }}
+    <h1 class="nhsuk-heading-xl">Profile and preferences</h1>
+  </div>
+</div>
+
+<div class="nhsuk-grid-row">
+
+  <div class="nhsuk-grid-column-two-thirds">
+
+    {{ heading({ text: "Personal details", level: 2, size: "m" }) }}
+    {{ summaryList({
+      rows: [
+        {
+          key: { text: "Name" },
+          value: { text: "John Jones" },
+          actions: { items: [ { href: "edit-preference", text: "Change", visuallyHiddenText: "name" } ] }
+        },
+        {
+          key: { text: "Email" },
+          value: { text: "john.j@email.com" },
+          actions: { items: [ { href: "edit-preference", text: "Change", visuallyHiddenText: "email address" } ] }
+        },
+        {
+          key: { text: "Postcode" },
+          value: { text: "B44 0AA" },
+          actions: { items: [ { href: "edit-preference", text: "Change", visuallyHiddenText: "postcode" } ] }
+        }
+      ]
+    }) }}
+
+    {{ heading({ text: "Research preferences", level: 2, size: "m", classes: "nhsuk-u-margin-top-6" }) }}
+    {{ summaryList({
+      rows: [
+        {
+          key: { text: "Travel radius" },
+          value: { text: data['travelRadius'] | default('20 miles') },
+          actions: { items: [ { href: "edit-preference", text: "Change", visuallyHiddenText: "travel radius" } ] }
+        },
+        {
+          key: { text: "Condition interests" },
+          value: { text: "Alzheimer's disease, cognitive health" },
+          actions: { items: [ { href: "edit-preference", text: "Change", visuallyHiddenText: "condition interests" } ] }
+        }
+      ]
+    }) }}
+
+    {{ heading({ text: "Data and consent", level: 2, size: "m", classes: "nhsuk-u-margin-top-6" }) }}
+    {% call card() %}
+      {{ heading({ text: "Pause or close your account", level: 3, size: "s" }) }}
+      <p class="nhsuk-body">You can pause matching for a while, or opt out and close your account. This will not delete your existing information, and you can start matching again at any time.</p>
+      {{ button({ text: "Manage account status", href: "archive", classes: "nhsuk-button--secondary nhsuk-u-margin-bottom-0" }) }}
+    {% endcall %}
+
+  </div>
+
+  <div class="nhsuk-grid-column-one-third">
+    {% call card({ classes: "nhsuk-card--grey nhsuk-u-margin-top-2" }) %}
+      {{ heading({ text: "Proxy access", level: 3, size: "xs", classes: "nhsuk-u-margin-bottom-2" }) }}
+      {{ radios({
+        classes: "nhsuk-radios--small",
+        name: "activeProfile",
+        formGroup: { classes: "nhsuk-u-margin-bottom-2" },
+        items: [
+          { value: "/dashboard/home", text: "John Jones (Self)", id: "profile-self", checked: true },
+          { value: "proxy", text: "Jane Jones (Dependent)", id: "profile-proxy" }
+        ]
+      }) }}
+      {{ button({ text: "Switch profile", type: "button", id: "switch-profile", classes: "nhsuk-button--secondary nhsuk-button--small nhsuk-u-margin-bottom-0" }) }}
+    {% endcall %}
+  </div>
+
+</div>
+
+{% include "dashboard/partials/prototype-nav.html" %}
+
+<script>
+  // Combine all client-side logic into one clean block
+  document.addEventListener('DOMContentLoaded', function() {
+
+    // Profile Switch Handler
+    var switchProfileButton = document.getElementById('switch-profile');
+    if (switchProfileButton) {
+      switchProfileButton.addEventListener('click', function () {
+        var checkedProfile = document.querySelector('input[name="activeProfile"]:checked');
+        if (checkedProfile) {
+          window.location = checkedProfile.value;
+        }
+      });
+    }
+  });
+</script>
+
+{% endblock %}
