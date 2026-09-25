@@ -1,4 +1,4 @@
-{% extends "dashboard/layout.html" %}
+{% extends "dashboard/v1/layout.html" %}
 
 {% block pageTitle %}
   Your details have been sent - Be Part of Research
@@ -29,7 +29,7 @@
       </ul>
     {% endcall %}
 
-    {{ button({ text: "Return to dashboard", href: "/dashboard/home?state=enrolled", classes: "nhsuk-u-margin-top-6 nhsuk-u-margin-bottom-0" }) }}
+    {{ button({ text: "Return to dashboard", href: "/dashboard/v1/home?state=enrolled", classes: "nhsuk-u-margin-top-6 nhsuk-u-margin-bottom-0" }) }}
 
   </div>
 
@@ -51,6 +51,6 @@
 
 </div>
 
-{% include "dashboard/partials/prototype-nav.html" %}
+{% include "dashboard/v1/partials/prototype-nav.html" %}
 
 {% endblock %}

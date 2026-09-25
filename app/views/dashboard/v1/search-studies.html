@@ -1,4 +1,4 @@
-{% extends "dashboard/layout.html" %}
+{% extends "dashboard/v1/layout.html" %}
 
 {% block pageTitle %}
   Search for studies - Be Part of Research
@@ -7,15 +7,15 @@
 {% block content %}
 <div class="nhsuk-grid-row">
   <div class="nhsuk-grid-column-two-thirds">
-    {{ backLink({ text: "Back to dashboard", href: "/dashboard/home" }) }}
+    {{ backLink({ text: "Back to dashboard", href: "/dashboard/v1/home" }) }}
 
     <h1 class="nhsuk-heading-xl">Search for studies</h1>
 
     <p class="nhsuk-body">The active search feature is currently being built and will be available in the next version of this prototype.</p>
 
-    {{ button({ text: "Return to dashboard", href: "/dashboard/home", classes: "nhsuk-u-margin-top-4" }) }}
+    {{ button({ text: "Return to dashboard", href: "/dashboard/v1/home", classes: "nhsuk-u-margin-top-4" }) }}
   </div>
 </div>
 
-{% include "dashboard/partials/prototype-nav.html" %}
+{% include "dashboard/v1/partials/prototype-nav.html" %}
 {% endblock %}

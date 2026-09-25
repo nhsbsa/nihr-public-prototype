@@ -1,4 +1,4 @@
-{% extends "dashboard/layout.html" %}
+{% extends "dashboard/v1/layout.html" %}
 
 {% block pageTitle %}
   General health survey - Be Part of Research
@@ -15,11 +15,11 @@
       text: "This feature is currently a prototype. In the live service, you would complete a short survey here to help match you with more research studies."
     }) }}
 
-    {{ button({ text: "Return to dashboard", href: "/dashboard/home", classes: "nhsuk-u-margin-bottom-0" }) }}
+    {{ button({ text: "Return to dashboard", href: "/dashboard/v1/home", classes: "nhsuk-u-margin-bottom-0" }) }}
 
   </div>
 </div>
 
-{% include "dashboard/partials/prototype-nav.html" %}
+{% include "dashboard/v1/partials/prototype-nav.html" %}
 
 {% endblock %}

@@ -38,6 +38,8 @@ router.use('/', (req, res, next) => {
 // Route File Versions
 // ****************************************
 
+router.use('/dashboard/v1', require('./views/dashboard/v1/_routes'));
+
 router.use('/login/v1', require('./views/login/v1/_routes'));
 
 router.use('/registration/v1', require('./views/registration/v1/_routes'));

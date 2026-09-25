@@ -1,4 +1,4 @@
-{% extends "dashboard/layout.html" %}
+{% extends "dashboard/v1/layout.html" %}
 
 {% block pageTitle %}
   Dashboard - Be Part of Research
@@ -52,7 +52,7 @@
             classes: "nhsuk-u-margin-bottom-3"
           }) }}
           <p class="nhsuk-body-s nhsuk-u-margin-bottom-0">
-            <a href="/dashboard/home?state=dismissed">I'm not interested in this study</a>
+            <a href="/dashboard/v1/home?state=dismissed">I'm not interested in this study</a>
           </p>
         {% endcall %}
       {% endif %}
@@ -121,7 +121,7 @@
         name: "activeProfile",
         formGroup: { classes: "nhsuk-u-margin-bottom-2" },
         items: [
-          { value: "/dashboard/home", text: "John Jones (Self)", id: "profile-self", checked: true },
+          { value: "/dashboard/v1/home", text: "John Jones (Self)", id: "profile-self", checked: true },
           { value: "proxy", text: "Jane Jones (Dependent)", id: "profile-proxy" }
         ]
       }) }}
@@ -157,13 +157,11 @@
 
 </div>
 
-{% include "dashboard/partials/prototype-nav.html" %}
+{% include "dashboard/v1/partials/prototype-nav.html" %}
 
 <script>
-  // Combine all client-side logic into one clean block
   document.addEventListener('DOMContentLoaded', function() {
     
-    // Status Save Handler
     var saveStatusButton = document.getElementById('save-status');
     if (saveStatusButton) {
       saveStatusButton.addEventListener('click', function () {
@@ -171,8 +169,8 @@
         if (!checkedStatus) return;
 
         var destinations = {
-          active: '/dashboard/home?state=active',
-          paused: '/dashboard/home?state=enrolled',
+          active: '/dashboard/v1/home?state=active',
+          paused: '/dashboard/v1/home?state=enrolled',
           optout: 'archive'
         };
 
@@ -182,7 +180,6 @@
       });
     }
 
-    // Profile Switch Handler
     var switchProfileButton = document.getElementById('switch-profile');
     if (switchProfileButton) {
       switchProfileButton.addEventListener('click', function () {

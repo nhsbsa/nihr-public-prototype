@@ -1,4 +1,4 @@
-{% extends "dashboard/layout.html" %}
+{% extends "dashboard/v1/layout.html" %}
 
 {% block pageTitle %}
   Study details - Be Part of Research
@@ -8,7 +8,7 @@
 
 <div class="nhsuk-grid-row">
   <div class="nhsuk-grid-column-full">
-    {{ backLink({ text: "Back to dashboard", href: "/dashboard/home?state=active", classes: "nhsuk-u-margin-bottom-4" }) }}
+    {{ backLink({ text: "Back to dashboard", href: "/dashboard/v1/home?state=active", classes: "nhsuk-u-margin-bottom-4" }) }}
   </div>
 </div>
 
@@ -107,6 +107,6 @@
 
 </div>
 
-{% include "dashboard/partials/prototype-nav.html" %}
+{% include "dashboard/v1/partials/prototype-nav.html" %}
 
 {% endblock %}

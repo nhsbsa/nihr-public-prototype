@@ -1,4 +1,4 @@
-{% extends "dashboard/layout.html" %}
+{% extends "dashboard/v1/layout.html" %}
 
 {% block pageTitle %}
   You are eligible for this study - Be Part of Research
@@ -20,11 +20,11 @@
     
     <p class="nhsuk-body">The research team from University Hospitals Birmingham will contact you within 5 working days to arrange your first online screening session.</p>
 
-    {{ button({ text: "Return to dashboard", href: "/dashboard/home?state=enrolled", classes: "nhsuk-u-margin-top-4 nhsuk-u-margin-bottom-0" }) }}
+    {{ button({ text: "Return to dashboard", href: "/dashboard/v1/home?state=enrolled", classes: "nhsuk-u-margin-top-4 nhsuk-u-margin-bottom-0" }) }}
 
   </div>
 </div>
 
-{% include "dashboard/partials/prototype-nav.html" %}
+{% include "dashboard/v1/partials/prototype-nav.html" %}
 
 {% endblock %}

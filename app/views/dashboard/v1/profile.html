@@ -1,4 +1,4 @@
-{% extends "dashboard/layout.html" %}
+{% extends "dashboard/v1/layout.html" %}
 
 {% block pageTitle %}
   Profile and preferences - Be Part of Research
@@ -8,7 +8,7 @@
 
 <div class="nhsuk-grid-row">
   <div class="nhsuk-grid-column-full">
-    {{ backLink({ text: "Back to dashboard", href: "/dashboard/home?state=active", classes: "nhsuk-u-margin-bottom-4" }) }}
+    {{ backLink({ text: "Back to dashboard", href: "/dashboard/v1/home?state=active", classes: "nhsuk-u-margin-bottom-4" }) }}
     <h1 class="nhsuk-heading-xl">Profile and preferences</h1>
   </div>
 </div>
@@ -71,7 +71,7 @@
         name: "activeProfile",
         formGroup: { classes: "nhsuk-u-margin-bottom-2" },
         items: [
-          { value: "/dashboard/home", text: "John Jones (Self)", id: "profile-self", checked: true },
+          { value: "/dashboard/v1/home", text: "John Jones (Self)", id: "profile-self", checked: true },
           { value: "proxy", text: "Jane Jones (Dependent)", id: "profile-proxy" }
         ]
       }) }}
@@ -81,13 +81,11 @@
 
 </div>
 
-{% include "dashboard/partials/prototype-nav.html" %}
+{% include "dashboard/v1/partials/prototype-nav.html" %}
 
 <script>
-  // Combine all client-side logic into one clean block
   document.addEventListener('DOMContentLoaded', function() {
 
-    // Profile Switch Handler
     var switchProfileButton = document.getElementById('switch-profile');
     if (switchProfileButton) {
       switchProfileButton.addEventListener('click', function () {
