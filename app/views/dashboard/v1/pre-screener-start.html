@@ -1,0 +1,38 @@
+{% extends "dashboard/v1/layout.html" %}
+
+{% block pageTitle %}
+  Check if you are eligible - Be Part of Research
+{% endblock %}
+
+{% block content %}
+
+<div class="nhsuk-grid-row">
+  <div class="nhsuk-grid-column-two-thirds">
+    {{ backLink({ text: "Back to study details", href: "details", classes: "nhsuk-u-margin-bottom-4" }) }}
+
+    <h1 class="nhsuk-heading-xl">Check if you are eligible</h1>
+
+    <p class="nhsuk-body">You will now be asked a few short questions to check if you are a match for the Alzheimer's early detection screening study.</p>
+
+    {% call card({ classes: "nhsuk-card--grey nhsuk-u-margin-bottom-5" }) %}
+      <h2 class="nhsuk-heading-s nhsuk-u-margin-bottom-1">Applying as</h2>
+      <p class="nhsuk-body nhsuk-u-margin-bottom-0">
+        <strong>John Jones</strong><br>
+        john.j@email.com
+      </p>
+    {% endcall %}
+
+    <h2 class="nhsuk-heading-m">How we use your answers</h2>
+    <p class="nhsuk-body">Your answers are stored securely. They will only be shared with the University Hospitals Birmingham research team if you are eligible and choose to take part.</p>
+
+    {{ button({ 
+      text: "Start questions", 
+      href: "pre-screener-questions", 
+      classes: "nhsuk-u-margin-top-4 nhsuk-u-margin-bottom-0" 
+    }) }}
+  </div>
+</div>
+
+{% include "dashboard/v1/partials/prototype-nav.html" %}
+
+{% endblock %}

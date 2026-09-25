@@ -1,0 +1,146 @@
+{% extends "dashboard/v1/layout.html" %}
+
+{% block pageTitle %}
+  Historical archive - Be Part of Research
+{% endblock %}
+
+{% block content %}
+
+<div class="nhsuk-grid-row">
+  <div class="nhsuk-grid-column-full">
+    <h1 class="nhsuk-heading-xl">Welcome to your dashboard, John</h1>
+  </div>
+</div>
+
+<div class="nhsuk-grid-row">
+
+  <div class="nhsuk-grid-column-two-thirds">
+
+    {% call card() %}
+      {{ tag({ text: "Opted out", classes: "nhsuk-tag--grey nhsuk-u-margin-bottom-3" }) }}
+      <h2 class="nhsuk-heading-m">Your account is opted out</h2>
+      <p class="nhsuk-body">As you asked, we have changed your account status to opted out. We have paused all study matching for your account.</p>
+
+      {% call insetText() %}
+        <p class="nhsuk-body-s">
+          We will keep your past information safe. You can start matching again at any time by changing your account status on the right.
+        </p>
+        {{ button({ text: "Resume study matching", href: "/dashboard/v1/home", classes: "nhsuk-u-margin-bottom-0" }) }}
+      {% endcall %}
+    {% endcall %}
+
+    <div class="nhsuk-grid-row nhsuk-u-margin-top-6">
+
+      <div class="nhsuk-grid-column-one-half">
+        {% call card({ classes: "nhsuk-card--grey" }) %}
+          <h3 class="nhsuk-heading-xs">Your details</h3>
+          <p class="nhsuk-body-s nhsuk-u-margin-bottom-1"><strong>John Jones</strong></p>
+          <p class="nhsuk-body-s nhsuk-u-margin-bottom-1">john.j@email.com</p>
+          <p class="nhsuk-body-s nhsuk-u-margin-bottom-3">B44 0AA</p>
+          {{ tag({ text: "Opted out", classes: "nhsuk-tag--grey" }) }}
+        {% endcall %}
+      </div>
+
+      <div class="nhsuk-grid-column-one-half">
+        {% call card({ classes: "nhsuk-card--grey" }) %}
+          <h3 class="nhsuk-heading-xs">Your consents</h3>
+          <p class="nhsuk-body-s nhsuk-u-margin-bottom-3">
+            UK General Registry<br>
+            Matching paused
+          </p>
+          {{ tag({ text: "Inactive", classes: "nhsuk-tag--grey" }) }}
+        {% endcall %}
+      </div>
+
+    </div>
+
+    {% call card({ classes: "nhsuk-card--grey nhsuk-u-margin-top-6" }) %}
+      <h3 class="nhsuk-heading-m">Your active applications</h3>
+      {% call insetText() %}
+        <p class="nhsuk-body-s nhsuk-u-margin-bottom-0">You will not see your matching history while your account is opted out.</p>
+      {% endcall %}
+    {% endcall %}
+
+    {% call card({ classes: "nhsuk-u-margin-top-6" }) %}
+      <h3 class="nhsuk-heading-m">Past studies</h3>
+      <p class="nhsuk-body-s nhsuk-u-margin-bottom-0">You do not have any past study activity.</p>
+    {% endcall %}
+
+  </div>
+
+  <div class="nhsuk-grid-column-one-third">
+    {% call card({ classes: "nhsuk-card--grey" }) %}
+      <h3 class="nhsuk-heading-xs nhsuk-u-margin-bottom-1">Managing profile:</h3>
+      <p class="nhsuk-body nhsuk-u-margin-bottom-4"><strong>John Jones</strong></p>
+
+      <h3 class="nhsuk-heading-xs nhsuk-u-margin-bottom-2">Proxy access</h3>
+      {{ radios({
+        classes: "nhsuk-radios--small", name: "activeProfile",
+        formGroup: { classes: "nhsuk-u-margin-bottom-2" },
+        items: [
+          { value: "archive", text: "John Jones (Self)", id: "profile-self", checked: true },
+          { value: "proxy", text: "Jane Jones (Dependent)", id: "profile-proxy" }
+        ]
+      }) }}
+      {{ button({ text: "Switch profile", type: "button", id: "switch-profile", classes: "nhsuk-button--secondary nhsuk-button--small nhsuk-u-margin-bottom-0" }) }}
+    {% endcall %}
+
+    {% call card({ classes: "nhsuk-card--grey nhsuk-u-margin-top-6" }) %}
+      <h3 class="nhsuk-heading-xs nhsuk-u-margin-bottom-2">Account status:</h3>
+      {{ radios({
+        classes: "nhsuk-radios--small", name: "accountStatus",
+        formGroup: { classes: "nhsuk-u-margin-bottom-4" },
+        items: [
+          { value: "active", text: "Active & matching", id: "status-active" },
+          { value: "paused", text: "On pause", id: "status-paused" },
+          { value: "optout", text: "Opt-out / Closure", id: "status-optout", checked: true }
+        ]
+      }) }}
+      {{ button({ text: "Save status", type: "button", id: "save-status", classes: "nhsuk-u-margin-bottom-0" }) }}
+    {% endcall %}
+
+    {% call card({ classes: "nhsuk-card--grey nhsuk-u-margin-top-6" }) %}
+      <h3 class="nhsuk-heading-xs nhsuk-u-margin-bottom-2">Profile completeness:</h3>
+      <progress value="40" max="100" class="app-progress">40%</progress>
+      <p class="nhsuk-body-s nhsuk-u-margin-top-1 nhsuk-u-margin-bottom-0"><strong>40% complete</strong></p>
+    {% endcall %}
+  </div>
+
+</div>
+
+{% include "dashboard/v1/partials/prototype-nav.html" %}
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+
+    var saveStatusButton = document.getElementById('save-status');
+    if (saveStatusButton) {
+      saveStatusButton.addEventListener('click', function () {
+        var checkedStatus = document.querySelector('input[name="accountStatus"]:checked');
+        if (!checkedStatus) return;
+
+        var destinations = {
+          active: '/dashboard/v1/home?state=active',
+          paused: '/dashboard/v1/home?state=enrolled',
+          optout: 'archive'
+        };
+
+        if (destinations[checkedStatus.value]) {
+          window.location = destinations[checkedStatus.value];
+        }
+      });
+    }
+
+    var switchProfileButton = document.getElementById('switch-profile');
+    if (switchProfileButton) {
+      switchProfileButton.addEventListener('click', function () {
+        var checkedProfile = document.querySelector('input[name="activeProfile"]:checked');
+        if (checkedProfile) {
+          window.location = checkedProfile.value;
+        }
+      });
+    }
+  });
+</script>
+
+{% endblock %}

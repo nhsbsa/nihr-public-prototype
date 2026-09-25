@@ -1,0 +1,112 @@
+{% extends "dashboard/v1/layout.html" %}
+
+{% block pageTitle %}
+  Study details - Be Part of Research
+{% endblock %}
+
+{% block content %}
+
+<div class="nhsuk-grid-row">
+  <div class="nhsuk-grid-column-full">
+    {{ backLink({ text: "Back to dashboard", href: "/dashboard/v1/home?state=active", classes: "nhsuk-u-margin-bottom-4" }) }}
+  </div>
+</div>
+
+<div class="nhsuk-grid-row">
+  <div class="nhsuk-grid-column-full">
+    <span class="nhsuk-caption-l">Study title:</span>
+    <h1 class="nhsuk-heading-xl">Alzheimer's early detection screening study</h1>
+
+    <div class="nhsuk-u-margin-bottom-4">
+      <p class="nhsuk-body-s nhsuk-u-margin-bottom-2"><strong>Status tags:</strong></p>
+      {{ tag({ text: "Online survey", classes: "nhsuk-tag--blue" }) }}
+      {{ tag({ text: "Local clinic", classes: "nhsuk-tag--grey" }) }}
+      {{ tag({ text: "Travel expenses covered", classes: "nhsuk-tag--green" }) }}
+    </div>
+
+    {{ button({ text: "Check if you are eligible", href: "pre-screener-start", classes: "nhsuk-u-margin-bottom-0" }) }}
+  </div>
+</div>
+
+<div class="nhsuk-grid-row nhsuk-u-margin-top-6">
+
+  <div class="nhsuk-grid-column-two-thirds">
+
+    {% call card() %}
+      <h2 class="nhsuk-heading-m">Key details</h2>
+      {{ table({
+        classes: "nhsuk-u-margin-bottom-0",
+        caption: "Key details",
+        captionClasses: "nhsuk-u-visually-hidden",
+        firstCellIsHeader: true,
+        rows: [
+          [ { text: "Location" }, { text: "Within 30 miles of your registered postcode (Birmingham regional hubs)" } ],
+          [ { text: "Time commitment" }, { text: "Two 30-minute online screening sessions, plus one follow-up clinic visit" } ],
+          [ { text: "Key dates" }, { text: "Open for recruitment until 31 October" } ]
+        ]
+      }) }}
+    {% endcall %}
+
+    {% call card({ classes: "nhsuk-u-margin-top-6" }) %}
+      <h2 class="nhsuk-heading-m">Who can take part?</h2>
+      <ul class="nhsuk-list nhsuk-list--bullet">
+        <li>Aged 50-85</li>
+        <li>Clinical diagnosis of early-stage cognitive impairment</li>
+        <li>A family member, partner or friend who can help confirm any changes</li>
+        <li>Live in the UK</li>
+      </ul>
+      {{ button({ text: "Check if you are eligible", href: "pre-screener-start", classes: "nhsuk-u-margin-bottom-0" }) }}
+    {% endcall %}
+
+    {% call card({ classes: "nhsuk-u-margin-top-6" }) %}
+      <h3 class="nhsuk-heading-m">What will you do?</h3>
+      <p class="nhsuk-body nhsuk-u-margin-bottom-0">
+        This study involves completing short online tasks using a secure app. If you choose to take part, you will complete tasks on a computer or mobile tablet. You can complete these tasks at home or at your local regional hub clinic.
+      </p>
+    {% endcall %}
+
+    {% call card({ classes: "nhsuk-u-margin-top-6" }) %}
+      <h3 class="nhsuk-heading-m">Study reward & involvement</h3>
+      <p class="nhsuk-body nhsuk-u-margin-bottom-0">
+        There is no payment for taking part, but we will cover your travel costs. You will get a summary of your results after your final visit.
+      </p>
+    {% endcall %}
+
+    {% call card({ classes: "nhsuk-card--grey nhsuk-u-margin-top-6" }) %}
+      <h3 class="nhsuk-heading-m">Contact details</h3>
+      {{ table({
+        classes: "nhsuk-u-margin-bottom-0",
+        caption: "Contact details",
+        captionClasses: "nhsuk-u-visually-hidden",
+        firstCellIsHeader: true,
+        rows: [
+          [ { text: "Study reference number" }, { text: "BPR-MTRX-ALZ" } ],
+          [ { text: "Contact email" }, { html: '<a href="mailto:birmingham-neurology@nhs.net">birmingham-neurology@nhs.net</a>' } ]
+        ]
+      }) }}
+    {% endcall %}
+
+    {{ button({
+      text: "Check if you are eligible",
+      href: "pre-screener-start",
+      classes: "nhsuk-u-margin-top-6"
+    }) }}
+
+  </div>
+
+  <div class="nhsuk-grid-column-one-third">
+    {% call card({ classes: "nhsuk-card--grey" }) %}
+      <h3 class="nhsuk-heading-xs nhsuk-u-margin-bottom-1">Managing profile:</h3>
+      <p class="nhsuk-body nhsuk-u-margin-bottom-4"><strong>John Jones</strong></p>
+
+      <h3 class="nhsuk-heading-xs nhsuk-u-margin-bottom-2">Profile completeness:</h3>
+      <progress value="40" max="100" class="app-progress">40%</progress>
+      <p class="nhsuk-body-s nhsuk-u-margin-top-1 nhsuk-u-margin-bottom-0"><strong>40% complete</strong></p>
+    {% endcall %}
+  </div>
+
+</div>
+
+{% include "dashboard/v1/partials/prototype-nav.html" %}
+
+{% endblock %}
