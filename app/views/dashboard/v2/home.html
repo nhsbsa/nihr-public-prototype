@@ -1,4 +1,4 @@
-{% extends "dashboard/v1/layout.html" %}
+{% extends "dashboard/v2/layout.html" %}
 
 {% block pageTitle %}
   Dashboard - Be Part of Research
@@ -8,19 +8,31 @@
 
 <div class="nhsuk-grid-row">
   <div class="nhsuk-grid-column-full">
-    {% if query.state == "enrolled" %}
+    {% if data.accountStatus == "paused" %}
       <h1 class="nhsuk-heading-xl">Your active studies</h1>
     {% else %}
       <h1 class="nhsuk-heading-xl">Welcome to your dashboard, John</h1>
+    {% endif %}
+
+    <p class="nhsuk-body-l">Help advance medical science by volunteering for clinical trials. (Note: This service does not provide medical diagnoses or direct treatment).</p>
+
+    {% if data.diagnosedConditions and data.diagnosedConditions.length %}
+      {{ notificationBanner({
+        html: "<h3 class=\"nhsuk-notification-banner__heading\">Actively matching trials for: " ~ (data.diagnosedConditions | join(", ")) ~ "</h3>"
+      }) }}
+    {% else %}
+      {{ notificationBanner({
+        html: "<h3 class=\"nhsuk-notification-banner__heading\">No conditions added yet</h3><p>Add your diagnosed conditions in your <a href=\"profile\">profile</a> to start matching with relevant studies.</p>"
+      }) }}
     {% endif %}
   </div>
 </div>
 
 <div class="nhsuk-grid-row">
 
-  <div class="nhsuk-grid-column-two-thirds">
+  <div class="nhsuk-grid-column-full">
 
-    {% if query.state == "enrolled" %}
+    {% if data.accountStatus == "paused" %}
 
       {{ notificationBanner({
         variant: "success",
@@ -41,19 +53,23 @@
     {% else %}
 
       {# This single block handles both the default state AND the dismissed state #}
-      {% if query.state != "dismissed" %}
+      {% if not data.studyDismissed %}
         {% call card() %}
           {{ tag({ text: "New match", classes: "nhsuk-tag--blue nhsuk-u-margin-bottom-3" }) }}
           <h2 class="nhsuk-heading-m"><a href="details">Early detection screening for Alzheimer's disease</a></h2>
           <p class="nhsuk-body">Based on your health records, you might be a great match for a new trial run by Birmingham NHS Trust.</p>
-          {{ button({
-            text: "View study details",
-            href: "details",
-            classes: "nhsuk-u-margin-bottom-3"
-          }) }}
-          <p class="nhsuk-body-s nhsuk-u-margin-bottom-0">
-            <a href="/dashboard/v1/home?state=dismissed">I'm not interested in this study</a>
-          </p>
+          <form action="dismiss-study" method="post" novalidate>
+            <div class="nhsuk-button-group">
+              {{ button({
+                text: "View study details",
+                href: "details"
+              }) }}
+              {{ button({
+                text: "I'm not interested in this study",
+                classes: "nhsuk-button--secondary nhsuk-button--small"
+              }) }}
+            </div>
+          </form>
         {% endcall %}
       {% endif %}
 
@@ -79,7 +95,7 @@
     {% call card({ classes: "nhsuk-u-margin-top-6" }) %}
       <h3 class="nhsuk-heading-m">Your active applications</h3>
       {% call insetText() %}
-        {% if query.state == "enrolled" %}
+        {% if data.accountStatus == "paused" %}
           <p class="nhsuk-body-s nhsuk-u-margin-bottom-2"><strong>Alzheimer's Early Screening Trial status:</strong></p>
           <p class="nhsuk-u-margin-bottom-0">
             {{ tag({ text: "Matched", classes: "nhsuk-tag--grey" }) }}
@@ -98,6 +114,17 @@
     {% endcall %}
 
     {% call card({ classes: "nhsuk-u-margin-top-6" }) %}
+      <h3 class="nhsuk-heading-m">Saved studies</h3>
+      <ul class="nhsuk-list nhsuk-list--bullet">
+        {% for study in data.savedStudies %}
+          <li>{{ study }}</li>
+        {% else %}
+          <li>You haven't saved any studies yet. When you find a study you are interested in, click 'Save study to profile' to bookmark it here.</li>
+        {% endfor %}
+      </ul>
+    {% endcall %}
+
+    {% call card({ classes: "nhsuk-u-margin-top-6" }) %}
       <h2 class="nhsuk-heading-m nhsuk-u-margin-bottom-3">Other ways to take part</h2>
       <p class="nhsuk-body">You do not have to wait for us to match you with a study. You can actively browse all available clinical trials and health studies across the UK.</p>
 
@@ -110,86 +137,9 @@
 
   </div>
 
-  <div class="nhsuk-grid-column-one-third">
-    {% call card({ classes: "nhsuk-card--grey" }) %}
-      <h3 class="nhsuk-heading-xs nhsuk-u-margin-bottom-1">Managing profile:</h3>
-      <p class="nhsuk-body nhsuk-u-margin-bottom-4"><strong>John Jones</strong></p>
-
-      <h3 class="nhsuk-heading-xs nhsuk-u-margin-bottom-2">Proxy access</h3>
-      {{ radios({
-        classes: "nhsuk-radios--small",
-        name: "activeProfile",
-        formGroup: { classes: "nhsuk-u-margin-bottom-2" },
-        items: [
-          { value: "/dashboard/v1/home", text: "John Jones (Self)", id: "profile-self", checked: true },
-          { value: "proxy", text: "Jane Jones (Dependent)", id: "profile-proxy" }
-        ]
-      }) }}
-      {{ button({ text: "Switch profile", type: "button", id: "switch-profile", classes: "nhsuk-button--secondary nhsuk-button--small nhsuk-u-margin-bottom-0" }) }}
-    {% endcall %}
-
-    {% call card({ classes: "nhsuk-card--grey nhsuk-u-margin-top-6" }) %}
-      <h3 class="nhsuk-heading-xs nhsuk-u-margin-bottom-2">Account status:</h3>
-      {{ radios({
-        classes: "nhsuk-radios--small",
-        name: "accountStatus",
-        formGroup: { classes: "nhsuk-u-margin-bottom-4" },
-        items: [
-          { value: "active", text: "Active & matching", id: "status-active", checked: (query.state == "active" or query.state == "dismissed" or not query.state) },
-          { value: "paused", text: "On pause", id: "status-paused", checked: (query.state == "enrolled") },
-          { value: "optout", text: "Opt-out / Closure", id: "status-optout" }
-        ]
-      }) }}
-      {{ button({
-        text: "Save status",
-        type: "button",
-        id: "save-status",
-        classes: "nhsuk-button--secondary nhsuk-u-margin-bottom-0"
-      }) }}
-    {% endcall %}
-
-    {% call card({ classes: "nhsuk-card--grey nhsuk-u-margin-top-6" }) %}
-      <h3 class="nhsuk-heading-xs nhsuk-u-margin-bottom-2">Profile completeness:</h3>
-      <progress value="40" max="100" class="app-progress">40%</progress>
-      <p class="nhsuk-body-s nhsuk-u-margin-top-1 nhsuk-u-margin-bottom-0"><strong>40% complete</strong></p>
-    {% endcall %}
-  </div>
-
 </div>
 
-{% include "dashboard/v1/partials/prototype-nav.html" %}
+{% include "dashboard/v2/partials/prototype-nav.html" %}
 
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-    
-    var saveStatusButton = document.getElementById('save-status');
-    if (saveStatusButton) {
-      saveStatusButton.addEventListener('click', function () {
-        var checkedStatus = document.querySelector('input[name="accountStatus"]:checked');
-        if (!checkedStatus) return;
-
-        var destinations = {
-          active: '/dashboard/v1/home?state=active',
-          paused: '/dashboard/v1/home?state=enrolled',
-          optout: 'archive'
-        };
-
-        if (destinations[checkedStatus.value]) {
-          window.location = destinations[checkedStatus.value];
-        }
-      });
-    }
-
-    var switchProfileButton = document.getElementById('switch-profile');
-    if (switchProfileButton) {
-      switchProfileButton.addEventListener('click', function () {
-        var checkedProfile = document.querySelector('input[name="activeProfile"]:checked');
-        if (checkedProfile) {
-          window.location = checkedProfile.value;
-        }
-      });
-    }
-  });
-</script>
 
 {% endblock %}

@@ -1,4 +1,4 @@
-{% extends "dashboard/v1/layout.html" %}
+{% extends "dashboard/v2/layout.html" %}
 
 {% block pageTitle %}
   Study details - Be Part of Research
@@ -8,7 +8,14 @@
 
 <div class="nhsuk-grid-row">
   <div class="nhsuk-grid-column-full">
-    {{ backLink({ text: "Back to dashboard", href: "/dashboard/v1/home?state=active", classes: "nhsuk-u-margin-bottom-4" }) }}
+    {{ backLink({ text: "Back to dashboard", href: "/dashboard/v2/home", classes: "nhsuk-u-margin-bottom-4" }) }}
+
+    {% if query.saved == "true" %}
+      {{ notificationBanner({
+        variant: "success",
+        html: "<h3 class=\"nhsuk-notification-banner__heading\">Study saved</h3><p>This study has been saved to your profile.</p>"
+      }) }}
+    {% endif %}
   </div>
 </div>
 
@@ -24,7 +31,13 @@
       {{ tag({ text: "Travel expenses covered", classes: "nhsuk-tag--green" }) }}
     </div>
 
-    {{ button({ text: "Check if you are eligible", href: "pre-screener-start", classes: "nhsuk-u-margin-bottom-0" }) }}
+    <form action="/dashboard/v2/save-study" method="post" novalidate>
+      <input type="hidden" name="studyTitle" value="Alzheimer's early detection screening study">
+      <div class="nhsuk-button-group">
+        {{ button({ text: "Check if you are eligible", href: "pre-screener-start" }) }}
+        {{ button({ text: "Save study to profile", classes: "nhsuk-button--secondary" }) }}
+      </div>
+    </form>
   </div>
 </div>
 
@@ -55,6 +68,14 @@
         <li>A family member, partner or friend who can help confirm any changes</li>
         <li>Live in the UK</li>
       </ul>
+
+      <h3 class="nhsuk-heading-s">You cannot take part if:</h3>
+      <ul class="nhsuk-list nhsuk-list--bullet">
+        <li>You have a diagnosis of a different type of dementia unrelated to Alzheimer's disease</li>
+        <li>You are currently taking part in another clinical drug trial</li>
+        <li>You are unable to attend a Birmingham regional hub clinic for a follow-up visit</li>
+      </ul>
+
       {{ button({ text: "Check if you are eligible", href: "pre-screener-start", classes: "nhsuk-button--secondary nhsuk-u-margin-bottom-0" }) }}
     {% endcall %}
 
@@ -107,6 +128,6 @@
 
 </div>
 
-{% include "dashboard/v1/partials/prototype-nav.html" %}
+{% include "dashboard/v2/partials/prototype-nav.html" %}
 
 {% endblock %}
