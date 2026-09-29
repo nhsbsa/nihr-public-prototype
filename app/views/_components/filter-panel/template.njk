@@ -1,0 +1,42 @@
+{% from "details/macro.njk" import details %}
+{% from "button/macro.njk" import button %}
+{% from "checkboxes/macro.njk" import checkboxes %}
+{% from "radios/macro.njk" import radios %}
+{% from "select/macro.njk" import select %}
+
+{% call details({
+  summary: "Filters",
+  classes: "nhsuk-expander",
+  id: params.id + "Expander"
+}) %}
+<form id="{{ params.id }}Form" action="{{ params.action }}" method="post">
+  <input type="hidden" name="sortBy" value="{{ params.sortBy }}">
+  <div class="filter-panel__content">
+
+    {% if params.selectedFilters and params.selectedFilters.length > 0 %}
+      <div class="nhsuk-form-group selected-filters">
+        <h2 class="nhsuk-heading-s nhsuk-u-margin-bottom-1">Selected filters</h2>
+        <a class="nhsuk-link nhsuk-link--no-visited" href="{{ params.clearUrl }}">Clear filters</a>
+
+        {% for group in params.selectedFilters %}
+          <h3 class="nhsuk-heading-xs">{{ group.heading }}</h3>
+          <ul class="filter-tags">
+            {% for item in group.items %}
+              <li><a class="filter-remove-link" href="{{ item.href }}" {% if item.filterType %}data-filter-type="{{ item.filterType }}"{% endif %} {% if item.filterValue %}data-filter-value="{{ item.filterValue }}"{% endif %}>
+                <span class="nhsuk-u-visually-hidden">Remove </span>{{ item.text }}
+              </a></li>
+            {% endfor %}
+          </ul>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    <div class="filter-options">
+      {{ button({ text: "Apply filters" }) }}
+      {{ params.optionsHtml | safe }}
+      {{ button({ text: "Apply filters" }) }}
+    </div>
+
+  </div>
+</form>
+{% endcall %}

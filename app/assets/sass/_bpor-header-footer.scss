@@ -4,9 +4,21 @@
     padding: 32px 0;
 }
 
-.nhsuk-header__organisation-log-BPOR[src$=".svg"] {
+.nhsuk-header__organisation-logo-BPOR[src$=".svg"] {
     width: 280px;
     max-width: 280px;
+
+    @include nhsuk-media-query($until: tablet) {
+        width: 180px;
+        max-width: 180px;
+    }
+}
+
+.nhsuk-header__logo {
+    @include nhsuk-media-query($until: tablet) {
+        width: 70px;
+        height: 28px;
+    }
 }
 
 .nhsuk-header--white {
