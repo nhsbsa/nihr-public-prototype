@@ -42,46 +42,49 @@
 
       <form action="/{{folder}}/{{subfolder}}/jdr-proxy-contact-choice" method="post">
 
-        <div class="nhsuk-form-group">
-          <fieldset class="nhsuk-fieldset" aria-describedby="example-hints-hint">
-            <legend class="nhsuk-fieldset__legend nhsuk-fieldset__legend--m">
-              <h1 class="nhsuk-heading-l">
-                Who should we contact?
-              </h1>
-              <div id="phone-number-hint" class="nhsuk-hint">
-                This will be the contact from researchers about studies and contact from Join Dementia Research.
-              </div>
-            </legend>
+  <div class="nhsuk-form-group">
+    <fieldset class="nhsuk-fieldset" aria-describedby="contact-choice-hint">
+      <legend class="nhsuk-fieldset__legend nhsuk-fieldset__legend--m">
+        <h1 class="nhsuk-heading-l">
+          Who should we contact?
+        </h1>
+        <div id="contact-choice-hint" class="nhsuk-hint">
+          This will be the contact from researchers about studies and contact from Join Dementia Research.
+        </div>
+      </legend>
 
-            <div class="nhsuk-radios" data-module="nhsuk-radios">
-              <div class="nhsuk-radios__item">
-                <input class="nhsuk-radios__input" id="jdr-contact-choice-proxy" name="You, the representative" type="radio" value="proxy">
-                <label class="nhsuk-label nhsuk-radios__label" for="example-hints">
-                  You, the representative
-                </label>
-              </div>
-              <div class="nhsuk-radios__item">
-                <input class="nhsuk-radios__input" id="jdr-contact-choice-volunteer" name="The person volunteering for dementia research" type="radio" value="volunteer">
-                <label class="nhsuk-label nhsuk-radios__label" for="example-hints-2">
-                  The person volunteering for dementia research
-                </label>
-              </div>
-              <div class="nhsuk-radios__item">
-                <input class="nhsuk-radios__input" id="jdr-contact-choice-both" name="Both" type="radio" value="both">
-                <label class="nhsuk-label nhsuk-radios__label" for="example-hints-3">
-                  Both
-                </label>
-              </div>
-            </div>
-          </fieldset>
+      <div class="nhsuk-radios" data-module="nhsuk-radios">
+        <div class="nhsuk-radios__item">
+          <!-- All radio inputs share name="jdrContactChoice" -->
+          <input class="nhsuk-radios__input" id="jdr-contact-choice-proxy" name="jdrContactChoice" type="radio" value="proxy">
+          <label class="nhsuk-label nhsuk-radios__label" for="jdr-contact-choice-proxy">
+            You, the representative
+          </label>
         </div>
 
-        <br>
-        <button class="nhsuk-button" data-module="nhsuk-button" type="submit">
-          Continue
-        </button>
+        <div class="nhsuk-radios__item">
+          <input class="nhsuk-radios__input" id="jdr-contact-choice-volunteer" name="jdrContactChoice" type="radio" value="volunteer">
+          <label class="nhsuk-label nhsuk-radios__label" for="jdr-contact-choice-volunteer">
+            The person volunteering for dementia research
+          </label>
+        </div>
 
-      </form>
+        <div class="nhsuk-radios__item">
+          <input class="nhsuk-radios__input" id="jdr-contact-choice-both" name="jdrContactChoice" type="radio" value="both">
+          <label class="nhsuk-label nhsuk-radios__label" for="jdr-contact-choice-both">
+            Both
+          </label>
+        </div>
+      </div>
+    </fieldset>
+  </div>
+
+  <br>
+  <button class="nhsuk-button" data-module="nhsuk-button" type="submit">
+    Continue
+  </button>
+
+</form>
 
     </div>
   </div>
