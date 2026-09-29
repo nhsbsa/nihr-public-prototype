@@ -1,5 +1,5 @@
 {% extends "layout-bpor.html" %}
-
+{% from "_components/filter-panel/macro.njk" import filterPanel %}
 
 {% block content %}
 
@@ -196,6 +196,7 @@
                 idPrefix: "location-preference",
                 name: "locationPreference",
                 value: data['locationPreference'],
+                small: true,
                 fieldset: {
                   legend: { text: "Where could you take part?" }
                 },
@@ -231,6 +232,7 @@
               {{ checkboxes({
                 idPrefix: "status",
                 name: "status",
+                small: true,
                 fieldset: { legend: { text: "Status" } },
                 values: activeStatuses,
                 items: [
@@ -245,6 +247,7 @@
               {{ checkboxes({
                 idPrefix: "age-range",
                 name: "ageRange",
+                small: true,
                 fieldset: { legend: { text: "Age range" } },
                 values: data['ageRange'],
                 items: [
@@ -275,6 +278,7 @@
               {{ checkboxes({
                 idPrefix: "gender",
                 name: "sex",
+                small: true,
                 fieldset: { legend: { text: "Gender" } },
                 values: data['sex'],
                 items: [
