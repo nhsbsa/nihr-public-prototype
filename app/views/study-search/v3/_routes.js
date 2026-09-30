@@ -151,8 +151,16 @@ router.all('/searchfeed/search-feed', function (req, res) {
 
   // Sanitize incoming input overrides
   if (inputSource.keywords !== undefined) sd.keywords = sanitizeInput(inputSource.keywords)
-  if (inputSource.sex !== undefined) sd.sex = sanitizeInput(inputSource.sex)
-  if (inputSource.locationPreference !== undefined) sd.locationPreference = sanitizeInput(inputSource.locationPreference)
+  if (inputSource.sex !== undefined) {
+    sd.sex = sanitizeInput(inputSource.sex)
+  } else if (req.method === 'POST') {
+    sd.sex = ''
+  }
+  if (inputSource.locationPreference !== undefined) {
+    sd.locationPreference = sanitizeInput(inputSource.locationPreference)
+  } else if (req.method === 'POST') {
+    sd.locationPreference = ''
+  }
   if (inputSource.healthCondition !== undefined) sd.healthCondition = sanitizeInput(inputSource.healthCondition)
   if (inputSource.subCondition !== undefined) sd.subCondition = sanitizeInput(inputSource.subCondition)
   if (inputSource.sortBy !== undefined) sd.sortBy = sanitizeInput(inputSource.sortBy)
@@ -188,7 +196,7 @@ router.all('/searchfeed/search-feed', function (req, res) {
   // Status Filter Sanitization
   let rawStatuses = inputSource.status !== undefined
     ? (Array.isArray(inputSource.status) ? inputSource.status : [inputSource.status])
-    : (sd.activeStatuses || [])
+    : (req.method === 'POST' ? [] : (sd.activeStatuses || []))
 
   const activeStatuses = sanitizeInput(rawStatuses)
   sd.activeStatuses = activeStatuses

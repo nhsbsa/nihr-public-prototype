@@ -1,0 +1,25 @@
+.nhsuk-table {
+  width: 100%;
+  table-layout: fixed;
+
+  th:first-child {
+    width: 30%;
+  }
+
+  td, th {
+    word-break: break-word;
+    overflow-wrap: break-word;
+  }
+
+  a {
+    word-break: break-all;
+    overflow-wrap: break-word;
+  }
+}
+.nhsuk-breadcrumb__list {
+  display: block !important;
+}
+
+.nhsuk-back-link {
+  display: none !important;
+}

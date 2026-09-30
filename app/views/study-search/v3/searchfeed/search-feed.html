@@ -20,11 +20,8 @@
 
             {{ searchInput({
         label: {
-          text: "Search studies",
+          text: "Search by condition, treatment or keyword",
           size: "s"
-        },
-        hint: {
-          text: "Search across all studies using a condition name, treatment type, or keyword"
         },
         id: "topKeywordsInput",
         name: "keywords",
@@ -65,8 +62,10 @@
             {% if keywords or data.locationPreference or (activeStatuses and activeStatuses.length > 0) or (chosenCondition and chosenCondition != "" and healthConditionsData[chosenCondition]) or (data.ageRange and data.ageRange.length > 0) or (data.sex and data.sex != "") %}
 
                 <div class="nhsuk-form-group selected-filters">
-                  <h2 class="nhsuk-heading-s nhsuk-u-margin-bottom-1">Selected filters</h2>
-                  <a class="nhsuk-link nhsuk-link--no-visited" href="/study-search/v3/searchfeed/search-feed?clear=true">Clear filters</a>
+                  <div class="selected-filters__heading">
+                    <h2 class="nhsuk-heading-s">Selected filters</h2>
+                    <a class="nhsuk-link nhsuk-link--no-visited" href="/study-search/v3/searchfeed/search-feed?clear=true">Clear filters</a>
+                  </div>
                 
                 {% if keywords and keywords.trim() != "" %}
                   <h3 class="nhsuk-heading-xs">Search term</h3>
@@ -77,7 +76,7 @@
 
                 {% if data.locationPreference %}
                   <h3 class="nhsuk-heading-xs">Location</h3>
-                  <a class="filter-remove-link" href="/study-search/v3/searchfeed/search-feed?locationPreference=&location=&travelDistance=">
+                  <a class="filter-remove-link" href="#" data-filter-type="location">
                     <span class="nhsuk-u-visually-hidden">Remove </span>
                     {% if data.locationPreference == 'anywhere-in-uk' %}
                       Anywhere in the UK
