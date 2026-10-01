@@ -67,6 +67,76 @@ router.post('/save-study', function (req, res) {
 
 })
 
+router.post('/save-match-response', function (req, res) {
+
+    res.redirect('/dashboard/v2/home?updated=true');
+
+})
+
+router.post('/study-response-handler', function (req, res) {
+
+    var studyId = req.body.studyId;
+    var showGenericSavedBanner = true;
+
+    if (studyId === 'osteoarthritis-pain-management') {
+
+        if (req.body.study4Response === 'yes') {
+            req.session.data['accountStatus'] = 'paused';
+            // flash only - accountStatus stays set, it also drives the heading/profile UI
+            req.flash('responseSaved', true);
+            showGenericSavedBanner = false;
+        }
+
+    } else if (studyId === 'diet-lifestyle-survey') {
+
+        if (req.body.study2Response === 'undecided') {
+
+            req.session.data['diabetesStudyStatus'] = 'undecided';
+
+            if (!req.session.data.savedStudies) {
+                req.session.data.savedStudies = [];
+            }
+
+            var dietStudyTitle = 'Diet and lifestyle survey for people with type 2 diabetes';
+
+            if (req.session.data.savedStudies.indexOf(dietStudyTitle) === -1) {
+                req.session.data.savedStudies.push(dietStudyTitle);
+            }
+
+            // flash only - diabetesStudyStatus stays set, it also gates content below
+            req.flash('studySaved', true);
+            showGenericSavedBanner = false;
+
+        }
+
+    }
+
+    if (showGenericSavedBanner) {
+        res.redirect('/dashboard/v2/home?updated=true');
+    } else {
+        res.redirect('/dashboard/v2/home');
+    }
+
+})
+
+router.post('/edit-interests', function (req, res) {
+
+    res.redirect('/dashboard/v2/profile?updated=true');
+
+})
+
+router.post('/edit-health-conditions', function (req, res) {
+
+    res.redirect('/dashboard/v2/profile?updated=true');
+
+})
+
+router.post('/save-contact-preferences', function (req, res) {
+
+    res.redirect('profile');
+
+})
+
 router.post('/check-eligibility', function (req, res) {
 
     var ageCriteria = req.session.data['ageCriteria'];

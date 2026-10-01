@@ -55,14 +55,14 @@
     </div>
 
     {% call card({ classes: "nhsuk-card--grey nhsuk-u-margin-top-6" }) %}
-      <h3 class="nhsuk-heading-m">Your active applications</h3>
+      <h2 class="nhsuk-heading-m">Your active applications</h2>
       {% call insetText() %}
         <p class="nhsuk-body-s nhsuk-u-margin-bottom-0">You will not see your matching history while your account is opted out.</p>
       {% endcall %}
     {% endcall %}
 
     {% call card({ classes: "nhsuk-u-margin-top-6" }) %}
-      <h3 class="nhsuk-heading-m">Past studies</h3>
+      <h2 class="nhsuk-heading-m">Past studies</h2>
       <p class="nhsuk-body-s nhsuk-u-margin-bottom-0">You do not have any past study activity.</p>
     {% endcall %}
 
@@ -70,10 +70,10 @@
 
   <div class="nhsuk-grid-column-one-third">
     {% call card({ classes: "nhsuk-card--grey" }) %}
-      <h3 class="nhsuk-heading-xs nhsuk-u-margin-bottom-1">Managing profile:</h3>
+      <h2 class="nhsuk-heading-xs nhsuk-u-margin-bottom-1">Managing profile:</h2>
       <p class="nhsuk-body nhsuk-u-margin-bottom-4"><strong>John Jones</strong></p>
 
-      <h3 class="nhsuk-heading-xs nhsuk-u-margin-bottom-2">Proxy access</h3>
+      <h2 class="nhsuk-heading-xs nhsuk-u-margin-bottom-2">Proxy access</h2>
       <form action="switch-profile" method="post" novalidate>
         {{ radios({
           classes: "nhsuk-radios--small", name: "activeProfile",
@@ -88,7 +88,7 @@
     {% endcall %}
 
     {% call card({ classes: "nhsuk-card--grey nhsuk-u-margin-top-6" }) %}
-      <h3 class="nhsuk-heading-xs nhsuk-u-margin-bottom-2">Account status:</h3>
+      <h2 class="nhsuk-heading-xs nhsuk-u-margin-bottom-2">Account status:</h2>
       <form action="save-status" method="post" novalidate>
         {{ radios({
           classes: "nhsuk-radios--small", name: "accountStatus",
@@ -103,11 +103,9 @@
       </form>
     {% endcall %}
 
-    {% call card({ classes: "nhsuk-card--grey nhsuk-u-margin-top-6" }) %}
-      <h3 class="nhsuk-heading-xs nhsuk-u-margin-bottom-2">Profile completeness:</h3>
-      <progress value="40" max="100" class="app-progress">40%</progress>
-      <p class="nhsuk-body-s nhsuk-u-margin-top-1 nhsuk-u-margin-bottom-0"><strong>40% complete</strong></p>
-    {% endcall %}
+    <div class="nhsuk-u-margin-top-6">
+      {% include "dashboard/v2/includes/_profile-tracker.html" %}
+    </div>
   </div>
 
 </div>

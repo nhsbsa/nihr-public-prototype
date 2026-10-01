@@ -48,9 +48,21 @@
           </a>
         </li>
 
+        <li class="nhsuk-header__navigation-item{% if currentPage.startsWith('/study-search/v3') %} nhsuk-header__navigation-item--current{% endif %}">
+          <a class="nhsuk-header__navigation-link" href="/study-search/v3/searchfeed/search-feed?from_dashboard=true"{% if currentPage.startsWith('/study-search/v3') %} aria-current="true"{% endif %}>
+            <strong class="nhsuk-header__navigation-item-current-fallback">Find a study</strong>
+          </a>
+        </li>
+
         <li class="nhsuk-header__navigation-item{% if currentPage.startsWith('/dashboard/v2/profile') %} nhsuk-header__navigation-item--current{% endif %}">
           <a class="nhsuk-header__navigation-link" href="/dashboard/v2/profile"{% if currentPage.startsWith('/dashboard/v2/profile') %} aria-current="true"{% endif %}>
             <strong class="nhsuk-header__navigation-item-current-fallback">Profile</strong>
+          </a>
+        </li>
+
+        <li class="nhsuk-header__navigation-item{% if currentPage.startsWith('/dashboard/v2/my-studies') %} nhsuk-header__navigation-item--current{% endif %}">
+          <a class="nhsuk-header__navigation-link" href="/dashboard/v2/my-studies"{% if currentPage.startsWith('/dashboard/v2/my-studies') %} aria-current="true"{% endif %}>
+            <strong class="nhsuk-header__navigation-item-current-fallback">My studies</strong>
           </a>
         </li>
 

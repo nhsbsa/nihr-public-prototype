@@ -22,22 +22,26 @@
 <div class="nhsuk-grid-row">
   <div class="nhsuk-grid-column-full">
     <span class="nhsuk-caption-l">Study title:</span>
-    <h1 class="nhsuk-heading-xl">Alzheimer's early detection screening study</h1>
+    <h1 class="nhsuk-heading-xl">Osteoarthritis Pain Management & Mobility Study</h1>
 
-    <div class="nhsuk-u-margin-bottom-4">
-      <p class="nhsuk-body-s nhsuk-u-margin-bottom-2"><strong>Status tags:</strong></p>
-      {{ tag({ text: "Online survey", classes: "nhsuk-tag--blue" }) }}
-      {{ tag({ text: "Local clinic", classes: "nhsuk-tag--grey" }) }}
-      {{ tag({ text: "Travel expenses covered", classes: "nhsuk-tag--green" }) }}
-    </div>
+    <p class="nhsuk-body-l">Help researchers evaluate a new digital tool designed to support people living with osteoarthritis in managing joint pain and staying active.</p>
 
-    <form action="/dashboard/v2/save-study" method="post" novalidate>
-      <input type="hidden" name="studyTitle" value="Alzheimer's early detection screening study">
+    {% set studySaved = (query.saved == "true") or (data.savedStudies and "Osteoarthritis Pain Management & Mobility Study" in data.savedStudies) %}
+
+    {% if studySaved %}
       <div class="nhsuk-button-group">
-        {{ button({ text: "Check if you are eligible", href: "pre-screener-start" }) }}
-        {{ button({ text: "Save study to profile", classes: "nhsuk-button--secondary" }) }}
+        {{ button({ text: "Register interest in this study", href: "/dashboard/v2/home" }) }}
       </div>
-    </form>
+      <p class="nhsuk-body"><a class="nhsuk-link" href="/dashboard/v2/my-studies">View your saved studies</a></p>
+    {% else %}
+      <form action="/dashboard/v2/save-study" method="post" novalidate>
+        <input type="hidden" name="studyTitle" value="Osteoarthritis Pain Management & Mobility Study">
+        <div class="nhsuk-button-group">
+          {{ button({ text: "Register interest in this study", href: "/dashboard/v2/home" }) }}
+          {{ button({ text: "Save study for later", classes: "nhsuk-button--secondary" }) }}
+        </div>
+      </form>
+    {% endif %}
   </div>
 </div>
 
@@ -46,16 +50,25 @@
   <div class="nhsuk-grid-column-two-thirds">
 
     {% call card() %}
-      <h2 class="nhsuk-heading-m">Key details</h2>
-      {{ table({
-        classes: "nhsuk-u-margin-bottom-0",
-        caption: "Key details",
-        captionClasses: "nhsuk-u-visually-hidden",
-        firstCellIsHeader: true,
+      <h2 class="nhsuk-heading-m">Key facts</h2>
+      {{ summaryList({
         rows: [
-          [ { text: "Location" }, { text: "Within 30 miles of your registered postcode (Birmingham regional hubs)" } ],
-          [ { text: "Time commitment" }, { text: "Two 30-minute online screening sessions, plus one follow-up clinic visit" } ],
-          [ { text: "Key dates" }, { text: "Open for recruitment until 31 October" } ]
+          {
+            key: { text: "Study type" },
+            value: { text: "Online screening sessions, plus one in-person follow-up visit" }
+          },
+          {
+            key: { text: "Location" },
+            value: { text: "Online, with a follow-up visit at a Birmingham regional hub (within 30 miles of your postcode)" }
+          },
+          {
+            key: { text: "Time required" },
+            value: { text: "Two 30-minute online sessions, plus one follow-up clinic visit" }
+          },
+          {
+            key: { text: "Compensation" },
+            value: { text: "No payment, but your travel costs to the clinic visit are covered" }
+          }
         ]
       }) }}
     {% endcall %}
@@ -63,34 +76,27 @@
     {% call card({ classes: "nhsuk-u-margin-top-6" }) %}
       <h2 class="nhsuk-heading-m">Who can take part?</h2>
       <ul class="nhsuk-list nhsuk-list--bullet">
-        <li>Aged 50-85</li>
-        <li>Clinical diagnosis of early-stage cognitive impairment</li>
-        <li>A family member, partner or friend who can help confirm any changes</li>
-        <li>Live in the UK</li>
+        <li>You are aged between 50 and 85</li>
+        <li>You have been diagnosed with early-stage cognitive impairment</li>
+        <li>You have a family member, partner or friend who can help confirm any changes</li>
+        <li>You live in the UK</li>
       </ul>
 
       <h3 class="nhsuk-heading-s">You cannot take part if:</h3>
-      <ul class="nhsuk-list nhsuk-list--bullet">
-        <li>You have a diagnosis of a different type of dementia unrelated to Alzheimer's disease</li>
-        <li>You are currently taking part in another clinical drug trial</li>
-        <li>You are unable to attend a Birmingham regional hub clinic for a follow-up visit</li>
+      <ul class="nhsuk-list nhsuk-list--bullet nhsuk-u-margin-bottom-0">
+        <li>You have been diagnosed with a different type of dementia</li>
+        <li>You are currently taking part in another drug trial</li>
+        <li>You cannot attend a Birmingham regional hub for a follow-up visit</li>
       </ul>
-
-      {{ button({ text: "Check if you are eligible", href: "pre-screener-start", classes: "nhsuk-button--secondary nhsuk-u-margin-bottom-0" }) }}
     {% endcall %}
 
     {% call card({ classes: "nhsuk-u-margin-top-6" }) %}
-      <h3 class="nhsuk-heading-m">What will you do?</h3>
-      <p class="nhsuk-body nhsuk-u-margin-bottom-0">
-        This study involves completing short online tasks using a secure app. If you choose to take part, you will complete tasks on a computer or mobile tablet. You can complete these tasks at home or at your local regional hub clinic.
-      </p>
-    {% endcall %}
-
-    {% call card({ classes: "nhsuk-u-margin-top-6" }) %}
-      <h3 class="nhsuk-heading-m">Study reward & involvement</h3>
-      <p class="nhsuk-body nhsuk-u-margin-bottom-0">
-        There is no payment for taking part, but we will cover your travel costs. You will get a summary of your results after your final visit.
-      </p>
+      <h2 class="nhsuk-heading-m">What's involved?</h2>
+      <ol class="nhsuk-list nhsuk-list--number nhsuk-u-margin-bottom-0">
+        <li>Complete two 30-minute screening sessions online, using a computer or mobile tablet at home or at your regional hub clinic</li>
+        <li>Attend one follow-up visit at your nearest Birmingham regional hub</li>
+        <li>Get a summary of your results after your final visit</li>
+      </ol>
     {% endcall %}
 
     {% call card({ classes: "nhsuk-card--grey nhsuk-u-margin-top-6" }) %}
@@ -108,9 +114,9 @@
     {% endcall %}
 
     {{ button({
-      text: "Check if you are eligible",
-      href: "pre-screener-start",
-      classes: "nhsuk-button--secondary nhsuk-u-margin-top-6"
+      text: "Register interest in this study",
+      href: "/dashboard/v2/home",
+      classes: "nhsuk-u-margin-top-6 nhsuk-u-margin-bottom-0"
     }) }}
 
   </div>
@@ -118,12 +124,12 @@
   <div class="nhsuk-grid-column-one-third">
     {% call card({ classes: "nhsuk-card--grey" }) %}
       <h3 class="nhsuk-heading-xs nhsuk-u-margin-bottom-1">Managing profile:</h3>
-      <p class="nhsuk-body nhsuk-u-margin-bottom-4"><strong>John Jones</strong></p>
-
-      <h3 class="nhsuk-heading-xs nhsuk-u-margin-bottom-2">Profile completeness:</h3>
-      <progress value="40" max="100" class="app-progress">40%</progress>
-      <p class="nhsuk-body-s nhsuk-u-margin-top-1 nhsuk-u-margin-bottom-0"><strong>40% complete</strong></p>
+      <p class="nhsuk-body nhsuk-u-margin-bottom-0"><strong>John Jones</strong></p>
     {% endcall %}
+
+    <div class="nhsuk-u-margin-top-6">
+      {% include "dashboard/v2/includes/_profile-tracker.html" %}
+    </div>
   </div>
 
 </div>

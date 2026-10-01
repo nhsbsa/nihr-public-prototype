@@ -9,6 +9,14 @@
 <div class="nhsuk-grid-row">
   <div class="nhsuk-grid-column-full">
     {{ backLink({ text: "Back to dashboard", href: "set-state?accountStatus=active&studyDismissed=false", classes: "nhsuk-u-margin-bottom-4" }) }}
+
+    {% if query.updated %}
+      {{ notificationBanner({
+        variant: "success",
+        html: "<h3 class=\"nhsuk-notification-banner__heading\">Success</h3><p>Your areas of interest have been updated.</p>"
+      }) }}
+    {% endif %}
+
     <h1 class="nhsuk-heading-xl">Profile and preferences</h1>
   </div>
 </div>
@@ -49,55 +57,53 @@
       ]
     }) }}
 
-    <h2 class="nhsuk-heading-m nhsuk-u-margin-top-6">My diagnosed conditions</h2>
-    <p class="nhsuk-body">We use this to match you with clinical trials that are relevant to conditions you've been diagnosed with.</p>
-    <form action="profile" method="post" novalidate>
-      <input type="hidden" name="diagnosedConditions" value="_unchecked">
-      {{ checkboxes({
-        classes: "nhsuk-checkboxes--small",
-        name: "diagnosedConditions",
-        items: [
-          { value: "Alzheimer's disease", text: "Alzheimer's disease", checked: (data.diagnosedConditions and "Alzheimer's disease" in data.diagnosedConditions) },
-          { value: "Type 2 diabetes", text: "Type 2 diabetes", checked: (data.diagnosedConditions and "Type 2 diabetes" in data.diagnosedConditions) },
-          { value: "Autism", text: "Autism", checked: (data.diagnosedConditions and "Autism" in data.diagnosedConditions) },
-          { value: "Dyspraxia", text: "Dyspraxia", checked: (data.diagnosedConditions and "Dyspraxia" in data.diagnosedConditions) },
-          { value: "Asthma", text: "Asthma", checked: (data.diagnosedConditions and "Asthma" in data.diagnosedConditions) },
-          { value: "Cognitive health", text: "Cognitive health", checked: (data.diagnosedConditions and "Cognitive health" in data.diagnosedConditions) }
-        ]
-      }) }}
-      {{ button({ text: "Save diagnosed conditions", classes: "nhsuk-u-margin-bottom-0" }) }}
-    </form>
+    <h2 class="nhsuk-heading-m nhsuk-u-margin-top-6">Health conditions of interest</h2>
+    <p class="nhsuk-body">Select the health conditions you want to help research. You can take part in studies as a patient, family carer, or healthy volunteer.</p>
+    {% set selectedConditionsHtml %}
+      {% if data.diagnosedConditions and data.diagnosedConditions.length %}
+        {{ data.diagnosedConditions | join('<br>') | safe }}
+      {% else %}
+        None added
+      {% endif %}
+    {% endset %}
+    {{ summaryList({
+      rows: [
+        {
+          key: { text: "Conditions" },
+          value: { html: selectedConditionsHtml },
+          actions: { items: [ { href: "/dashboard/v2/edit-health-conditions", text: "Change", visuallyHiddenText: "health conditions" } ] }
+        }
+      ]
+    }) }}
 
-    <h2 class="nhsuk-heading-m nhsuk-u-margin-top-6">Broad interests</h2>
+    <h2 class="nhsuk-heading-m nhsuk-u-margin-top-6">Areas of interest</h2>
     <p class="nhsuk-body">We use this to send you general research news and newsletters, even for areas without a diagnosed condition.</p>
-    <form action="profile" method="post" novalidate>
-      <input type="hidden" name="broadInterests" value="_unchecked">
-      {{ checkboxes({
-        classes: "nhsuk-checkboxes--small",
-        name: "broadInterests",
-        items: [
-          { value: "Mental health", text: "Mental health", checked: (data.broadInterests and "Mental health" in data.broadInterests) },
-          { value: "Cardiovascular health", text: "Cardiovascular health", checked: (data.broadInterests and "Cardiovascular health" in data.broadInterests) },
-          { value: "Cancer research", text: "Cancer research", checked: (data.broadInterests and "Cancer research" in data.broadInterests) },
-          { value: "Healthy ageing", text: "Healthy ageing", checked: (data.broadInterests and "Healthy ageing" in data.broadInterests) }
-        ]
-      }) }}
-      {{ button({ text: "Save broad interests", classes: "nhsuk-button--secondary nhsuk-u-margin-bottom-0" }) }}
-    </form>
+    {% set selectedInterestsHtml %}
+      {% if data.broadInterests and data.broadInterests | length %}
+        {% for interest in data.broadInterests %}
+          {{ tag({ text: interest, classes: "nhsuk-tag--grey nhsuk-u-margin-bottom-2" }) }}
+        {% endfor %}
+      {% else %}
+        <p class="nhsuk-u-margin-bottom-0">You have not selected any areas of interest yet.</p>
+      {% endif %}
+    {% endset %}
+    {{ summaryList({
+      rows: [
+        {
+          key: { text: "Selected interests" },
+          value: { html: selectedInterestsHtml },
+          actions: { items: [ { href: "/dashboard/v2/edit-interests", text: "Customise", visuallyHiddenText: "areas of interest" } ] }
+        }
+      ]
+    }) }}
 
-    <h2 class="nhsuk-heading-m nhsuk-u-margin-top-6">Communication preferences</h2>
-    <form action="profile" method="post" novalidate>
-      <input type="hidden" name="commsPreferences" value="_unchecked">
-      {{ checkboxes({
-        classes: "nhsuk-checkboxes--small",
-        name: "commsPreferences",
-        items: [
-          { value: "emailImmediate", text: "Email me immediately when a study matches my conditions", checked: (data.commsPreferences and "emailImmediate" in data.commsPreferences) },
-          { value: "monthlySummary", text: "Send a monthly summary", checked: (data.commsPreferences and "monthlySummary" in data.commsPreferences) }
-        ]
-      }) }}
-      {{ button({ text: "Save communication preferences", classes: "nhsuk-button--secondary nhsuk-u-margin-bottom-0" }) }}
-    </form>
+    <h2 class="nhsuk-heading-m nhsuk-u-margin-top-6">Contact preferences</h2>
+    <p class="nhsuk-body">Manage how researchers can contact you about studies, and update your newsletter settings.</p>
+    {{ button({
+      text: "Manage contact preferences",
+      href: "/dashboard/v2/contact-preferences",
+      classes: "nhsuk-button--secondary nhsuk-u-margin-bottom-0"
+    }) }}
 
     <h2 class="nhsuk-heading-m nhsuk-u-margin-top-6">Data and consent</h2>
     {% call card() %}
@@ -126,10 +132,10 @@
 
   <div class="nhsuk-grid-column-one-third">
     {% call card({ classes: "nhsuk-card--grey nhsuk-u-margin-top-2" }) %}
-      <h3 class="nhsuk-heading-xs nhsuk-u-margin-bottom-1">Managing profile:</h3>
+      <h2 class="nhsuk-heading-xs nhsuk-u-margin-bottom-1">Managing profile:</h2>
       <p class="nhsuk-body nhsuk-u-margin-bottom-4"><strong>John Jones</strong></p>
 
-      <h3 class="nhsuk-heading-xs nhsuk-u-margin-bottom-2">Proxy access</h3>
+      <h2 class="nhsuk-heading-xs nhsuk-u-margin-bottom-2">Proxy access</h2>
       <form action="switch-profile" method="post" novalidate>
         {{ radios({
           classes: "nhsuk-radios--small",
@@ -144,11 +150,10 @@
       </form>
     {% endcall %}
 
-    {% call card({ classes: "nhsuk-card--grey nhsuk-u-margin-top-6" }) %}
-      <h3 class="nhsuk-heading-xs nhsuk-u-margin-bottom-2">Profile completeness:</h3>
-      <progress value="40" max="100" class="app-progress">40%</progress>
-      <p class="nhsuk-body-s nhsuk-u-margin-top-1 nhsuk-u-margin-bottom-0"><strong>40% complete</strong></p>
-    {% endcall %}
+    <div class="nhsuk-u-margin-top-6">
+      {% include "dashboard/v2/includes/_profile-tracker.html" %}
+    </div>
+
   </div>
 
 </div>

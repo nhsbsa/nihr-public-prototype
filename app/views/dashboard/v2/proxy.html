@@ -78,11 +78,9 @@
       </p>
     {% endcall %}
 
-    {% call card({ classes: "nhsuk-card--grey nhsuk-u-margin-top-6" }) %}
-      <h3 class="nhsuk-heading-xs nhsuk-u-margin-bottom-2">Profile completeness:</h3>
-      <progress value="40" max="100" class="app-progress">40%</progress>
-      <p class="nhsuk-body-s nhsuk-u-margin-top-1 nhsuk-u-margin-bottom-0"><strong>40% complete</strong></p>
-    {% endcall %}
+    <div class="nhsuk-u-margin-top-6">
+      {% include "dashboard/v2/includes/_profile-tracker.html" %}
+    </div>
   </div>
 
 </div>

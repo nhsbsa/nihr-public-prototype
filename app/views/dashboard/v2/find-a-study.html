@@ -1,0 +1,87 @@
+{% extends "dashboard/v2/layout.html" %}
+
+{% block pageTitle %}
+  Find a study - Be Part of Research
+{% endblock %}
+
+{% block content %}
+
+<div class="nhsuk-grid-row">
+  <div class="nhsuk-grid-column-full">
+    {{ backLink({ text: "Back to dashboard", href: "/dashboard/v2/home", classes: "nhsuk-u-margin-bottom-4" }) }}
+  </div>
+</div>
+
+<div class="nhsuk-grid-row">
+
+  <div class="nhsuk-grid-column-one-third">
+
+    <h2 class="nhsuk-heading-m">Filters</h2>
+
+    <form action="find-a-study" method="get" novalidate>
+
+      {{ checkboxes({
+        name: "studyType",
+        fieldset: {
+          legend: { text: "Study type", classes: "nhsuk-fieldset__legend--s" }
+        },
+        items: [
+          { value: "Online survey", text: "Online survey", checked: (data.studyType and "Online survey" in data.studyType) },
+          { value: "Face-to-face clinic", text: "Face-to-face clinic", checked: (data.studyType and "Face-to-face clinic" in data.studyType) },
+          { value: "Remote monitoring", text: "Remote monitoring", checked: (data.studyType and "Remote monitoring" in data.studyType) }
+        ]
+      }) }}
+
+      {{ checkboxes({
+        name: "location",
+        fieldset: {
+          legend: { text: "Location", classes: "nhsuk-fieldset__legend--s" }
+        },
+        items: [
+          { value: "Up to 10 miles", text: "Up to 10 miles", checked: (data.location and "Up to 10 miles" in data.location) },
+          { value: "Up to 50 miles", text: "Up to 50 miles", checked: (data.location and "Up to 50 miles" in data.location) },
+          { value: "Anywhere in the UK", text: "Anywhere in the UK", checked: (data.location and "Anywhere in the UK" in data.location) }
+        ]
+      }) }}
+
+      {{ button({ text: "Apply filters", classes: "nhsuk-button--secondary nhsuk-u-margin-bottom-0" }) }}
+
+    </form>
+
+  </div>
+
+  <div class="nhsuk-grid-column-two-thirds">
+
+    <h1 class="nhsuk-heading-l">Find a study</h1>
+
+    <form action="find-a-study" method="get" novalidate>
+
+      {{ input({
+        label: { text: "Search by condition, keyword or location" },
+        name: "searchTerm",
+        value: data.searchTerm
+      }) }}
+
+      {{ button({ text: "Search", classes: "nhsuk-u-margin-bottom-0" }) }}
+
+    </form>
+
+    <h2 class="nhsuk-heading-s nhsuk-u-margin-top-6">2 results found</h2>
+
+    {% call card() %}
+      <h3 class="nhsuk-heading-m"><a href="details">Diet and Cognitive Health Study</a></h3>
+      {{ tag({ text: "Online survey", classes: "nhsuk-tag--grey" }) }}
+    {% endcall %}
+
+    {% call card() %}
+      <h3 class="nhsuk-heading-m"><a href="details">Early indicators of Asthma</a></h3>
+      {{ tag({ text: "Face-to-face clinic", classes: "nhsuk-tag--blue" }) }}
+    {% endcall %}
+
+  </div>
+
+</div>
+
+{% include "dashboard/v2/partials/prototype-nav.html" %}
+
+{% endblock %}

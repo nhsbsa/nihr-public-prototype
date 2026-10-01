@@ -21,27 +21,30 @@
   <form action="/study-search/v3/questions/question-4" method="post">
 
     {% set specificAreaHtml %}
-      <div class="nhsuk-form-group" style="position: relative;">
-        <label class="nhsuk-label" for="location">
-          Town, city or postcode
-        </label>
-        <div class="nhsuk-hint" id="location-hint">
-          Enter a location, hospital or postcode (e.g. King's Cross, King's College Hospital, SW1A 1AA)
-        </div>
-        <input class="nhsuk-input nhsuk-u-width-two-thirds" 
-               id="location" 
-               name="location" 
-               type="text" 
-               value="{{ data['location'] }}" 
-               autocomplete="off"
-               aria-describedby="location-hint">
+      <div class="nhsuk-form-group">
+  <label class="nhsuk-label" for="location">
+    Town, city or postcode
+  </label>
+  <div class="nhsuk-hint" id="location-hint">
+    Enter a location, hospital or postcode (e.g. King's Cross, King's College Hospital, SW1A 1AA)
+  </div>
 
-        <!-- Autocomplete Suggestions Dropdown Container -->
-        <ul id="location-suggestions" 
-            class="nhsuk-list" 
-            style="display: none; position: absolute; z-index: 1000; width: 66.66%; background: #ffffff; border: 2px solid #212b32; border-top: none; margin-top: -2px; max-height: 240px; overflow-y: auto; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
-        </ul>
-      </div>
+  <div class="nhsuk-u-width-two-thirds" style="position: relative;">
+    <input class="nhsuk-input nhsuk-u-width-full"
+           id="location"
+           name="location"
+           type="text"
+           value="{{ data['location'] }}"
+           autocomplete="off"
+           aria-describedby="location-hint">
+
+    <!-- Autocomplete Suggestions Dropdown Container -->
+    <ul id="location-suggestions"
+        class="nhsuk-list location-suggestions"
+        style="display: none;">
+    </ul>
+  </div>
+</div>
 
       {{ select({
         id: "travelDistance",
@@ -81,14 +84,17 @@
       ]
     }) }}
 
-    {{ button({ text: "Continue" }) }}
+<div class="nhsuk-button-group">
+  {{ button({ text: "Continue" }) }}
 
-    {{ button({
-      text: "Use my location",
-      variant: "secondary",
-      type: "button"
-    }) }}
+  {{ button({
+    text: "Use my location",
+    variant: "secondary",
+    type: "button"
+  }) }}
+</div>
 
+    
 
   </form>
 
