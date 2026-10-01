@@ -30,6 +30,13 @@
       }) }}
     {% endif %}
 
+    {% if query.show_registered_banner %}
+      {{ notificationBanner({
+        variant: "success",
+        html: "<h3 class=\"nhsuk-notification-banner__heading\">Interest registered</h3><p>Thanks for registering your interest. We'll be in touch if you're a good match for this study.</p>"
+      }) }}
+    {% endif %}
+
     {% if data.accountStatus == "paused" %}
       <h1 class="nhsuk-heading-xl">Your active studies</h1>
     {% else %}

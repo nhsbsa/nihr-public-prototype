@@ -30,14 +30,14 @@
 
     {% if studySaved %}
       <div class="nhsuk-button-group">
-        {{ button({ text: "Register interest in this study", href: "/dashboard/v2/home" }) }}
+        {{ button({ text: "Register interest in this study", href: "/dashboard/v2/pre-screener-outcome" }) }}
       </div>
       <p class="nhsuk-body"><a class="nhsuk-link" href="/dashboard/v2/my-studies">View your saved studies</a></p>
     {% else %}
       <form action="/dashboard/v2/save-study" method="post" novalidate>
         <input type="hidden" name="studyTitle" value="Osteoarthritis Pain Management & Mobility Study">
         <div class="nhsuk-button-group">
-          {{ button({ text: "Register interest in this study", href: "/dashboard/v2/home" }) }}
+          {{ button({ text: "Register interest in this study", href: "/dashboard/v2/pre-screener-outcome" }) }}
           {{ button({ text: "Save study for later", classes: "nhsuk-button--secondary" }) }}
         </div>
       </form>
@@ -115,7 +115,7 @@
 
     {{ button({
       text: "Register interest in this study",
-      href: "/dashboard/v2/home",
+      href: "/dashboard/v2/pre-screener-outcome",
       classes: "nhsuk-u-margin-top-6 nhsuk-u-margin-bottom-0"
     }) }}
 

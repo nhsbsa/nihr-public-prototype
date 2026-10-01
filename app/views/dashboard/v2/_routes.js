@@ -9,6 +9,63 @@ router.use(function (req, res, next) {
 
 })
 
+// studyId -> display title, used by the generic save/dismiss logic below so every
+// triage form (save-match-response and study-response-handler) can resolve a title
+// without each card having to post it separately
+var studyTitlesById = {
+    'early-memory-changes': 'Understanding early memory changes in over-65s',
+    'diet-lifestyle-survey': 'Diet and lifestyle survey for people with type 2 diabetes',
+    'sleep-cognitive-health': 'Sleep patterns and cognitive health questionnaire',
+    'osteoarthritis-pain-management': 'Osteoarthritis Pain Management & Mobility Study'
+};
+
+function addToSessionArray(sessionData, arrayName, value) {
+
+    if (!sessionData[arrayName]) {
+        sessionData[arrayName] = [];
+    }
+
+    if (sessionData[arrayName].indexOf(value) === -1) {
+        sessionData[arrayName].push(value);
+    }
+
+}
+
+function removeFromSessionArray(sessionData, arrayName, value) {
+
+    if (!sessionData[arrayName]) {
+        return;
+    }
+
+    var index = sessionData[arrayName].indexOf(value);
+
+    if (index !== -1) {
+        sessionData[arrayName].splice(index, 1);
+    }
+
+}
+
+// Shared by every triage form: a 'yes' saves the study to the Saved studies tab,
+// a 'no' moves it to the Not interested tab, and either one clears it from the
+// other list so a changed answer doesn't leave the study showing in both places.
+function recordStudyResponse(req, studyId, response) {
+
+    var studyTitle = studyTitlesById[studyId];
+
+    if (!studyTitle) {
+        return;
+    }
+
+    if (response === 'yes') {
+        addToSessionArray(req.session.data, 'savedStudies', studyTitle);
+        removeFromSessionArray(req.session.data, 'notInterestedStudies', studyTitle);
+    } else if (response === 'no') {
+        addToSessionArray(req.session.data, 'notInterestedStudies', studyTitle);
+        removeFromSessionArray(req.session.data, 'savedStudies', studyTitle);
+    }
+
+}
+
 router.post('/save-status', function (req, res) {
 
     var accountStatus = req.session.data['accountStatus'];
@@ -51,6 +108,12 @@ router.get('/set-state', function (req, res) {
         req.session.data['studyDismissed'] = (req.query.studyDismissed === 'true');
     }
 
+    // optional flash trigger - only fires when a caller explicitly asks for it,
+    // so the existing dev-nav demo-state links are unaffected
+    if (req.query.showFlash === 'responseSaved') {
+        req.flash('responseSaved', true);
+    }
+
     res.redirect('home');
 
 })
@@ -69,6 +132,11 @@ router.post('/save-study', function (req, res) {
 
 router.post('/save-match-response', function (req, res) {
 
+    var studyId = req.body.studyId;
+    var response = req.body.study1Response || req.body.study3Response;
+
+    recordStudyResponse(req, studyId, response);
+
     res.redirect('/dashboard/v2/home?updated=true');
 
 })
@@ -76,7 +144,10 @@ router.post('/save-match-response', function (req, res) {
 router.post('/study-response-handler', function (req, res) {
 
     var studyId = req.body.studyId;
+    var response = req.body.study2Response || req.body.study4Response;
     var showGenericSavedBanner = true;
+
+    recordStudyResponse(req, studyId, response);
 
     if (studyId === 'osteoarthritis-pain-management') {
 
