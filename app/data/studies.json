@@ -4179,6 +4179,17 @@
     ]
   },
   {
+    "id": "58XXX",
+    "status": "recruiting",
+    "statusLabel": "Recruiting",
+    "closingDate": null,
+    "title": "Spinal Cord Stimulation for Chronic Lower Back Pain",
+    "conditionCategories": [
+      "ageing",
+      "musculoskeletal-and-orthopaedics",
+      "primary-care",
+      "general-practice"
+    ],
     "ageingSub": [
       "back-pain"
     ],

@@ -23,3 +23,20 @@
 .nhsuk-back-link {
   display: none !important;
 }
+.nhsuk-card__heading-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.save-study-link {
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.save-study-link--saved {
+  color: $nhsuk-text-colour;
+  text-decoration: none;
+  cursor: default;
+}

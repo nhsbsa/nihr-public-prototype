@@ -356,11 +356,17 @@
                 {% set tagClass = "nhsuk-tag--red" %}
               {% endif %}
 
-              {{ tag({ text: study.statusLabel, classes: tagClass }) }}
-
-              {% if study.closingDate %}
-                <span class="nhsuk-u-float-right">Until {{ study.closingDate }}</span>
-              {% endif %}
+              <div class="nhsuk-card__heading-row">
+                <div>
+                  {{ tag({ text: study.statusLabel, classes: tagClass }) }}
+                  {% if study.status == "recruiting" and study.closingDate %}
+                    <span class="nhsuk-u-secondary-text-color">Until {{ study.closingDate }}</span>
+                  {% endif %}
+                </div>
+                <a class="nhsuk-link nhsuk-link--no-visited save-study-link" href="#" data-study-id="{{ study.id }}" data-saved-text="Saved 0 days ago" data-unsaved-text="Save study">
+                  Save study<span class="nhsuk-u-visually-hidden"> {{ study.title }}</span>
+                </a>
+              </div>
 
               {# ONLY STUDIES 58691 AND 58687 ARE CLICKABLE #}
               <h3 class="nhsuk-card__heading">
@@ -731,6 +737,25 @@
 
     syncFilterExpander();
     window.addEventListener('resize', syncFilterExpander);
+
+    // 6. STATIC SAVE STUDY TOGGLE (no backend, visual only)
+    document.querySelectorAll('.save-study-link').forEach(function (link) {
+      link.addEventListener('click', function (e) {
+        e.preventDefault();
+
+        const savedText = this.getAttribute('data-saved-text');
+        const unsavedText = this.getAttribute('data-unsaved-text');
+        const isSaved = this.classList.contains('save-study-link--saved');
+
+        if (isSaved) {
+          this.classList.remove('save-study-link--saved');
+          this.childNodes[0].textContent = unsavedText;
+        } else {
+          this.classList.add('save-study-link--saved');
+          this.childNodes[0].textContent = savedText;
+        }
+      });
+    });
   });
 })();
 </script>
