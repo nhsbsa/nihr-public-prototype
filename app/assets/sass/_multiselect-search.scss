@@ -4,8 +4,13 @@
   border: 2px solid $nhsuk-input-border-colour;
   padding: 0.5rem;
   background-color: #fff;
-  margin-top: 0; /* default for JS disabled */
+  margin-top: 0;
 }
+
+.scrollable-list--show-all {
+  max-height: 285px;
+}
+
 .searchable-item {
   margin-left: 0.5rem;
 }
