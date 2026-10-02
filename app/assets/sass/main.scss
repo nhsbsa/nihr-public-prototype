@@ -20,6 +20,9 @@ $nihr-colour: #193E72;
 @import "filter-panel";
 @import "study-details";
 
+// Volunteer Dashboard concept
+@import "dashboard-progress";
+
 // Custom flex row - used on BPOR pages with button alongside input
 .nhsuk-flex-row {
     display: flex;
