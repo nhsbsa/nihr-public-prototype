@@ -1,0 +1,48 @@
+{% extends "dashboard/v1/layout.html" %}
+
+{% block pageTitle %}
+  Check your answers - Be Part of Research
+{% endblock %}
+
+{% block content %}
+
+<div class="nhsuk-grid-row">
+  <div class="nhsuk-grid-column-two-thirds">
+    {{ backLink({ text: "Back", href: "pre-screener-questions", classes: "nhsuk-u-margin-bottom-4" }) }}
+
+    <h1 class="nhsuk-heading-xl">Check your answers</h1>
+
+    <h2 class="nhsuk-heading-m">Eligibility questions</h2>
+
+    {{ summaryList({
+      rows: [
+        {
+          key: { text: "Are you aged between 50 and 85?" },
+          value: { text: "Yes" },
+          actions: { items: [ { href: "pre-screener-questions", text: "Change", visuallyHiddenText: "your answer about your age" } ] }
+        },
+        {
+          key: { text: "Do you have a clinical diagnosis of early-stage cognitive impairment?" },
+          value: { text: "Yes" },
+          actions: { items: [ { href: "pre-screener-questions", text: "Change", visuallyHiddenText: "your answer about your diagnosis" } ] }
+        },
+        {
+          key: { text: "Do you have a family member, partner or friend who can help confirm any changes?" },
+          value: { text: "Yes" },
+          actions: { items: [ { href: "pre-screener-questions", text: "Change", visuallyHiddenText: "your answer about having a study partner" } ] }
+        }
+      ]
+    }) }}
+
+    {{ warningCallout({
+      heading: "Important",
+      text: "You cannot change your answers after you submit them."
+    }) }}
+
+    {{ button({ text: "Submit answers", href: "pre-screener-outcome", classes: "nhsuk-u-margin-bottom-0" }) }}
+  </div>
+</div>
+
+{% include "dashboard/v1/partials/prototype-nav.html" %}
+
+{% endblock %}

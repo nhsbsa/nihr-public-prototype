@@ -1,7 +1,89 @@
 {% extends "layout-bpor.html" %}
-{% from "_components/filter-panel/macro.njk" import filterPanel %}
+{% from '_components/phase-banner/macro.njk' import nhsukPhaseBanner %}
 
 {% block content %}
+
+<style>
+  /* TOP SEARCH CONTAINER & DROPDOWN MENU */
+  .nhsuk-search-container {
+    position: relative;
+    margin-bottom: 32px;
+    width: 100%;
+    max-width: 100%;
+  }
+  .search-autocomplete-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: #ffffff;
+    border: 2px solid #212b32;
+    border-top: none;
+    z-index: 1000;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+    max-height: 480px;
+    overflow-y: auto;
+  }
+  .search-autocomplete-item {
+    padding: 14px 18px;
+    border-bottom: 1px solid #e5e5e5;
+    cursor: pointer;
+    font-size: 18px;
+  }
+  .search-autocomplete-item:hover {
+    background-color: #f0f4f5;
+  }
+  .search-autocomplete-link {
+    color: #005ea5;
+    text-decoration: underline;
+    font-weight: 600;
+  }
+  .search-autocomplete-count {
+    color: #212b32;
+    font-weight: normal;
+  }
+  .search-autocomplete-free {
+    padding: 16px 18px;
+    background-color: #ffffff;
+    border-top: 1px solid #b1b4b6;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+  }
+  .search-autocomplete-free:hover {
+    background-color: #f0f4f5;
+  }
+  .search-autocomplete-free-icon {
+    width: 22px;
+    height: 22px;
+    stroke: #505a5f;
+  }
+
+  /* RESULTS HEADER BAR */
+  .results-header-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  .sort-by-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+</style>
+
+  {% if data.from_dashboard %}
+    {{ backLink({ text: "Back to dashboard", href: "/dashboard/v2/home" }) }}
+    {{ nhsukPhaseBanner({
+      tag: { text: "Dashboard" },
+      html: "You're viewing the study search from your dashboard. <a class=\"nhsuk-link\" href=\"/dashboard/v2/home\">Return to My Dashboard</a>"
+    }) }}
+  {% endif %}
 
   {# Calculate age if DOB year is provided #}
   {% set dobYear = data.dateofbirth.year | int if data.dateofbirth else 0 %}
@@ -10,7 +92,7 @@
     {% set age = 2026 - dobYear %}
   {% endif %}
 
-  <h1>Find a study</h1>
+  <h1 class="nhsuk-heading-xl">Find a study</h1>
 
   {# TOP NHS SEARCH INPUT BAR #}
   <div class="nhsuk-search-container">
@@ -29,12 +111,19 @@
         id: "topKeywordsInput",
         name: "keywords",
         value: keywords or '',
-        placeholder: "e.g. Lung, Diabetes, Pain..."
+        placeholder: "e.g. Lung, Diabetes, Pain...",
+        attributes: {
+          role: "combobox",
+          "aria-expanded": "false",
+          "aria-controls": "searchAutocompleteResults",
+          "aria-autocomplete": "list",
+          "aria-haspopup": "listbox"
+        }
       }) }}
 
       {# AUTOCOMPLETE DROPDOWN MENU #}
       <div id="searchAutocompleteMenu" class="search-autocomplete-menu">
-        <div id="searchAutocompleteResults"></div>
+        <div id="searchAutocompleteResults" role="listbox" aria-label="Search suggestions"></div>
         <div id="searchAutocompleteFreeSearch" class="search-autocomplete-free">
           <svg class="search-autocomplete-free-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
             <circle cx="11" cy="11" r="7"></circle>
@@ -50,9 +139,9 @@
     <div class="nhsuk-grid-column-one-third">
 
       <div class="filter-panel">
-        
+
 {% call details({
-  summary: "Filters",
+  summaryText: "Filters",
   classes: "nhsuk-expander",
   id: "filterExpander"
 }) %}
@@ -67,7 +156,7 @@
                 <div class="nhsuk-form-group selected-filters">
                   <h2 class="nhsuk-heading-s nhsuk-u-margin-bottom-1">Selected filters</h2>
                   <a class="nhsuk-link nhsuk-link--no-visited" href="/study-search/v3/searchfeed/search-feed?clear=true">Clear filters</a>
-                
+
                 {% if keywords and keywords.trim() != "" %}
                   <h3 class="nhsuk-heading-xs">Search term</h3>
                   <a class="filter-remove-link" href="#" data-filter-type="keywords">
@@ -164,15 +253,22 @@
                          name="location"
                          type="text"
                          value="{{ data['location'] }}"
-                         autocomplete="off">
+                         autocomplete="off"
+                         role="combobox"
+                         aria-expanded="false"
+                         aria-controls="location-suggestions"
+                         aria-autocomplete="list"
+                         aria-haspopup="listbox">
 
                   <ul id="location-suggestions"
-                      class="nhsuk-list"
-                      style="display: none; position: absolute; z-index: 1000; width: 100%; background: #ffffff; border: 2px solid #212b32; border-top: none; margin-top: -2px; max-height: 200px; overflow-y: auto; box-shadow: 0 4px 8px rgba(0,0,0,0.1); list-style: none; padding: 0; margin: 0;">
+                      class="nhsuk-list location-suggestions"
+                      role="listbox"
+                      aria-label="Location suggestions"
+                      style="display: none;">
                   </ul>
                 </div>
 
-                
+
 
                 {{ select({
                   id: "travelDistance",
@@ -301,6 +397,8 @@
     {# RESULTS COLUMN WITH NHS SORT BY DROPDOWN #}
     <div class="nhsuk-grid-column-two-thirds">
 
+      <h2 class="nhsuk-u-visually-hidden">Search results</h2>
+
       <div class="results-header-bar">
         <p class="nhsuk-body-m" style="margin-bottom: 0;">
           {% if resultsCount > 0 %}
@@ -319,6 +417,9 @@
               <option value="most-recent" {% if sortBy == 'most-recent' or not sortBy %}selected{% endif %}>Most recent</option>
               <option value="a-z" {% if sortBy == 'a-z' %}selected{% endif %}>A to Z</option>
             </select>
+            <noscript>
+              {{ button({ text: "Update", classes: "nhsuk-button--secondary nhsuk-u-margin-bottom-0 nhsuk-u-margin-left-2" }) }}
+            </noscript>
           </div>
         </form>
       </div>
@@ -376,6 +477,14 @@
               <p class="nhsuk-body"><strong>Gender</strong> {{ study.genderLabel }}</p>
               <p class="nhsuk-body"><strong>Age</strong> {{ study.ageLabel }}</p>
               <p class="nhsuk-body"><strong>Locations</strong> {{ study.locations | join(", ") }}</p>
+
+              {% if data.from_dashboard %}
+              <form action="/study-search/v3/save-study" method="post" novalidate class="nhsuk-u-margin-top-3">
+                <input type="hidden" name="studyTitle" value="{{ study.title }}">
+                <input type="hidden" name="studyId" value="{{ study.id }}">
+                {{ button({ text: "Save study", classes: "nhsuk-button--secondary nhsuk-u-margin-bottom-0" }) }}
+              </form>
+              {% endif %}
             </div>
           </div>
                 {% endfor %}
@@ -534,6 +643,7 @@
 
         if (query.length < 1) {
           autocompleteMenu.style.display = 'none';
+          topKeywordsInput.setAttribute('aria-expanded', 'false');
           return;
         }
 
@@ -543,9 +653,12 @@
         });
 
         if (matches.length > 0) {
-          matches.slice(0, 6).forEach(function (item) {
+          matches.slice(0, 6).forEach(function (item, index) {
             const itemDiv = document.createElement('div');
             itemDiv.className = 'search-autocomplete-item';
+            itemDiv.setAttribute('role', 'option');
+            itemDiv.setAttribute('id', 'search-autocomplete-option-' + index);
+            itemDiv.setAttribute('aria-selected', 'false');
 
             const regEx = new RegExp(`(${query})`, 'gi');
             const highlightedText = item.text.replace(regEx, '<b>$1</b>');
@@ -570,6 +683,7 @@
           freeSearchTermText.innerHTML = `Search for "<b>${query}</b>"`;
         }
         autocompleteMenu.style.display = 'block';
+        topKeywordsInput.setAttribute('aria-expanded', 'true');
       });
     }
 
@@ -585,6 +699,7 @@
     document.addEventListener('click', function (e) {
       if (topForm && !topForm.contains(e.target) && autocompleteMenu) {
         autocompleteMenu.style.display = 'none';
+        if (topKeywordsInput) topKeywordsInput.setAttribute('aria-expanded', 'false');
       }
     });
 
@@ -631,6 +746,7 @@
 
         if (query.length < 2) {
           locationSuggestions.style.display = 'none';
+          locationInput.setAttribute('aria-expanded', 'false');
           return;
         }
 
@@ -639,31 +755,34 @@
         });
 
         if (matches.length > 0) {
-          matches.forEach(function (loc) {
+          matches.forEach(function (loc, index) {
             const li = document.createElement('li');
             li.textContent = loc;
-            li.style.padding = '8px 12px';
-            li.style.cursor = 'pointer';
-            li.style.borderBottom = '1px solid #d8ade8';
-            li.style.backgroundColor = '#ffffff';
+            li.className = 'location-suggestions__item';
+            li.setAttribute('role', 'option');
+            li.setAttribute('id', 'location-suggestion-option-' + index);
+            li.setAttribute('aria-selected', 'false');
 
             li.addEventListener('mouseenter', function () {
-              this.style.backgroundColor = '#f3f2f1';
+              this.classList.add('location-suggestions__item--hover');
             });
             li.addEventListener('mouseleave', function () {
-              this.style.backgroundColor = '#ffffff';
+              this.classList.remove('location-suggestions__item--hover');
             });
 
             li.addEventListener('click', function () {
               locationInput.value = loc;
               locationSuggestions.style.display = 'none';
+              locationInput.setAttribute('aria-expanded', 'false');
             });
 
             locationSuggestions.appendChild(li);
           });
           locationSuggestions.style.display = 'block';
+          locationInput.setAttribute('aria-expanded', 'true');
         } else {
           locationSuggestions.style.display = 'none';
+          locationInput.setAttribute('aria-expanded', 'false');
         }
       }
     });
@@ -675,6 +794,7 @@
       if (locationInput && locationSuggestions) {
         if (!locationInput.contains(e.target) && !locationSuggestions.contains(e.target)) {
           locationSuggestions.style.display = 'none';
+          locationInput.setAttribute('aria-expanded', 'false');
         }
       }
     });

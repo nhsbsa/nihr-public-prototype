@@ -1,0 +1,39 @@
+{% extends "dashboard/v1/layout.html" %}
+
+{% block pageTitle %}
+  How far are you willing to travel? - Be Part of Research
+{% endblock %}
+
+{% block content %}
+
+<div class="nhsuk-grid-row">
+  <div class="nhsuk-grid-column-two-thirds">
+    {{ backLink({ text: "Back", href: "profile", classes: "nhsuk-u-margin-bottom-4" }) }}
+
+    {% set currentRadius = data['travelRadius'] | default('20 miles') %}
+
+    <form action="profile" method="post">
+      {{ radios({
+        name: "travelRadius",
+        fieldset: {
+          legend: { 
+            text: "How far are you willing to travel?", 
+            classes: "nhsuk-fieldset__legend--l",
+            isPageHeading: true
+          }
+        },
+        items: [
+          { value: "10 miles", text: "10 miles", id: "radius-10", checked: currentRadius == "10 miles" },
+          { value: "20 miles", text: "20 miles", id: "radius-20", checked: currentRadius == "20 miles" },
+          { value: "50+ miles", text: "50+ miles", id: "radius-50", checked: currentRadius == "50+ miles" }
+        ]
+      }) }}
+
+      {{ button({ text: "Save changes", classes: "nhsuk-u-margin-bottom-0" }) }}
+    </form>
+  </div>
+</div>
+
+{% include "dashboard/v1/partials/prototype-nav.html" %}
+
+{% endblock %}

@@ -132,3 +132,30 @@
   flex-wrap: wrap;
   gap: 8px;
 }
+/* LOCATION AUTOCOMPLETE SUGGESTIONS (town/city/postcode field in the filter panel) */
+.location-suggestions {
+  position: absolute;
+  z-index: 1000;
+  width: 100%;
+  background: #ffffff;
+  border: 2px solid #212b32;
+  border-top: none;
+  margin-top: -2px;
+  max-height: 200px;
+  overflow-y: auto;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  list-style: none;
+  padding: 0;
+}
+
+.location-suggestions__item {
+  padding: 8px 12px;
+  cursor: pointer;
+  border-bottom: 1px solid #d8ade8; /* preserved from original inline style - not part of this review's scope */
+  background-color: #ffffff;
+
+  &:hover,
+  &--hover {
+    background-color: #f3f2f1;
+  }
+}

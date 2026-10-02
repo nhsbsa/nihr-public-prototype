@@ -1,0 +1,38 @@
+{% extends "dashboard/v2/layout.html" %}
+
+{% block pageTitle %}
+  Add or remove health conditions - Be Part of Research
+{% endblock %}
+
+{% block content %}
+
+<div class="nhsuk-grid-row">
+  <div class="nhsuk-grid-column-two-thirds">
+    {{ backLink({ text: "Back to profile", href: "/dashboard/v2/profile", classes: "nhsuk-u-margin-bottom-4" }) }}
+
+    <h1 class="nhsuk-heading-xl">Add or remove health conditions</h1>
+
+    <form action="/dashboard/v2/edit-health-conditions" method="post" novalidate>
+      <input type="hidden" name="diagnosedConditions" value="_unchecked">
+      {{ checkboxes({
+        classes: "nhsuk-checkboxes--small",
+        name: "diagnosedConditions",
+        items: [
+          { value: "Alzheimer's disease", text: "Alzheimer's disease", checked: (data.diagnosedConditions and "Alzheimer's disease" in data.diagnosedConditions) },
+          { value: "Type 2 diabetes", text: "Type 2 diabetes", checked: (data.diagnosedConditions and "Type 2 diabetes" in data.diagnosedConditions) },
+          { value: "Autism", text: "Autism", checked: (data.diagnosedConditions and "Autism" in data.diagnosedConditions) },
+          { value: "Dyspraxia", text: "Dyspraxia", checked: (data.diagnosedConditions and "Dyspraxia" in data.diagnosedConditions) },
+          { value: "Asthma", text: "Asthma", checked: (data.diagnosedConditions and "Asthma" in data.diagnosedConditions) },
+          { value: "Cognitive health", text: "Cognitive health", checked: (data.diagnosedConditions and "Cognitive health" in data.diagnosedConditions) },
+          { value: "Osteoarthritis", text: "Osteoarthritis", checked: (data.diagnosedConditions and "Osteoarthritis" in data.diagnosedConditions) }
+        ]
+      }) }}
+
+      {{ button({ text: "Save changes", classes: "nhsuk-u-margin-bottom-0" }) }}
+    </form>
+  </div>
+</div>
+
+{% include "dashboard/v2/partials/prototype-nav.html" %}
+
+{% endblock %}
