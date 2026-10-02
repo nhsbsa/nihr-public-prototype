@@ -31,16 +31,6 @@
 
 {% from "images/macro.njk" import image %}
 
-{{ image({
-  src: "/assets/images/map.png",
-  alt: "Map showing the location of Queen's Hospital in Romford",
-  sizes: "100vw",
-  srcset: "/assets/images/map.png 600w, /assets/images/map-nottingham.png 1000w",
-  attributes: {
-    style: "width: 100%;"
-  }
-}) }}
-
 <div class="nhsuk-grid-row nhsuk-u-margin-bottom-4">
   <div class="nhsuk-grid-column-one-half">
     <p class="nhsuk-u-margin-bottom-0"><strong>1 location</strong></p>
@@ -58,6 +48,22 @@
     }) }}
   </li>
 </ul>
+
+<div class="nhsuk-grid-row nhsuk-u-margin-bottom-4">
+  <div class="nhsuk-grid-column-one-half">
+    <p class="nhsuk-u-margin-bottom-0"><strong>Map</strong></p>
+  </div>
+</div>
+
+{{ image({
+  src: "/assets/images/map.png",
+  alt: "Map showing the location of Queen's Hospital in Romford",
+  sizes: "100vw",
+  srcset: "/assets/images/map.png 600w, /assets/images/map-nottingham.png 1000w",
+  attributes: {
+    style: "width: 100%;"
+  }
+}) }}
 
 
 {{ pagination({

@@ -1,0 +1,42 @@
+.nhsuk-table {
+  width: 100%;
+  table-layout: fixed;
+
+  th:first-child {
+    width: 30%;
+  }
+
+  td, th {
+    word-break: break-word;
+    overflow-wrap: break-word;
+  }
+
+  a {
+    word-break: break-all;
+    overflow-wrap: break-word;
+  }
+}
+.nhsuk-breadcrumb__list {
+  display: block !important;
+}
+
+.nhsuk-back-link {
+  display: none !important;
+}
+.nhsuk-card__heading-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.save-study-link {
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.save-study-link--saved {
+  color: $nhsuk-text-colour;
+  text-decoration: none;
+  cursor: default;
+}

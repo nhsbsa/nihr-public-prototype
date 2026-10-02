@@ -58,7 +58,7 @@ function buildPagination (currentPage, totalPages, baseUrl) {
 }
 
 // Applies keywords, location, status, condition, sub-condition, sex, AND sorting filters to the study list.
-function applyFilters(studies, { keywords, location, activeStatuses, selectedConditions, subCondition, sex, sortBy }) {
+function applyFilters(studies, { keywords, location, activeStatuses, selectedConditions, subCondition, sex, sortBy, ageRange }) {
   let results = [...studies]
 
   // 1. Keyword Filter
@@ -105,7 +105,30 @@ function applyFilters(studies, { keywords, location, activeStatuses, selectedCon
     })
   }
 
-  // 6. Sex/Gender Filter
+  // 6. Age Range Filter
+  if (ageRange && ageRange.length > 0) {
+    const categoryRanges = {
+      infant: { min: 0, max: 2 },
+      child: { min: 3, max: 12 },
+      adolescent: { min: 13, max: 17 },
+      adult: { min: 18, max: null }
+    }
+
+    results = results.filter(study => {
+      const studyMin = study.ageMin === null || study.ageMin === undefined ? 0 : study.ageMin
+      const studyMax = study.ageMax === null || study.ageMax === undefined ? Infinity : study.ageMax
+
+      return ageRange.some(function (category) {
+        const range = categoryRanges[category]
+        if (!range) return false
+        const catMax = range.max === null ? Infinity : range.max
+        // Overlap check: study range and category range intersect
+        return studyMin <= catMax && studyMax >= range.min
+      })
+    })
+  }
+
+  // 7. Sex/Gender Filter
   if (sex) {
     results = results.filter(study => {
       if (!study.targetSex || study.targetSex === 'all') return true
@@ -115,7 +138,7 @@ function applyFilters(studies, { keywords, location, activeStatuses, selectedCon
 
   // 7. Sorting Logic
   if (sortBy === 'a-z') {
-    results.sort((a, b) => a.title.localeCompare(b.title))
+    results.sort((a, b) => String(a.title || '').localeCompare(String(b.title || '')))
   } else {
     results.sort((a, b) => Number(b.id) - Number(a.id))
   }
@@ -154,8 +177,16 @@ router.all('/searchfeed/search-feed', function (req, res) {
 
   // Sanitize incoming input overrides
   if (inputSource.keywords !== undefined) sd.keywords = sanitizeInput(inputSource.keywords)
-  if (inputSource.sex !== undefined) sd.sex = sanitizeInput(inputSource.sex)
-  if (inputSource.locationPreference !== undefined) sd.locationPreference = sanitizeInput(inputSource.locationPreference)
+  if (inputSource.sex !== undefined) {
+    sd.sex = sanitizeInput(inputSource.sex)
+  } else if (req.method === 'POST') {
+    sd.sex = ''
+  }
+  if (inputSource.locationPreference !== undefined) {
+    sd.locationPreference = sanitizeInput(inputSource.locationPreference)
+  } else if (req.method === 'POST') {
+    sd.locationPreference = ''
+  }
   if (inputSource.healthCondition !== undefined) sd.healthCondition = sanitizeInput(inputSource.healthCondition)
   if (inputSource.subCondition !== undefined) sd.subCondition = sanitizeInput(inputSource.subCondition)
   if (inputSource.sortBy !== undefined) sd.sortBy = sanitizeInput(inputSource.sortBy)
@@ -191,10 +222,19 @@ router.all('/searchfeed/search-feed', function (req, res) {
   // Status Filter Sanitization
   let rawStatuses = inputSource.status !== undefined
     ? (Array.isArray(inputSource.status) ? inputSource.status : [inputSource.status])
-    : (sd.activeStatuses || [])
+    : (req.method === 'POST' ? [] : (sd.activeStatuses || []))
 
   const activeStatuses = sanitizeInput(rawStatuses)
   sd.activeStatuses = activeStatuses
+
+
+  // Age range filter sanitization
+  let rawAgeRange = inputSource.ageRange !== undefined
+    ? (Array.isArray(inputSource.ageRange) ? inputSource.ageRange : [inputSource.ageRange])
+    : (req.method === 'POST' ? [] : (sd.ageRange || []))
+
+  const ageRange = sanitizeInput(rawAgeRange)
+  sd.ageRange = ageRange
 
   // Build the primary health condition dropdown list
   const healthConditionItems = [
@@ -219,7 +259,8 @@ router.all('/searchfeed/search-feed', function (req, res) {
     selectedConditions,
     subCondition: chosenSubCondition,
     sex: chosenSex,
-    sortBy: chosenSortBy
+    sortBy: chosenSortBy,
+    ageRange
   })
 
   // Pagination
@@ -365,7 +406,30 @@ router.post('/questions/question-4', function (req, res) {
 
 // Question 6: Confirmation
 router.get('/questions/question-6', function (req, res) {
-  res.render('study-search/v3/questions/question-6')
+  const sd = req.session.data || {}
+
+  const location = sd.locationPreference === 'specific-area' ? (sd.location || '') : ''
+
+  const selectedConditions = Array.isArray(sd.healthConditions)
+    ? sd.healthConditions.filter(c => healthConditionsData[c])
+    : []
+
+  const matchedStudies = applyFilters(studiesData, {
+    keywords: '',
+    location,
+    activeStatuses: [],
+    selectedConditions,
+    subCondition: '',
+    sex: sd.sex || '',
+    sortBy: 'most-recent',
+    ageRange: []
+  })
+
+  if (matchedStudies.length > 0) {
+    return res.render('study-search/v3/questions/question-6')
+  }
+
+  return res.render('study-search/v3/questions/question-6-no-results')
 })
 
 router.post('/questions/question-6', function (req, res) {

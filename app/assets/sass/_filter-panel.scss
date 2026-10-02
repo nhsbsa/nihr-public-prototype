@@ -132,6 +132,12 @@
   flex-wrap: wrap;
   gap: 8px;
 }
+.selected-filters__heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 12px;
+}
 /* LOCATION AUTOCOMPLETE SUGGESTIONS (town/city/postcode field in the filter panel) */
 .location-suggestions {
   position: absolute;
