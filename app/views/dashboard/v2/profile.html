@@ -1,0 +1,164 @@
+{% extends "dashboard/v2/layout.html" %}
+
+{% block pageTitle %}
+  Profile and preferences - Be Part of Research
+{% endblock %}
+
+{% block content %}
+
+<div class="nhsuk-grid-row">
+  <div class="nhsuk-grid-column-full">
+    {{ backLink({ text: "Back to dashboard", href: "set-state?accountStatus=active&studyDismissed=false", classes: "nhsuk-u-margin-bottom-4" }) }}
+
+    {% if query.updated %}
+      {{ notificationBanner({
+        variant: "success",
+        html: "<h3 class=\"nhsuk-notification-banner__heading\">Success</h3><p>Your areas of interest have been updated.</p>"
+      }) }}
+    {% endif %}
+
+    <h1 class="nhsuk-heading-xl">Profile and preferences</h1>
+  </div>
+</div>
+
+<div class="nhsuk-grid-row">
+
+  <div class="nhsuk-grid-column-two-thirds">
+
+    <h2 class="nhsuk-heading-m">Personal details</h2>
+    {{ summaryList({
+      rows: [
+        {
+          key: { text: "Name" },
+          value: { text: "John Jones" },
+          actions: { items: [ { href: "edit-preference", text: "Change", visuallyHiddenText: "name" } ] }
+        },
+        {
+          key: { text: "Email" },
+          value: { text: "john.j@email.com" },
+          actions: { items: [ { href: "edit-preference", text: "Change", visuallyHiddenText: "email address" } ] }
+        },
+        {
+          key: { text: "Postcode" },
+          value: { text: "B44 0AA" },
+          actions: { items: [ { href: "edit-preference", text: "Change", visuallyHiddenText: "postcode" } ] }
+        }
+      ]
+    }) }}
+
+    <h2 class="nhsuk-heading-m nhsuk-u-margin-top-6">Research preferences</h2>
+    {{ summaryList({
+      rows: [
+        {
+          key: { text: "Travel radius" },
+          value: { text: data['travelRadius'] | default('20 miles') },
+          actions: { items: [ { href: "edit-preference", text: "Change", visuallyHiddenText: "travel radius" } ] }
+        }
+      ]
+    }) }}
+
+    <h2 class="nhsuk-heading-m nhsuk-u-margin-top-6">Health conditions of interest</h2>
+    <p class="nhsuk-body">Select the health conditions you want to help research. You can take part in studies as a patient, family carer, or healthy volunteer.</p>
+    {% set selectedConditionsHtml %}
+      {% if data.diagnosedConditions and data.diagnosedConditions.length %}
+        {{ data.diagnosedConditions | join('<br>') | safe }}
+      {% else %}
+        None added
+      {% endif %}
+    {% endset %}
+    {{ summaryList({
+      rows: [
+        {
+          key: { text: "Conditions" },
+          value: { html: selectedConditionsHtml },
+          actions: { items: [ { href: "/dashboard/v2/edit-health-conditions", text: "Change", visuallyHiddenText: "health conditions" } ] }
+        }
+      ]
+    }) }}
+
+    <h2 class="nhsuk-heading-m nhsuk-u-margin-top-6">Areas of interest</h2>
+    <p class="nhsuk-body">We use this to send you general research news and newsletters, even for areas without a diagnosed condition.</p>
+    {% set selectedInterestsHtml %}
+      {% if data.broadInterests and data.broadInterests | length %}
+        {% for interest in data.broadInterests %}
+          {{ tag({ text: interest, classes: "nhsuk-tag--grey nhsuk-u-margin-bottom-2" }) }}
+        {% endfor %}
+      {% else %}
+        <p class="nhsuk-u-margin-bottom-0">You have not selected any areas of interest yet.</p>
+      {% endif %}
+    {% endset %}
+    {{ summaryList({
+      rows: [
+        {
+          key: { text: "Selected interests" },
+          value: { html: selectedInterestsHtml },
+          actions: { items: [ { href: "/dashboard/v2/edit-interests", text: "Customise", visuallyHiddenText: "areas of interest" } ] }
+        }
+      ]
+    }) }}
+
+    <h2 class="nhsuk-heading-m nhsuk-u-margin-top-6">Contact preferences</h2>
+    <p class="nhsuk-body">Manage how researchers can contact you about studies, and update your newsletter settings.</p>
+    {{ button({
+      text: "Manage contact preferences",
+      href: "/dashboard/v2/contact-preferences",
+      classes: "nhsuk-button--secondary nhsuk-u-margin-bottom-0"
+    }) }}
+
+    <h2 class="nhsuk-heading-m nhsuk-u-margin-top-6">Data and consent</h2>
+    {% call card() %}
+      <h3 class="nhsuk-heading-s">Account status</h3>
+      <p class="nhsuk-body">You can pause matching for a while, or opt out and close your account. This will not delete your existing information, and you can start matching again at any time.</p>
+      <form action="save-status" method="post" novalidate>
+        {{ radios({
+          classes: "nhsuk-radios--small",
+          name: "accountStatus",
+          formGroup: { classes: "nhsuk-u-margin-bottom-4" },
+          items: [
+            { value: "active", text: "Active & matching", id: "status-active", checked: (data.accountStatus == "active" or not data.accountStatus) },
+            { value: "paused", text: "On pause", id: "status-paused", checked: (data.accountStatus == "paused") },
+            { value: "optout", text: "Opt-out / Closure", id: "status-optout", checked: (data.accountStatus == "optout") }
+          ]
+        }) }}
+        {{ button({
+          text: "Save status",
+          id: "save-status",
+          classes: "nhsuk-button--secondary nhsuk-u-margin-bottom-0"
+        }) }}
+      </form>
+    {% endcall %}
+
+  </div>
+
+  <div class="nhsuk-grid-column-one-third">
+    {% call card({ classes: "nhsuk-card--grey nhsuk-u-margin-top-2" }) %}
+      <h2 class="nhsuk-heading-xs nhsuk-u-margin-bottom-1">Managing profile:</h2>
+      <p class="nhsuk-body nhsuk-u-margin-bottom-4"><strong>John Jones</strong></p>
+
+      <h2 class="nhsuk-heading-xs nhsuk-u-margin-bottom-2">Proxy access</h2>
+      <form action="switch-profile" method="post" novalidate>
+        {{ radios({
+          classes: "nhsuk-radios--small",
+          name: "activeProfile",
+          formGroup: { classes: "nhsuk-u-margin-bottom-2" },
+          items: [
+            { value: "self", text: "John Jones (Self)", id: "profile-self", checked: true },
+            { value: "proxy", text: "Jane Jones (Dependent)", id: "profile-proxy" }
+          ]
+        }) }}
+        {{ button({ text: "Switch profile", id: "switch-profile", classes: "nhsuk-button--secondary nhsuk-button--small nhsuk-u-margin-bottom-0" }) }}
+      </form>
+    {% endcall %}
+
+    <div class="nhsuk-u-margin-top-6">
+      {% include "dashboard/v2/includes/_profile-tracker.html" %}
+    </div>
+
+  </div>
+
+</div>
+
+{% include "dashboard/v2/partials/prototype-nav.html" %}
+
+
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends "dashboard/v1/layout.html" %}
+
+{% block pageTitle %}
+  You are eligible for this study - Be Part of Research
+{% endblock %}
+
+{% block content %}
+
+<div class="nhsuk-grid-row">
+  <div class="nhsuk-grid-column-two-thirds">
+
+    {% call panel() %}
+      <h1 class="nhsuk-panel__title">You are eligible for this study</h1>
+      <p class="nhsuk-panel__body">Your application reference is<br><strong>BPR-4521-2026</strong></p>
+    {% endcall %}
+
+    <h2 class="nhsuk-heading-m">What happens next</h2>
+
+    <p class="nhsuk-body">We have sent a confirmation email to your registered email address.</p>
+    
+    <p class="nhsuk-body">The research team from University Hospitals Birmingham will contact you within 5 working days to arrange your first online screening session.</p>
+
+    {{ button({ text: "Return to dashboard", href: "/dashboard/v1/home?state=enrolled", classes: "nhsuk-u-margin-top-4 nhsuk-u-margin-bottom-0" }) }}
+
+  </div>
+</div>
+
+{% include "dashboard/v1/partials/prototype-nav.html" %}
+
+{% endblock %}

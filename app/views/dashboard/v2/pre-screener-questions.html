@@ -1,0 +1,58 @@
+{% extends "dashboard/v2/layout.html" %}
+
+{% block pageTitle %}
+  Eligibility questions - Be Part of Research
+{% endblock %}
+
+{% block content %}
+
+<div class="nhsuk-grid-row">
+  <div class="nhsuk-grid-column-two-thirds">
+    {{ backLink({ text: "Back", href: "pre-screener-start", classes: "nhsuk-u-margin-bottom-4" }) }}
+
+    <h1 class="nhsuk-heading-xl">Eligibility questions</h1>
+
+    <form action="check-eligibility" method="post">
+
+      {{ radios({
+        name: "ageCriteria",
+        fieldset: {
+          legend: { text: "Are you aged between 50 and 85?", classes: "nhsuk-fieldset__legend--m" }
+        },
+        items: [
+          { value: "Yes", text: "Yes" },
+          { value: "No", text: "No" }
+        ]
+      }) }}
+
+      {{ radios({
+        name: "diagnosisCriteria",
+        fieldset: {
+          legend: { text: "Do you have a clinical diagnosis of early-stage cognitive impairment?", classes: "nhsuk-fieldset__legend--m" }
+        },
+        items: [
+          { value: "Yes", text: "Yes" },
+          { value: "No", text: "No" }
+        ]
+      }) }}
+
+      {{ radios({
+        name: "partnerCriteria",
+        fieldset: {
+          legend: { text: "Do you have a family member, partner or friend who can help confirm any changes?", classes: "nhsuk-fieldset__legend--m" }
+        },
+        items: [
+          { value: "Yes", text: "Yes" },
+          { value: "No", text: "No" }
+        ]
+      }) }}
+
+      {{ button({ text: "Continue", classes: "nhsuk-u-margin-top-4 nhsuk-u-margin-bottom-0" }) }}
+      
+    </form>
+  </div>
+</div>
+
+{% include "dashboard/v2/partials/prototype-nav.html" %}
+
+{% endblock %}

@@ -1,0 +1,57 @@
+{% extends "dashboard/v2/layout.html" %}
+
+{% block pageTitle %}
+  Your details have been sent - Be Part of Research
+{% endblock %}
+
+{% block content %}
+
+<div class="nhsuk-grid-row">
+
+  <div class="nhsuk-grid-column-two-thirds">
+
+    {% call panel() %}
+      <h1 class="nhsuk-panel__title">Your details have been sent</h1>
+      <p class="nhsuk-panel__body">The research team for the Alzheimer's study will contact you soon.</p>
+    {% endcall %}
+
+    <h2 class="nhsuk-heading-m">What happens next</h2>
+
+    <p class="nhsuk-body">
+      The researchers will contact you directly at your registered email address (<strong>jo**@email.com</strong>) within 5 working days.
+    </p>
+
+    {% call card({ classes: "nhsuk-u-margin-top-6" }) %}
+      <h3 class="nhsuk-heading-s">While you wait</h3>
+      <ul class="nhsuk-list nhsuk-list--bullet nhsuk-u-margin-bottom-0">
+        <li>Check your spam or junk folder if you do not receive an email.</li>
+        <li>If you have not heard anything after 5 working days, contact the research team for an update.</li>
+      </ul>
+    {% endcall %}
+
+    {{ button({ text: "Return to dashboard", href: "set-state?accountStatus=paused&studyDismissed=false", classes: "nhsuk-u-margin-top-6 nhsuk-u-margin-bottom-0" }) }}
+
+  </div>
+
+  <div class="nhsuk-grid-column-one-third">
+    {% call card({ classes: "nhsuk-card--grey" }) %}
+      <h3 class="nhsuk-heading-xs nhsuk-u-margin-bottom-1">Managing profile:</h3>
+      <p class="nhsuk-body nhsuk-u-margin-bottom-4"><strong>John Jones</strong></p>
+
+      <h3 class="nhsuk-heading-xs nhsuk-u-margin-bottom-2">Account status:</h3>
+      <p class="nhsuk-u-margin-bottom-6">
+        {{ tag({ text: "On pause (in study)", classes: "nhsuk-tag--blue" }) }}
+      </p>
+
+    {% endcall %}
+
+    <div class="nhsuk-u-margin-top-6">
+      {% include "dashboard/v2/includes/_profile-tracker.html" %}
+    </div>
+  </div>
+
+</div>
+
+{% include "dashboard/v2/partials/prototype-nav.html" %}
+
+{% endblock %}

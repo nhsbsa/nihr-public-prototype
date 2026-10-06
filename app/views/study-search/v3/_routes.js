@@ -172,6 +172,9 @@ router.all('/searchfeed/search-feed', function (req, res) {
   const inputSource = req.method === 'POST' ? req.body : req.query
   const sd = req.session.data
 
+  // Only true when this exact request carries the flag, so it can't linger from an earlier visit
+  sd.from_dashboard = req.query.from_dashboard === 'true'
+
   // Sanitize incoming input overrides
   if (inputSource.keywords !== undefined) sd.keywords = sanitizeInput(inputSource.keywords)
   if (inputSource.sex !== undefined) {
@@ -287,6 +290,21 @@ router.all('/searchfeed/search-feed', function (req, res) {
     allStudies: studies,
     data: sd
   })
+})
+
+// Save a study from the search results into the dashboard's saved studies list
+router.post('/save-study', function (req, res) {
+  if (!req.session.data.savedStudies) {
+    req.session.data.savedStudies = []
+  }
+
+  const studyTitle = sanitizeInput(req.body.studyTitle)
+
+  if (studyTitle && req.session.data.savedStudies.indexOf(studyTitle) === -1) {
+    req.session.data.savedStudies.push(studyTitle)
+  }
+
+  res.redirect('/dashboard/v2/my-studies?saved=true')
 })
 
 // Study detail page
