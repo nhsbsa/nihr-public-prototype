@@ -13,7 +13,7 @@
         <span role="text">
 Who can take part          <span class="nhsuk-caption-xl nhsuk-caption--bottom">
             <span class="nhsuk-u-visually-hidden">-</span>
-         A Combined Exercise Programme Involving Strengthening, Flexibility and Aerobic Exercise for Lower Back Pain
+         A study of brain activity in visual snow syndrome and migraine
           </span>
         </span>
       </h1>
@@ -28,11 +28,11 @@ Who can take part          <span class="nhsuk-caption-xl nhsuk-caption--bottom">
         rows: [
           [
             { text: "Medical conditions" },
-            { text: "Low Back Pain, Chronic" }
+            { text: "migraine, neurological disorders" }
           ],
           [
             { text: "Age" },
-            { text: "18.0 years - 45.0" }
+            { text: "18.0 - 85 years" }
           ],
           [
             { text: "Gender" },
@@ -43,10 +43,12 @@ Who can take part          <span class="nhsuk-caption-xl nhsuk-caption--bottom">
 
       <h2 class="nhsuk-heading-m">Detailed criteria</h2>
 
-      <div class="nhsuk-card nhsuk-card--feature">
+<div class="nhsuk-card nhsuk-card--feature">
   <div class="nhsuk-card__content">
     <h3 class="nhsuk-card__heading">Eligible</h3>
     <ul class="nhsuk-list" role="list">
+      <li>Adults aged 18 years and over with a diagnosis of VSS (with or without migraine), migraine without VSS, and healthy volunteers</li><br>
+
       <li>
         Group 1: VSS patients
         <ol class="nhsuk-list nhsuk-list--number">
@@ -55,7 +57,7 @@ Who can take part          <span class="nhsuk-caption-xl nhsuk-caption--bottom">
           <li>Able to provide written informed consent in English</li>
           <li>Evidence of a personally signed and dated informed consent document indicating that the subject (or a legally acceptable representative) has been informed of all pertinent aspects of the trial detailed in the patient information sheet, informed consent form, and in the protocol</li>
           <li>Willing and able to comply with scheduled visits, lifestyle guidelines and trial procedures, including using a reliable method of birth control whilst on the medication for female participants</li>
-          <li>No history of worsening of VSS with prior medications</li>
+          <li>No history of worsening of VSS with prior medications</li><br>
         </ol>
       </li>
 
@@ -67,7 +69,7 @@ Who can take part          <span class="nhsuk-caption-xl nhsuk-caption--bottom">
           <li>Able to provide written informed consent in English</li>
           <li>Evidence of a personally signed and dated informed consent document indicating that the subject (or a legally acceptable representative) has been informed of all pertinent aspects of the trial detailed in the patient information sheet, informed consent form, and in the protocol</li>
           <li>Willing and able to comply with scheduled visits, lifestyle guidelines and trial procedures, including using a reliable method of birth control whilst on the medication for female participants</li>
-          <li>No concomitant diagnosis of VSS</li>
+          <li>No concomitant diagnosis of VSS</li><br>
         </ol>
       </li>
 
@@ -88,31 +90,18 @@ Who can take part          <span class="nhsuk-caption-xl nhsuk-caption--bottom">
 <div class="nhsuk-card nhsuk-card--feature">
   <div class="nhsuk-card__content">
     <h3 class="nhsuk-card__heading">Not eligible</h3>
-    <ul class="nhsuk-list" role="list">
-      <li>Radiating pain to leg / sciatica / acute radiculopathy</li>
-      <li>Specific diagnosis/condition for LBP (e.g. herniated disk, degenerative disk disease, spondylolysis, spinal stenosis, spinal tumour, facet joint damage)</li>
-      <li>History of osteoporosis, arthritis, scoliosis, or kyphosis.</li>
-      <li>Current spinal infection, cancer or a current fracture (any bone).</li>
-      <li>History of spinal/back surgery</li>
-      <li>Unable to participate in physical activity and exercise</li>
-      <li>Pregnant or breast feeding</li>
-      <li>History of substance abuse</li>
-      <li>History of psychiatric illness (eg. depression, dementia, schizophrenia) for which currently taking medication</li>
-      <li>History or current neurological condition (e.g. epilepsy)</li>
-      <li>Not in possession or have access to adapted equipment (phone, computer, functioning WIFI)</li>
-      <li>Unable to understand and communicate in English</li>
-      <li>Having taken part in a research study in the last 3 months involving invasive procedures or an inconvenience allowance</li>
-    </ul>
-  </div>
-</div>
-
-      {{ pagination({
-        next: {
-          labelText: "About this study",
-          href: "/study-search/v3/studydetails-1/page-two"
-        }
-      }) }}
-
+    <ol class="nhsuk-list nhsuk-list--number" role="list">
+      <li>Pregnancy and breastfeeding</li>
+      <li>Any metal implants in the head or body (except for titanium and dental work)</li>
+      <li>Any other medical and safety contraindications to undergo ultra-high-field MRI (e.g., large tattoos, ongoing dizziness and vertigo)</li>
+      <li>History of epilepsy or of prior lamotrigine use (for VSS and MO groups only)</li>
+      <li>History of adverse or allergic reactions to drugs (for VSS and MO groups only)</li>
+      <li>Family history of Stevens-Johnson syndrome (SJS) or toxic epidermal necrolysis (TEN) (for VSS and MO groups only)</li>
+      <li>Known or suspected carriers of HLA alleles associated with SJS or TEN (e.g., HLA-B15:02, HLA-A24:02, and HLA-B38:01) (for VSS and MO groups only)</li>
+      <li>Regular smoking of &gt;6 cigarettes a day</li>
+      <li>Regular intake of medications acting on the central nervous system</li>
+      <li>Regular use of recreational drugs</li>
+      <li>History of psychosis</li>
     </div>
   </div>
 {% endblock %}

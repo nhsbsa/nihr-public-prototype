@@ -1,0 +1,82 @@
+{% extends "study-search/v3/_layout-study-details.html" %}
+
+{% from "contents-list/macro.njk" import contentsList %}
+{% from "pagination/macro.njk" import pagination %}
+{% from "tag/macro.njk" import tag %}
+{% from "inset-text/macro.njk" import insetText %}
+{% from "card/macro.njk" import card %}
+{% from "study-search/v3/_components/study-contents-list.njk" import studyContentsList %}
+
+
+{% block content %}
+  <div class="nhsuk-grid-row">
+    <div class="nhsuk-grid-column-two-thirds">
+
+      <<h1 class="nhsuk-heading-m">>
+        <span role="What's involved">
+         Location
+          <span class="nhsuk-caption-xl nhsuk-caption--bottom">
+            <span class="nhsuk-u-visually-hidden">
+            -
+            </span>
+         Diagnosis of visual snow syndrome following the published criteria
+          </span>
+        </span>
+      </h1>
+
+{{ studyContentsList("page-three") }}
+
+{% from "tables/macro.njk" import table %}
+
+
+{% from "images/macro.njk" import image %}
+
+<div class="nhsuk-grid-row nhsuk-u-margin-bottom-4">
+  <div class="nhsuk-grid-column-one-half">
+    <p class="nhsuk-u-margin-bottom-0"><strong>1 location</strong></p>
+  </div>
+</div>
+
+<ul class="nhsuk-grid-row nhsuk-card-group">
+  
+  {# CARD 1 #}
+  <li class="nhsuk-grid-column-full nhsuk-card-group__item">
+    {{ card({
+      heading: "Guy's and St Thomas' NHS Foundation Trust",
+      headingSize: "m",
+      descriptionHtml: '<p>St Thomas' Hospital Westminster Bridge Road, London, SE1 7EH</p><p><a href="https://share.google/IqUpGY4ctWFsim5f9">Plan your journey in Google Maps</a></p>'
+    }) }}
+  </li>
+</ul>
+
+<div class="nhsuk-grid-row nhsuk-u-margin-bottom-4">
+  <div class="nhsuk-grid-column-one-half">
+    <p class="nhsuk-u-margin-bottom-0"><strong>Map</strong></p>
+  </div>
+</div>
+
+{{ image({
+  src: "/assets/images/map.png",
+  alt: "Map showing the location of St Thomas' Hospital Westminster",
+  sizes: "100vw",
+  srcset: "/assets/images/map.png 600w, /assets/images/map-westminster.png 1000w",
+  attributes: {
+    style: "width: 100%;"
+  }
+}) }}
+
+
+{{ pagination({
+  previous: {
+    labelText: "About the study",
+    href: "/study-search/v3/studydetails-2/page-two"
+  },
+  next: {
+    labelText: "Contact the study team",
+    href: "/study-search/v3/studydetails-2/page-four"
+  }
+}) }}
+
+    </div>
+  </div>
+{% endblock %}

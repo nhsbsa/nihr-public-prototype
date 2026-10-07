@@ -21,14 +21,14 @@
     {% call fieldset({
       legend: {
         text: "Include volunteers by health condition",
-        size: "xl",
+        size: "l",
         isPageHeading: true
       }
     }) %}
 
       <p>You can add one or more health conditions to your inclusion criteria.</p>
 
-      {{ searchableCheckboxes({
+            {{ searchableCheckboxes({
         label: {
           text: "Health condition",
           size: "m"
@@ -39,6 +39,7 @@
         },
         id: "conditions",
         name: "conditions",
+        showAllOptions: true,
         selectedLabel: "Selected health conditions",
         items: data.health_conditions
       }) }}
