@@ -104,4 +104,11 @@ Who can take part          <span class="nhsuk-caption-xl nhsuk-caption--bottom">
       <li>History of psychosis</li>
     </div>
   </div>
+
+  {{ pagination({
+        next: {
+          labelText: "About this study",
+          href: "/study-search/v3/studydetails-2/page-two"
+        }
+      }) }}
 {% endblock %}

@@ -35,7 +35,7 @@
   <div
     class="nhsuk-checkboxes scrollable-list{% if params.showAllOptions %} scrollable-list--show-all{% endif %} {{ params.classes | default('') }}"
     id="{{ params.id }}-list"
-    {% if not params.showAllOptions %}data-js-hidden="true"{% endif %}>
+    data-js-hidden="true">
 
     {% for item in params.items %}
       <div
