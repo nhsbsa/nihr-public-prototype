@@ -13,3 +13,7 @@
   &::-webkit-progress-value { background-color: #005eb8; border-radius: 4px; }
   &::-moz-progress-bar { background-color: #005eb8; border-radius: 4px; }
 }
+
+body.app-dashboard-v2 .nhsuk-back-link {
+  display: inline-block !important;
+}

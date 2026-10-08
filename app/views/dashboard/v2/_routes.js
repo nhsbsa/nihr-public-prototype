@@ -78,18 +78,6 @@ router.post('/save-status', function (req, res) {
 
 })
 
-router.post('/switch-profile', function (req, res) {
-
-    var activeProfile = req.session.data['activeProfile'];
-
-    if (activeProfile === 'proxy') {
-        res.redirect('proxy');
-    } else {
-        res.redirect('home');
-    }
-
-})
-
 router.post('/dismiss-study', function (req, res) {
 
     req.session.data['studyDismissed'] = true;
@@ -149,16 +137,7 @@ router.post('/study-response-handler', function (req, res) {
 
     recordStudyResponse(req, studyId, response);
 
-    if (studyId === 'osteoarthritis-pain-management') {
-
-        if (req.body.study4Response === 'yes') {
-            req.session.data['accountStatus'] = 'paused';
-            // flash only - accountStatus stays set, it also drives the heading/profile UI
-            req.flash('responseSaved', true);
-            showGenericSavedBanner = false;
-        }
-
-    } else if (studyId === 'diet-lifestyle-survey') {
+    if (studyId === 'diet-lifestyle-survey') {
 
         if (req.body.study2Response === 'undecided') {
 

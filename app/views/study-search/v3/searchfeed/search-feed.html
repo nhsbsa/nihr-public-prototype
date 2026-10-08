@@ -1,5 +1,14 @@
 {% extends "layout-bpor.html" %}
-{% from '_components/phase-banner/macro.njk' import nhsukPhaseBanner %}
+{% from "nhsuk/components/back-link/macro.njk" import backLink %}
+
+{% block beforeContent %}
+  {% if data.from_dashboard %}
+    {{ backLink({
+      "href": data.dashboard_return_url | default("/dashboard/v2/home"),
+      "text": "Return to my dashboard"
+    }) }}
+  {% endif %}
+{% endblock %}
 
 {% block content %}
 
@@ -77,14 +86,6 @@
   }
 </style>
 
-  {% if data.from_dashboard %}
-    {{ backLink({ text: "Back to dashboard", href: "/dashboard/v2/home" }) }}
-    {{ nhsukPhaseBanner({
-      tag: { text: "Dashboard" },
-      html: "You're viewing the study search from your dashboard. <a class=\"nhsuk-link\" href=\"/dashboard/v2/home\">Return to My Dashboard</a>"
-    }) }}
-  {% endif %}
-
   {# Calculate age if DOB year is provided #}
   {% set dobYear = data.dateofbirth.year | int if data.dateofbirth else 0 %}
   {% set age = null %}
@@ -99,6 +100,9 @@
     <form id="topSearchForm" action="/study-search/v3/searchfeed/search-feed" method="post">
       <input type="hidden" name="healthCondition" id="topHealthCondition" value="">
       <input type="hidden" name="subCondition" id="topSubCondition" value="">
+      {% if data.from_dashboard %}
+        <input type="hidden" name="from_dashboard" value="true">
+      {% endif %}
 
             {{ searchInput({
         label: {
@@ -145,6 +149,9 @@
 
 <form id="sideFilterForm" action="/study-search/v3/searchfeed/search-feed" method="post">
           <input type="hidden" name="sortBy" value="{{ sortBy }}">
+          {% if data.from_dashboard %}
+            <input type="hidden" name="from_dashboard" value="true">
+          {% endif %}
           <div class="filter-panel__content">
 
             {# SELECTED FILTERS PANEL #}
@@ -398,6 +405,18 @@
 
       <h2 class="nhsuk-u-visually-hidden">Search results</h2>
 
+      {% if query.saved_study_id %}
+        {{ notificationBanner({
+          variant: "success",
+          text: "Success: Study saved to your account"
+        }) }}
+      {% elif query.removed_study_id %}
+        {{ notificationBanner({
+          variant: "success",
+          text: "Study removed from your saved list"
+        }) }}
+      {% endif %}
+
       <div class="results-header-bar">
         <p class="nhsuk-body-m" style="margin-bottom: 0;">
           {% if resultsCount > 0 %}
@@ -408,6 +427,9 @@
         </p>
 
         <form id="sortForm" action="/study-search/v3/searchfeed/search-feed" method="post" style="margin-bottom: 0;">
+          {% if data.from_dashboard %}
+            <input type="hidden" name="from_dashboard" value="true">
+          {% endif %}
           <div class="nhsuk-form-group sort-by-wrapper" style="margin-bottom: 0;">
             <label class="nhsuk-label" for="sortBy" style="margin-bottom: 0; font-weight: normal;">
               Sort by
@@ -444,7 +466,7 @@
       {% else %}
 
         {% for study in results %}
-          <div class="nhsuk-card">
+          <div class="nhsuk-card" id="study-{{ study.id }}">
             <div class="nhsuk-card__content">
 
               {% if study.status == "recruiting" %}
@@ -464,9 +486,19 @@
                     <span class="nhsuk-u-secondary-text-color">Until {{ study.closingDate }}</span>
                   {% endif %}
                 </div>
-                <a class="nhsuk-link nhsuk-link--no-visited save-study-link" href="#" data-study-id="{{ study.id }}" data-saved-text="Saved 0 days ago" data-unsaved-text="Save study">
-                  Save study<span class="nhsuk-u-visually-hidden"> {{ study.title }}</span>
-                </a>
+                {% if data.savedStudies and study.title in data.savedStudies %}
+                  <span class="save-study-link">
+                    <strong class="nhsuk-tag nhsuk-tag--green">Saved 0 days ago</strong>
+                    <a class="nhsuk-link nhsuk-u-margin-left-2" href="/study-search/v3/remove-study?studyId={{ study.id }}&from_dashboard={{ data.from_dashboard }}#study-{{ study.id }}">Remove<span class="nhsuk-u-visually-hidden"> {{ study.title }}</span></a>
+                  </span>
+                {% else %}
+                  <form action="/study-search/v3/save-study" method="post" novalidate class="save-study-link">
+                    <input type="hidden" name="studyId" value="{{ study.id }}">
+                    <input type="hidden" name="studyTitle" value="{{ study.title }}">
+                    <input type="hidden" name="from_dashboard" value="{{ data.from_dashboard }}">
+                    <button type="submit" class="nhsuk-link nhsuk-link--no-visited" style="background: none; border: none; padding: 0; cursor: pointer;">Save study<span class="nhsuk-u-visually-hidden"> {{ study.title }}</span></button>
+                  </form>
+                {% endif %}
               </div>
 
               {# ONLY STUDIES 58691 AND 58687 ARE CLICKABLE #}
@@ -482,14 +514,6 @@
               <p class="nhsuk-body"><strong>Gender</strong> {{ study.genderLabel }}</p>
               <p class="nhsuk-body"><strong>Age</strong> {{ study.ageLabel }}</p>
               <p class="nhsuk-body"><strong>Locations</strong> {{ study.locations | join(", ") }}</p>
-
-              {% if data.from_dashboard %}
-              <form action="/study-search/v3/save-study" method="post" novalidate class="nhsuk-u-margin-top-3">
-                <input type="hidden" name="studyTitle" value="{{ study.title }}">
-                <input type="hidden" name="studyId" value="{{ study.id }}">
-                {{ button({ text: "Save study", classes: "nhsuk-button--secondary nhsuk-u-margin-bottom-0" }) }}
-              </form>
-              {% endif %}
             </div>
           </div>
                 {% endfor %}
@@ -857,27 +881,96 @@
 
     syncFilterExpander();
     window.addEventListener('resize', syncFilterExpander);
-
-    // 6. STATIC SAVE STUDY TOGGLE (no backend, visual only)
-    document.querySelectorAll('.save-study-link').forEach(function (link) {
-      link.addEventListener('click', function (e) {
-        e.preventDefault();
-
-        const savedText = this.getAttribute('data-saved-text');
-        const unsavedText = this.getAttribute('data-unsaved-text');
-        const isSaved = this.classList.contains('save-study-link--saved');
-
-        if (isSaved) {
-          this.classList.remove('save-study-link--saved');
-          this.childNodes[0].textContent = unsavedText;
-        } else {
-          this.classList.add('save-study-link--saved');
-          this.childNodes[0].textContent = savedText;
-        }
-      });
-    });
   });
 })();
+</script>
+
+<script>
+  (function () {
+    function findCard (el) {
+      return el.closest('.nhsuk-card[id^="study-"]')
+    }
+
+    function findControl (card) {
+      return card.querySelector('.save-study-link')
+    }
+
+    function swapCardControl (card, html) {
+      var parsed = new DOMParser().parseFromString(html, 'text/html')
+      var newCard = parsed.getElementById(card.id)
+      if (!newCard) return false
+
+      var newControl = findControl(newCard)
+      var oldControl = findControl(card)
+      if (!newControl || !oldControl) return false
+
+      oldControl.replaceWith(newControl)
+
+      var focusTarget = newControl.querySelector('a, button')
+      if (focusTarget) focusTarget.focus()
+
+      return true
+    }
+
+    function fetchAndSwap (card, request) {
+      fetch(request.url, request.options)
+        .then(function (response) {
+          if (!response.ok) throw new Error('Request failed: ' + response.status)
+          return response.text()
+        })
+        .then(function (html) {
+          if (!swapCardControl(card, html)) {
+            window.location.reload()
+          }
+        })
+        .catch(function () {
+          request.fallback()
+        })
+    }
+
+    document.addEventListener('submit', function (e) {
+      var form = e.target
+      if (!form.classList || !form.classList.contains('save-study-link')) return
+
+      var card = findCard(form)
+      if (!card) return
+
+      e.preventDefault()
+
+      fetchAndSwap(card, {
+        url: form.action,
+        options: {
+          method: form.method || 'POST',
+          credentials: 'same-origin',
+          body: new URLSearchParams(new FormData(form))
+        },
+        fallback: function () {
+          HTMLFormElement.prototype.submit.call(form)
+        }
+      })
+    })
+
+    document.addEventListener('click', function (e) {
+      var link = e.target.closest('.save-study-link a[href*="/remove-study"]')
+      if (!link) return
+
+      var card = findCard(link)
+      if (!card) return
+
+      e.preventDefault()
+
+      fetchAndSwap(card, {
+        url: link.href,
+        options: {
+          method: 'GET',
+          credentials: 'same-origin'
+        },
+        fallback: function () {
+          window.location.href = link.href
+        }
+      })
+    })
+  })()
 </script>
 
 {% endblock %}

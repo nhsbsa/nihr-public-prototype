@@ -35,6 +35,13 @@ module.exports = function (env) {
 
   ------------------------------------------------------------------ */
 
+  filters.toArray = function (value) {
+    if (value === undefined || value === null || value === '') {
+      return []
+    }
+    return Array.isArray(value) ? value : [value]
+  }
+
   /* keep the following line to return your filters to the app  */
   return filters
 }

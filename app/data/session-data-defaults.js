@@ -2,6 +2,8 @@
 
 module.exports = {
 
+currentStudies: [],
+
 health_conditions: [
   { text: "Abdominal aortic aneurysm", value: "Abdominal aortic aneurysm" }, // A
   { text: "Back pain", value: "Back pain" }, // B

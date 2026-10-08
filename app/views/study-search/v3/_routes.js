@@ -172,8 +172,19 @@ router.all('/searchfeed/search-feed', function (req, res) {
   const inputSource = req.method === 'POST' ? req.body : req.query
   const sd = req.session.data
 
-  // Only true when this exact request carries the flag, so it can't linger from an earlier visit
-  sd.from_dashboard = req.query.from_dashboard === 'true'
+  try {
+    const refererUrl = new URL(req.headers.referer || '', `${req.protocol}://${req.get('host')}`)
+    const sameOrigin = refererUrl.host === req.get('host')
+    const fromDashboard = refererUrl.pathname.startsWith('/dashboard/')
+    const fromThisSearchFeed = refererUrl.pathname.startsWith('/study-search/v3/searchfeed/')
+
+    if (sameOrigin && fromDashboard && !fromThisSearchFeed) {
+      sd.dashboard_return_url = refererUrl.pathname + refererUrl.search
+    }
+  } catch (err) {
+  }
+
+  sd.from_dashboard = inputSource.from_dashboard === 'true'
 
   // Sanitize incoming input overrides
   if (inputSource.keywords !== undefined) sd.keywords = sanitizeInput(inputSource.keywords)
@@ -292,20 +303,45 @@ router.all('/searchfeed/search-feed', function (req, res) {
   })
 })
 
-// Save a study from the search results into the dashboard's saved studies list
+// Save a study from the search results into the saved studies list
 router.post('/save-study', function (req, res) {
   if (!req.session.data.savedStudies) {
     req.session.data.savedStudies = []
   }
 
+  const studyId = sanitizeInput(req.body.studyId)
   const studyTitle = sanitizeInput(req.body.studyTitle)
 
   if (studyTitle && req.session.data.savedStudies.indexOf(studyTitle) === -1) {
     req.session.data.savedStudies.push(studyTitle)
   }
 
-  res.redirect('/dashboard/v2/my-studies?saved=true')
+  const fromDashboard = req.body.from_dashboard === 'true' || req.session.data.from_dashboard === true
+
+  res.redirect(`/study-search/v3/searchfeed/search-feed?saved_study_id=${encodeURIComponent(studyId)}&from_dashboard=${fromDashboard}`)
 })
+
+function removeStudyHandler (req, res) {
+  const inputSource = req.method === 'POST' ? req.body : req.query
+  const studyId = sanitizeInput(inputSource.studyId)
+
+  const study = studiesData.find(s => s.id === studyId)
+  const studyTitle = study ? study.title : null
+
+  if (studyTitle && req.session.data.savedStudies) {
+    const index = req.session.data.savedStudies.indexOf(studyTitle)
+    if (index !== -1) {
+      req.session.data.savedStudies.splice(index, 1)
+    }
+  }
+
+  const fromDashboard = inputSource.from_dashboard === 'true' || req.session.data.from_dashboard === true
+
+  res.redirect(`/study-search/v3/searchfeed/search-feed?removed_study_id=${encodeURIComponent(studyId)}&from_dashboard=${fromDashboard}`)
+}
+
+router.get('/remove-study', removeStudyHandler)
+router.post('/remove-study', removeStudyHandler)
 
 // Study detail page
 router.get('/search/study/:id', function (req, res) {

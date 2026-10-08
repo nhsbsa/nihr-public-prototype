@@ -45,12 +45,36 @@
 
   <div class="nhsuk-grid-column-two-thirds">
 
-    {% set hasProfileSignal = (data.diagnosedConditions and data.diagnosedConditions.length) or (data.savedStudies and data.savedStudies.length) %}
+    {% set hasProfileSignal = data.diagnosedConditions and data.diagnosedConditions.length %}
 
     {% if hasProfileSignal %}
 
-      <h2 class="nhsuk-heading-l">Your research matches</h2>
-      <p class="nhsuk-body">These are external research projects and clinical trials recommended for you based on your profile.</p>
+      <p class="nhsuk-body">You have added conditions to your profile. <a class="nhsuk-link" href="/dashboard/v2/profile">Manage your conditions</a></p>
+
+      <h2 class="nhsuk-heading-l nhsuk-u-margin-bottom-4">Your relevant studies</h2>
+
+      {#
+      {% if not data.studyDismissed %}
+        {% call card() %}
+          {{ tag({ text: "New match", classes: "nhsuk-tag--green nhsuk-u-margin-bottom-2" }) }}
+          <h3 class="nhsuk-heading-m"><a href="/study-search/v3/studydetails-1/page-one">A Combined Exercise Programme Involving Strengthening, Flexibility and Aerobic Exercise for Lower Back Pain</a></h3>
+          <p class="nhsuk-body">Based on your profile preferences, you might be a great match for a new trial run by University of Nottingham.</p>
+          <form action="dismiss-study" method="post" novalidate>
+            <div class="nhsuk-button-group">
+              {{ button({
+                text: "View study details",
+                href: "/study-search/v3/studydetails-1/page-one"
+              }) }}
+              {{ button({
+                text: "I'm not interested in this study",
+                classes: "nhsuk-button--secondary nhsuk-button--small"
+              }) }}
+            </div>
+          </form>
+        {% endcall %}
+      {% endif %} #}
+
+      <p class="nhsuk-body nhsuk-u-margin-top-6">These are external research projects and clinical trials recommended for you based on your profile.</p>
 
       {% set memoryMatch = data.diagnosedConditions and ("Alzheimer's disease" in data.diagnosedConditions or "Cognitive health" in data.diagnosedConditions) %}
       {% set diabetesMatch = data.diagnosedConditions and "Type 2 diabetes" in data.diagnosedConditions %}
@@ -281,51 +305,17 @@
 
     {% endif %}
 
-    {% if data.accountStatus == "paused" %}
+    <h2 class="nhsuk-heading-l nhsuk-u-margin-top-6 nhsuk-u-margin-bottom-4">Your profile</h2>
 
-      {% call card({ classes: "nhsuk-u-margin-top-6" }) %}
-        {{ tag({ text: "Awaiting researcher", classes: "nhsuk-tag--blue nhsuk-u-margin-bottom-3" }) }}
-        <h2 class="nhsuk-heading-m">Your application is with the research team</h2>
-        <p class="nhsuk-body">You have completed the pre-screener for the Alzheimer's early detection study. The team at University Hospitals Birmingham will contact you within 5 working days.</p>
-        {{ button({
-          text: "View study details",
-          href: "details",
-          classes: "nhsuk-button--secondary nhsuk-u-margin-bottom-0"
-        }) }}
-      {% endcall %}
-
-    {% else %}
-
-      {# This single block handles both the default state AND the dismissed state #}
-      {% if hasProfileSignal and not data.studyDismissed %}
-        {% call card() %}
-          {{ tag({ text: "New match", classes: "nhsuk-tag--blue nhsuk-u-margin-bottom-3" }) }}
-          <h2 class="nhsuk-heading-m"><a href="details">Early detection screening for Alzheimer's disease</a></h2>
-          <p class="nhsuk-body">Based on your profile preferences, you might be a great match for a new trial run by Birmingham NHS Trust.</p>
-          <form action="dismiss-study" method="post" novalidate>
-            <div class="nhsuk-button-group">
-              {{ button({
-                text: "View study details",
-                href: "details"
-              }) }}
-              {{ button({
-                text: "I'm not interested in this study",
-                classes: "nhsuk-button--secondary nhsuk-button--small"
-              }) }}
-            </div>
-          </form>
-        {% endcall %}
-      {% endif %}
-
-      {% call card({ classes: "nhsuk-u-margin-top-6" }) %}
-        <h2 class="nhsuk-heading-m">Increase your chances of a match</h2>
-        <p class="nhsuk-body">We are actively checking for live clinical trials that match your details.</p>
-
-      {% endcall %}
-
-    {% endif %}
-
-    {# Expanders used in place of an accordion #}
+    {% call card() %}
+      <h3 class="nhsuk-heading-m">Increase your chances of a match</h3>
+      <p class="nhsuk-body">We are actively checking for live clinical trials that match your details.</p>
+      {{ button({
+        text: "Update your health profile",
+        href: "/dashboard/v2/profile",
+        classes: "nhsuk-button--secondary nhsuk-u-margin-bottom-0"
+      }) }}
+    {% endcall %}
 
     {% call details({
       summaryText: "Your current research",
@@ -333,20 +323,20 @@
       id: "activeStudiesExpander",
       open: true
     }) %}
-      {% call card({ classes: "nhsuk-u-margin-top-6" }) %}
-        {% call insetText() %}
-          {% if data.accountStatus == "paused" %}
-            <p class="nhsuk-body-s nhsuk-u-margin-bottom-2"><strong>Alzheimer's Early Screening Trial status:</strong></p>
-            <p class="nhsuk-u-margin-bottom-0">
-              {{ tag({ text: "Matched", classes: "nhsuk-tag--grey" }) }}
-              {{ tag({ text: "Pre-screener completed", classes: "nhsuk-tag--grey" }) }}
-              {{ tag({ text: "Awaiting researcher", classes: "nhsuk-tag--blue" }) }}
-            </p>
-          {% else %}
-            <p class="nhsuk-body-s nhsuk-u-margin-bottom-0">You are not currently taking part in research.</p>
-          {% endif %}
+      {% if data.currentStudies and data.currentStudies.length %}
+        {% for study in data.currentStudies %}
+          {% call card({ classes: "nhsuk-u-margin-top-6" }) %}
+            {{ tag({ text: "In progress", classes: "nhsuk-tag--green nhsuk-u-margin-bottom-3" }) }}
+            <h3 class="nhsuk-heading-m">{{ study.title }}</h3>
+            <p class="nhsuk-body-s nhsuk-u-margin-bottom-2">{{ study.location }}</p>
+            <p class="nhsuk-body-s nhsuk-u-margin-bottom-0">Next appointment: {{ study.nextAppointment }}</p>
+          {% endcall %}
+        {% endfor %}
+      {% else %}
+        {% call card({ classes: "nhsuk-u-margin-top-6" }) %}
+          <p class="nhsuk-body-s nhsuk-u-margin-bottom-0">You are not currently taking part in research. <a class="nhsuk-link" href="/study-search/v3/searchfeed/search-feed?from_dashboard=true">Find a study</a>.</p>
         {% endcall %}
-      {% endcall %}
+      {% endif %}
     {% endcall %}
 
     {% call details({
@@ -355,8 +345,24 @@
       id: "completedStudiesExpander"
     }) %}
       {% call card({ classes: "nhsuk-u-margin-top-6" }) %}
-        <p class="nhsuk-body-s nhsuk-u-margin-bottom-0">You have not taken part in any past studies.</p>
+        <p class="nhsuk-body-s nhsuk-u-margin-bottom-0">You have not completed any studies yet.</p>
       {% endcall %}
+
+      {#
+      {% call card({ classes: "nhsuk-u-margin-top-6" }) %}
+        {{ tag({ text: "Completed", classes: "nhsuk-tag--grey nhsuk-u-margin-bottom-3" }) }}
+        <h3 class="nhsuk-heading-m">Long COVID Recovery &amp; Monitoring Study</h3>
+        <p class="nhsuk-body-s nhsuk-u-margin-bottom-2">Completed: 3 August 2026</p>
+        <p class="nhsuk-body-s nhsuk-u-margin-bottom-0"><a class="nhsuk-link" href="#">View trial summary</a></p>
+      {% endcall %}
+
+      {% call card({ classes: "nhsuk-u-margin-top-6" }) %}
+        {{ tag({ text: "Completed", classes: "nhsuk-tag--grey nhsuk-u-margin-bottom-3" }) }}
+        <h3 class="nhsuk-heading-m">Dietary Fibre &amp; Gut Microbiome Survey</h3>
+        <p class="nhsuk-body-s nhsuk-u-margin-bottom-2">Completed: 22 May 2026</p>
+        <p class="nhsuk-body-s nhsuk-u-margin-bottom-0"><a class="nhsuk-link" href="#">View trial summary</a></p>
+      {% endcall %}
+      #}
     {% endcall %}
 
     {% call details({
@@ -364,15 +370,23 @@
       classes: "nhsuk-expander nhsuk-u-margin-top-3",
       id: "savedStudiesExpander"
     }) %}
-      {% call card({ classes: "nhsuk-u-margin-top-6" }) %}
-        <ul class="nhsuk-list nhsuk-list--bullet">
-          {% for study in data.savedStudies %}
-            <li>{{ study }}</li>
-          {% else %}
-            <li>You have not saved any studies.</li>
-          {% endfor %}
-        </ul>
-      {% endcall %}
+      {% for study in data.savedStudies %}
+        {% call card({ classes: "nhsuk-u-margin-top-6" }) %}
+          <h3 class="nhsuk-heading-m"><a href="details">{{ study }}</a></h3>
+          {{ tag({ text: "Saved", classes: "nhsuk-tag--grey nhsuk-u-margin-bottom-3" }) }}
+          <div>
+            {{ button({
+              text: "View study details",
+              href: "details",
+              classes: "nhsuk-button--secondary nhsuk-u-margin-bottom-0"
+            }) }}
+          </div>
+        {% endcall %}
+      {% else %}
+        {% call card({ classes: "nhsuk-u-margin-top-6" }) %}
+          <p class="nhsuk-body-s nhsuk-u-margin-bottom-0">You have not saved any studies.</p>
+        {% endcall %}
+      {% endfor %}
     {% endcall %}
 
     {% call card({ classes: "nhsuk-u-margin-top-6" }) %}
@@ -390,22 +404,11 @@
 
   <div class="nhsuk-grid-column-one-third">
     {% call card() %}
-      <h2 class="nhsuk-heading-s nhsuk-u-margin-bottom-2">My activity</h2>
-      <p class="nhsuk-body-s nhsuk-u-margin-bottom-0"><a class="nhsuk-link" href="/dashboard/v2/my-studies">View my studies ({{ data['savedStudies'].length or 0 }})</a></p>
+      <h2 class="nhsuk-heading-s nhsuk-u-margin-bottom-2">Need help?</h2>
+      <p class="nhsuk-body-s nhsuk-u-margin-bottom-3">Get help with your study matches or profile.</p>
+      <p class="nhsuk-body-s nhsuk-u-margin-bottom-2"><a class="nhsuk-link" href="#">Read our FAQs</a></p>
+      <p class="nhsuk-body-s nhsuk-u-margin-bottom-0"><a class="nhsuk-link" href="#">Contact the support team</a></p>
     {% endcall %}
-
-    <div class="nhsuk-u-margin-top-6">
-      {% include "dashboard/v2/includes/_profile-tracker.html" %}
-    </div>
-
-    <div class="nhsuk-u-margin-top-6">
-      {% call card() %}
-        <h2 class="nhsuk-heading-s nhsuk-u-margin-bottom-2">Need help?</h2>
-        <p class="nhsuk-body-s nhsuk-u-margin-bottom-3">Get help with your study matches or profile.</p>
-        <p class="nhsuk-body-s nhsuk-u-margin-bottom-2"><a class="nhsuk-link" href="#">Read our FAQs</a></p>
-        <p class="nhsuk-body-s nhsuk-u-margin-bottom-0"><a class="nhsuk-link" href="#">Contact the support team</a></p>
-      {% endcall %}
-    </div>
   </div>
 
 </div>
