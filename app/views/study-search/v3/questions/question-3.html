@@ -20,27 +20,21 @@
 
     {% call fieldset({
       legend: {
-        text: "Include volunteers by health condition",
+        text: "Add health conditions to include in your search",
         size: "l",
         isPageHeading: true
       }
     }) %}
 
-      <p>You can add one or more health conditions to your inclusion criteria.</p>
 
             {{ searchableCheckboxes({
-        label: {
-          text: "Health condition",
-          size: "m"
-        },
-        classes: "nhsuk-checkboxes--small",
         hint: {
-          text: "Start typing the name of the health condition you'd like to add. The health conditions in our database follow UK naming standards."
-        },
+    text: "Start typing the name of the health condition you'd like to add. The health conditions in our database follow UK naming standards."
+  },
         id: "conditions",
         name: "healthConditions",
         showAllOptions: true,
-        selectedLabel: "Selected health conditions",
+        selectedLabel: "Added health conditions",
         items: data.health_conditions
       }) }}
 
