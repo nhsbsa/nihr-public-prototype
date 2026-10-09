@@ -11,7 +11,6 @@
 {% block content %}
   <div class="nhsuk-grid-row">
     <div class="nhsuk-grid-column-two-thirds">
-
       <h1 class="nhsuk-heading-xl">
         <span role="text">
           Location
@@ -21,7 +20,6 @@
           </span>
         </span>
       </h1>
-
 {{ studyContentsList("page-three") }}
 
 {% from "tables/macro.njk" import table %}
@@ -42,7 +40,7 @@
     {{ card({
       heading: "Guy's and St Thomas' NHS Foundation Trust",
       headingSize: "m",
-      descriptionHtml: '<p>St Thomas&#39; Hospital Westminster Bridge Road, London, SE1 7EH</p><p><a href="https://share.google/IqUpGY4ctWFsim5f9">Plan your journey in Google Maps</a></p>'
+      descriptionHtml: '<p>St Thomas Hospital Westminster Bridge Road, London, SE1 7EH</p><p><a href="https://share.google/IqUpGY4ctWFsim5f9">Plan your journey in Google Maps</a></p>'
     }) }}
   </li>
 </ul>
@@ -56,6 +54,8 @@
 {{ image({
   src: "/assets/images/map-westminster.png",
   alt: "Map showing the location of St Thomas' Hospital Westminster",
+  sizes: "100vw",
+  srcset: "/assets/images/map-westminster.png 600w, /assets/images/map-westminster.png 1000w",
   attributes: {
     style: "width: 100%;"
   }
