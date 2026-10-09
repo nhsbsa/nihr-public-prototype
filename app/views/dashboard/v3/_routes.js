@@ -12,7 +12,7 @@ router.use(function (req, res, next) {
 // studyId -> display title, used by the generic save/dismiss logic below so every
 // triage form (save-match-response and study-response-handler) can resolve a title
 // without each card having to post it separately
-var studyTitlesById = {
+const studyTitlesById = {
     'early-memory-changes': 'Understanding early memory changes in over-65s',
     'diet-lifestyle-survey': 'Diet and lifestyle survey for people with type 2 diabetes',
     'sleep-cognitive-health': 'Sleep patterns and cognitive health questionnaire',
@@ -37,7 +37,7 @@ function removeFromSessionArray(sessionData, arrayName, value) {
         return;
     }
 
-    var index = sessionData[arrayName].indexOf(value);
+    const index = sessionData[arrayName].indexOf(value);
 
     if (index !== -1) {
         sessionData[arrayName].splice(index, 1);
@@ -50,7 +50,7 @@ function removeFromSessionArray(sessionData, arrayName, value) {
 // other list so a changed answer doesn't leave the study showing in both places.
 function recordStudyResponse(req, studyId, response) {
 
-    var studyTitle = studyTitlesById[studyId];
+    const studyTitle = studyTitlesById[studyId];
 
     if (!studyTitle) {
         return;
@@ -68,7 +68,7 @@ function recordStudyResponse(req, studyId, response) {
 
 router.post('/save-status', function (req, res) {
 
-    var accountStatus = req.session.data['accountStatus'];
+    const accountStatus = req.session.data['accountStatus'];
 
     if (accountStatus === 'optout') {
         res.redirect('archive');
@@ -120,8 +120,8 @@ router.post('/save-study', function (req, res) {
 
 router.post('/save-match-response', function (req, res) {
 
-    var studyId = req.body.studyId;
-    var response = req.body.study1Response || req.body.study3Response;
+    const studyId = req.body.studyId;
+    const response = req.body.study1Response || req.body.study3Response;
 
     recordStudyResponse(req, studyId, response);
 
@@ -131,9 +131,9 @@ router.post('/save-match-response', function (req, res) {
 
 router.post('/study-response-handler', function (req, res) {
 
-    var studyId = req.body.studyId;
-    var response = req.body.study2Response || req.body.study4Response;
-    var showGenericSavedBanner = true;
+    const studyId = req.body.studyId;
+    const response = req.body.study2Response || req.body.study4Response;
+    let showGenericSavedBanner = true;
 
     recordStudyResponse(req, studyId, response);
 
@@ -147,7 +147,7 @@ router.post('/study-response-handler', function (req, res) {
                 req.session.data.savedStudies = [];
             }
 
-            var dietStudyTitle = 'Diet and lifestyle survey for people with type 2 diabetes';
+            const dietStudyTitle = 'Diet and lifestyle survey for people with type 2 diabetes';
 
             if (req.session.data.savedStudies.indexOf(dietStudyTitle) === -1) {
                 req.session.data.savedStudies.push(dietStudyTitle);
@@ -189,9 +189,9 @@ router.post('/save-contact-preferences', function (req, res) {
 
 router.post('/check-eligibility', function (req, res) {
 
-    var ageCriteria = req.session.data['ageCriteria'];
-    var diagnosisCriteria = req.session.data['diagnosisCriteria'];
-    var partnerCriteria = req.session.data['partnerCriteria'];
+    const ageCriteria = req.session.data['ageCriteria'];
+    const diagnosisCriteria = req.session.data['diagnosisCriteria'];
+    const partnerCriteria = req.session.data['partnerCriteria'];
 
     if (ageCriteria === 'No' || diagnosisCriteria === 'No' || partnerCriteria === 'No') {
         res.redirect('pre-screener-ineligible');
