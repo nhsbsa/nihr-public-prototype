@@ -43,68 +43,71 @@ Who can take part          <span class="nhsuk-caption-xl nhsuk-caption--bottom">
 
       <h2 class="nhsuk-heading-m">Detailed criteria</h2>
 
-      <div class="nhsuk-card nhsuk-card--feature">
-  <div class="nhsuk-card__content">
-    <h3 class="nhsuk-card__heading">Eligible</h3>
-    <ul class="nhsuk-list" role="list">
-      <li>
-        Group 1: VSS patients
-        <ol class="nhsuk-list nhsuk-list--number">
-          <li>Diagnosis of visual snow syndrome following the published criteria</li>
-          <li>Aged &gt;18 years</li>
-          <li>Able to provide written informed consent in English</li>
-          <li>Evidence of a personally signed and dated informed consent document indicating that the subject (or a legally acceptable representative) has been informed of all pertinent aspects of the trial detailed in the patient information sheet, informed consent form, and in the protocol</li>
-          <li>Willing and able to comply with scheduled visits, lifestyle guidelines and trial procedures, including using a reliable method of birth control whilst on the medication for female participants</li>
-          <li>No history of worsening of VSS with prior medications</li>
-        </ol>
-      </li>
+      {{ list({
+        title: "Eligible",
+        type: "tick",
+        items: [
+          {
+            text: "Participant is willing and able to give informed consent for participation in the study"
+          },
+          {
+            text: "Suffering from chronic NSLBP (more than 3 months, localised below the costal margin and above the gluteal folds)"
+          },
+          {
+            text: "Suffers from pain or functional limitations as a result of their LBP (minimum VAS (back) score of 3/10 or ODI score of at least 5/50 or RMD score of at least 5/24 (note, unlike ODI, RMD does not describe specific cuts offs for different levels of disability)"
+          },
+          {
+            text: "Able to exercise"
+          }
+        ]
+      }) }}
 
-      <li>
-        Group 2: Migraine patients
-        <ol class="nhsuk-list nhsuk-list--number">
-          <li>Diagnosis of migraine with or without aura following the International Classification of Headache Disorders (ICHD-3) beta criteria</li>
-          <li>Aged &gt;18 years</li>
-          <li>Able to provide written informed consent in English</li>
-          <li>Evidence of a personally signed and dated informed consent document indicating that the subject (or a legally acceptable representative) has been informed of all pertinent aspects of the trial detailed in the patient information sheet, informed consent form, and in the protocol</li>
-          <li>Willing and able to comply with scheduled visits, lifestyle guidelines and trial procedures, including using a reliable method of birth control whilst on the medication for female participants</li>
-          <li>No concomitant diagnosis of VSS</li>
-        </ol>
-      </li>
-
-      <li>
-        Group 2: Healthy controls
-        <ol class="nhsuk-list nhsuk-list--number">
-          <li>Aged &gt;18 years</li>
-          <li>Able to provide written informed consent in English</li>
-          <li>Evidence of a personally signed and dated informed consent document indicating that the subject (or a legally acceptable representative) has been informed of all pertinent aspects of the trial detailed in the patient information sheet, informed consent form, and in the protocol</li>
-          <li>Willing and able to comply with scheduled visits, lifestyle guidelines (see below) and trial procedures</li>
-          <li>No concomitant diagnosis of VSS or migraine</li>
-        </ol>
-      </li>
-    </ul>
-  </div>
-</div>
-
-<div class="nhsuk-card nhsuk-card--feature">
-  <div class="nhsuk-card__content">
-    <h3 class="nhsuk-card__heading">Not eligible</h3>
-    <ul class="nhsuk-list" role="list">
-      <li>Radiating pain to leg / sciatica / acute radiculopathy</li>
-      <li>Specific diagnosis/condition for LBP (e.g. herniated disk, degenerative disk disease, spondylolysis, spinal stenosis, spinal tumour, facet joint damage)</li>
-      <li>History of osteoporosis, arthritis, scoliosis, or kyphosis.</li>
-      <li>Current spinal infection, cancer or a current fracture (any bone).</li>
-      <li>History of spinal/back surgery</li>
-      <li>Unable to participate in physical activity and exercise</li>
-      <li>Pregnant or breast feeding</li>
-      <li>History of substance abuse</li>
-      <li>History of psychiatric illness (eg. depression, dementia, schizophrenia) for which currently taking medication</li>
-      <li>History or current neurological condition (e.g. epilepsy)</li>
-      <li>Not in possession or have access to adapted equipment (phone, computer, functioning WIFI)</li>
-      <li>Unable to understand and communicate in English</li>
-      <li>Having taken part in a research study in the last 3 months involving invasive procedures or an inconvenience allowance</li>
-    </ul>
-  </div>
-</div>
+      {{ list({
+        title: "Not eligible",
+        type: "cross",
+        hidePrefix: "true",
+        items: [
+          {
+            text: "Radiating pain to leg / sciatica / acute radiculopathy"
+          },
+          {
+            text: "Specific diagnosis/condition for LBP (e.g. herniated disk, degenerative disk disease, spondylolysis, spinal stenosis, spinal tumour, facet joint damage)"
+          },
+          {
+            text: "History of osteoporosis , arthritis, scoliosis, or kyphosis."
+          },
+          {
+            text: "Current spinal infection, cancer or a current fracture (any bone)."
+          },
+          {
+            text: "History of spinal/back surgery"
+          },
+          {
+            text: "Unable to participate in physical activity and exercise"
+          },
+          {
+            text: "Pregnant or breast feeding"
+          },
+          {
+            text: "History of substance abuse"
+          },
+          {
+            text: "History of psychiatric illness (eg. depression, dementia, schizophrenia) for which currently taking medication "
+          },
+          {
+            text: "History or current neurological condition (e.g. epilepsy)"
+          },
+          {
+            text: "Not in possession or have access to adapted equipment (phone, computer, functioning WIFI)"
+          },
+          {
+            text: "Unable to understand and communicate in English"
+          },
+          {
+            text: "Having taken part in a research study in the last 3 months involving invasive procedures or an inconvenience allowance"
+          }
+        ]
+      }) }}
 
       {{ pagination({
         next: {

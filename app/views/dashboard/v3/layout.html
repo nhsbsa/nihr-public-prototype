@@ -1,0 +1,190 @@
+<!--
+  This is the main layout where you can:
+    - change the header and footer
+    - add custom CSS and JavaScript
+
+  Brand alignment note: this header/footer was refactored to match the
+  "BpOr" (Be Part of Research) brand system used by login/v1, registration/v1
+  and pre-screener/v1 (see app/views/layout-bpor.html and
+  app/assets/sass/_bpor-header-footer.scss / _nihr-header-footer.scss).
+  Dashboard v2 previously used the generic nhsuk header()/footer() macros,
+  which rendered with no BPOR branding at all.
+-->
+
+<!-- Extends the prototype kit template which in turn extends the NHS.UK frontend template -->
+{% set bodyClasses = "app-dashboard-v3" %}
+{% extends "prototype-kit-template.njk" %}
+
+{% block head %}
+  <!-- Add your custom CSS or Sass in /app/assets/sass/main.scss -->
+  <link href="/assets/sass/main.css" rel="stylesheet">
+{% endblock %}
+
+<!-- Edit the header -->
+<!-- Matches the BPOR brand header in app/views/layout-bpor.html -->
+{% block header %}
+<header class="nhsuk-header nhsuk-header--white" role="banner" data-module="nhsuk-header" data-nhsuk-header-init="">
+   <div class="nhsuk-width-container bpor-container">
+      <div class="bpor-logo-container">
+        <a class="nhsuk-header__service-logo" href="/dashboard/v3/home" aria-label="Be Part of Research Logo">
+          <img class="nhsuk-header__organisation-logo-BPOR" src="/assets/images/BPOR-logo.svg" width="280" alt="Be Part of Research Logo">
+        </a>
+      </div>
+      <div class="nhs-logo-container">
+         <a class="nhsuk-header__service-logo" href="/dashboard/v3/home" aria-label="NHS Logo">
+            <svg class="nhsuk-header__logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 80" height="40" width="100" focusable="false" role="img" aria-label="NHS">
+               <title>NHS</title>
+               <path fill="currentcolor" d="M200 0v80H0V0h200Zm-27.5 5.5c-14.5 0-29 5-29 22 0 10.2 7.7 13.5 14.7 16.3l.7.3c5.4 2 10.1 3.9 10.1 8.4 0 6.5-8.5 7.5-14 7.5s-12.5-1.5-16-3.5L135 70c5.5 2 13.5 3.5 20 3.5 15.5 0 32-4.5 32-22.5 0-19.5-25.5-16.5-25.5-25.5 0-5.5 5.5-6.5 12.5-6.5a35 35 0 0 1 14.5 3l4-13.5c-4.5-2-12-3-20-3Zm-131 2h-22l-14 65H22l9-45h.5l13.5 45h21.5l14-65H64l-9 45h-.5l-13-45Zm63 0h-18l-13 65h17l6-28H117l-5.5 28H129l13.5-65H125L119.5 32h-20l5-24.5Z"></path>
+            </svg>
+         </a>
+      </div>
+   </div>
+ <nav class="nhsuk-header__navigation nhsuk-header__navigation--white" aria-label="Menu">
+    <div class="nhsuk-header__navigation-container nhsuk-width-container">
+      <ul class="nhsuk-header__navigation-list">
+
+        <li class="nhsuk-header__navigation-item{% if currentPage.startsWith('/dashboard/v3/home') %} nhsuk-header__navigation-item--current{% endif %}">
+          <a class="nhsuk-header__navigation-link" href="/dashboard/v3/home"{% if currentPage.startsWith('/dashboard/v3/home') %} aria-current="true"{% endif %}>
+            <strong class="nhsuk-header__navigation-item-current-fallback">Dashboard</strong>
+          </a>
+        </li>
+
+        <li class="nhsuk-header__navigation-item{% if currentPage.startsWith('/study-search/v3') %} nhsuk-header__navigation-item--current{% endif %}">
+          <a class="nhsuk-header__navigation-link" href="/study-search/v3/searchfeed/search-feed?from_dashboard=true"{% if currentPage.startsWith('/study-search/v3') %} aria-current="true"{% endif %}>
+            <strong class="nhsuk-header__navigation-item-current-fallback">Find a study</strong>
+          </a>
+        </li>
+
+        <li class="nhsuk-header__navigation-item{% if currentPage.startsWith('/dashboard/v3/profile') %} nhsuk-header__navigation-item--current{% endif %}">
+          <a class="nhsuk-header__navigation-link" href="/dashboard/v3/profile"{% if currentPage.startsWith('/dashboard/v3/profile') %} aria-current="true"{% endif %}>
+            <strong class="nhsuk-header__navigation-item-current-fallback">Profile</strong>
+          </a>
+        </li>
+
+        <li class="nhsuk-header__navigation-item{% if currentPage.startsWith('/dashboard/v3/my-studies') %} nhsuk-header__navigation-item--current{% endif %}">
+          <a class="nhsuk-header__navigation-link" href="/dashboard/v3/my-studies"{% if currentPage.startsWith('/dashboard/v3/my-studies') %} aria-current="true"{% endif %}>
+            <strong class="nhsuk-header__navigation-item-current-fallback">My studies</strong>
+          </a>
+        </li>
+
+        <li class="nhsuk-header__navigation-item">
+          <a class="nhsuk-header__navigation-link" href="#">Sign out</a>
+        </li>
+
+        <li class="nhsuk-header__menu" hidden>
+          <button class="nhsuk-header__menu-toggle nhsuk-header__navigation-link" id="toggle-menu" aria-expanded="false">
+            <span class="nhsuk-u-visually-hidden">Browse </span>More
+          </button>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</header>
+{% endblock %}
+
+<!-- Edit the footer -->
+<!-- Matches the three-tier BPOR brand footer in app/views/layout-bpor.html -->
+{% block footer %}
+
+<footer class="bpor-footer-top" role="contentinfo">
+  <div class="nhsuk-width-container"><a href="https://www.accessibility-services.co.uk/certificates/nihr-be-part-of-research/"><img src="/assets/images/shaw-trust-logo.svg" alt=""></a></div>
+</footer>
+
+<footer class="nhsuk-footer nihr-footer" role="contentinfo">
+  <div class="nhsuk-width-container">
+
+    <div class="nhsuk-footer__navigation nhsuk-grid-row">
+
+      <div class="nhsuk-grid-column-one-quarter">
+        <h2 class="nhsuk-footer__heading nhsuk-heading-s">Your account</h2>
+        <ul class="nhsuk-footer__list">
+          <li class="nhsuk-footer__list-item">
+            <a class="nhsuk-footer__list-item-link" href="/dashboard/v3/home">Dashboard</a>
+          </li>
+          <li class="nhsuk-footer__list-item">
+            <a class="nhsuk-footer__list-item-link" href="/dashboard/v3/profile">Profile and preferences</a>
+          </li>
+          <li class="nhsuk-footer__list-item">
+            <a class="nhsuk-footer__list-item-link" href="#">Sign out</a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="nhsuk-grid-column-one-quarter">
+        <h2 class="nhsuk-footer__heading nhsuk-heading-s">Learn</h2>
+        <ul class="nhsuk-footer__list">
+          <li class="nhsuk-footer__list-item">
+            <a class="nhsuk-footer__list-item-link" href="https://bepartofresearch.nihr.ac.uk/what-is-health-and-care-research/">What is health and care research?</a>
+          </li>
+          <li class="nhsuk-footer__list-item">
+            <a class="nhsuk-footer__list-item-link" href="https://bepartofresearch.nihr.ac.uk/take-part-in-research/what-to-expect-on-a-study/">What to expect on a study</a>
+          </li>
+          <li class="nhsuk-footer__list-item">
+            <a class="nhsuk-footer__list-item-link" href="https://bepartofresearch.nihr.ac.uk/site-policies/complaints">Complaints</a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="nhsuk-grid-column-one-quarter">
+        <h2 class="nhsuk-footer__heading nhsuk-heading-s">Site policies</h2>
+        <ul class="nhsuk-footer__list">
+          <li class="nhsuk-footer__list-item">
+            <a class="nhsuk-footer__list-item-link" href="https://bepartofresearch.nihr.ac.uk/site-policies">All site policies</a>
+          </li>
+          <li class="nhsuk-footer__list-item">
+            <a class="nhsuk-footer__list-item-link" href="https://bepartofresearch.nihr.ac.uk/site-policies/accessibility">Accessibility</a>
+          </li>
+          <li class="nhsuk-footer__list-item">
+            <a class="nhsuk-footer__list-item-link" href="https://bepartofresearch.nihr.ac.uk/site-policies/privacy-policy">Privacy policy</a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="nhsuk-grid-column-one-quarter">
+        <h2 class="nhsuk-footer__heading nhsuk-heading-s">Stay connected</h2>
+        <ul class="nhsuk-footer__list">
+          <li class="nhsuk-footer__list-item">
+            <a class="nhsuk-footer__list-item-link" href="/">Home</a>
+          </li>
+          <li class="nhsuk-footer__list-item">
+            <a class="nhsuk-footer__list-item-link" href="https://bepartofresearch.nihr.ac.uk/get-in-touch">Get in touch</a>
+          </li>
+          <li class="nhsuk-footer__list-item">
+            <a class="nhsuk-footer__list-item-link" href="/prototype-admin/reset?returnPage={{ currentPage | urlencode }}">Reset data</a>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+
+    <p class="nhsuk-body-s">Built on <a class="nhsuk-footer__list-item-link" href="https://prototype-kit.service-manual.nhs.uk/updates/">NHS prototype kit {{ prototypeKitVersion }}</a> and <a class="nhsuk-footer__list-item-link" href="https://github.com/nhsuk/nhsuk-frontend/releases/">NHS.UK frontend {{ nhsukFrontendVersion }}</a></p>
+
+  </div>
+</footer>
+
+<footer class="bpor-footer-bottom" role="contentinfo">
+  <div class="nhsuk-width-container">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <a href="https://www.nihr.ac.uk/"><img src="/assets/images/NIHR-logo.svg" alt=""></a>
+      </div>
+      <div class="footer-col">
+        <a href="http://www.research.hscni.net/"><img src="/assets/images/hsc-logo.svg" alt=""></a>
+      </div>
+      <div class="footer-col">
+        <a href="https://www.nhsresearchscotland.org.uk/"><img src="/assets/images/nhs-scotland-logo.svg" alt=""></a>
+      </div>
+      <div class="footer-col">
+        <a href="https://healthandcareresearchwales.org/"><img src="/assets/images/hcr-wales-logo.svg" alt=""></a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+{% endblock %}
+
+{% block bodyEnd %}
+  {{ super() }}
+  <script type="module" src="/assets/javascript/main.js"></script>
+  {% block pageScripts %}{% endblock %}
+{% endblock %}

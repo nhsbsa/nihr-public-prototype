@@ -1,0 +1,79 @@
+{% extends "dashboard/v3/layout.html" %}
+
+{% block pageTitle %}
+  Contact preferences - Be Part of Research
+{% endblock %}
+
+{% block content %}
+
+<div class="nhsuk-grid-row">
+  <div class="nhsuk-grid-column-two-thirds">
+    {{ backLink({ text: "Back to profile", href: "profile", classes: "nhsuk-u-margin-bottom-4" }) }}
+
+    <h1 class="nhsuk-heading-xl">Contact preferences</h1>
+
+    <form action="save-contact-preferences" method="post" novalidate>
+
+      {{ radios({
+        name: "emailAlert",
+        classes: "nhsuk-radios--small",
+        fieldset: {
+          legend: { text: "Would you like to be sent an automated email alert when you match to a study?", classes: "nhsuk-fieldset__legend--m" }
+        },
+        items: [
+          { value: "Yes", text: "Yes", checked: (data.emailAlert == "Yes") },
+          { value: "No", text: "No", checked: (data.emailAlert == "No") }
+        ]
+      }) }}
+
+      {{ radios({
+        name: "contactMethod",
+        classes: "nhsuk-radios--small",
+        fieldset: {
+          legend: { text: "What is the best way for a researcher to contact you to discuss their study?", classes: "nhsuk-fieldset__legend--m" }
+        },
+        items: [
+          { value: "Email", text: "Email", checked: (data.contactMethod == "Email") },
+          { value: "Phone", text: "Phone", checked: (data.contactMethod == "Phone") },
+          { value: "Not at all", text: "Not at all", checked: (data.contactMethod == "Not at all") }
+        ]
+      }) }}
+
+      {{ radios({
+        name: "newsletterPreference",
+        classes: "nhsuk-radios--small",
+        fieldset: {
+          legend: { text: "Would you like to receive our quarterly newsletter and annual survey?", classes: "nhsuk-fieldset__legend--m" }
+        },
+        items: [
+          { value: "Yes, email me", text: "Yes, email me", checked: (data.newsletterPreference == "Yes, email me") },
+          { value: "Yes, post me", text: "Yes, post me", checked: (data.newsletterPreference == "Yes, post me") },
+          { value: "No, do not send me", text: "No, do not send me", checked: (data.newsletterPreference == "No, do not send me") }
+        ]
+      }) }}
+
+      {{ radios({
+        name: "nonDementiaStudies",
+        classes: "nhsuk-radios--small",
+        fieldset: {
+          legend: { text: "Would you like to hear about other ethically approved health research studies?", classes: "nhsuk-fieldset__legend--m" }
+        },
+        items: [
+          { value: "Yes", text: "Yes", checked: (data.nonDementiaStudies == "Yes") },
+          { value: "No", text: "No", checked: (data.nonDementiaStudies == "No") }
+        ]
+      }) }}
+
+      {{ button({ text: "Save and continue", classes: "nhsuk-u-margin-top-4 nhsuk-u-margin-bottom-4" }) }}
+
+      <p class="nhsuk-body">
+        <a class="nhsuk-link" href="archive">Delete my account</a>
+      </p>
+
+    </form>
+  </div>
+</div>
+
+{% include "dashboard/v3/partials/prototype-nav.html" %}
+
+{% endblock %}
