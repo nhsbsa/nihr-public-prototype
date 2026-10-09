@@ -1,20 +1,12 @@
 {% extends "layout-bpor.html" %}
 
-{% from "breadcrumb/macro.njk" import breadcrumb %}
+{% from "back-link/macro.njk" import backLink %}
 
 {% block beforeContent %}
 
-  {{ breadcrumb({
-    items: [
-      {
-        text: "Back to search",
-        href: "/study-search/v3/searchfeed/search-feed"
-      },
-      {
-        text: "Study details",
-        href: "/study-search/v3/studydetails-1/page-one"
-      }
-    ]
+  {{ backLink({
+    href: "/study-search/v3/searchfeed/search-feed",
+    text: "Back"
   }) }}
 
 {% endblock %}

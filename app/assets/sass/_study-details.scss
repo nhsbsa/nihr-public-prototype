@@ -16,13 +16,10 @@
     overflow-wrap: break-word;
   }
 }
-.nhsuk-breadcrumb__list {
-  display: block !important;
+.nhsuk-breadcrumb__back {
+  display: none;
 }
 
-.nhsuk-back-link {
-  display: none !important;
-}
 .nhsuk-card__heading-row {
   display: flex;
   justify-content: space-between;
