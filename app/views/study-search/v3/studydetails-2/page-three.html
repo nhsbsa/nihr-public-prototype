@@ -12,14 +12,12 @@
   <div class="nhsuk-grid-row">
     <div class="nhsuk-grid-column-two-thirds">
 
-      <h1>
-        <span role="What's involved">
-         Location
+      <h1 class="nhsuk-heading-xl">
+        <span role="text">
+          Location
           <span class="nhsuk-caption-xl nhsuk-caption--bottom">
-            <span class="nhsuk-u-visually-hidden">
-            -
-            </span>
-         Diagnosis of visual snow syndrome following the published criteria
+            <span class="nhsuk-u-visually-hidden"> - </span>
+            Diagnosis of visual snow syndrome following the published criteria
           </span>
         </span>
       </h1>
@@ -40,11 +38,12 @@
 <ul class="nhsuk-grid-row nhsuk-card-group">
   
   {# CARD 1 #}
-  <li class="nhsuk-grid-column-full nhsuk-card-group__item">
+<li class="nhsuk-grid-column-full nhsuk-card-group__item">
     {{ card({
       heading: "Guy's and St Thomas' NHS Foundation Trust",
       headingSize: "m",
-      descriptionHtml: '<p>St Thomas&#39; Hospital Westminster Bridge Road, London, SE1 7EH</p><p><a href="https://share.google/IqUpGY4ctWFsim5f9">Plan your journey in Google Maps</a></p>'    }) }}
+      descriptionHtml: '<p>St Thomas&#39; Hospital Westminster Bridge Road, London, SE1 7EH</p><p><a href="https://share.google/IqUpGY4ctWFsim5f9">Plan your journey in Google Maps</a></p>'
+    }) }}
   </li>
 </ul>
 
@@ -55,10 +54,8 @@
 </div>
 
 {{ image({
-  src: "/assets/images/map.png",
+  src: "/assets/images/map-westminster.png",
   alt: "Map showing the location of St Thomas' Hospital Westminster",
-  sizes: "100vw",
-  srcset: "/assets/images/map.png 600w, /assets/images/map-westminster.png 1000w",
   attributes: {
     style: "width: 100%;"
   }
