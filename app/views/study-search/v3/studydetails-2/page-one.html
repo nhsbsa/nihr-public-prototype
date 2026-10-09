@@ -1,0 +1,114 @@
+{% extends "study-search/v3/_layout-study-details.html" %}
+
+{% from "pagination/macro.njk" import pagination %}
+{% from "do-dont-list/macro.njk" import list %}
+{% from "tables/macro.njk" import table %}
+{% from "study-search/v3/_components/study-contents-list.njk" import studyContentsList %}
+
+{% block content %}
+  <div class="nhsuk-grid-row">
+    <div class="nhsuk-grid-column-two-thirds">
+
+      <h1>
+        <span role="text">
+Who can take part          <span class="nhsuk-caption-xl nhsuk-caption--bottom">
+            <span class="nhsuk-u-visually-hidden">-</span>
+         A study of brain activity in visual snow syndrome and migraine
+          </span>
+        </span>
+      </h1>
+
+
+      {{ studyContentsList("page-one") }}
+
+      <h2 class="nhsuk-heading-m">Person criteria</h2>
+
+      {{ table({
+        firstCellIsHeader: true,
+        rows: [
+          [
+            { text: "Medical conditions" },
+            { text: "migraine, neurological disorders" }
+          ],
+          [
+            { text: "Age" },
+            { text: "18.0 - 85 years" }
+          ],
+          [
+            { text: "Gender" },
+            { text: "All" }
+          ]
+        ]
+      }) }}
+
+      <h2 class="nhsuk-heading-m">Detailed criteria</h2>
+
+<div class="nhsuk-card nhsuk-card--feature">
+  <div class="nhsuk-card__content">
+    <h3 class="nhsuk-card__heading">Eligible</h3>
+    <ul class="nhsuk-list" role="list">
+      <li>Adults aged 18 years and over with a diagnosis of VSS (with or without migraine), migraine without VSS, and healthy volunteers</li><br>
+
+      <li>
+        Group 1: VSS patients
+        <ol class="nhsuk-list nhsuk-list--number">
+          <li>Diagnosis of visual snow syndrome following the published criteria</li>
+          <li>Aged &gt;18 years</li>
+          <li>Able to provide written informed consent in English</li>
+          <li>Evidence of a personally signed and dated informed consent document indicating that the subject (or a legally acceptable representative) has been informed of all pertinent aspects of the trial detailed in the patient information sheet, informed consent form, and in the protocol</li>
+          <li>Willing and able to comply with scheduled visits, lifestyle guidelines and trial procedures, including using a reliable method of birth control whilst on the medication for female participants</li>
+          <li>No history of worsening of VSS with prior medications</li><br>
+        </ol>
+      </li>
+
+      <li>
+        Group 2: Migraine patients
+        <ol class="nhsuk-list nhsuk-list--number">
+          <li>Diagnosis of migraine with or without aura following the International Classification of Headache Disorders (ICHD-3) beta criteria</li>
+          <li>Aged &gt;18 years</li>
+          <li>Able to provide written informed consent in English</li>
+          <li>Evidence of a personally signed and dated informed consent document indicating that the subject (or a legally acceptable representative) has been informed of all pertinent aspects of the trial detailed in the patient information sheet, informed consent form, and in the protocol</li>
+          <li>Willing and able to comply with scheduled visits, lifestyle guidelines and trial procedures, including using a reliable method of birth control whilst on the medication for female participants</li>
+          <li>No concomitant diagnosis of VSS</li><br>
+        </ol>
+      </li>
+
+      <li>
+        Group 2: Healthy controls
+        <ol class="nhsuk-list nhsuk-list--number">
+          <li>Aged &gt;18 years</li>
+          <li>Able to provide written informed consent in English</li>
+          <li>Evidence of a personally signed and dated informed consent document indicating that the subject (or a legally acceptable representative) has been informed of all pertinent aspects of the trial detailed in the patient information sheet, informed consent form, and in the protocol</li>
+          <li>Willing and able to comply with scheduled visits, lifestyle guidelines (see below) and trial procedures</li>
+          <li>No concomitant diagnosis of VSS or migraine</li>
+        </ol>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="nhsuk-card nhsuk-card--feature">
+  <div class="nhsuk-card__content">
+    <h3 class="nhsuk-card__heading">Not eligible</h3>
+    <ol class="nhsuk-list nhsuk-list--number" role="list">
+      <li>Pregnancy and breastfeeding</li>
+      <li>Any metal implants in the head or body (except for titanium and dental work)</li>
+      <li>Any other medical and safety contraindications to undergo ultra-high-field MRI (e.g., large tattoos, ongoing dizziness and vertigo)</li>
+      <li>History of epilepsy or of prior lamotrigine use (for VSS and MO groups only)</li>
+      <li>History of adverse or allergic reactions to drugs (for VSS and MO groups only)</li>
+      <li>Family history of Stevens-Johnson syndrome (SJS) or toxic epidermal necrolysis (TEN) (for VSS and MO groups only)</li>
+      <li>Known or suspected carriers of HLA alleles associated with SJS or TEN (e.g., HLA-B15:02, HLA-A24:02, and HLA-B38:01) (for VSS and MO groups only)</li>
+      <li>Regular smoking of &gt;6 cigarettes a day</li>
+      <li>Regular intake of medications acting on the central nervous system</li>
+      <li>Regular use of recreational drugs</li>
+      <li>History of psychosis</li>
+    </div>
+  </div>
+
+  {{ pagination({
+        next: {
+          labelText: "About this study",
+          href: "/study-search/v3/studydetails-2/page-two"
+        }
+      }) }}
+{% endblock %}

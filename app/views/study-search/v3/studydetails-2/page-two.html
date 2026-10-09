@@ -1,0 +1,97 @@
+{% extends "study-search/v3/_layout-study-details.html" %}
+
+{% from "pagination/macro.njk" import pagination %}
+{% from "tag/macro.njk" import tag %}
+{% from "inset-text/macro.njk" import insetText %}
+{% from "tables/macro.njk" import table %}
+{% from "study-search/v3/_components/study-contents-list.njk" import studyContentsList %}
+
+{% block content %}
+  <div class="nhsuk-grid-row">
+    <div class="nhsuk-grid-column-two-thirds">
+
+      <h1>
+        <span role="text">
+          About this study
+          <span class="nhsuk-caption-xl nhsuk-caption--bottom">
+            <span class="nhsuk-u-visually-hidden">-</span>
+          Diagnosis of visual snow syndrome following the published criteria
+          </span>
+        </span>
+      </h1>
+
+      {{ studyContentsList("page-two") }}
+
+      {{ table({
+        firstCellIsHeader: true,
+        rows: [
+          [
+            { text: "Name" },
+            { text: "A study of brain activity in visual snow syndrome and migraine" }
+          ],
+          [
+            { text: "Type" },
+            { 
+              html: "N/A"
+            }
+          ],
+          [
+            { text: "Status" },
+            { 
+              html: tag({
+                text: "Recruiting",
+                classes: "nhsuk-tag--green"
+              }) + " until 31 May 2028"
+            }
+          ],
+          [
+            { text: "Funders or sponsors" },
+            { text: "The study is sponsored by King's College London and funded by Medical Research Council." }
+          ],
+          [
+            { text: "Trial ID" },
+            { text: "CPMS: 74550" }
+          ],
+          [
+            { text: "Trial link" },
+            { html: '<a href="https://www.isrctn.com/ISRCTN66692567">https://www.isrctn.com/ISRCTN66692567</a>' }          ]
+        ]
+      }) }}
+
+      <h2 class="nhsuk-heading-m">Summary</h2>
+      {% set insetTextHtml %}
+        <p>This information is provided directly by researchers, and we recognise that it isn't always easy to understand. We are working with researchers to improve the accessibility of this information. In some summaries, you may come across links to external websites. These websites will have more information to help you better understand the study.</p>
+      {% endset %}
+
+      {{ insetText({
+        html: insetTextHtml
+      }) }}
+
+      <p class="nhsuk-body-m">This information is provided directly by researchers, and we recognise that it isn't always easy to understand. We are working with researchers to improve the accessibility of this information. In some summaries, you may come across links to external websites. These websites will have more information to help you better understand the study.
+
+
+Visual snow syndrome (VSS) is a neurological condition causing constant flickering dots across the entire visual field, often alongside other visual disturbances such as light sensitivity and afterimages. Many people with VSS also have migraines. There are currently no proven treatments. Brain imaging suggests VSS may involve overactivity in visual brain areas, linked to an imbalance between the excitatory brain chemical glutamate and the inhibitory chemical GABA. This study uses ultra-high-field (7 Tesla) MRI to measure these chemicals directly in people with VSS and migraine and tests whether lamotrigine (a medication that reduces glutamate release) can alter brain chemistry and improve symptoms.</p><br>
+     
+      <h2 class="nhsuk-heading-m">Study details</h2>
+
+      <p class="nhsuk-body-m">Participation lasts up to 8 weeks (1–2 weeks for healthy volunteers). All participants attend a telephone pre-screening and a baseline 7-Tesla MRI scan at St Thomas' Hospital, London, and complete symptom questionnaires. Participants with VSS or migraine are then randomly assigned to lamotrigine or placebo for 5 weeks, keep an electronic symptom diary, return for a second scan, taper off medication over 2 weeks, and have a final telephone follow-up. Healthy volunteers complete the study after the first scan.</p>
+
+      <h2 class="nhsuk-heading-m">Possible Benefits and Risks</h2>
+
+      <p class="nhsuk-body-m">There is no direct medical benefit, though findings may help develop future treatments. Participants receive £50 per visit plus travel reimbursement up to £100. Risks include temporary dizziness from high-field MRI and potential lamotrigine side effects (headache, nausea, rash). Participants with known risk factors for serious reactions are excluded and all are monitored throughout.</p>
+
+
+      {{ pagination({
+        previous: {
+          labelText: "Who can take part",
+          href: "/study-search/v3/studydetails-2/page-one"
+        },
+        next: {
+          labelText: "Location",
+          href: "/study-search/v3/studydetails-2/page-three"
+        }
+      }) }}
+
+    </div>
+  </div>
+{% endblock %}

@@ -4073,8 +4073,9 @@
     "locations": [
       "Nottingham", "Queen's Medical Centre, Nottingham"
     ]
-  },{
-    "id": "58688",
+  },
+  {
+    "id": "201",
     "status": "recruiting",
     "statusLabel": "Recruiting",
     "closingDate": "Nov 2026",
@@ -4113,7 +4114,7 @@
     ]
   },
   {
-    "id": "58689",
+    "id": "202",
     "status": "recruiting",
     "statusLabel": "Recruiting",
     "closingDate": "Jan 2027",
@@ -4148,7 +4149,7 @@
     ]
   },
   {
-    "id": "58690",
+    "id": "203",
     "status": "completed",
     "statusLabel": "Completed",
     "closingDate": null,
@@ -4179,7 +4180,7 @@
     ]
   },
   {
-    "id": "58XXX",
+    "id": "204",
     "status": "recruiting",
     "statusLabel": "Recruiting",
     "closingDate": null,
@@ -4214,6 +4215,28 @@
       "Royal Liverpool University Hospital, Liverpool", 
       "Northern General Hospital, Sheffield"
     ]
+  },
+  {
+    "id": "58688",
+    "detailFolder": "studydetails-2",
+    "status": "recruiting",
+    "statusLabel": "Recruiting",
+    "closingDate": "Dec 2026",
+    "title": "A study of brain activity in visual snow syndrome and migraine",
+    "conditionCategories": [
+      "neurological-disorders"
+    ],
+    "migraine": [
+      "migraine"
+    ],
+    "conditionText": "Migraine",
+    "gender": "all",
+    "genderLabel": "All genders",
+    "ageMin": 18,
+    "ageMax": 80,
+    "ageLabel": "18 - 80 Years",
+    "locations": [
+      "Nottingham", "Queen's Medical Centre, Nottingham"
+    ]
   }
-
 ]
