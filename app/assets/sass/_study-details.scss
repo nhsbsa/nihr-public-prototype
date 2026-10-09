@@ -20,6 +20,9 @@
   display: none;
 }
 
+.nhsuk-breadcrumb .nhsuk-back-link {
+  display: none !important;
+}
 .nhsuk-card__heading-row {
   display: flex;
   justify-content: space-between;

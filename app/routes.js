@@ -42,6 +42,8 @@ router.use('/dashboard/v1', require('./views/dashboard/v1/_routes'));
 
 router.use('/dashboard/v2', require('./views/dashboard/v2/_routes'));
 
+router.use('/dashboard/v3', require('./views/dashboard/v3/_routes'));
+
 router.use('/login/v1', require('./views/login/v1/_routes'));
 
 router.use('/registration/v1', require('./views/registration/v1/_routes'));
@@ -58,7 +60,7 @@ router.use('/pre-screener/v1', require('./views/pre-screener/v1/_routes'));
 router.post('/bpor-login-recovery-answer', function(request, response) {
   
   // Grab the value of the selected radio button from the session data
-  var recoveryChoice = request.session.data['exampleHints']
+  const recoveryChoice = request.session.data['exampleHints']
 
   // Route the user based on the selected value
   if (recoveryChoice == "bpor-phone") {
@@ -77,7 +79,7 @@ router.post('/bpor-login-recovery-answer', function(request, response) {
 router.post('/jdr-login-recovery-answer', function(request, response) {
   
   // Grab the value of the selected radio button from the session data
-  var recoveryChoice = request.session.data['exampleHints']
+  const recoveryChoice = request.session.data['exampleHints']
 
   // Route the user based on the selected value
   if (recoveryChoice == "jdr-phone") {
@@ -97,7 +99,7 @@ router.post('/jdr-login-recovery-answer', function(request, response) {
 router.post('/bpor-login-mfa-setup', function(request, response) {
   
   // Grab the value of the selected radio button from the session data
-  var recoveryChoice = request.session.data['exampleHints']
+  const recoveryChoice = request.session.data['exampleHints']
 
   // Route the user based on the selected value
   if (recoveryChoice == "bpor-phone") {
@@ -116,7 +118,7 @@ router.post('/bpor-login-mfa-setup', function(request, response) {
 router.post('/jdr-login-mfa-setup', function(request, response) {
   
   // Grab the value of the selected radio button from the session data
-  var recoveryChoice = request.session.data['exampleHints']
+  const recoveryChoice = request.session.data['exampleHints']
 
   // Route the user based on the selected value
   if (recoveryChoice == "jdr-phone") {
