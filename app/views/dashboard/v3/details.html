@@ -1,4 +1,4 @@
-{% extends "dashboard/v2/layout.html" %}
+{% extends "dashboard/v3/layout.html" %}
 
 {% block pageTitle %}
   Study details - Be Part of Research
@@ -8,7 +8,7 @@
 
 <div class="nhsuk-grid-row">
   <div class="nhsuk-grid-column-full">
-    {{ backLink({ text: "Back to dashboard", href: "/dashboard/v2/home", classes: "nhsuk-u-margin-bottom-4" }) }}
+    {{ backLink({ text: "Back to dashboard", href: "/dashboard/v3/home", classes: "nhsuk-u-margin-bottom-4" }) }}
 
     {% if query.saved == "true" %}
       {{ notificationBanner({
@@ -30,14 +30,14 @@
 
     {% if studySaved %}
       <div class="nhsuk-button-group">
-        {{ button({ text: "Register interest in this study", href: "/dashboard/v2/pre-screener-outcome" }) }}
+        {{ button({ text: "Register interest in this study", href: "/dashboard/v3/pre-screener-outcome" }) }}
       </div>
-      <p class="nhsuk-body"><a class="nhsuk-link" href="/dashboard/v2/my-studies">View your saved studies</a></p>
+      <p class="nhsuk-body"><a class="nhsuk-link" href="/dashboard/v3/my-studies">View your saved studies</a></p>
     {% else %}
-      <form action="/dashboard/v2/save-study" method="post" novalidate>
+      <form action="/dashboard/v3/save-study" method="post" novalidate>
         <input type="hidden" name="studyTitle" value="Osteoarthritis Pain Management & Mobility Study">
         <div class="nhsuk-button-group">
-          {{ button({ text: "Register interest in this study", href: "/dashboard/v2/pre-screener-outcome" }) }}
+          {{ button({ text: "Register interest in this study", href: "/dashboard/v3/pre-screener-outcome" }) }}
           {{ button({ text: "Save study for later", classes: "nhsuk-button--secondary" }) }}
         </div>
       </form>
@@ -115,7 +115,7 @@
 
     {{ button({
       text: "Register interest in this study",
-      href: "/dashboard/v2/pre-screener-outcome",
+      href: "/dashboard/v3/pre-screener-outcome",
       classes: "nhsuk-u-margin-top-6 nhsuk-u-margin-bottom-0"
     }) }}
 
@@ -126,14 +126,10 @@
       <h3 class="nhsuk-heading-xs nhsuk-u-margin-bottom-1">Managing profile:</h3>
       <p class="nhsuk-body nhsuk-u-margin-bottom-0"><strong>John Jones</strong></p>
     {% endcall %}
-
-    <div class="nhsuk-u-margin-top-6">
-      {% include "dashboard/v2/includes/_profile-tracker.html" %}
-    </div>
   </div>
 
 </div>
 
-{% include "dashboard/v2/partials/prototype-nav.html" %}
+{% include "dashboard/v3/partials/prototype-nav.html" %}
 
 {% endblock %}

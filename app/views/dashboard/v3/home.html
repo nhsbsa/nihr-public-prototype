@@ -1,4 +1,4 @@
-{% extends "dashboard/v2/layout.html" %}
+{% extends "dashboard/v3/layout.html" %}
 
 {% block pageTitle %}
   Dashboard - Be Part of Research
@@ -37,23 +37,7 @@
       }) }}
     {% endif %}
 
-    {% if data.accountStatus == "paused" %}
-      <h1 class="nhsuk-heading-xl">Your active studies</h1>
-    {% else %}
-      <h1 class="nhsuk-heading-xl">Welcome to your dashboard, John</h1>
-    {% endif %}
-
-    <p class="nhsuk-body-l">Help advance medical science by volunteering for clinical trials. (Note: This service does not provide medical diagnoses or direct treatment).</p>
-
-    {% if data.diagnosedConditions and data.diagnosedConditions.length %}
-      {% call insetText() %}
-        <p>We are actively finding study matches for your saved conditions: {{ data.diagnosedConditions | join(", ") }}.</p>
-      {% endcall %}
-    {% else %}
-      {% call insetText() %}
-        <p>You haven't saved any research studies. Add your health interests to your <a href="profile">profile</a> to see research projects and clinical trials looking for volunteers.</p>
-      {% endcall %}
-    {% endif %}
+    <h1 class="nhsuk-heading-xl">Your research account</h1>
   </div>
 </div>
 
@@ -61,12 +45,36 @@
 
   <div class="nhsuk-grid-column-two-thirds">
 
-    {% set hasProfileSignal = (data.diagnosedConditions and data.diagnosedConditions.length) or (data.savedStudies and data.savedStudies.length) %}
+    {% set hasProfileSignal = data.diagnosedConditions and data.diagnosedConditions.length %}
 
     {% if hasProfileSignal %}
 
-      <h2 class="nhsuk-heading-l">Your study matches</h2>
-      <p class="nhsuk-body">These are external research projects and clinical trials recommended for you based on your profile.</p>
+      <p class="nhsuk-body">You have added conditions to your profile. <a class="nhsuk-link" href="/dashboard/v3/profile">Manage your conditions</a></p>
+
+      <h2 class="nhsuk-heading-l nhsuk-u-margin-bottom-4">Your relevant studies</h2>
+
+      {#
+      {% if not data.studyDismissed %}
+        {% call card() %}
+          {{ tag({ text: "New match", classes: "nhsuk-tag--green nhsuk-u-margin-bottom-2" }) }}
+          <h3 class="nhsuk-heading-m"><a href="/study-search/v3/studydetails-1/page-one">A Combined Exercise Programme Involving Strengthening, Flexibility and Aerobic Exercise for Lower Back Pain</a></h3>
+          <p class="nhsuk-body">Based on your profile preferences, you might be a great match for a new trial run by University of Nottingham.</p>
+          <form action="dismiss-study" method="post" novalidate>
+            <div class="nhsuk-button-group">
+              {{ button({
+                text: "View study details",
+                href: "/study-search/v3/studydetails-1/page-one"
+              }) }}
+              {{ button({
+                text: "I'm not interested in this study",
+                classes: "nhsuk-button--secondary nhsuk-button--small"
+              }) }}
+            </div>
+          </form>
+        {% endcall %}
+      {% endif %} #}
+
+      <p class="nhsuk-body nhsuk-u-margin-top-6">These are external research projects and clinical trials recommended for you based on your profile.</p>
 
       {% set memoryMatch = data.diagnosedConditions and ("Alzheimer's disease" in data.diagnosedConditions or "Cognitive health" in data.diagnosedConditions) %}
       {% set diabetesMatch = data.diagnosedConditions and "Type 2 diabetes" in data.diagnosedConditions %}
@@ -109,7 +117,7 @@
         {{ tag({ text: "Online study", classes: "nhsuk-tag--grey" }) }}
       </p>
       <p class="nhsuk-body-s nhsuk-u-margin-bottom-4">Start date: 5 November 2026 &middot; End date: 30 January 2027</p>
-      <form action="/dashboard/v2/study-response-handler" method="post" novalidate>
+      <form action="/dashboard/v3/study-response-handler" method="post" novalidate>
         <input type="hidden" name="studyId" value="diet-lifestyle-survey">
         {{ radios({
           name: "study2Response",
@@ -155,13 +163,13 @@
 
         {% if osteoMatch %}
     {% call card({ classes: "nhsuk-u-margin-top-6" }) %}
-      <h3 class="nhsuk-heading-m"><a href="/dashboard/v2/details">Osteoarthritis Pain Management &amp; Mobility Study</a></h3>
+      <h3 class="nhsuk-heading-m"><a href="/dashboard/v3/details">Osteoarthritis Pain Management &amp; Mobility Study</a></h3>
       <p class="nhsuk-u-margin-bottom-3">
         {{ tag({ text: "Online & Local Clinic", classes: "nhsuk-tag--purple" }) }}
       </p>
       <p class="nhsuk-body-s nhsuk-u-margin-bottom-2">Start date: 15 October 2026 &middot; End date: 30 April 2027</p>
       <p class="nhsuk-body-s nhsuk-u-margin-bottom-4">Evaluating digital self-management tools to help people manage osteoarthritis pain and improve daily mobility.</p>
-      <form action="/dashboard/v2/study-response-handler" method="post" novalidate>
+      <form action="/dashboard/v3/study-response-handler" method="post" novalidate>
         <input type="hidden" name="studyId" value="osteoarthritis-pain-management">
         {{ radios({
           name: "study4Response",
@@ -213,7 +221,7 @@
         {{ tag({ text: "Online study", classes: "nhsuk-tag--grey" }) }}
       </p>
       <p class="nhsuk-body-s nhsuk-u-margin-bottom-4">Start date: 5 November 2026 &middot; End date: 30 January 2027</p>
-      <form action="/dashboard/v2/study-response-handler" method="post" novalidate>
+      <form action="/dashboard/v3/study-response-handler" method="post" novalidate>
         <input type="hidden" name="studyId" value="diet-lifestyle-survey">
         {{ radios({
           name: "study2Response",
@@ -255,13 +263,13 @@
     {% endcall %}
 
     {% call card({ classes: "nhsuk-u-margin-top-6" }) %}
-      <h3 class="nhsuk-heading-m"><a href="/dashboard/v2/details">Osteoarthritis Pain Management &amp; Mobility Study</a></h3>
+      <h3 class="nhsuk-heading-m"><a href="/dashboard/v3/details">Osteoarthritis Pain Management &amp; Mobility Study</a></h3>
       <p class="nhsuk-u-margin-bottom-3">
         {{ tag({ text: "Online & Local Clinic", classes: "nhsuk-tag--purple" }) }}
       </p>
       <p class="nhsuk-body-s nhsuk-u-margin-bottom-2">Start date: 15 October 2026 &middot; End date: 30 April 2027</p>
       <p class="nhsuk-body-s nhsuk-u-margin-bottom-4">Evaluating digital self-management tools to help people manage osteoarthritis pain and improve daily mobility.</p>
-      <form action="/dashboard/v2/study-response-handler" method="post" novalidate>
+      <form action="/dashboard/v3/study-response-handler" method="post" novalidate>
         <input type="hidden" name="studyId" value="osteoarthritis-pain-management">
         {{ radios({
           name: "study4Response",
@@ -288,7 +296,7 @@
         <div class="nhsuk-button-group">
           {{ button({
             text: "Add health conditions of interest",
-            href: "/dashboard/v2/edit-health-conditions",
+            href: "/dashboard/v3/edit-health-conditions",
             classes: "nhsuk-u-margin-bottom-0"
           }) }}
         </div>
@@ -297,85 +305,88 @@
 
     {% endif %}
 
-    {% if data.accountStatus == "paused" %}
+    <h2 class="nhsuk-heading-l nhsuk-u-margin-top-6 nhsuk-u-margin-bottom-4">Your profile</h2>
 
-      {% call card({ classes: "nhsuk-u-margin-top-6" }) %}
-        {{ tag({ text: "Awaiting researcher", classes: "nhsuk-tag--blue nhsuk-u-margin-bottom-3" }) }}
-        <h2 class="nhsuk-heading-m">Your application is with the research team</h2>
-        <p class="nhsuk-body">You have completed the pre-screener for the Alzheimer's early detection study. The team at University Hospitals Birmingham will contact you within 5 working days.</p>
-        {{ button({
-          text: "View study details",
-          href: "details",
-          classes: "nhsuk-button--secondary nhsuk-u-margin-bottom-0"
-        }) }}
-      {% endcall %}
+    {% call card() %}
+      <h3 class="nhsuk-heading-m">Increase your chances of a match</h3>
+      <p class="nhsuk-body">We are actively checking for live clinical trials that match your details.</p>
+      {{ button({
+        text: "Update your health profile",
+        href: "/dashboard/v3/profile",
+        classes: "nhsuk-button--secondary nhsuk-u-margin-bottom-0"
+      }) }}
+    {% endcall %}
 
-    {% else %}
-
-      {# This single block handles both the default state AND the dismissed state #}
-      {% if hasProfileSignal and not data.studyDismissed %}
-        {% call card() %}
-          {{ tag({ text: "New match", classes: "nhsuk-tag--blue nhsuk-u-margin-bottom-3" }) }}
-          <h2 class="nhsuk-heading-m"><a href="details">Early detection screening for Alzheimer's disease</a></h2>
-          <p class="nhsuk-body">Based on your profile preferences, you might be a great match for a new trial run by Birmingham NHS Trust.</p>
-          <form action="dismiss-study" method="post" novalidate>
-            <div class="nhsuk-button-group">
-              {{ button({
-                text: "View study details",
-                href: "details"
-              }) }}
-              {{ button({
-                text: "I'm not interested in this study",
-                classes: "nhsuk-button--secondary nhsuk-button--small"
-              }) }}
-            </div>
-          </form>
+    {% call details({
+      summaryText: "Your current research",
+      classes: "nhsuk-expander nhsuk-u-margin-top-6",
+      id: "activeStudiesExpander",
+      open: true
+    }) %}
+      {% if data.currentStudies and data.currentStudies.length %}
+        {% for study in data.currentStudies %}
+          {% call card({ classes: "nhsuk-u-margin-top-6" }) %}
+            {{ tag({ text: "In progress", classes: "nhsuk-tag--green nhsuk-u-margin-bottom-3" }) }}
+            <h3 class="nhsuk-heading-m">{{ study.title }}</h3>
+            <p class="nhsuk-body-s nhsuk-u-margin-bottom-2">{{ study.location }}</p>
+            <p class="nhsuk-body-s nhsuk-u-margin-bottom-0">Next appointment: {{ study.nextAppointment }}</p>
+          {% endcall %}
+        {% endfor %}
+      {% else %}
+        {% call card({ classes: "nhsuk-u-margin-top-6" }) %}
+          <p class="nhsuk-body-s nhsuk-u-margin-bottom-0">You are not currently taking part in research. <a class="nhsuk-link" href="/study-search/v3/searchfeed/search-feed?from_dashboard=true">Find a study</a>.</p>
         {% endcall %}
       {% endif %}
+    {% endcall %}
+
+    {% call details({
+      summaryText: "Past studies",
+      classes: "nhsuk-expander nhsuk-u-margin-top-3",
+      id: "completedStudiesExpander"
+    }) %}
+      {% call card({ classes: "nhsuk-u-margin-top-6" }) %}
+        <p class="nhsuk-body-s nhsuk-u-margin-bottom-0">You have not completed any studies yet.</p>
+      {% endcall %}
+
+      {#
+      {% call card({ classes: "nhsuk-u-margin-top-6" }) %}
+        {{ tag({ text: "Completed", classes: "nhsuk-tag--grey nhsuk-u-margin-bottom-3" }) }}
+        <h3 class="nhsuk-heading-m">Long COVID Recovery &amp; Monitoring Study</h3>
+        <p class="nhsuk-body-s nhsuk-u-margin-bottom-2">Completed: 3 August 2026</p>
+        <p class="nhsuk-body-s nhsuk-u-margin-bottom-0"><a class="nhsuk-link" href="#">View trial summary</a></p>
+      {% endcall %}
 
       {% call card({ classes: "nhsuk-u-margin-top-6" }) %}
-        <h2 class="nhsuk-heading-m">Increase your chances of a match</h2>
-        <p class="nhsuk-body">We are actively checking for live clinical trials that match your details.</p>
-
-        {{ button({
-          text: "Complete your profile",
-          href: "profile",
-          classes: "nhsuk-button--secondary nhsuk-u-margin-top-4 nhsuk-u-margin-bottom-0"
-        }) }}
+        {{ tag({ text: "Completed", classes: "nhsuk-tag--grey nhsuk-u-margin-bottom-3" }) }}
+        <h3 class="nhsuk-heading-m">Dietary Fibre &amp; Gut Microbiome Survey</h3>
+        <p class="nhsuk-body-s nhsuk-u-margin-bottom-2">Completed: 22 May 2026</p>
+        <p class="nhsuk-body-s nhsuk-u-margin-bottom-0"><a class="nhsuk-link" href="#">View trial summary</a></p>
       {% endcall %}
-
-    {% endif %}
-
-    {% call card({ classes: "nhsuk-u-margin-top-6" }) %}
-      <h2 class="nhsuk-heading-m">Your active applications</h2>
-      {% call insetText() %}
-        {% if data.accountStatus == "paused" %}
-          <p class="nhsuk-body-s nhsuk-u-margin-bottom-2"><strong>Alzheimer's Early Screening Trial status:</strong></p>
-          <p class="nhsuk-u-margin-bottom-0">
-            {{ tag({ text: "Matched", classes: "nhsuk-tag--grey" }) }}
-            {{ tag({ text: "Pre-screener completed", classes: "nhsuk-tag--grey" }) }}
-            {{ tag({ text: "Awaiting researcher", classes: "nhsuk-tag--blue" }) }}
-          </p>
-        {% else %}
-          <p class="nhsuk-body-s nhsuk-u-margin-bottom-0">You do not have any active study applications. When you apply for a trial, your progress will show here.</p>
-        {% endif %}
-      {% endcall %}
+      #}
     {% endcall %}
 
-    {% call card({ classes: "nhsuk-u-margin-top-6" }) %}
-      <h2 class="nhsuk-heading-m">Past studies</h2>
-      <p class="nhsuk-body-s nhsuk-u-margin-bottom-0">You do not have any past study activity.</p>
-    {% endcall %}
-
-    {% call card({ classes: "nhsuk-u-margin-top-6" }) %}
-      <h2 class="nhsuk-heading-m">Saved studies</h2>
-      <ul class="nhsuk-list nhsuk-list--bullet">
-        {% for study in data.savedStudies %}
-          <li>{{ study }}</li>
-        {% else %}
-          <li>You haven't saved any studies yet. When you find a study you are interested in, click 'Save study for later' to bookmark it here.</li>
-        {% endfor %}
-      </ul>
+    {% call details({
+      summaryText: "Saved studies",
+      classes: "nhsuk-expander nhsuk-u-margin-top-3",
+      id: "savedStudiesExpander"
+    }) %}
+      {% for study in data.savedStudies %}
+        {% call card({ classes: "nhsuk-u-margin-top-6" }) %}
+          <h3 class="nhsuk-heading-m"><a href="details">{{ study }}</a></h3>
+          {{ tag({ text: "Saved", classes: "nhsuk-tag--grey nhsuk-u-margin-bottom-3" }) }}
+          <div>
+            {{ button({
+              text: "View study details",
+              href: "details",
+              classes: "nhsuk-button--secondary nhsuk-u-margin-bottom-0"
+            }) }}
+          </div>
+        {% endcall %}
+      {% else %}
+        {% call card({ classes: "nhsuk-u-margin-top-6" }) %}
+          <p class="nhsuk-body-s nhsuk-u-margin-bottom-0">You have not saved any studies.</p>
+        {% endcall %}
+      {% endfor %}
     {% endcall %}
 
     {% call card({ classes: "nhsuk-u-margin-top-6" }) %}
@@ -393,29 +404,15 @@
 
   <div class="nhsuk-grid-column-one-third">
     {% call card() %}
-      <h2 class="nhsuk-heading-s nhsuk-u-margin-bottom-2">My activity</h2>
-      <p class="nhsuk-body-s nhsuk-u-margin-bottom-0"><a class="nhsuk-link" href="/dashboard/v2/my-studies">View my studies ({{ data['savedStudies'].length or 0 }})</a></p>
+      <h2 class="nhsuk-heading-s nhsuk-u-margin-bottom-2">Need help?</h2>
+      <p class="nhsuk-body-s nhsuk-u-margin-bottom-3">Get help with your study matches or profile.</p>
+      <p class="nhsuk-body-s nhsuk-u-margin-bottom-2"><a class="nhsuk-link" href="#">Read our FAQs</a></p>
+      <p class="nhsuk-body-s nhsuk-u-margin-bottom-0"><a class="nhsuk-link" href="#">Contact the support team</a></p>
     {% endcall %}
-
-    <div class="nhsuk-u-margin-top-6">
-      {% include "dashboard/v2/includes/_profile-tracker.html" %}
-    </div>
-
-    <div class="nhsuk-u-margin-top-6">
-      {% call card() %}
-        <h2 class="nhsuk-heading-s nhsuk-u-margin-bottom-2">Need help?</h2>
-        <p class="nhsuk-body-s nhsuk-u-margin-bottom-3">Get help with your study matches or profile.</p>
-        <p class="nhsuk-body-s nhsuk-u-margin-bottom-2"><a class="nhsuk-link" href="#">Read our FAQs</a></p>
-        <p class="nhsuk-body-s nhsuk-u-margin-bottom-0"><a class="nhsuk-link" href="#">Contact the support team</a></p>
-      {% endcall %}
-    </div>
   </div>
 
 </div>
 
-
-
-{% include "dashboard/v2/partials/prototype-nav.html" %}
-
+{% include "dashboard/v3/partials/prototype-nav.html" %}
 
 {% endblock %}

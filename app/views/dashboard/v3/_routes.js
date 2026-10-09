@@ -78,18 +78,6 @@ router.post('/save-status', function (req, res) {
 
 })
 
-router.post('/switch-profile', function (req, res) {
-
-    var activeProfile = req.session.data['activeProfile'];
-
-    if (activeProfile === 'proxy') {
-        res.redirect('proxy');
-    } else {
-        res.redirect('home');
-    }
-
-})
-
 router.post('/dismiss-study', function (req, res) {
 
     req.session.data['studyDismissed'] = true;
@@ -126,7 +114,7 @@ router.post('/save-study', function (req, res) {
 
     req.session.data.savedStudies.push(req.body.studyTitle);
 
-    res.redirect('/dashboard/v2/details?saved=true');
+    res.redirect('/dashboard/v3/details?saved=true');
 
 })
 
@@ -137,7 +125,7 @@ router.post('/save-match-response', function (req, res) {
 
     recordStudyResponse(req, studyId, response);
 
-    res.redirect('/dashboard/v2/home?updated=true');
+    res.redirect('/dashboard/v3/home?updated=true');
 
 })
 
@@ -149,16 +137,7 @@ router.post('/study-response-handler', function (req, res) {
 
     recordStudyResponse(req, studyId, response);
 
-    if (studyId === 'osteoarthritis-pain-management') {
-
-        if (req.body.study4Response === 'yes') {
-            req.session.data['accountStatus'] = 'paused';
-            // flash only - accountStatus stays set, it also drives the heading/profile UI
-            req.flash('responseSaved', true);
-            showGenericSavedBanner = false;
-        }
-
-    } else if (studyId === 'diet-lifestyle-survey') {
+    if (studyId === 'diet-lifestyle-survey') {
 
         if (req.body.study2Response === 'undecided') {
 
@@ -183,22 +162,22 @@ router.post('/study-response-handler', function (req, res) {
     }
 
     if (showGenericSavedBanner) {
-        res.redirect('/dashboard/v2/home?updated=true');
+        res.redirect('/dashboard/v3/home?updated=true');
     } else {
-        res.redirect('/dashboard/v2/home');
+        res.redirect('/dashboard/v3/home');
     }
 
 })
 
 router.post('/edit-interests', function (req, res) {
 
-    res.redirect('/dashboard/v2/profile?updated=true');
+    res.redirect('/dashboard/v3/profile?updated=true');
 
 })
 
 router.post('/edit-health-conditions', function (req, res) {
 
-    res.redirect('/dashboard/v2/profile?updated=true');
+    res.redirect('/dashboard/v3/profile?updated=true');
 
 })
 
