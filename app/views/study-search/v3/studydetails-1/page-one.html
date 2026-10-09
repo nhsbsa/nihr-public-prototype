@@ -105,6 +105,71 @@ Who can take part          <span class="nhsuk-caption-xl nhsuk-caption--bottom">
     </ul>
   </div>
 </div>
+      {{ list({
+        title: "Eligible",
+        type: "tick",
+        items: [
+          {
+            text: "Participant is willing and able to give informed consent for participation in the study"
+          },
+          {
+            text: "Suffering from chronic NSLBP (more than 3 months, localised below the costal margin and above the gluteal folds)"
+          },
+          {
+            text: "Suffers from pain or functional limitations as a result of their LBP (minimum VAS (back) score of 3/10 or ODI score of at least 5/50 or RMD score of at least 5/24 (note, unlike ODI, RMD does not describe specific cuts offs for different levels of disability)"
+          },
+          {
+            text: "Able to exercise"
+          }
+        ]
+      }) }}
+
+      {{ list({
+        title: "Not eligible",
+        type: "cross",
+        hidePrefix: "true",
+        items: [
+          {
+            text: "Radiating pain to leg / sciatica / acute radiculopathy"
+          },
+          {
+            text: "Specific diagnosis/condition for LBP (e.g. herniated disk, degenerative disk disease, spondylolysis, spinal stenosis, spinal tumour, facet joint damage)"
+          },
+          {
+            text: "History of osteoporosis , arthritis, scoliosis, or kyphosis."
+          },
+          {
+            text: "Current spinal infection, cancer or a current fracture (any bone)."
+          },
+          {
+            text: "History of spinal/back surgery"
+          },
+          {
+            text: "Unable to participate in physical activity and exercise"
+          },
+          {
+            text: "Pregnant or breast feeding"
+          },
+          {
+            text: "History of substance abuse"
+          },
+          {
+            text: "History of psychiatric illness (eg. depression, dementia, schizophrenia) for which currently taking medication "
+          },
+          {
+            text: "History or current neurological condition (e.g. epilepsy)"
+          },
+          {
+            text: "Not in possession or have access to adapted equipment (phone, computer, functioning WIFI)"
+          },
+          {
+            text: "Unable to understand and communicate in English"
+          },
+          {
+            text: "Having taken part in a research study in the last 3 months involving invasive procedures or an inconvenience allowance"
+          }
+        ]
+      }) }}
 
       {{ pagination({
         next: {

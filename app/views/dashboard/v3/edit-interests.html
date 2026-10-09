@@ -1,0 +1,39 @@
+{% extends "dashboard/v3/layout.html" %}
+
+{% block pageTitle %}
+  Customise your areas of interest - Be Part of Research
+{% endblock %}
+
+{% block content %}
+
+<div class="nhsuk-grid-row">
+  <div class="nhsuk-grid-column-two-thirds">
+    {{ backLink({ text: "Back to profile", href: "/dashboard/v3/profile", classes: "nhsuk-u-margin-bottom-4" }) }}
+
+    <h1 class="nhsuk-heading-xl">Customise your areas of interest</h1>
+    <p class="nhsuk-body">We use this to send you general research news and newsletters, even for areas without a diagnosed condition.</p>
+
+    <form action="/dashboard/v3/edit-interests" method="post" novalidate>
+      <input type="hidden" name="broadInterests" value="_unchecked">
+      {{ checkboxes({
+        name: "broadInterests",
+        fieldset: {
+          legend: { text: "Which areas of research are you interested in?", classes: "nhsuk-fieldset__legend--m" }
+        },
+        items: [
+          { value: "Mental health", text: "Mental health", checked: (data.broadInterests and "Mental health" in data.broadInterests) },
+          { value: "Cardiovascular health", text: "Cardiovascular health", checked: (data.broadInterests and "Cardiovascular health" in data.broadInterests) },
+          { value: "Cancer research", text: "Cancer research", checked: (data.broadInterests and "Cancer research" in data.broadInterests) },
+          { value: "Healthy ageing", text: "Healthy ageing", checked: (data.broadInterests and "Healthy ageing" in data.broadInterests) },
+          { value: "Cognitive health", text: "Cognitive health", checked: (data.broadInterests and "Cognitive health" in data.broadInterests) }
+        ]
+      }) }}
+
+      {{ button({ text: "Save changes", classes: "nhsuk-u-margin-bottom-0" }) }}
+    </form>
+  </div>
+</div>
+
+{% include "dashboard/v3/partials/prototype-nav.html" %}
+
+{% endblock %}
