@@ -6,6 +6,8 @@
 {% from "inset-text/macro.njk" import insetText %}
 {% from "card/macro.njk" import card %}
 {% from "study-search/v3/_components/study-contents-list.njk" import studyContentsList %}
+{% from "tables/macro.njk" import table %}
+{% from "images/macro.njk" import image %}
 
 
 {% block content %}
@@ -15,17 +17,11 @@
         <span role="text">
           Location
           <span class="nhsuk-caption-xl nhsuk-caption--bottom">
-            <span class="nhsuk-u-visually-hidden"> - </span>
             Diagnosis of visual snow syndrome following the published criteria
           </span>
-        </span>
       </h1>
+
 {{ studyContentsList("page-three") }}
-
-{% from "tables/macro.njk" import table %}
-
-
-{% from "images/macro.njk" import image %}
 
 <div class="nhsuk-grid-row nhsuk-u-margin-bottom-4">
   <div class="nhsuk-grid-column-one-half">
