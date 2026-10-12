@@ -6,6 +6,8 @@
 {% from "inset-text/macro.njk" import insetText %}
 {% from "card/macro.njk" import card %}
 {% from "study-search/v3/_components/study-contents-list.njk" import studyContentsList %}
+{% from "tables/macro.njk" import table %}
+{% from "images/macro.njk" import image %}
 
 
 {% block content %}
@@ -15,22 +17,11 @@
         <span role="text">
           Location
           <span class="nhsuk-caption-xl nhsuk-caption--bottom">
-<<<<<<< Updated upstream
-            <span class="nhsuk-u-visually-hidden"> - </span>
             Diagnosis of visual snow syndrome following the published criteria
-=======
-            <span class="nhsuk-u-visually-hidden">
-            </span>
-         Diagnosis of visual snow syndrome following the published criteria
->>>>>>> Stashed changes
           </span>
-        </span>
       </h1>
+
 {{ studyContentsList("page-three") }}
-
-{% from "tables/macro.njk" import table %}
-
-{% from "images/macro.njk" import image %}
 
 <div class="nhsuk-grid-row nhsuk-u-margin-bottom-4">
   <div class="nhsuk-grid-column-one-half">
@@ -45,12 +36,8 @@
     {{ card({
       heading: "Guy's and St Thomas' NHS Foundation Trust",
       headingSize: "m",
-<<<<<<< Updated upstream
       descriptionHtml: '<p>St Thomas Hospital Westminster Bridge Road, London, SE1 7EH</p><p><a href="https://share.google/IqUpGY4ctWFsim5f9">Plan your journey in Google Maps</a></p>'
     }) }}
-=======
-      descriptionHtml: "<p>St Thomas&#39; Hospital Westminster Bridge Road, London, SE1 7EH</p><p><a href="https://share.google/IqUpGY4ctWFsim5f9">Plan your journey in Google Maps</a></p>'    }) }}
->>>>>>> Stashed changes
   </li>
 </ul>
 
