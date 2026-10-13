@@ -84,6 +84,33 @@
     align-items: center;
     gap: 12px;
   }
+    /* FILTERS: PLAIN PANEL ON DESKTOP, EXPANDER ON MOBILE */
+  .filter-panel__desktop-heading {
+    display: none;
+  }
+
+   /* FILTERS: PLAIN PANEL ON DESKTOP, EXPANDER ON MOBILE */
+  .filter-panel__desktop-heading {
+    display: none;
+  }
+
+  @media (min-width: 769px) {
+    .filter-panel__desktop-heading {
+      display: block;
+      margin-bottom: 24px;
+    }
+    #filterExpander > summary {
+      display: none;
+    }
+    #filterExpander::details-content {
+      content-visibility: visible;
+      display: block;
+    }
+    #filterExpander .nhsuk-details__text {
+      padding: 24px;
+      border-top: none;
+    }
+  }
 </style>
 
   {# Calculate age if DOB year is provided #}
@@ -146,6 +173,11 @@
   classes: "nhsuk-expander",
   id: "filterExpander"
 }) %}
+
+<h2 class="nhsuk-heading-m filter-panel__desktop-heading">Filters</h2>
+
+<form id="sideFilterForm" action="/study-search/v3/searchfeed/search-feed" method="post">
+
 
 <form id="sideFilterForm" action="/study-search/v3/searchfeed/search-feed" method="post">
           <input type="hidden" name="sortBy" value="{{ sortBy }}">
@@ -866,21 +898,6 @@
         sideForm.submit();
       });
     });
-
-    // 5. SYNC FILTER EXPANDER OPEN STATE WITH SCREEN WIDTH
-    function syncFilterExpander() {
-      const filterExpander = document.getElementById('filterExpander');
-      if (!filterExpander) return;
-
-      if (window.matchMedia('(min-width: 769px)').matches) {
-        filterExpander.setAttribute('open', '');
-      } else {
-        filterExpander.removeAttribute('open');
-      }
-    }
-
-    syncFilterExpander();
-    window.addEventListener('resize', syncFilterExpander);
   });
 })();
 </script>
