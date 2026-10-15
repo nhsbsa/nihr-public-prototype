@@ -1,0 +1,12 @@
+{% extends "layout-bpor.html" %}
+
+{% from "back-link/macro.njk" import backLink %}
+
+{% block beforeContent %}
+
+  {{ backLink({
+    href: "/study-search/v4/searchfeed/search-feed",
+    text: "Back"
+  }) }}
+
+{% endblock %}

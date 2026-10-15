@@ -1,0 +1,10 @@
+# Query: v2
+# Including: ./app/views/study-search/v3
+# ContextLines: 1
+
+1 result - 1 file
+
+app/views/study-search/v3/studydetails-1/page-one.html:
+  110            labelText: "About this study",
+  111:           href: "/study-search/v3/studydetails-1/page-two"
+  112          }

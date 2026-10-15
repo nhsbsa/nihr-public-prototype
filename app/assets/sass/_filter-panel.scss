@@ -5,7 +5,7 @@
 /* TOP SEARCH CONTAINER & DROPDOWN MENU */
 .nhsuk-search-container {
   position: relative;
-  margin-bottom: 32px;
+  margin-bottom: 16px;
   width: 100%;
   max-width: 100%;
 }
@@ -62,7 +62,7 @@
 /* RESULTS HEADER BAR */
 .results-header-bar {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
   margin-bottom: 24px;
   flex-wrap: wrap;
@@ -138,6 +138,7 @@
   align-items: baseline;
   margin-bottom: 12px;
 }
+
 /* LOCATION AUTOCOMPLETE SUGGESTIONS (town/city/postcode field in the filter panel) */
 .location-suggestions {
   position: absolute;
@@ -163,5 +164,86 @@
   &:hover,
   &--hover {
     background-color: #f3f2f1;
+  }
+}
+
+/* MOBILE FILTER TOGGLE BUTTON (NHS Jobs pattern) */
+.filter-toggle-button {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;               /* 8px */
+  box-sizing: border-box;
+  padding-top: 0.6875rem;    /* 11px */
+  padding-bottom: 0.6875rem; /* 11px */
+}
+
+/* Reduced margin-bottom when open to connect visually to container */
+.filter-toggle-button[aria-expanded="true"] {
+  margin-bottom: 0.625rem;   /* 10px */
+}
+
+/* NHS Design System standard high-contrast focus state */
+.filter-toggle-button:focus {
+  background-color: #ffdd00;
+  color: #212b32;
+  outline: 4px solid #212b32;
+  outline-offset: 0;
+  box-shadow: 0 -2px #ffdd00, 0 4px #212b32;
+}
+
+/* Icon orientation */
+.filter-toggle-button__icon {
+  flex-shrink: 0;
+  transition: transform 0.2s ease-in-out;
+}
+
+.filter-toggle-button[aria-expanded="true"] .filter-toggle-button__icon {
+  transform: rotate(180deg);
+}
+
+/* Vertical line applied to the entire filter menu container */
+.filter-menu {
+  border-left: 4px solid #aeb7bd;
+  padding-left: 1rem;        /* 16px */
+  padding-top: 0.625rem;
+  padding-bottom: 0.625rem;
+  margin-top: 0;             /* Spacing controlled by button margin-bottom */
+}
+
+/* Compact expander spacing */
+.nhsuk-expander--compact {
+  margin-bottom: 0.5rem;     /* 8px */
+}
+
+.nhsuk-expander--compact .nhsuk-details__summary {
+  padding-top: 0.75rem;      /* 12px */
+  padding-bottom: 0.75rem;
+}
+
+.nhsuk-expander--compact .nhsuk-details__text {
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+  margin-top: 0;
+}
+
+/* Desktop heading hidden on mobile (button does the job there) */
+.filter-panel__desktop-heading {
+  display: none;
+}
+
+/* DESKTOP: hide toggle, always show filters */
+@media (min-width: 48.0625em) {
+  .filter-toggle-button {
+    display: none;
+  }
+
+  .filter-menu[hidden] {
+    display: block !important;
+  }
+
+  .filter-panel__desktop-heading {
+    display: block;
   }
 }

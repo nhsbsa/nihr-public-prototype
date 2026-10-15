@@ -52,6 +52,8 @@ router.use('/study-search/v2', require('./views/study-search/v2/_routes'));
 
 router.use('/study-search/v3', require('./views/study-search/v3/_routes'));
 
+router.use('/study-search/v4', require('./views/study-search/v4/_routes'));
+
 router.use('/pre-screener/v1', require('./views/pre-screener/v1/_routes'));
 
 
