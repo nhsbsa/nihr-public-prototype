@@ -1,0 +1,156 @@
+{% extends "layout.html" %}
+
+{% set pageName = "Sitemap" %}
+
+{% block beforeContent %}
+
+{{ backLink({
+    "href": "javascript:history.go(-1)",
+    "text": "Back",
+    classes: "nhsuk-u-margin-bottom-0"
+}) }}
+
+{% endblock %}
+
+{# Render pages and deeper folders inside an expander #}
+{% macro renderSubItems(items, depth=0) %}
+  <ul class="nhsuk-list">
+    {% for item in items %}
+      <li>
+        {% if item.type == "folder" %}
+          <h3
+            class="nhsuk-heading-s nhsuk-u-margin-bottom-2"
+            id="{{ item.name
+              | replace("-", " ")
+              | replace("_", " ")
+              | capitalize }}"
+          >
+            {{ item.name
+              | replace("-", " ")
+              | replace("_", " ")
+              | capitalize }}
+          </h3>
+
+          {{ renderSubItems(item.children, depth + 1) }}
+        {% else %}
+          <p class="nhsuk-u-margin-bottom-1">
+            <a href="{{ item.url }}">
+              {{ item.name
+                | replace("-", " ")
+                | replace("_", " ")
+                | capitalize }}
+            </a>
+          </p>
+
+          <p class="nhsuk-body-s nhsuk-u-secondary-text-color nhsuk-u-margin-bottom-3">
+            {{ item.file }}
+          </p>
+        {% endif %}
+      </li>
+    {% endfor %}
+  </ul>
+{% endmacro %}
+
+{# Render top-level folders as headings #}
+{% macro renderTopLevel(items) %}
+  {% for item in items %}
+    {% if item.type == "folder" %}
+      <section class="nhsuk-u-margin-bottom-6">
+
+        <h2
+          class="nhsuk-heading-l"
+          id="{{ item.name
+            | replace("-", " ")
+            | replace("_", " ")
+            | capitalize }}"
+        >
+          {{ item.name
+            | replace("-", " ")
+            | replace("_", " ")
+            | capitalize }}
+        </h2>
+
+        {% set hasSubfolders = false %}
+        {% set hasDirectPages = false %}
+
+        {% for child in item.children %}
+          {% if child.type == "folder" %}
+            {% set hasSubfolders = true %}
+          {% else %}
+            {% set hasDirectPages = true %}
+          {% endif %}
+        {% endfor %}
+
+        {% if hasSubfolders %}
+
+          {# Actual subfolders become expanders #}
+          {% for child in item.children %}
+            {% if child.type == "folder" %}
+
+              <details class="nhsuk-details nhsuk-expander">
+                <summary class="nhsuk-details__summary">
+                  <span class="nhsuk-details__summary-text">
+                    {{ child.name
+                      | replace("-", " ")
+                      | replace("_", " ")
+                      | capitalize }}
+                  </span>
+                </summary>
+
+                <div class="nhsuk-details__text">
+                  {{ renderSubItems(child.children) }}
+                </div>
+              </details>
+
+            {% else %}
+
+              {# Pages directly under the top-level folder #}
+              <p class="nhsuk-u-margin-bottom-2">
+                <a href="{{ child.url }}">
+                  {{ child.name
+                    | replace("-", " ")
+                    | replace("_", " ")
+                    | capitalize }}
+                </a>
+              </p>
+
+              <p class="nhsuk-body-s nhsuk-u-secondary-text-color nhsuk-u-margin-bottom-3">
+                {{ child.file }}
+              </p>
+
+            {% endif %}
+          {% endfor %}
+
+        {% elif hasDirectPages %}
+
+          {# No subfolders: group pages under a virtual V1 expander #}
+          <details class="nhsuk-details nhsuk-expander">
+            <summary class="nhsuk-details__summary">
+              <span class="nhsuk-details__summary-text">
+                V1
+              </span>
+            </summary>
+
+            <div class="nhsuk-details__text">
+              {{ renderSubItems(item.children) }}
+            </div>
+          </details>
+
+        {% endif %}
+
+      </section>
+    {% endif %}
+  {% endfor %}
+{% endmacro %}
+
+{% block content %}
+  <div class="nhsuk-grid-row">
+    <div class="nhsuk-grid-column-two-thirds">
+
+      <h1>{{ pageName }}<span class="nhsuk-caption-xl nhsuk-caption--bottom">Browse a complete list of pages available in this prototype</span></h1>
+
+      {{ renderTopLevel(sitemap) }}
+
+    </div>
+  </div>
+{% endblock %}
