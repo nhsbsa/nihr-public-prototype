@@ -1,0 +1,993 @@
+{% extends "layout-bpor.html" %}
+{% from "nhsuk/components/back-link/macro.njk" import backLink %}
+
+{% block beforeContent %}
+  {% if data.from_dashboard %}
+    {{ backLink({
+      "href": data.dashboard_return_url | default("/dashboard/v4/home"),
+      "text": "Return to my dashboard"
+    }) }}
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+
+<style>
+  /* TOP SEARCH CONTAINER & DROPDOWN MENU */
+  .nhsuk-search-container {
+    position: relative;
+    margin-bottom: 32px;
+    width: 100%;
+    max-width: 100%;
+  }
+  .search-autocomplete-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: #ffffff;
+    border: 2px solid #212b32;
+    border-top: none;
+    z-index: 1000;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+    max-height: 480px;
+    overflow-y: auto;
+  }
+  .search-autocomplete-item {
+    padding: 14px 18px;
+    border-bottom: 1px solid #e5e5e5;
+    cursor: pointer;
+    font-size: 18px;
+  }
+  .search-autocomplete-item:hover {
+    background-color: #f0f4f5;
+  }
+  .search-autocomplete-link {
+    color: #005ea5;
+    text-decoration: underline;
+    font-weight: 600;
+  }
+  .search-autocomplete-count {
+    color: #212b32;
+    font-weight: normal;
+  }
+  .search-autocomplete-free {
+    padding: 16px 18px;
+    background-color: #ffffff;
+    border-top: 1px solid #b1b4b6;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+  }
+  .search-autocomplete-free:hover {
+    background-color: #f0f4f5;
+  }
+  .search-autocomplete-free-icon {
+    width: 22px;
+    height: 22px;
+    stroke: #505a5f;
+  }
+
+  /* RESULTS HEADER BAR */
+  .results-header-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  .sort-by-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+    /* FILTERS: PLAIN PANEL ON DESKTOP, EXPANDER ON MOBILE */
+  .filter-panel__desktop-heading {
+    display: none;
+  }
+
+   /* FILTERS: PLAIN PANEL ON DESKTOP, EXPANDER ON MOBILE */
+  .filter-panel__desktop-heading {
+    display: none;
+  }
+
+  @media (min-width: 769px) {
+    .filter-panel__desktop-heading {
+      display: block;
+      margin-bottom: 24px;
+    }
+    #filterExpander > summary {
+      display: none;
+    }
+    #filterExpander::details-content {
+      content-visibility: visible;
+      display: block;
+    }
+    #filterExpander .nhsuk-details__text {
+      padding: 24px;
+      border-top: none;
+    }
+  }
+</style>
+
+  {# Calculate age if DOB year is provided #}
+  {% set dobYear = data.dateofbirth.year | int if data.dateofbirth else 0 %}
+  {% set age = null %}
+  {% if dobYear > 0 %}
+    {% set age = 2026 - dobYear %}
+  {% endif %}
+
+  <h1 class="nhsuk-heading-xl">Find a study</h1>
+
+  {# TOP NHS SEARCH INPUT BAR #}
+  <div class="nhsuk-search-container">
+    <form id="topSearchForm" action="/study-search/v4/searchfeed/search-feed" method="post">
+      <input type="hidden" name="healthCondition" id="topHealthCondition" value="">
+      <input type="hidden" name="subCondition" id="topSubCondition" value="">
+      {% if data.from_dashboard %}
+        <input type="hidden" name="from_dashboard" value="true">
+      {% endif %}
+
+            {{ searchInput({
+        label: {
+          text: "Search by condition, treatment or keyword",
+          size: "s"
+        },
+        id: "topKeywordsInput",
+        name: "keywords",
+        value: keywords or '',
+        placeholder: "e.g. Lung, Diabetes, Pain...",
+        attributes: {
+          role: "combobox",
+          "aria-expanded": "false",
+          "aria-controls": "searchAutocompleteResults",
+          "aria-autocomplete": "list",
+          "aria-haspopup": "listbox"
+        }
+      }) }}
+
+      {# AUTOCOMPLETE DROPDOWN MENU #}
+      <div id="searchAutocompleteMenu" class="search-autocomplete-menu">
+        <div id="searchAutocompleteResults" role="listbox" aria-label="Search suggestions"></div>
+        <div id="searchAutocompleteFreeSearch" class="search-autocomplete-free">
+          <svg class="search-autocomplete-free-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+            <circle cx="11" cy="11" r="7"></circle>
+            <path d="M16 16l5 5"></path>
+          </svg>
+          <a class="nhsuk-link search-autocomplete-link" id="freeSearchTermText" href="#"></a>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div class="nhsuk-grid-row">
+    <div class="nhsuk-grid-column-one-third">
+
+      <div class="filter-panel">
+
+{% call details({
+  summaryText: "Filters",
+  classes: "nhsuk-expander",
+  id: "filterExpander"
+}) %}
+
+<h2 class="nhsuk-heading-m filter-panel__desktop-heading">Filters</h2>
+
+<form id="sideFilterForm" action="/study-search/v4/searchfeed/search-feed" method="post">
+
+
+<form id="sideFilterForm" action="/study-search/v4/searchfeed/search-feed" method="post">
+          <input type="hidden" name="sortBy" value="{{ sortBy }}">
+          {% if data.from_dashboard %}
+            <input type="hidden" name="from_dashboard" value="true">
+          {% endif %}
+          <div class="filter-panel__content">
+
+            {# SELECTED FILTERS PANEL #}
+            {% if keywords or data.locationPreference or (activeStatuses and activeStatuses.length > 0) or (chosenCondition and chosenCondition != "" and healthConditionsData[chosenCondition]) or (data.ageRange and data.ageRange.length > 0) or (data.sex and data.sex != "") %}
+
+                <div class="nhsuk-form-group selected-filters">
+                  <div class="selected-filters__heading">
+                    <h2 class="nhsuk-heading-s">Selected filters</h2>
+                    <a class="nhsuk-link nhsuk-link--no-visited" href="/study-search/v4/searchfeed/search-feed?clear=true">Clear filters</a>
+                  </div>
+                
+                {% if keywords and keywords.trim() != "" %}
+                  <h3 class="nhsuk-heading-xs">Search term</h3>
+                  <a class="filter-remove-link" href="#" data-filter-type="keywords">
+                    <span class="nhsuk-u-visually-hidden">Remove </span>"{{ keywords }}"
+                  </a>
+                {% endif %}
+
+                {% if data.locationPreference %}
+                  <h3 class="nhsuk-heading-xs">Location</h3>
+                  <a class="filter-remove-link" href="#" data-filter-type="location">
+                    <span class="nhsuk-u-visually-hidden">Remove </span>
+                    {% if data.locationPreference == 'anywhere-in-uk' %}
+                      Anywhere in the UK
+                    {% elif data.locationPreference == 'specific-area' %}
+                      {{ data.location }}{% if data.travelDistance %} (Within {{ data.travelDistance }} miles){% endif %}
+                    {% endif %}
+                  </a>
+                {% endif %}
+
+                {% if chosenCondition and chosenCondition != "" and healthConditionsData[chosenCondition] %}
+                  <h3 class="nhsuk-heading-xs">Health condition</h3>
+                  <ul class="filter-tags">
+                    <li><a class="filter-remove-link" href="#" data-filter-type="healthCondition"><span class="nhsuk-u-visually-hidden">Remove </span>{{ healthConditionsData[chosenCondition].text }}</a></li>
+                    {% if chosenSubCondition and chosenSubCondition != "" and chosenSubCondition != "all" %}
+                      <li><a class="filter-remove-link" href="#" data-filter-type="subCondition"><span class="nhsuk-u-visually-hidden">Remove </span>{{ chosenSubCondition | replace("-", " ") | capitalize }}</a></li>
+                    {% endif %}
+                  </ul>
+                {% endif %}
+
+                {% if activeStatuses and activeStatuses.length > 0 %}
+                  <h3 class="nhsuk-heading-xs">Status</h3>
+                  <ul class="filter-tags">
+                    {% if 'recruiting' in activeStatuses %}
+                      <li><a class="filter-remove-link" href="#" data-filter-type="status" data-filter-value="recruiting"><span class="nhsuk-u-visually-hidden">Remove </span>Recruiting</a></li>
+                    {% endif %}
+                    {% if 'completed' in activeStatuses %}
+                      <li><a class="filter-remove-link" href="#" data-filter-type="status" data-filter-value="completed"><span class="nhsuk-u-visually-hidden">Remove </span>Completed</a></li>
+                    {% endif %}
+                    {% if 'not-recruiting' in activeStatuses %}
+                      <li><a class="filter-remove-link" href="#" data-filter-type="status" data-filter-value="not-recruiting"><span class="nhsuk-u-visually-hidden">Remove </span>Not recruiting</a></li>
+                    {% endif %}
+                    {% if 'stopped' in activeStatuses %}
+                      <li><a class="filter-remove-link" href="#" data-filter-type="status" data-filter-value="stopped"><span class="nhsuk-u-visually-hidden">Remove </span>Stopped</a></li>
+                    {% endif %}
+                  </ul>
+                {% endif %}
+
+                {% if data.ageRange and ('adult' in data.ageRange or 'adolescent' in data.ageRange or 'child' in data.ageRange or 'infant' in data.ageRange) %}
+                  <h3 class="nhsuk-heading-xs">Age range</h3>
+                  <ul class="filter-tags">
+                    {% if 'adult' in data.ageRange %}
+                      <li><a class="filter-remove-link" href="#" data-filter-type="ageRange" data-filter-value="adult"><span class="nhsuk-u-visually-hidden">Remove </span>Adult 18+</a></li>
+                    {% endif %}
+                    {% if 'adolescent' in data.ageRange %}
+                      <li><a class="filter-remove-link" href="#" data-filter-type="ageRange" data-filter-value="adolescent"><span class="nhsuk-u-visually-hidden">Remove </span>Adolescent 13-17</a></li>
+                    {% endif %}
+                    {% if 'child' in data.ageRange %}
+                      <li><a class="filter-remove-link" href="#" data-filter-type="ageRange" data-filter-value="child"><span class="nhsuk-u-visually-hidden">Remove </span>Child 3-12</a></li>
+                    {% endif %}
+                    {% if 'infant' in data.ageRange %}
+                      <li><a class="filter-remove-link" href="#" data-filter-type="ageRange" data-filter-value="infant"><span class="nhsuk-u-visually-hidden">Remove </span>Infant 0-2</a></li>
+                    {% endif %}
+                  </ul>
+                {% endif %}
+
+                {% if data.sex == 'female' or data.sex == 'male' %}
+                  <h3 class="nhsuk-heading-xs">Gender</h3>
+                  <ul class="filter-tags">
+                    {% if data.sex == 'female' %}
+                      <li><a class="filter-remove-link" href="#" data-filter-type="sex" data-filter-value="female"><span class="nhsuk-u-visually-hidden">Remove </span>Female</a></li>
+                    {% endif %}
+                    {% if data.sex == 'male' %}
+                      <li><a class="filter-remove-link" href="#" data-filter-type="sex" data-filter-value="male"><span class="nhsuk-u-visually-hidden">Remove </span>Male</a></li>
+                    {% endif %}
+                  </ul>
+                {% endif %}
+
+              </div>
+            {% endif %}
+
+            {# FILTER OPTIONS AREA #}
+            <div class="filter-options">
+
+              {{ button({ text: "Apply filters" }) }}
+
+              {# LOCATION RADIOS WITH AUTOCOMPLETE DROPDOWN #}
+              {% set specificAreaHtml %}
+                <div class="nhsuk-form-group" style="position: relative;">
+                  <label class="nhsuk-label" for="location">
+                    Town, city or postcode
+                  </label>
+                  <input class="nhsuk-input nhsuk-u-width-full"
+                         id="location"
+                         name="location"
+                         type="text"
+                         value="{{ data['location'] }}"
+                         autocomplete="off"
+                         role="combobox"
+                         aria-expanded="false"
+                         aria-controls="location-suggestions"
+                         aria-autocomplete="list"
+                         aria-haspopup="listbox">
+
+                  <ul id="location-suggestions"
+                      class="nhsuk-list location-suggestions"
+                      role="listbox"
+                      aria-label="Location suggestions"
+                      style="display: none;">
+                  </ul>
+                </div>
+
+
+
+                {{ select({
+                  id: "travelDistance",
+                  name: "travelDistance",
+                  value: data['travelDistance'] or "25",
+                  label: {
+                    text: "How far from this area would you be willing to travel?"
+                  },
+                  items: [
+                    { value: "5", text: "Within 5 miles" },
+                    { value: "10", text: "Within 10 miles" },
+                    { value: "15", text: "Within 15 miles" },
+                    { value: "20", text: "Within 20 miles" },
+                    { value: "25", text: "Within 25 miles" },
+                    { value: "50", text: "Within 50 miles" }
+                  ]
+                }) }}
+              {% endset %}
+
+              {{ radios({
+                idPrefix: "location-preference",
+                name: "locationPreference",
+                value: data['locationPreference'],
+                small: true,
+                fieldset: {
+                  legend: { text: "Where could you take part?" }
+                },
+                items: [
+                  { value: "anywhere-in-uk", text: "Anywhere in the UK" },
+                  {
+                    value: "specific-area",
+                    text: "A specific area",
+                    conditional: { html: specificAreaHtml }
+                  }
+                ]
+              }) }}
+
+              {# PRIMARY HEALTH CONDITION SELECT #}
+              {{ select({
+                id: "healthCondition",
+                name: "healthCondition",
+                label: { text: "Health condition" },
+                items: healthConditionItems
+              }) }}
+
+              {# SECONDARY SUB-CONDITION SELECT #}
+              <div id="subConditionContainer" class="nhsuk-form-group" style="display: none;">
+                <label class="nhsuk-label" for="subCondition">
+                  Specific condition
+                </label>
+                <select class="nhsuk-select" id="subCondition" name="subCondition">
+                  <option value="">Select a specific condition</option>
+                </select>
+              </div>
+
+              {# STATUS FILTERS #}
+              {{ checkboxes({
+                idPrefix: "status",
+                name: "status",
+                small: true,
+                fieldset: { legend: { text: "Status" } },
+                values: activeStatuses,
+                items: [
+                  { value: "recruiting", text: "Recruiting" },
+                  { value: "completed", text: "Completed" },
+                  { value: "not-recruiting", text: "Not recruiting" },
+                  { value: "stopped", text: "Stopped" }
+                ]
+              }) }}
+
+              {# AGE RANGE FILTERS #}
+              {{ checkboxes({
+                idPrefix: "age-range",
+                name: "ageRange",
+                small: true,
+                fieldset: { legend: { text: "Age range" } },
+                values: data['ageRange'],
+                items: [
+                  {
+                    value: "adult",
+                    text: "Adult 18+",
+                    checked: true if (age and age >= 18) else false
+                  },
+                  {
+                    value: "adolescent",
+                    text: "Adolescent 13-17",
+                    checked: true if (age and age >= 13 and age <= 17) else false
+                  },
+                  {
+                    value: "child",
+                    text: "Child 3-12",
+                    checked: true if (age and age >= 3 and age <= 12) else false
+                  },
+                  {
+                    value: "infant",
+                    text: "Infant 0-2",
+                    checked: true if (age and age >= 0 and age <= 2) else false
+                  }
+                ]
+              }) }}
+
+              {# GENDER FILTERS #}
+              {{ checkboxes({
+                idPrefix: "gender",
+                name: "sex",
+                small: true,
+                fieldset: { legend: { text: "Gender" } },
+                values: data['sex'],
+                items: [
+                  { value: "female", text: "Female" },
+                  { value: "male", text: "Male" }
+                ]
+              }) }}
+
+              {{ button({ text: "Apply filters" }) }}
+
+            </div>
+
+          </div>
+        </form>
+{% endcall %}
+      </div>
+
+    </div>
+
+    {# RESULTS COLUMN WITH NHS SORT BY DROPDOWN #}
+    <div class="nhsuk-grid-column-two-thirds">
+
+      <h2 class="nhsuk-u-visually-hidden">Search results</h2>
+
+      {% if query.saved_study_id %}
+        {{ notificationBanner({
+          variant: "success",
+          text: "Success: Study saved to your account"
+        }) }}
+      {% elif query.removed_study_id %}
+        {{ notificationBanner({
+          variant: "success",
+          text: "Study removed from your saved list"
+        }) }}
+      {% endif %}
+
+      <div class="results-header-bar">
+        <p class="nhsuk-body-m" style="margin-bottom: 0;">
+          {% if resultsCount > 0 %}
+            Showing <strong>{{ resultsStart }}</strong> to <strong>{{ resultsEnd }}</strong> of <strong>{{ resultsCount }}</strong> results
+          {% else %}
+            <strong>0</strong> results
+          {% endif %}
+        </p>
+
+        <form id="sortForm" action="/study-search/v4/searchfeed/search-feed" method="post" style="margin-bottom: 0;">
+          {% if data.from_dashboard %}
+            <input type="hidden" name="from_dashboard" value="true">
+          {% endif %}
+          <div class="nhsuk-form-group sort-by-wrapper" style="margin-bottom: 0;">
+            <label class="nhsuk-label" for="sortBy" style="margin-bottom: 0; font-weight: normal;">
+              Sort by
+            </label>
+            <select class="nhsuk-select" id="sortBy" name="sortBy" onchange="this.form.submit()">
+              <option value="most-recent" {% if sortBy == 'most-recent' or not sortBy %}selected{% endif %}>Most recent</option>
+              <option value="a-z" {% if sortBy == 'a-z' %}selected{% endif %}>A to Z</option>
+            </select>
+            <noscript>
+              {{ button({ text: "Update", classes: "nhsuk-button--secondary nhsuk-u-margin-bottom-0 nhsuk-u-margin-left-2" }) }}
+            </noscript>
+          </div>
+        </form>
+      </div>
+
+      {# NO RESULTS STATE #}
+      {% if results | length == 0 %}
+
+        <div class="nhsuk-u-margin-top-4">
+          <h2 class="nhsuk-heading-m">We could not find any related studies</h2>
+
+          <p class="nhsuk-body">You can now either:</p>
+          <ul class="nhsuk-list nhsuk-list--bullet">
+            <li>register for an account and get matched to related studies when they are added</li>
+            <li>start your search again</li>
+          </ul>
+          {{ button({
+            text: "Register now",
+            href: "/registration/start",
+            classes: "nhsuk-button--secondary"
+          }) }}
+        </div>
+
+      {% else %}
+
+        {% for study in results %}
+          <div class="nhsuk-card" id="study-{{ study.id }}">
+            <div class="nhsuk-card__content">
+
+              {% if study.status == "recruiting" %}
+                {% set tagClass = "nhsuk-tag--green" %}
+              {% elif study.status == "completed" %}
+                {% set tagClass = "nhsuk-tag--blue" %}
+              {% elif study.status == "not-recruiting" %}
+                {% set tagClass = "nhsuk-tag--grey" %}
+              {% else %}
+                {% set tagClass = "nhsuk-tag--red" %}
+              {% endif %}
+
+              <div class="nhsuk-card__heading-row">
+                <div>
+                  {{ tag({ text: study.statusLabel, classes: tagClass }) }}
+                  {% if study.status == "recruiting" and study.closingDate %}
+                    <span class="nhsuk-u-secondary-text-color">Until {{ study.closingDate }}</span>
+                  {% endif %}
+                </div>
+                {% if data.savedStudies and study.title in data.savedStudies %}
+                  <span class="save-study-link">
+                    <strong class="nhsuk-tag nhsuk-tag--green">Saved 0 days ago</strong>
+                    <a class="nhsuk-link nhsuk-u-margin-left-2" href="/study-search/v4/remove-study?studyId={{ study.id }}&from_dashboard={{ data.from_dashboard }}#study-{{ study.id }}">Remove<span class="nhsuk-u-visually-hidden"> {{ study.title }}</span></a>
+                  </span>
+                {% else %}
+                  <form action="/study-search/v4/save-study" method="post" novalidate class="save-study-link">
+                    <input type="hidden" name="studyId" value="{{ study.id }}">
+                    <input type="hidden" name="studyTitle" value="{{ study.title }}">
+                    <input type="hidden" name="from_dashboard" value="{{ data.from_dashboard }}">
+                    <button type="submit" class="nhsuk-link nhsuk-link--no-visited" style="background: none; border: none; padding: 0; cursor: pointer;">Save study<span class="nhsuk-u-visually-hidden"> {{ study.title }}</span></button>
+                  </form>
+                {% endif %}
+              </div>
+
+              {# ONLY STUDIES 58691 AND 58687 ARE CLICKABLE #}
+              <h3 class="nhsuk-card__heading">
+                {% if study.id == "58691" or study.id == "58687" or study.id == "58688" or study.id == 58691 or study.id == 58687 or study.id == 58688 %}
+                  <a href="/study-search/v4/search/study/{{ study.id }}">{{ study.title }}</a>
+                {% else %}
+                  {{ study.title }}
+                {% endif %}
+              </h3>
+
+              <p class="nhsuk-body"><strong>Medical conditions</strong> {{ study.conditionText }}</p>
+              <p class="nhsuk-body"><strong>Gender</strong> {{ study.genderLabel }}</p>
+              <p class="nhsuk-body"><strong>Age</strong> {{ study.ageLabel }}</p>
+              <p class="nhsuk-body"><strong>Locations</strong> {{ study.locations | join(", ") }}</p>
+            </div>
+          </div>
+                {% endfor %}
+
+        {% if paginationData %}
+          {{ pagination(paginationData) }}
+        {% endif %}
+
+      {% endif %}
+
+    </div>
+  </div>
+
+{# 1. HIDDEN JSON DATA BLOCKS (Protects VS Code linter from Nunjucks syntax) #}
+<script id="healthConditionsJSON" type="application/json">
+  {{ healthConditionsData | dump | safe }}
+</script>
+
+<script id="allStudiesJSON" type="application/json">
+  {{ allStudies | dump | safe }}
+</script>
+
+{# 2. MAIN FRONTEND LOGIC #}
+<script>
+(function () {
+  'use strict';
+
+  // Safely parse JSON payload from hidden script tags
+  let healthConditionsData = {};
+  let allStudies = [];
+
+  try {
+    const rawConditions = document.getElementById('healthConditionsJSON');
+    if (rawConditions && rawConditions.textContent.trim()) {
+      healthConditionsData = JSON.parse(rawConditions.textContent);
+    }
+  } catch (err) {
+    console.warn('Could not parse healthConditionsJSON:', err);
+  }
+
+  try {
+    const rawStudies = document.getElementById('allStudiesJSON');
+    if (rawStudies && rawStudies.textContent.trim()) {
+      allStudies = JSON.parse(rawStudies.textContent);
+    }
+  } catch (err) {
+    console.warn('Could not parse allStudiesJSON:', err);
+  }
+
+  const initialSubCondition = "{{ chosenSubCondition or '' }}";
+
+  document.addEventListener('DOMContentLoaded', function () {
+    // 1. DYNAMIC HEALTH CONDITION SUB-DROPDOWN LOGIC
+    const mainSelect = document.getElementById('healthCondition');
+    const subContainer = document.getElementById('subConditionContainer');
+    const subSelect = document.getElementById('subCondition');
+
+    function updateSubDropdown(selectedCategory, selectedSub) {
+      if (!subSelect) return;
+      subSelect.innerHTML = '';
+
+      if (selectedCategory && healthConditionsData[selectedCategory]) {
+        const category = healthConditionsData[selectedCategory];
+
+        const defaultOpt = document.createElement('option');
+        defaultOpt.value = '';
+        defaultOpt.textContent = 'Select a specific condition';
+        subSelect.appendChild(defaultOpt);
+
+        const allOpt = document.createElement('option');
+        allOpt.value = 'all';
+        allOpt.textContent = 'All ' + category.text.toLowerCase() + ' conditions';
+        if (selectedSub === 'all') allOpt.selected = true;
+        subSelect.appendChild(allOpt);
+
+        if (Array.isArray(category.items)) {
+          category.items.forEach(function (item) {
+            const opt = document.createElement('option');
+            opt.value = item.value;
+            opt.textContent = item.text;
+            if (selectedSub === item.value) opt.selected = true;
+            subSelect.appendChild(opt);
+          });
+        }
+
+        if (subContainer) subContainer.style.display = 'block';
+      } else if (subContainer) {
+        subContainer.style.display = 'none';
+      }
+    }
+
+    if (mainSelect) {
+      mainSelect.addEventListener('change', function () {
+        updateSubDropdown(this.value, '');
+      });
+
+      if (mainSelect.value) {
+        updateSubDropdown(mainSelect.value, initialSubCondition);
+      }
+    }
+
+    // 2. TOP NHS AUTOCOMPLETE SEARCH BAR LOGIC
+    const topForm = document.getElementById('topSearchForm');
+    const topKeywordsInput = document.getElementById('topKeywordsInput');
+    const topHealthCondition = document.getElementById('topHealthCondition');
+    const topSubCondition = document.getElementById('topSubCondition');
+    const autocompleteMenu = document.getElementById('searchAutocompleteMenu');
+    const autocompleteResults = document.getElementById('searchAutocompleteResults');
+    const freeSearchContainer = document.getElementById('searchAutocompleteFreeSearch');
+    const freeSearchTermText = document.getElementById('freeSearchTermText');
+
+    const subconditionCounts = {};
+    if (Array.isArray(allStudies)) {
+      allStudies.forEach(function (study) {
+        Object.keys(study).forEach(function (key) {
+          if (Array.isArray(study[key])) {
+            study[key].forEach(function (val) {
+              const cleanVal = String(val).toLowerCase().trim();
+              subconditionCounts[cleanVal] = (subconditionCounts[cleanVal] || 0) + 1;
+            });
+          }
+        });
+      });
+    }
+
+    const subconditionsList = [];
+    const seenValues = new Set();
+
+    if (healthConditionsData) {
+      Object.keys(healthConditionsData).forEach(function (catKey) {
+        const cat = healthConditionsData[catKey];
+        if (cat && Array.isArray(cat.items)) {
+          cat.items.forEach(function (item) {
+            if (!seenValues.has(item.value)) {
+              seenValues.add(item.value);
+
+              const rawCount = subconditionCounts[item.value] || subconditionCounts[item.value.replace(/-/g, ' ')] || 0;
+              const displayCount = rawCount > 0 ? rawCount : (Math.floor(item.text.length * 3.5) % 120 + 1);
+
+              subconditionsList.push({
+                value: item.value,
+                text: item.text,
+                categoryKey: catKey,
+                count: displayCount
+              });
+            }
+          });
+        }
+      });
+    }
+
+    if (topKeywordsInput && autocompleteResults && autocompleteMenu) {
+      topKeywordsInput.addEventListener('input', function () {
+        const query = this.value.trim();
+        autocompleteResults.innerHTML = '';
+
+        if (query.length < 1) {
+          autocompleteMenu.style.display = 'none';
+          topKeywordsInput.setAttribute('aria-expanded', 'false');
+          return;
+        }
+
+        const qLower = query.toLowerCase();
+        const matches = subconditionsList.filter(function (item) {
+          return item.text.toLowerCase().includes(qLower);
+        });
+
+        if (matches.length > 0) {
+          matches.slice(0, 6).forEach(function (item, index) {
+            const itemDiv = document.createElement('div');
+            itemDiv.className = 'search-autocomplete-item';
+            itemDiv.setAttribute('role', 'option');
+            itemDiv.setAttribute('id', 'search-autocomplete-option-' + index);
+            itemDiv.setAttribute('aria-selected', 'false');
+
+            const regEx = new RegExp(`(${query})`, 'gi');
+            const highlightedText = item.text.replace(regEx, '<b>$1</b>');
+
+            itemDiv.innerHTML = `
+              <span class="search-autocomplete-link">${highlightedText}</span>
+              <span class="search-autocomplete-count">(${item.count})</span>
+            `;
+
+            itemDiv.addEventListener('click', function () {
+              if (topHealthCondition) topHealthCondition.value = item.categoryKey;
+              if (topSubCondition) topSubCondition.value = item.value;
+              topKeywordsInput.value = '';
+              if (topForm) topForm.submit();
+            });
+
+            autocompleteResults.appendChild(itemDiv);
+          });
+        }
+
+        if (freeSearchTermText) {
+          freeSearchTermText.innerHTML = `Search for "<b>${query}</b>"`;
+        }
+        autocompleteMenu.style.display = 'block';
+        topKeywordsInput.setAttribute('aria-expanded', 'true');
+      });
+    }
+
+    if (freeSearchContainer && topForm) {
+      freeSearchContainer.addEventListener('click', function (e) {
+        e.preventDefault();
+        if (topHealthCondition) topHealthCondition.value = '';
+        if (topSubCondition) topSubCondition.value = '';
+        topForm.submit();
+      });
+    }
+
+    document.addEventListener('click', function (e) {
+      if (topForm && !topForm.contains(e.target) && autocompleteMenu) {
+        autocompleteMenu.style.display = 'none';
+        if (topKeywordsInput) topKeywordsInput.setAttribute('aria-expanded', 'false');
+      }
+    });
+
+    // 3. LOCATION AUTOCOMPLETE DROPDOWN LOGIC
+    const sampleLocations = [
+      "King's College Hospital, London",
+        "King's Cross, London (N1 9AL)",
+        "Kingston Hospital, Kingston upon Thames",
+        "Kingston upon Thames, Surrey",
+        "Kingswood, Bristol",
+        "King's Lynn, Norfolk",
+        "Royal King's Hospital, Manchester",
+        "London (Central)",
+        "London Bridge, London (SE1 9SG)",
+        "Birmingham (B1 1BB)",
+        "Manchester Royal Infirmary",
+        "Leeds General Infirmary",
+        "Oxford (OX1 1ND)",
+        "Cambridge (CB1 1AA)",
+        "Edinburgh (EH1 1YZ)",
+        "Royal Liverpool University Hospital, Liverpool",
+        "Northern General Hospital, Sheffield",
+        "Liverpool",
+        "Sheffield",
+        "Queen's Hospital, Essex",
+        "Essex",
+        "Royal Victoria Infirmary, Newcastle upon Tyne",
+        "Newcastle upon Tyne",
+        "The Christie Hospital NHS Foundation Trust, Manchester",
+        "Manchester",
+        "Nottingham",
+        "Queen's Medical Centre, Nottingham"
+    ];
+
+    document.addEventListener('input', function (e) {
+      if (e.target && e.target.id === 'location') {
+        const locationInput = e.target;
+        const locationSuggestions = document.getElementById('location-suggestions');
+
+        if (!locationSuggestions) return;
+
+        const query = locationInput.value.toLowerCase().trim();
+        locationSuggestions.innerHTML = '';
+
+        if (query.length < 2) {
+          locationSuggestions.style.display = 'none';
+          locationInput.setAttribute('aria-expanded', 'false');
+          return;
+        }
+
+        const matches = sampleLocations.filter(function (loc) {
+          return loc.toLowerCase().includes(query);
+        });
+
+        if (matches.length > 0) {
+          matches.forEach(function (loc, index) {
+            const li = document.createElement('li');
+            li.textContent = loc;
+            li.className = 'location-suggestions__item';
+            li.setAttribute('role', 'option');
+            li.setAttribute('id', 'location-suggestion-option-' + index);
+            li.setAttribute('aria-selected', 'false');
+
+            li.addEventListener('mouseenter', function () {
+              this.classList.add('location-suggestions__item--hover');
+            });
+            li.addEventListener('mouseleave', function () {
+              this.classList.remove('location-suggestions__item--hover');
+            });
+
+            li.addEventListener('click', function () {
+              locationInput.value = loc;
+              locationSuggestions.style.display = 'none';
+              locationInput.setAttribute('aria-expanded', 'false');
+            });
+
+            locationSuggestions.appendChild(li);
+          });
+          locationSuggestions.style.display = 'block';
+          locationInput.setAttribute('aria-expanded', 'true');
+        } else {
+          locationSuggestions.style.display = 'none';
+          locationInput.setAttribute('aria-expanded', 'false');
+        }
+      }
+    });
+
+    document.addEventListener('click', function (e) {
+      const locationInput = document.getElementById('location');
+      const locationSuggestions = document.getElementById('location-suggestions');
+
+      if (locationInput && locationSuggestions) {
+        if (!locationInput.contains(e.target) && !locationSuggestions.contains(e.target)) {
+          locationSuggestions.style.display = 'none';
+          locationInput.setAttribute('aria-expanded', 'false');
+        }
+      }
+    });
+
+    // 4. REMOVE INDIVIDUAL FILTER TAG LOGIC
+    document.querySelectorAll('.filter-remove-link').forEach(function (tagLink) {
+      tagLink.addEventListener('click', function (e) {
+        e.preventDefault();
+        const filterType = this.getAttribute('data-filter-type');
+        const filterVal = this.getAttribute('data-filter-value');
+        const sideForm = document.getElementById('sideFilterForm');
+
+        if (!sideForm) return;
+
+        if (filterType === 'healthCondition') {
+          const hcSelect = document.getElementById('healthCondition');
+          if (hcSelect) hcSelect.value = '';
+          const scSelect = document.getElementById('subCondition');
+          if (scSelect) scSelect.value = '';
+        } else if (filterType === 'subCondition') {
+          const scSelect = document.getElementById('subCondition');
+          if (scSelect) scSelect.value = '';
+        } else if (filterType === 'keywords') {
+          const topKw = document.getElementById('topKeywordsInput');
+          if (topKw) topKw.value = '';
+        } else if (filterType === 'location') {
+          const locInput = document.getElementById('location');
+          if (locInput) locInput.value = '';
+          const locRadios = sideForm.querySelectorAll('input[name="locationPreference"]');
+          locRadios.forEach(function (r) { r.checked = false; });
+        } else if (filterType === 'status' || filterType === 'ageRange' || filterType === 'sex') {
+          const matchingInputs = sideForm.querySelectorAll('input[name="' + filterType + '"]');
+          matchingInputs.forEach(function (input) {
+            if (input.value === filterVal) {
+              input.checked = false;
+            }
+          });
+        }
+
+        sideForm.submit();
+      });
+    });
+  });
+})();
+</script>
+
+<script>
+  (function () {
+    function findCard (el) {
+      return el.closest('.nhsuk-card[id^="study-"]')
+    }
+
+    function findControl (card) {
+      return card.querySelector('.save-study-link')
+    }
+
+    function swapCardControl (card, html) {
+      var parsed = new DOMParser().parseFromString(html, 'text/html')
+      var newCard = parsed.getElementById(card.id)
+      if (!newCard) return false
+
+      var newControl = findControl(newCard)
+      var oldControl = findControl(card)
+      if (!newControl || !oldControl) return false
+
+      oldControl.replaceWith(newControl)
+
+      var focusTarget = newControl.querySelector('a, button')
+      if (focusTarget) focusTarget.focus()
+
+      return true
+    }
+
+    function fetchAndSwap (card, request) {
+      fetch(request.url, request.options)
+        .then(function (response) {
+          if (!response.ok) throw new Error('Request failed: ' + response.status)
+          return response.text()
+        })
+        .then(function (html) {
+          if (!swapCardControl(card, html)) {
+            window.location.reload()
+          }
+        })
+        .catch(function () {
+          request.fallback()
+        })
+    }
+
+    document.addEventListener('submit', function (e) {
+      var form = e.target
+      if (!form.classList || !form.classList.contains('save-study-link')) return
+
+      var card = findCard(form)
+      if (!card) return
+
+      e.preventDefault()
+
+      fetchAndSwap(card, {
+        url: form.action,
+        options: {
+          method: form.method || 'POST',
+          credentials: 'same-origin',
+          body: new URLSearchParams(new FormData(form))
+        },
+        fallback: function () {
+          HTMLFormElement.prototype.submit.call(form)
+        }
+      })
+    })
+
+    document.addEventListener('click', function (e) {
+      var link = e.target.closest('.save-study-link a[href*="/remove-study"]')
+      if (!link) return
+
+      var card = findCard(link)
+      if (!card) return
+
+      e.preventDefault()
+
+      fetchAndSwap(card, {
+        url: link.href,
+        options: {
+          method: 'GET',
+          credentials: 'same-origin'
+        },
+        fallback: function () {
+          window.location.href = link.href
+        }
+      })
+    })
+  })()
+</script>
+
+{% endblock %}
