@@ -1,24 +1,27 @@
 const express = require('express');
 const router = express.Router();
+const fs = require('node:fs')
+const path = require('node:path')
 
 // ****************************************
-// Error Logging
+// Additional Logging
 // ****************************************
 
 router.use((req, res, next) => {
     const log = {
         method: req.method,
-        url: req.originalUrl, //URL of page
-        data: req.session.data //all data held
+        url: req.originalUrl, // URL of page
+        data: req.session.data // all data held
     }
     console.log(JSON.stringify(log, null, 2)) // show all data as a dump in terminal
     next() // continue to next action
 
 })
 
-// GET FOLDER NAME - useful for relative templates
+// Get folder name (useful for relative templates)
+
 router.use('/', (req, res, next) => {
-    req.folder = req.originalUrl.split('/')[1]; //folder, e.g. 'current'
+    req.folder = req.originalUrl.split('/')[1]; //f older, e.g. 'current'
     req.subfolder = req.originalUrl.split('/')[2]; //sub-folder e.g. 'service'
     res.locals.folder = req.folder; // what folder the url is
     res.locals.subfolder = req.subfolder; // what subfolder the URL is in
@@ -26,13 +29,113 @@ router.use('/', (req, res, next) => {
     next();
 });
 
-// Check current and previous - good for debugging
+// Check current and previous (good for debugging)
+
 router.use('/', (req, res, next) => {
     res.locals.currentURL = req.originalUrl; //current screen
     res.locals.prevURL = req.get('Referrer'); // previous screen
     console.log('previous page is: ' + res.locals.prevURL + " and current page is " + res.locals.currentURL);
     next();
 });
+
+
+// ****************************************
+// Sitemap Crawler
+// ****************************************
+
+// Sitemap configuration. (add any folders that need excluding within '/app/views' here)
+
+const sitemapExcludedFolders = [
+  '_components',
+  'includes',
+  'partials'
+]
+
+router.get('/sitemap', (req, res) => {
+  const viewsRoot = path.resolve(__dirname, 'views')
+
+  function scanDirectory(directory, relativeDirectory = '') {
+    const entries = fs.readdirSync(directory, {
+      withFileTypes: true
+    })
+
+    const items = []
+
+    for (const entry of entries) {
+      if (entry.isDirectory()) {
+        if (sitemapExcludedFolders.includes(entry.name)) {
+          continue
+        }
+
+        const relativePath = path.join(
+          relativeDirectory,
+          entry.name
+        )
+
+        const children = scanDirectory(
+          path.join(directory, entry.name),
+          relativePath
+        )
+
+        if (children.length) {
+          items.push({
+            type: 'folder',
+            name: entry.name,
+            children
+          })
+        }
+
+        continue
+      }
+
+    if (!entry.isFile()) continue
+
+    // Ignore files directly inside app/views/
+
+    if (relativeDirectory === '') continue
+
+    // Only include HTML templates
+
+    if (path.extname(entry.name) !== '.html') continue
+
+      const relativePath = path.join(
+        relativeDirectory,
+        entry.name
+      )
+
+      const routePath = relativePath
+        .split(path.sep)
+        .join('/')
+        .replace(/\.(html|njk)$/, '')
+        .replace(/(^|\/)index$/, '$1')
+        .replace(/\/$/, '')
+
+      items.push({
+        type: 'page',
+        name: path.basename(entry.name, path.extname(entry.name)),
+        file: relativePath.split(path.sep).join('/'),
+        url: routePath ? `/${routePath}` : '/'
+      })
+    }
+
+    return items.sort((a, b) => {
+      if (a.type !== b.type) {
+        return a.type === 'folder' ? -1 : 1
+      }
+
+      return a.name.localeCompare(b.name)
+    })
+  }
+
+  try {
+    res.render('sitemap.html', {
+      sitemap: scanDirectory(viewsRoot)
+    })
+  } catch (error) {
+    console.error('Unable to generate sitemap:', error)
+    res.status(500).send('Unable to generate sitemap.')
+  }
+})
 
 // ****************************************
 // Route File Versions

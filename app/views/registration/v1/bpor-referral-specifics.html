@@ -2,7 +2,7 @@
 {% extends layout %}
 
 {% block pageTitle %}
-    Who did you hear about Be Part of Research from?
+    How did you hear about Be Part of Research?
 {% endblock %}
 
 {% block beforeContent %}
@@ -14,9 +14,9 @@
     }) }}
 
     {{ backLink({
-		href: "bpor-referrals",
-		text: "Back to: Who did you hear about Be Part of Research from?"
-	}) }}
+    "href": "javascript:history.go(-1)",
+    "text": "Back"
+    }) }}
 {% endblock %}
 
 {% block content %}  

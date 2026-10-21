@@ -744,11 +744,11 @@ router.post('/jdr-proxy-password', function (req, res) {
 
     if (jdrPassword) {
 
-        res.redirect('jdr-proxy-verify-email?brand=JDR');
+        res.redirect('jdr-proxy-check-your-email');
 
     } else {
 
-        res.redirect('jdr-proxy-verify-email?brand=JDR');
+        res.redirect('jdr-proxy-check-your-email');
 
     }
 
@@ -779,7 +779,7 @@ router.post('/jdr-proxy-mfa-setup', function(request, response) {
 router.post('/jdr-proxy-contact-choice', function(request, response) {
   
   // Grab the value of the selected radio button from the session data
-  var recoveryChoice = request.session.data['exampleHints']
+  var recoveryChoice = request.session.data['jdrContactChoice']
 
   // Route the user based on the selected value
   if (recoveryChoice == "proxy") {
