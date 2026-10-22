@@ -62,16 +62,11 @@
 /* RESULTS HEADER BAR */
 .results-header-bar {
   display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  margin-bottom: 24px;
-  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 16px;
+  flex-wrap: wrap-reverse;
   gap: 16px;
-}
-.sort-by-wrapper {
-  display: flex;
-  align-items: center;
-  gap: 12px;
 }
 
 .filter-options {
@@ -136,7 +131,13 @@
   display: flex;
   justify-content: space-between;
   align-items: baseline;
+  gap: 8px;
   margin-bottom: 12px;
+
+  a {
+    margin-left: auto;
+    white-space: nowrap;
+  }
 }
 
 /* LOCATION AUTOCOMPLETE SUGGESTIONS (town/city/postcode field in the filter panel) */
@@ -203,15 +204,6 @@
   transform: rotate(180deg);
 }
 
-/* Vertical line applied to the entire filter menu container */
-.filter-menu {
-  border-left: 4px solid #aeb7bd;
-  padding-left: 1rem;        /* 16px */
-  padding-top: 0.625rem;
-  padding-bottom: 0.625rem;
-  margin-top: 0;             /* Spacing controlled by button margin-bottom */
-}
-
 /* Compact expander spacing */
 .nhsuk-expander--compact {
   margin-bottom: 0.5rem;     /* 8px */
@@ -245,5 +237,11 @@
 
   .filter-panel__desktop-heading {
     display: block;
+  }
+
+  .filter-menu {
+    background-color: #ffffff;
+    border: 1px solid #4c6272;
+    padding: 16px;
   }
 }

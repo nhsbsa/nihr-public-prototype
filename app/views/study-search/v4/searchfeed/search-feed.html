@@ -63,18 +63,6 @@
     </form>
   </div>
 
-  {# RESULTS COUNT #}
-  <p class="nhsuk-body-m nhsuk-u-margin-bottom-5" role="status">
-    {% if resultsCount > 0 %}
-      Showing <strong>{{ resultsStart }}</strong> to <strong>{{ resultsEnd }}</strong> of <strong>{{ resultsCount }}</strong> results
-    {% else %}
-      <strong>0</strong> results
-    {% endif %}
-    {% if keywords and keywords.trim() != "" %}
-      for <strong>"{{ keywords.trim() }}"</strong>
-    {% endif %}
-  </p>
-
   <div class="nhsuk-grid-row">
     <div class="nhsuk-grid-column-one-third">
 
@@ -256,9 +244,21 @@
           ]
         }) }}
       {% endset %}
+      
 
       {# ---------- RENDER THE FILTER PANEL COMPONENT ---------- #}
+{% set mobileSortHtml %}
+<form action="/study-search/v4/searchfeed/search-feed" method="post" class="sort-by-wrapper">
+    <label class="nhsuk-label nhsuk-u-margin-bottom-0" for="sortByMobile">Sort by</label>
+   <select class="nhsuk-select" id="sortByMobile" name="sortBy" onchange="this.form.submit()">
+     <option value="most-recent" {% if sortBy == 'most-recent' or not sortBy %}selected{% endif %}>Most recent</option>
+     <option value="a-z" {% if sortBy == 'a-z' %}selected{% endif %}>A to Z</option>
+   </select>
+  </form>
+{% endset %}
+
       {{ filterPanel({
+        toolbarHtml: mobileSortHtml,
         id: "sideFilter",
         action: "/study-search/v4/searchfeed/search-feed",
         sortBy: sortBy,
@@ -289,29 +289,58 @@
 
       <div class="results-header-bar">
 
-        <form id="sortForm" action="/study-search/v4/searchfeed/search-feed" method="post" style="margin-bottom: 0;">
+        {# RESULTS COUNT #}
+          <p class="nhsuk-body-m nhsuk-u-margin-bottom-0" role="status">
+            {% if resultsCount > 0 %}
+              Showing <strong>{{ resultsStart }}</strong> to <strong>{{ resultsEnd }}</strong> of <strong>{{ resultsCount }}</strong> results
+            {% else %}
+              <strong>0</strong> results
+            {% endif %}
+            {% if keywords and keywords.trim() != "" %}
+              for <strong>"{{ keywords.trim() }}"</strong>
+            {% endif %}
+          </p>
+
+
+        <form id="sortForm" action="/study-search/v4/searchfeed/search-feed" method="post">
           {% if data.from_dashboard %}
             <input type="hidden" name="from_dashboard" value="true">
           {% endif %}
-          <div class="nhsuk-form-group sort-by-wrapper" style="margin-bottom: 0;">
-            <label class="nhsuk-label" for="sortBy" style="margin-bottom: 0; font-weight: normal;">
-              Sort by
-            </label>
-            <select class="nhsuk-select" id="sortBy" name="sortBy" onchange="this.form.submit()">
-              <option value="most-recent" {% if sortBy == 'most-recent' or not sortBy %}selected{% endif %}>Most recent</option>
-              <option value="a-z" {% if sortBy == 'a-z' %}selected{% endif %}>A to Z</option>
-            </select>
-            <noscript>
-              {{ button({ text: "Update", classes: "nhsuk-button--secondary nhsuk-u-margin-bottom-0 nhsuk-u-margin-left-2" }) }}
-            </noscript>
-          </div>
+          {{ select({
+            label: {
+              text: "Sort by"
+            },
+            id: "sortBy",
+            name: "sortBy",
+            value: sortBy or "most-recent",
+            formGroup: {
+              classes: "nhsuk-u-margin-bottom-2"
+            },
+            attributes: {
+              onchange: "this.form.submit()"
+            },
+            items: [
+              {
+                value: "most-recent",
+                text: "Most recent"
+              },
+              {
+                value: "a-z",
+                text: "A to Z"
+              }
+            ]
+          }) }}
+
+          <noscript>
+            {{ button({ text: "Update", classes: "nhsuk-button--secondary nhsuk-u-margin-bottom-0" }) }}
+          </noscript>
         </form>
       </div>
 
       {# NO RESULTS STATE #}
       {% if results | length == 0 %}
 
-        <div class="nhsuk-u-margin-top-4">
+        <div class="nhsuk-u-padding-top-6 nhsuk-u-padding-bottom-6">
           <h2 class="nhsuk-heading-m">We could not find any related studies</h2>
 
           <p class="nhsuk-body">You can now either:</p>
@@ -319,11 +348,9 @@
             <li>register for an account and get matched to related studies when they are added</li>
             <li>start your search again</li>
           </ul>
-          {{ button({
-            text: "Register now",
-            href: "/registration/start",
-            classes: "nhsuk-button--secondary"
-          }) }}
+          <p class="nhsuk-body">
+            <a href="/registration/start" class="nhsuk-link">Register now</a>
+          </p>
         </div>
 
       {% else %}
