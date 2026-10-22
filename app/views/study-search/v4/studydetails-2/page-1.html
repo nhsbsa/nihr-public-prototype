@@ -1,8 +1,5 @@
 {% extends "study-search/v4/_layout-study-details.html" %}
 
-{% from "pagination/macro.njk" import pagination %}
-{% from "do-dont-list/macro.njk" import list %}
-{% from "tables/macro.njk" import table %}
 {% from "study-search/v4/_components/study-contents-list.njk" import studyContentsList %}
 
 {% block content %}
@@ -19,7 +16,7 @@ Who can take part          <span class="nhsuk-caption-xl nhsuk-caption--bottom">
       </h1>
 
 
-      {{ studyContentsList("page-one") }}
+      {{ studyContentsList("page-1") }}
 
       <h2 class="nhsuk-heading-m">Person criteria</h2>
 
@@ -109,7 +106,7 @@ Who can take part          <span class="nhsuk-caption-xl nhsuk-caption--bottom">
   {{ pagination({
         next: {
           labelText: "About this study",
-          href: "/study-search/v4/studydetails-2/page-two"
+          href: "/study-search/v4/studydetails-2/page-2"
         }
       }) }}
 {% endblock %}

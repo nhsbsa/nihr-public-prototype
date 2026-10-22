@@ -18,12 +18,7 @@
         </span>
       </h1>
 
-{{ studyContentsList("page-three") }}
-
-{% from "tables/macro.njk" import table %}
-
-
-{% from "images/macro.njk" import image %}
+{{ studyContentsList("page-3") }}
 
 <div class="nhsuk-grid-row nhsuk-u-margin-bottom-4">
   <div class="nhsuk-grid-column-one-half">
@@ -63,11 +58,11 @@
 {{ pagination({
   previous: {
     labelText: "About the study",
-    href: "page-two.html"
+    href: "page-2"
   },
   next: {
     labelText: "Contact the study team",
-    href: "page-four.html"
+    href: "page-4"
   }
 }) }}
 

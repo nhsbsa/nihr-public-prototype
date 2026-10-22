@@ -1,9 +1,5 @@
 {% extends "study-search/v3/_layout-study-details.html" %}
 
-{% from "pagination/macro.njk" import pagination %}
-{% from "tag/macro.njk" import tag %}
-{% from "inset-text/macro.njk" import insetText %}
-{% from "tables/macro.njk" import table %}
 {% from "study-search/v3/_components/study-contents-list.njk" import studyContentsList %}
 
 {% block content %}
@@ -20,7 +16,7 @@
         </span>
       </h1>
 
-      {{ studyContentsList("page-two") }}
+      {{ studyContentsList("page-2") }}
 
       {{ table({
         firstCellIsHeader: true,
@@ -81,11 +77,11 @@
       {{ pagination({
         previous: {
           labelText: "Who can take part",
-          href: "/study-search/v3/studydetails-2/page-one"
+          href: "/study-search/v3/studydetails-2/page-1"
         },
         next: {
           labelText: "Location",
-          href: "/study-search/v3/studydetails-2/page-three"
+          href: "/study-search/v3/studydetails-2/page-3"
         }
       }) }}
 
