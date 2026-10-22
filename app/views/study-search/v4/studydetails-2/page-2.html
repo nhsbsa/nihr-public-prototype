@@ -1,6 +1,7 @@
 {% extends "study-search/v3/_layout-study-details.html" %}
 
 {% from "study-search/v3/_components/study-contents-list.njk" import studyContentsList %}
+{% from "_components/promo-banner/macro.njk" import promoBanner %}
 
 {% block content %}
   <div class="nhsuk-grid-row">
@@ -77,11 +78,11 @@
       {{ pagination({
         previous: {
           labelText: "Who can take part",
-          href: "/study-search/v3/studydetails-2/page-1"
+          href: "/study-search/v4/studydetails-2/page-1"
         },
         next: {
           labelText: "Location",
-          href: "/study-search/v3/studydetails-2/page-3"
+          href: "/study-search/v4/studydetails-2/page-3"
         }
       }) }}
 
