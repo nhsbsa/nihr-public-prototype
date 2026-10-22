@@ -249,7 +249,7 @@ router.all('/searchfeed/search-feed', function (req, res) {
 
   // Build the primary health condition dropdown list
   const healthConditionItems = [
-    { value: "", text: "Select a health condition" }
+    { value: "", text: "Choose area" }
   ]
 
   Object.keys(healthConditionsData).forEach(key => {

@@ -182,21 +182,20 @@
           ]
         }) }}
 
-        {# PRIMARY HEALTH CONDITION SELECT #}
+        {# AREA OF RESEARCH SELECT #}
         {{ select({
           id: "healthCondition",
           name: "healthCondition",
-          label: { text: "Health condition" },
+          label: { text: "Area of research" },
           items: healthConditionItems
         }) }}
 
         {# SECONDARY SUB-CONDITION SELECT #}
         <div id="subConditionContainer" class="nhsuk-form-group" style="display: none;">
           <label class="nhsuk-label" for="subCondition">
-            Specific condition
+            Condition
           </label>
           <select class="nhsuk-select" id="subCondition" name="subCondition">
-            <option value="">Select a specific condition</option>
           </select>
         </div>
 
@@ -467,11 +466,6 @@
 
       if (selectedCategory && healthConditionsData[selectedCategory]) {
         const category = healthConditionsData[selectedCategory];
-
-        const defaultOpt = document.createElement('option');
-        defaultOpt.value = '';
-        defaultOpt.textContent = 'Select a specific condition';
-        subSelect.appendChild(defaultOpt);
 
         const allOpt = document.createElement('option');
         allOpt.value = 'all';
