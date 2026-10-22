@@ -356,7 +356,7 @@ router.get('/search/study/:id', function (req, res) {
   const detailFolder = study.detailFolder || 'studydetails-1'
 
   // Redirecting updates the URL bar so relative links resolve correctly
-  return res.redirect(`/study-search/v4/${detailFolder}/page-one`)
+  return res.redirect(`/study-search/v4/${detailFolder}/page-1`)
 })
 
 // ****************************************

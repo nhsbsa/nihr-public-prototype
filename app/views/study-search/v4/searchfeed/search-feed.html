@@ -1,5 +1,5 @@
 {% extends "layout-bpor.html" %}
-{% from "nhsuk/components/back-link/macro.njk" import backLink %}
+
 {% from "_components/filter-panel/macro.njk" import filterPanel %}
 
 {% block beforeContent %}
@@ -120,8 +120,9 @@
         {% set _ = selectedFilters.push({ heading: "Age range", items: ageItems }) %}
       {% endif %}
 
-      {% if data.sex == 'female' or data.sex == 'male' %}
-        {% set _ = selectedFilters.push({ heading: "Gender", items: [{ text: data.sex | capitalize, href: "#", filterType: "sex", filterValue: data.sex }] }) %}
+      {% if data.sex == 'female' or data.sex == 'male' or data.sex == 'all' %}
+        {% set genderText = "All genders" if data.sex == 'all' else data.sex | capitalize %}
+        {% set _ = selectedFilters.push({ heading: "Gender", items: [{ text: genderText, href: "#", filterType: "sex", filterValue: data.sex }] }) %}
       {% endif %}
 
       {# ---------- LOCATION CONDITIONAL HTML ---------- #}
@@ -250,7 +251,8 @@
           values: data['sex'],
           items: [
             { value: "female", text: "Female" },
-            { value: "male", text: "Male" }
+            { value: "male", text: "Male" },
+            { value: "all", text: "All genders"}
           ]
         }) }}
       {% endset %}

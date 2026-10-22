@@ -1,13 +1,7 @@
 {% extends "study-search/v4/_layout-study-details.html" %}
 
-{% from "contents-list/macro.njk" import contentsList %}
-{% from "pagination/macro.njk" import pagination %}
-{% from "tag/macro.njk" import tag %}
-{% from "inset-text/macro.njk" import insetText %}
-{% from "card/macro.njk" import card %}
 {% from "study-search/v4/_components/study-contents-list.njk" import studyContentsList %}
-{% from "tables/macro.njk" import table %}
-{% from "images/macro.njk" import image %}
+
 
 
 {% block content %}
@@ -21,7 +15,7 @@
           </span>
       </h1>
 
-{{ studyContentsList("page-three") }}
+{{ studyContentsList("page-3") }}
 
 <div class="nhsuk-grid-row nhsuk-u-margin-bottom-4">
   <div class="nhsuk-grid-column-one-half">
@@ -61,11 +55,11 @@
 {{ pagination({
   previous: {
     labelText: "About the study",
-    href: "/study-search/v4/studydetails-2/page-two"
+    href: "/study-search/v4/studydetails-2/page-2"
   },
   next: {
     labelText: "Contact the study team",
-    href: "/study-search/v4/studydetails-2/page-four"
+    href: "/study-search/v4/studydetails-2/page-4"
   }
 }) }}
 
