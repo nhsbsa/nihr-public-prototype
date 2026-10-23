@@ -5,7 +5,7 @@
 /* TOP SEARCH CONTAINER & DROPDOWN MENU */
 .nhsuk-search-container {
   position: relative;
-  margin-bottom: 32px;
+  margin-bottom: 16px;
   width: 100%;
   max-width: 100%;
 }
@@ -15,63 +15,58 @@
   top: 100%;
   left: 0;
   right: 0;
-  background: #ffffff;
-  border: 2px solid #212b32;
+  background: nhsuk-colour("white");
+  border: 2px solid $nhsuk-border-colour;
   border-top: none;
   z-index: 1000;
-  box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+  box-shadow: 0 8px 16px rgba(nhsuk-colour("black"), 0.15);
   max-height: 480px;
   overflow-y: auto;
 }
 .search-autocomplete-item {
   padding: 14px 18px;
-  border-bottom: 1px solid #e5e5e5;
+  border-bottom: 1px solid $nhsuk-border-colour;
   cursor: pointer;
   font-size: 18px;
 }
 .search-autocomplete-item:hover {
-  background-color: #f0f4f5;
+  background-color: nhsuk-colour("grey-5");
 }
 .search-autocomplete-link {
-  color: #005ea5;
+  color: $nhsuk-link-colour;
   text-decoration: underline;
   font-weight: 600;
 }
 .search-autocomplete-count {
-  color: #212b32;
+  color: $nhsuk-text-colour;
   font-weight: normal;
 }
 .search-autocomplete-free {
   padding: 16px 18px;
-  background-color: #ffffff;
-  border-top: 1px solid #b1b4b6;
+  background-color: nhsuk-colour("white");
+  border-top: 1px solid $nhsuk-border-colour;
   display: flex;
   align-items: center;
   gap: 12px;
   cursor: pointer;
 }
 .search-autocomplete-free:hover {
-  background-color: #f0f4f5;
+  background-color: nhsuk-colour("grey-5");
 }
 .search-autocomplete-free-icon {
   width: 22px;
   height: 22px;
-  stroke: #505a5f;
+  stroke: $nhsuk-secondary-text-colour;
 }
 
-/* RESULTS HEADER BAR */
+/* RESULTS HEADER BAR (results and sort) */
 .results-header-bar {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  margin-bottom: 24px;
-  flex-wrap: wrap;
+  align-items: flex-start;
+  margin-bottom: 16px;
+  flex-wrap: wrap-reverse;
   gap: 16px;
-}
-.sort-by-wrapper {
-  display: flex;
-  align-items: center;
-  gap: 12px;
 }
 
 .filter-options {
@@ -102,18 +97,18 @@
 .filter-remove-link {
   display: inline-flex;
   align-items: center;
-  background-color: #ffffff;
-  border: 1px solid #0b0c0c;
+  background-color: nhsuk-colour("white");
+  border: 1px solid $nhsuk-text-colour;
   padding: 4px 8px;
   margin: 0.25rem 0.25rem 0.25rem 0;
   font-size: 14px;
-  color: #0b0c0c;
+  color: $nhsuk-text-colour;
   text-decoration: none;
   font-weight: 500;
 
   &:hover {
-    background-color: #f3f2f1;
-    color: #0b0c0c;
+    background-color: nhsuk-colour("grey-5");
+    color: $nhsuk-text-colour;
   }
 
   &::after {
@@ -121,7 +116,7 @@
     font-size: 16px;
     font-weight: bold;
     margin-left: 8px;
-    color: #505a5f;
+    color: $nhsuk-secondary-text-colour;
   }
 }
 .filter-tags {
@@ -136,20 +131,27 @@
   display: flex;
   justify-content: space-between;
   align-items: baseline;
+  gap: 8px;
   margin-bottom: 12px;
+
+  a {
+    margin-left: auto;
+    white-space: nowrap;
+  }
 }
+
 /* LOCATION AUTOCOMPLETE SUGGESTIONS (town/city/postcode field in the filter panel) */
 .location-suggestions {
   position: absolute;
   z-index: 1000;
   width: 100%;
-  background: #ffffff;
-  border: 2px solid #212b32;
+  background: nhsuk-colour("white");
+  border: 2px solid $nhsuk-border-colour;
   border-top: none;
   margin-top: -2px;
   max-height: 200px;
   overflow-y: auto;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px rgba(nhsuk-colour("black"), 0.1);
   list-style: none;
   padding: 0;
 }
@@ -157,11 +159,89 @@
 .location-suggestions__item {
   padding: 8px 12px;
   cursor: pointer;
-  border-bottom: 1px solid #d8ade8; /* preserved from original inline style - not part of this review's scope */
-  background-color: #ffffff;
+  border-bottom: 1px solid $nhsuk-border-colour;
+  background-color: nhsuk-colour("white");
 
   &:hover,
   &--hover {
-    background-color: #f3f2f1;
+    background-color: nhsuk-colour("grey-5");
+  }
+}
+
+/* MOBILE FILTER TOGGLE BUTTON (NHS Jobs pattern) */
+.filter-toggle-button {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;               /* 8px */
+  box-sizing: border-box;
+  padding-top: 0.6875rem;    /* 11px */
+  padding-bottom: 0.6875rem; /* 11px */
+}
+
+/* Reduced margin-bottom when open to connect visually to container */
+.filter-toggle-button[aria-expanded="true"] {
+  margin-bottom: 0.625rem;   /* 10px */
+}
+
+/* NHS Design System standard high-contrast focus state */
+.filter-toggle-button:focus {
+  background-color: $nhsuk-focus-colour;
+  color: $nhsuk-focus-text-colour;
+  outline: 4px solid $nhsuk-focus-text-colour;
+  outline-offset: 0;
+  box-shadow: 0 -2px $nhsuk-focus-colour, 0 4px $nhsuk-focus-text-colour;
+}
+
+/* Icon orientation */
+.filter-toggle-button__icon {
+  flex-shrink: 0;
+  transition: transform 0.2s ease-in-out;
+}
+
+.filter-toggle-button[aria-expanded="true"] .filter-toggle-button__icon {
+  transform: rotate(180deg);
+}
+
+/* Compact expander spacing */
+.nhsuk-expander--compact {
+  margin-bottom: 0.5rem;     /* 8px */
+}
+
+.nhsuk-expander--compact .nhsuk-details__summary {
+  padding-top: 0.75rem;      /* 12px */
+  padding-bottom: 0.75rem;
+}
+
+.nhsuk-expander--compact .nhsuk-details__text {
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+  margin-top: 0;
+}
+
+/* Desktop heading hidden on mobile (button does the job there) */
+.filter-panel__desktop-heading {
+  display: none;
+}
+
+/* DESKTOP: hide toggle, always show filters */
+@media (min-width: 48.0625em) {
+  .filter-toggle-button {
+    display: none;
+  }
+
+  .filter-menu[hidden] {
+    display: block !important;
+  }
+
+  .filter-panel__desktop-heading {
+    display: block;
+  }
+
+  .filter-menu {
+    background-color: nhsuk-colour("white");
+    border: 1px solid $nhsuk-border-colour;
+    padding: 16px;
   }
 }
