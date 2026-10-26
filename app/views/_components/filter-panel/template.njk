@@ -35,12 +35,12 @@
         {% if filterCount > 0 %}
           <div class="nhsuk-form-group selected-filters">
             <div class="selected-filters__heading">
-              <h2 class="nhsuk-heading-s nhsuk-u-margin-bottom-0">Selected filters</h2>
+              <h3 class="nhsuk-heading-xs nhsuk-u-margin-bottom-0">Selected filters</h3>
               <a class="nhsuk-link nhsuk-link--no-visited" href="{{ params.clearUrl }}">Clear filters</a>
             </div>
 
             {% for group in params.selectedFilters %}
-              <h3 class="nhsuk-heading-xs">{{ group.heading }}</h3>
+              <h4 class="nhsuk-heading-xs">{{ group.heading }}</h4>
               <ul class="filter-tags">
                 {% for item in group.items %}
                   <li><a class="filter-remove-link" href="{{ item.href }}" {% if item.filterType %}data-filter-type="{{ item.filterType }}"{% endif %} {% if item.filterValue %}data-filter-value="{{ item.filterValue }}"{% endif %}>
