@@ -79,11 +79,10 @@
       {% endif %}
 
       {% if chosenCondition and chosenCondition != "" and healthConditionsData[chosenCondition] %}
-        {% set conditionItems = [{ text: healthConditionsData[chosenCondition].text, href: "#", filterType: "healthCondition" }] %}
+        {% set _ = selectedFilters.push({ heading: "Area of research", items: [{ text: healthConditionsData[chosenCondition].text, href: "#", filterType: "healthCondition" }] }) %}
         {% if chosenSubCondition and chosenSubCondition != "" and chosenSubCondition != "all" %}
-          {% set _ = conditionItems.push({ text: chosenSubCondition | replace("-", " ") | capitalize, href: "#", filterType: "subCondition" }) %}
+          {% set _ = selectedFilters.push({ heading: "Condition", items: [{ text: chosenSubCondition | replace("-", " ") | capitalize, href: "#", filterType: "subCondition" }] }) %}
         {% endif %}
-        {% set _ = selectedFilters.push({ heading: "Health condition", items: conditionItems }) %}
       {% endif %}
 
       {% set statusLabels = { "recruiting": "Recruiting", "completed": "Completed", "not-recruiting": "Not recruiting", "stopped": "Stopped" } %}

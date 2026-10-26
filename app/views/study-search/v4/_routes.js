@@ -366,17 +366,37 @@ router.get('/search/study/:id', function (req, res) {
 // Question 1: Sex / Gender
 router.post('/questions/question-1', function (req, res) {
   const cleanSex = sanitizeInput(req.body.sex)
+  const cleanGender = sanitizeInput(req.body.genderSameAsSex)
+
   req.session.data.sex = cleanSex
-  req.session.data.genderSameAsSex = sanitizeInput(req.body.genderSameAsSex)
+  req.session.data.genderSameAsSex = cleanGender
+
+  const errors = {}
+  const errorList = []
+
+  if (!cleanSex) {
+    errors.sex = { text: 'Select your sex registered at birth' }
+    errorList.push({ text: errors.sex.text, href: '#sex-1' })
+  }
+
+  if (!cleanGender) {
+    errors.genderSameAsSex = { text: 'Select if the gender you identify with is the same as your sex registered at birth' }
+    errorList.push({ text: errors.genderSameAsSex.text, href: '#gender-same-as-sex-1' })
+  }
+
+  if (errorList.length) {
+    return res.render('study-search/v4/questions/question-1', { errors, errorList })
+  }
 
   res.redirect('/study-search/v4/questions/question-2')
 })
 
 // Question 2: Date of birth
 router.post('/questions/question-2', function (req, res) {
-  const day = sanitizeInput(req.body['dateofbirth-day'])
-  const month = sanitizeInput(req.body['dateofbirth-month'])
-  const year = sanitizeInput(req.body['dateofbirth-year'])
+  const dob = req.body.dateofbirth || {}
+  const day = sanitizeInput(dob.day)
+  const month = sanitizeInput(dob.month)
+  const year = sanitizeInput(dob.year)
 
   req.session.data.dateofbirthDay = day
   req.session.data.dateofbirthMonth = month
@@ -387,6 +407,44 @@ router.post('/questions/question-2', function (req, res) {
     day: day || '',
     month: month || '',
     year: year || ''
+  }
+
+  const errors = {}
+  let message = ''
+
+  if (!day && !month && !year) {
+    message = 'Enter your date of birth'
+    errors.day = errors.month = errors.year = true
+  } else if (!day || !month || !year) {
+    const missing = []
+    if (!day) { missing.push('day'); errors.day = true }
+    if (!month) { missing.push('month'); errors.month = true }
+    if (!year) { missing.push('year'); errors.year = true }
+    message = 'Date of birth must include a ' + missing.join(' and ')
+  } else {
+    const d = parseInt(day, 10)
+    const m = parseInt(month, 10)
+    const y = parseInt(year, 10)
+    const date = new Date(y, m - 1, d)
+    const isReal = year.length === 4 &&
+      date.getFullYear() === y &&
+      date.getMonth() === m - 1 &&
+      date.getDate() === d
+
+    if (!isReal) {
+      message = 'Date of birth must be a real date'
+      errors.day = errors.month = errors.year = true
+    } else if (date > new Date()) {
+      message = 'Date of birth must be in the past'
+      errors.day = errors.month = errors.year = true
+    }
+  }
+
+  if (message) {
+    errors.dob = { text: message }
+    const firstField = errors.day ? 'day' : errors.month ? 'month' : 'year'
+    const errorList = [{ text: message, href: '#date-of-birth-' + firstField }]
+    return res.render('study-search/v4/questions/question-2', { errors, errorList })
   }
 
   res.redirect('/study-search/v4/questions/question-3')
