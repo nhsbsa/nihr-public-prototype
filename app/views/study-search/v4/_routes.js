@@ -1,14 +1,30 @@
 const express = require('express')
 const router = express.Router()
 
+const healthConditionsData = require('../../../data/health-conditions.json')
+// Made-up study counts for the prototype (same name always gives the same number)
+function fakeCount (text) {
+  let n = 0
+  for (let i = 0; i < text.length; i++) {
+    n = (n * 31 + text.charCodeAt(i)) % 997
+  }
+  return (n % 150) + 3
+}
+
+// Attach a made-up count to every area and condition
+Object.values(healthConditionsData).forEach(function (cat) {
+  cat.count = fakeCount(cat.text)
+  ;(cat.items || []).forEach(function (item) {
+    item.count = fakeCount(item.text)
+  })
+})
+
+
 // Tells the shared layout that these pages are v4
 router.use(function (req, res, next) {
   res.locals.studySearchVersion = 'v4'
   next()
 })
-
-// Load health conditions JSON data from app/data/
-const healthConditionsData = require('../../../data/health-conditions.json')
 
 // Load the dummy studies from app/data/studies.json
 const studiesData = require('../../../data/studies.json')
@@ -479,6 +495,11 @@ router.post('/questions/question-3', function (req, res) {
 // Question 4: Location Preference
 router.post('/questions/question-4', function (req, res) {
   const pref = sanitizeInput(req.body.locationPreference)
+
+    if (pref === 'specific-area' && !sanitizeInput(req.body.location)) {
+    req.session.data.locationPreference = 'specific-area'
+    return res.render('study-search/v4/questions/question-4', { locationError: true })
+  }
 
   if (pref === 'specific-area' && sanitizeInput(req.body.location)) {
     req.session.data.locationPreference = 'specific-area'
