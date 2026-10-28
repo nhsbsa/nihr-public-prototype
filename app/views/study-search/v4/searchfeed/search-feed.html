@@ -185,14 +185,14 @@
         {{ select({
           id: "healthCondition",
           name: "healthCondition",
-          label: { text: "Area of research" },
+          label: { text: "Research area" },
           items: healthConditionItems
         }) }}
 
         {# SECONDARY SUB-CONDITION SELECT #}
         <div id="subConditionContainer" class="nhsuk-form-group" style="display: none;">
           <label class="nhsuk-label" for="subCondition">
-            Condition
+            Health condition
           </label>
           <select class="nhsuk-select" id="subCondition" name="subCondition">
           </select>
@@ -343,11 +343,11 @@
 
           <p class="nhsuk-body">You can now either:</p>
           <ul class="nhsuk-list nhsuk-list--bullet">
-            <li>register for an account and get matched to related studies when they are added</li>
-            <li>start your search again</li>
+            <li>create an account to get emails about studies you might be interested in - you'll need to provide your details again and choose which health conditions are of interest</li>
+            <li>start your search again without creating an account</li>
           </ul>
           <p class="nhsuk-body">
-            <a href="/registration/start" class="nhsuk-link">Register now</a>
+            <a href="/registration/start" class="nhsuk-link">Create an an account</a>
           </p>
         </div>
 
