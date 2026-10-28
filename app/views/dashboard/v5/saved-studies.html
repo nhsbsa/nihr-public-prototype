@@ -1,0 +1,52 @@
+{% extends "dashboard/v5/layout.html" %}
+
+{% block pageTitle %}
+  Suggested studies - Be Part of Research
+{% endblock %}
+
+{% block content %}
+
+<div class="nhsuk-grid-row">
+  <div class="nhsuk-grid-column-two-thirds">
+    {{ backLink({ text: "Back to dashboard", href: "home", classes: "nhsuk-u-margin-bottom-4" }) }}
+
+    <h1 class="nhsuk-heading-l">Suggested studies</h1>
+    <p class="nhsuk-body">Studies that are relevant to your health profile for you to review.</p>
+
+    {% for study in data.matchedStudies %}
+      {% if not data['hasRegisteredOsteo'] %}
+      {% call card({ classes: "nhsuk-u-margin-bottom-3" }) %}
+        <div class="nhsuk-grid-row">
+          <div class="nhsuk-grid-column-two-thirds">
+            <h3 class="nhsuk-heading-m"><a href="details">{{ study }}</a></h3>
+            {{ tag({ text: "Suggested", classes: "nhsuk-tag--grey" }) }}
+          </div>
+          <div class="nhsuk-grid-column-one-third">
+            <strong class="nhsuk-tag nhsuk-tag--yellow">Undecided</strong>
+          </div>
+        </div>
+        {{ button({
+          text: "Register interest in this study",
+          href: "/dashboard/v5/register-for-study",
+          classes: "nhsuk-button--secondary nhsuk-u-margin-top-3 nhsuk-u-margin-bottom-0"
+        }) }}
+      {% endcall %}
+      {% endif %}
+    {% else %}
+      {% call card() %}
+        <p class="nhsuk-body nhsuk-u-margin-bottom-0">You do not have any relevant research yet. Keep your areas of research and health conditions up to date, and you will be notified when a relevant study is looking for volunteers.</p>
+      {% endcall %}
+    {% endfor %}
+
+    {% if data['hasRegisteredOsteo'] %}
+      {% call card() %}
+        <p class="nhsuk-body nhsuk-u-margin-bottom-0">You do not have any relevant research yet. Keep your areas of research and health conditions up to date, and you will be notified when a relevant study is looking for volunteers.</p>
+      {% endcall %}
+    {% endif %}
+
+  </div>
+</div>
+
+{% include "dashboard/v5/partials/prototype-nav.html" %}
+
+{% endblock %}

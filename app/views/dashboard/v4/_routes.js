@@ -39,8 +39,7 @@ router.get('/set-state', function (req, res) {
         req.session.data['studyDismissed'] = (req.query.studyDismissed === 'true');
     }
 
-    // optional flash trigger - only fires when a caller explicitly asks for it,
-    // so the existing dev-nav demo-state links are unaffected
+    // Opt-in flash — only fires if asked, keeps dev-nav state links working
     if (req.query.showFlash === 'responseSaved') {
         req.flash('responseSaved', true);
     }
@@ -59,10 +58,8 @@ router.post('/save-study', function (req, res) {
         req.session.data.savedStudies.push(req.body.studyTitle);
     }
 
-    // Dashboard study cards pass returnTo=home so the save keeps the user on
-    // /dashboard/v4/home (jumping back to the same card via the anchor),
-    // matching the search feed's save/unsave pattern. The details.html save
-    // form does not set returnTo, so it keeps its original behaviour.
+    // returnTo=home keeps the save on-page (jump via anchor), same
+    // pattern as the search feed. details.html's form skips returnTo on purpose.
     if (req.body.returnTo === 'home') {
         return res.redirect('/dashboard/v4/home' + (req.body.anchor ? ('#' + req.body.anchor) : ''));
     }
@@ -92,6 +89,46 @@ function removeStudyFromDashboard(req, res) {
 
 router.get('/remove-study', removeStudyFromDashboard);
 router.post('/remove-study', removeStudyFromDashboard);
+
+router.post('/dismiss-recommended-study', function (req, res) {
+
+    if (!req.session.data.dismissedStudies) {
+        req.session.data.dismissedStudies = [];
+    }
+
+    if (req.body.studyTitle && req.session.data.dismissedStudies.indexOf(req.body.studyTitle) === -1) {
+        req.session.data.dismissedStudies.push(req.body.studyTitle);
+    }
+
+    if (req.body.returnTo === 'home') {
+        return res.redirect('/dashboard/v4/home' + (req.body.anchor ? ('#' + req.body.anchor) : ''));
+    }
+
+    res.redirect('home');
+
+})
+
+function undismissRecommendedStudy(req, res) {
+
+    const input = req.method === 'POST' ? req.body : req.query;
+
+    if (req.session.data.dismissedStudies && input.studyTitle) {
+        const index = req.session.data.dismissedStudies.indexOf(input.studyTitle);
+        if (index !== -1) {
+            req.session.data.dismissedStudies.splice(index, 1);
+        }
+    }
+
+    if (input.returnTo === 'home') {
+        return res.redirect('/dashboard/v4/home' + (input.anchor ? ('#' + input.anchor) : ''));
+    }
+
+    res.redirect('home');
+
+}
+
+router.get('/undismiss-recommended-study', undismissRecommendedStudy);
+router.post('/undismiss-recommended-study', undismissRecommendedStudy);
 
 router.post('/edit-interests', function (req, res) {
 
