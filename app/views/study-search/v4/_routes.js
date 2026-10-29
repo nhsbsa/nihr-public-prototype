@@ -1,9 +1,9 @@
 const express = require('express')
 const router = express.Router()
 
-// Tells the shared layout that these pages are v3
+// Tells the shared layout that these pages are v4
 router.use(function (req, res, next) {
-  res.locals.studySearchVersion = 'v3'
+  res.locals.studySearchVersion = 'v4'
   next()
 })
 
@@ -249,7 +249,7 @@ router.all('/searchfeed/search-feed', function (req, res) {
 
   // Build the primary health condition dropdown list
   const healthConditionItems = [
-    { value: "", text: "Select a health condition" }
+    { value: "", text: "Choose area" }
   ]
 
   Object.keys(healthConditionsData).forEach(key => {
@@ -356,7 +356,7 @@ router.get('/search/study/:id', function (req, res) {
   const detailFolder = study.detailFolder || 'studydetails-1'
 
   // Redirecting updates the URL bar so relative links resolve correctly
-  return res.redirect(`/study-search/v4/${detailFolder}/page-one`)
+  return res.redirect(`/study-search/v4/${detailFolder}/page-1`)
 })
 
 // ****************************************

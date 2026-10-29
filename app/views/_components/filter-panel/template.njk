@@ -1,42 +1,84 @@
-{% from "details/macro.njk" import details %}
 {% from "button/macro.njk" import button %}
-{% from "checkboxes/macro.njk" import checkboxes %}
-{% from "radios/macro.njk" import radios %}
-{% from "select/macro.njk" import select %}
 
-{% call details({
-  summary: "Filters",
-  classes: "nhsuk-expander",
-  id: params.id + "Expander"
-}) %}
-<form id="{{ params.id }}Form" action="{{ params.action }}" method="post">
-  <input type="hidden" name="sortBy" value="{{ params.sortBy }}">
-  <div class="filter-panel__content">
+{# Count applied filters from the selected filters list #}
+{% set filterCountItems = [] %}
+{% for group in (params.selectedFilters or []) %}
+  {% for item in group.items %}
+    {% set _ = filterCountItems.push(1) %}
+  {% endfor %}
+{% endfor %}
+{% set filterCount = filterCountItems.length %}
 
-    {% if params.selectedFilters and params.selectedFilters.length > 0 %}
-      <div class="nhsuk-form-group selected-filters">
-        <h2 class="nhsuk-heading-s nhsuk-u-margin-bottom-1">Selected filters</h2>
-        <a class="nhsuk-link nhsuk-link--no-visited" href="{{ params.clearUrl }}">Clear filters</a>
+<div class="filter-panel" data-module="filter-panel">
 
-        {% for group in params.selectedFilters %}
-          <h3 class="nhsuk-heading-xs">{{ group.heading }}</h3>
-          <ul class="filter-tags">
-            {% for item in group.items %}
-              <li><a class="filter-remove-link" href="{{ item.href }}" {% if item.filterType %}data-filter-type="{{ item.filterType }}"{% endif %} {% if item.filterValue %}data-filter-value="{{ item.filterValue }}"{% endif %}>
-                <span class="nhsuk-u-visually-hidden">Remove </span>{{ item.text }}
-              </a></li>
+  <button type="button"
+          class="nhsuk-button nhsuk-button--secondary filter-toggle-button"
+          aria-expanded="false"
+          aria-controls="{{ params.id }}Menu"
+          data-filter-count="{{ filterCount }}">
+    <svg class="filter-toggle-button__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+         fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+         aria-hidden="true" focusable="false" width="22" height="22">
+      <polyline points="6 9 12 15 18 9"></polyline>
+    </svg>
+    <span class="filter-toggle-button__text">Open filters ({{ filterCount }} applied)</span>
+  </button>
+
+  <div id="{{ params.id }}Menu" class="filter-menu" hidden>
+
+    <h2 class="nhsuk-heading-m filter-panel__desktop-heading">Filters</h2>
+
+    <form id="{{ params.id }}Form" action="{{ params.action }}" method="post">
+      <input type="hidden" name="sortBy" value="{{ params.sortBy }}">
+      <div class="filter-panel__content">
+
+        {% if filterCount > 0 %}
+          <div class="nhsuk-form-group selected-filters">
+            <div class="selected-filters__heading">
+              <h2 class="nhsuk-heading-s nhsuk-u-margin-bottom-0">Selected filters</h2>
+              <a class="nhsuk-link nhsuk-link--no-visited" href="{{ params.clearUrl }}">Clear filters</a>
+            </div>
+
+            {% for group in params.selectedFilters %}
+              <h3 class="nhsuk-heading-xs">{{ group.heading }}</h3>
+              <ul class="filter-tags">
+                {% for item in group.items %}
+                  <li><a class="filter-remove-link" href="{{ item.href }}" {% if item.filterType %}data-filter-type="{{ item.filterType }}"{% endif %} {% if item.filterValue %}data-filter-value="{{ item.filterValue }}"{% endif %}>
+                    <span class="nhsuk-u-visually-hidden">Remove </span>{{ item.text }}
+                  </a></li>
+                {% endfor %}
+              </ul>
             {% endfor %}
-          </ul>
-        {% endfor %}
+          </div>
+        {% endif %}
+
+        <div class="filter-options">
+          {{ button({ text: "Apply filters" }) }}
+          {{ params.optionsHtml | safe }}
+          {{ button({ text: "Apply filters" }) }}
+        </div>
+
       </div>
-    {% endif %}
-
-    <div class="filter-options">
-      {{ button({ text: "Apply filters" }) }}
-      {{ params.optionsHtml | safe }}
-      {{ button({ text: "Apply filters" }) }}
-    </div>
-
+    </form>
   </div>
-</form>
-{% endcall %}
+</div>
+
+<script>
+(function () {
+  var panels = document.querySelectorAll('[data-module="filter-panel"]:not([data-init])');
+  panels.forEach(function (panel) {
+    panel.setAttribute('data-init', 'true');
+    var btn = panel.querySelector('.filter-toggle-button');
+    var menu = document.getElementById(btn.getAttribute('aria-controls'));
+    var text = btn.querySelector('.filter-toggle-button__text');
+    var count = btn.getAttribute('data-filter-count');
+
+    btn.addEventListener('click', function () {
+      var isExpanded = btn.getAttribute('aria-expanded') === 'true';
+      btn.setAttribute('aria-expanded', String(!isExpanded));
+      menu.hidden = isExpanded;
+      text.textContent = (isExpanded ? 'Open' : 'Close') + ' filters (' + count + ' applied)';
+    });
+  });
+})();
+</script>
