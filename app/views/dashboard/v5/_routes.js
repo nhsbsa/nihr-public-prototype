@@ -52,7 +52,7 @@ router.get('/register-for-study', function (req, res) {
 
     req.session.data['hasRegisteredOsteo'] = true;
 
-    res.redirect('/dashboard/v5/registered-interest');
+    res.redirect('/dashboard/v5/registered-interest-confirmation');
 
 })
 
