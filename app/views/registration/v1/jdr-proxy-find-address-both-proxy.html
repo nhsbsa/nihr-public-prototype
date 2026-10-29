@@ -58,7 +58,20 @@
         
           {{ input({
             label: {
-              "text": 'Enter your postcode. For example, WA4 1AB'
+              "text": 'House name or number'
+            },
+            id: "jdr-house",
+            name: "jdr-house",
+            autocomplete: "house-number",
+            classes: "nhsuk-input--width-10"
+          }) }}
+
+          {{ input({
+            label: {
+              text: "Enter your postcode"
+            },
+            hint: {
+              text: "For example, WA4 1AB"
             },
             id: "jdr-postcode",
             name: "jdr-postcode",
@@ -69,7 +82,7 @@
         {% endcall %}
 
         <div class="nhsuk-form-group">
-            <p><a href="jdr-enter-address">Enter your address manually</a></p>
+            <p><a href="jdr-proxy-enter-address-both-proxy">Enter your address manually</a></p>
         </div>
 
         {{ button({

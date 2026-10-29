@@ -1,0 +1,56 @@
+{% set layout = "layout.html" %}
+
+{% set layout = "layout-volunteer-bpor.html" %}
+{% extends layout %}
+
+{% block pageTitle %}
+    Email
+{% endblock %}
+
+{% block header %}
+{% endblock %}
+
+{% block beforeContent %}
+{% endblock %}
+
+{% block content %}  
+<style>
+    html,body {
+        background-color: #fff !important;
+    }
+</style>
+
+<div class="nhsuk-grid-row" style="border: 1px solid grey">
+	<div class="nhsuk-grid-column-two-thirds">
+        {{ summaryList({
+            rows: [
+                {
+                key: {
+                    text: "From:"
+                },
+                value: {
+                    text: "no-reply@nihr.ac.uk"
+                }
+                },
+                {
+                key: {
+                    text: "Subject:"
+                },
+                value: {
+                    text: "Reset your Be Part of Research password"
+                }
+                }
+            ]
+        }) }}
+        
+        <p>We received a request to change your password for Be Part of Research.</p>
+        <p>Reset your password by following this link:</p>
+        <p><a href="/login/v1/bpor/new-password" class="nhsuk-link nhsuk-link--no-visited-state">[reset password URL]</a></p>
+        <p>If you did not ask to change your password, you can ignore this email.</p>
+        <p><a href="">Contact us</a> if you have any questions about your Be Part of Research account.</p>
+	</div>
+</div>
+{% endblock %}
+
+{% block footer %}
+{% endblock %}

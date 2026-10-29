@@ -179,13 +179,13 @@ router.post('/jdr-select-address', function (req, res) {
 
     var jdrSelectAddress = req.session.data['jdr-select-address'];
 
-    if (jdrSelectAddress) {
+    if (jdrSelectAddress === "My address isn’t listed") {
+
+        res.redirect('jdr-enter-address?brand=JDR');
+
+    } else if (jdrSelectAddress) {
 
         res.redirect('jdr-sex-and-gender?brand=JDR');
-
-    } else {
-
-        res.redirect('jdr-find-address?brand=JDR');
 
     }
 
@@ -902,11 +902,11 @@ router.post('/jdr-proxy-select-address-proxy', function (req, res) {
 
     var jdrSelectAddress = req.session.data['jdr-select-address'];
 
-    if (jdrSelectAddress) {
+    if (jdrSelectAddress === "My address isn’t listed") {
 
-        res.redirect('jdr-proxy-sex-and-gender?brand=JDR');
+        res.redirect('jdr-proxy-enter-address');
 
-    } else {
+    } else if (jdrSelectAddress) {
 
         res.redirect('jdr-proxy-sex-and-gender?brand=JDR');
 
@@ -918,11 +918,11 @@ router.post('/jdr-proxy-select-address-volunteer', function (req, res) {
 
     var jdrSelectAddress = req.session.data['jdr-select-address'];
 
-    if (jdrSelectAddress) {
+    if (jdrSelectAddress === "My address isn’t listed") {
 
-        res.redirect('jdr-proxy-sex-and-gender?brand=JDR');
+        res.redirect('jdr-proxy-enter-address-volunteer');
 
-    } else {
+    } else if (jdrSelectAddress) {
 
         res.redirect('jdr-proxy-sex-and-gender?brand=JDR');
 
@@ -934,11 +934,11 @@ router.post('/jdr-proxy-select-address-both-proxy', function (req, res) {
 
     var jdrSelectAddress = req.session.data['jdr-select-address'];
 
-    if (jdrSelectAddress) {
+    if (jdrSelectAddress === "My address isn’t listed") {
 
-        res.redirect('jdr-proxy-phone-number-both-volunteer?brand=JDR');
+        res.redirect('jdr-proxy-enter-address-both-proxy');
 
-    } else {
+    } else if (jdrSelectAddress) {
 
         res.redirect('jdr-proxy-phone-number-both-volunteer?brand=JDR');
 
@@ -964,7 +964,70 @@ router.post('/jdr-proxy-enter-address', function (req, res) {
 
     } else {
 
-        res.redirect('jdr-proxy-enter-address?brand=JDR');
+        res.redirect('jdr-proxy-sex-and-gender?brand=JDR');
+
+    }
+
+});
+
+router.post('/jdr-proxy-enter-address-volunteer', function (req, res) {
+
+    var jdrAddress1 = req.session.data['jdr-address-1'];
+    var jdrAddress2 = req.session.data['jdr-address-2'];
+    var jdrTown = req.session.data['jdr-town'];
+    var jdrCounty = req.session.data['jdr-county'];
+    var jdrPostcode = req.session.data['jdr-postcode'];
+
+
+    if (jdrAddress1 && jdrTown && jdrPostcode) {
+
+        res.redirect('jdr-proxy-sex-and-gender?brand=JDR');
+
+    } else {
+
+        res.redirect('jdr-proxy-sex-and-gender?brand=JDR');
+
+    }
+
+});
+
+router.post('/jdr-proxy-enter-address-both-proxy', function (req, res) {
+
+    var jdrAddress1 = req.session.data['jdr-address-1'];
+    var jdrAddress2 = req.session.data['jdr-address-2'];
+    var jdrTown = req.session.data['jdr-town'];
+    var jdrCounty = req.session.data['jdr-county'];
+    var jdrPostcode = req.session.data['jdr-postcode'];
+
+
+    if (jdrAddress1 && jdrTown && jdrPostcode) {
+
+        res.redirect('jdr-proxy-phone-number-both-volunteer?brand=JDR');
+
+    } else {
+
+        res.redirect('jdr-proxy-phone-number-both-volunteer?brand=JDR');
+
+    }
+
+});
+
+router.post('/jdr-proxy-enter-address-both-volunteer', function (req, res) {
+
+    var jdrAddress1 = req.session.data['jdr-address-1'];
+    var jdrAddress2 = req.session.data['jdr-address-2'];
+    var jdrTown = req.session.data['jdr-town'];
+    var jdrCounty = req.session.data['jdr-county'];
+    var jdrPostcode = req.session.data['jdr-postcode'];
+
+
+    if (jdrAddress1 && jdrTown && jdrPostcode) {
+
+        res.redirect('jdr-proxy-sex-and-gender?brand=JDR');
+
+    } else {
+
+        res.redirect('jdr-proxy-sex-and-gender?brand=JDR');
 
     }
 
@@ -1672,24 +1735,37 @@ router.post('/bpor-phone-number', function (req, res) {
 
 // What is your address? (Enter your postcode)
 router.post('/bpor-find-address', function (req, res) {
-    let postcode = req.session.data['postcode'];
 
-    let errors = {};
+    var jdrFindAddress = req.session.data['bpor-postcode'];
 
-    if (!postcode) {
-        errors.postcode = {
-            text: 'Enter a postcode',
-            href: '#postcode'
-        };
+    if (jdrFindAddress) {
 
-        return res.render(path.join(__dirname, "bpor-find-address"), {
-            errors: errors,
-            errorList: [errors.postcode]
-        });
+        res.redirect('bpor-select-address?brand=BPOR');
+
+    } else {
+
+        res.redirect('bpor-find-address?brand=BPOR');
+
     }
 
-    return res.redirect('bpor-select-address');
 });
+
+router.post('/bpor-select-address', function (req, res) {
+
+    var jdrSelectAddress = req.session.data['bpor-select-address'];
+
+    if (jdrSelectAddress === "My address isn’t listed") {
+
+        res.redirect('bpor-enter-address?brand=BPOR');
+
+    } else if (jdrSelectAddress) {
+
+        res.redirect('bpor-sex-and-gender?brand=BPOR');
+
+    }
+
+});
+
 
 // What is your address? (Select your address)
 router.post('/bpor-select-address', function (req, res) {
