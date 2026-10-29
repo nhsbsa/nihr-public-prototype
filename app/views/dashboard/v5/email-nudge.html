@@ -1,0 +1,31 @@
+{% extends 'layout-blank.html' %}
+
+{% block pageTitle %}
+  Email preview: A research study you saved is closing soon
+{% endblock %}
+
+{% block beforeContent %}
+{% endblock %}
+
+{% block content %}
+<style>
+  html, body {
+    background-color: #fff !important;
+  }
+</style>
+
+<div class="nhsuk-grid-row">
+  <div class="nhsuk-grid-column-two-thirds">
+
+    <h1 class="nhsuk-heading-l">A research study you saved is closing soon</h1>
+
+    <p class="nhsuk-body">Hello, you recently saved the Sleep patterns and cognitive health questionnaire study to your account. This study will stop accepting new volunteers in 7 days. If you are still interested, please log in to review the details.</p>
+
+    {{ button({
+      text: "View your saved studies",
+      href: "/dashboard/v5/home#saved-studies"
+    }) }}
+
+  </div>
+</div>
+{% endblock %}
