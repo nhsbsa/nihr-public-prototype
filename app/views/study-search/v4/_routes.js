@@ -19,6 +19,31 @@ Object.values(healthConditionsData).forEach(function (cat) {
   })
 })
 
+// Search result helpers: make text safe for HTML, then wrap keyword matches in <mark>
+function escapeHtml (text) {
+  return String(text || '')
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
+}
+
+function highlight (text, keyword) {
+  const safe = escapeHtml(text)
+  if (!keyword) return safe
+  const pattern = new RegExp('(' + escapeHtml(keyword).replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'gi')
+  return safe.replace(pattern, '<mark class="study-search-highlight">$1</mark>')
+}
+
+// Cuts long text down to about 200 characters around the first match
+function excerpt (text, keyword) {
+  text = String(text || '')
+  const length = 200
+  if (text.length <= length) return text
+  const at = keyword ? text.toLowerCase().indexOf(keyword.toLowerCase()) : -1
+  let start = at > 60 ? text.indexOf(' ', at - 60) + 1 : 0
+  let end = Math.min(text.length, start + length)
+  if (end < text.length) end = text.lastIndexOf(' ', end)
+  return (start > 0 ? '...' : '') + text.slice(start, end) + (end < text.length ? '...' : '')
+}
+
 
 // Tells the shared layout that these pages are v4
 router.use(function (req, res, next) {
@@ -28,6 +53,38 @@ router.use(function (req, res, next) {
 
 // Load the dummy studies from app/data/studies.json
 const studiesData = require('../../../data/studies.json')
+
+// Study details pages: read the text of each study's pages so keyword search can find it
+const fs = require('fs')
+const path = require('path')
+
+// Turns a page template into plain text: removes code, tags and class names, keeps the words
+function templateToText (source) {
+  return source
+    .replace(/{#[\s\S]*?#}/g, ' ')
+    .replace(/{%[\s\S]*?%}/g, ' ')
+    .replace(/{{([\s\S]*?)}}/g, function (match, inner) {
+      const strings = (inner.match(/"[^"]*"|'[^']*'/g) || [])
+        .map(s => s.slice(1, -1))
+        .filter(s => /\s/.test(s) || /^[A-Z]/.test(s))
+      return ' ' + strings.join(' ') + ' '
+    })
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/&gt;/g, '>').replace(/&lt;/g, '<').replace(/&amp;/g, '&').replace(/&nbsp;/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim()
+}
+
+studiesData.forEach(study => {
+  if (!study.detailFolder) return
+  const folder = path.join(__dirname, study.detailFolder)
+  if (!fs.existsSync(folder)) return
+  study.detailsText = fs.readdirSync(folder)
+    .filter(file => file.endsWith('.html'))
+    .sort()
+    .map(file => templateToText(fs.readFileSync(path.join(folder, file), 'utf8')))
+    .join(' ')
+})
 
 // Number of studies shown per page
 const PAGE_SIZE = 10
@@ -79,7 +136,10 @@ function applyFilters(studies, { keywords, location, activeStatuses, conditionFi
 
   // 1. Keyword Filter
   if (keywords) {
-    results = results.filter(study => study.title.toLowerCase().includes(keywords.toLowerCase()))
+    const kw = keywords.toLowerCase()
+    results = results.filter(study =>
+      [study.title, study.summary, study.conditionText, study.detailsText].some(field => String(field || '').toLowerCase().includes(kw))
+    )
   }
 
   // 2. Location Filter
@@ -169,7 +229,9 @@ router.all('/searchfeed/search-feed', function (req, res) {
     req.session.data.travelDistance = ''
     req.session.data.healthCondition = ''
     req.session.data.subCondition = ''
+    req.session.data.healthConditions = []
     req.session.data.conditionFilters = []
+    req.session.data.searchCondition = null
     req.session.data.activeStatuses = []
     req.session.data.ageRange = []
     req.session.data.dateofbirth = { day: '', month: '', year: '' }
@@ -248,6 +310,14 @@ router.all('/searchfeed/search-feed', function (req, res) {
     if (!alreadyAdded) sd.conditionFilters.push({ area: newArea, sub: newSub })
   }
 
+    // Condition picked from the top search box: used for this search only, not shown as a filter
+  if (inputSource.searchCondition !== undefined) {
+    const searchArea = sanitizeInput(inputSource.searchCondition)
+    sd.searchCondition = healthConditionsData[searchArea]
+      ? { area: searchArea, sub: sanitizeInput(inputSource.searchSubCondition) || 'all' }
+      : null
+  }
+
   // Tags for Selected filters: one tag per pick, with its research area in front
   const areaTags = []
   const conditionTags = []
@@ -300,7 +370,7 @@ router.all('/searchfeed/search-feed', function (req, res) {
   const studies = studiesData || []
 
   // Run unified filtering
-  const filteredStudies = applyFilters(studies, {
+  let filteredStudies = applyFilters(studies, {
     keywords,
     location,
     activeStatuses,
@@ -310,6 +380,10 @@ router.all('/searchfeed/search-feed', function (req, res) {
     ageRange
   })
 
+    if (sd.searchCondition) {
+    filteredStudies = applyFilters(filteredStudies, { conditionFilters: [sd.searchCondition], sortBy: chosenSortBy })
+  }
+
   // Pagination
   // POSTs (filters or sort) have no ?page, so they go back to page 1
   const baseUrl = '/study-search/v4/searchfeed/search-feed'
@@ -317,7 +391,20 @@ router.all('/searchfeed/search-feed', function (req, res) {
   const totalPages = Math.max(1, Math.ceil(filteredStudies.length / PAGE_SIZE))
   const currentPage = Math.min(Math.max(requestedPage, 1), totalPages)
   const start = (currentPage - 1) * PAGE_SIZE
-  const results = filteredStudies.slice(start, start + PAGE_SIZE)
+  
+  // Typed keyword search: add highlighted title and excerpt to each result
+  const isKeywordSearch = Boolean(keywords)
+  const results = filteredStudies.slice(start, start + PAGE_SIZE).map(study => {
+    if (!isKeywordSearch) return study
+    const kw = keywords.toLowerCase()
+    // Use the summary if the word is in it, otherwise the details pages
+    const excerptSource = [study.summary, study.detailsText].find(t => t && t.toLowerCase().includes(kw)) || study.summary || ''
+    return Object.assign({}, study, {
+      titleHtml: highlight(study.title, keywords),
+      conditionHtml: highlight(study.conditionText, keywords),
+      excerptHtml: excerptSource ? highlight(excerpt(excerptSource, keywords), keywords) : ''
+    })
+  })
 
   res.render('study-search/v4/searchfeed/search-feed', {
     results,
@@ -330,6 +417,7 @@ router.all('/searchfeed/search-feed', function (req, res) {
     activeStatuses,
     areaTags,
     conditionTags,
+    isKeywordSearch,
     sortBy: chosenSortBy,
     healthConditionItems,
     healthConditionsData,
@@ -553,8 +641,7 @@ router.get('/questions/question-6', function (req, res) {
     keywords: '',
     location,
     activeStatuses: [],
-    selectedConditions,
-    subCondition: '',
+    conditionFilters: selectedConditions.map(c => ({ area: c, sub: 'all' })),
     sex: sd.sex || '',
     sortBy: 'most-recent',
     ageRange: []
