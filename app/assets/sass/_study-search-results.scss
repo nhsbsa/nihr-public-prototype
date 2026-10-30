@@ -1,0 +1,16 @@
+// Keyword search results
+
+// Highlighted keyword matches (NHS yellow)
+.study-search-highlight {
+  background-color: nhsuk-colour("yellow");
+  color: inherit;
+  padding: 0 2px;
+}
+
+// Keep search excerpts to two lines, ending in "..."
+.study-search-excerpt {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
