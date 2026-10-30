@@ -1,0 +1,51 @@
+{% extends "dashboard/v4/layout.html" %}
+
+{% block pageTitle %}
+  Saved studies - Be Part of Research
+{% endblock %}
+
+{% block content %}
+
+<div class="nhsuk-grid-row">
+  <div class="nhsuk-grid-column-two-thirds">
+    {{ backLink({ text: "Back to dashboard", href: "home", classes: "nhsuk-u-margin-bottom-4" }) }}
+
+    {% if query.saved %}
+      {{ notificationBanner({
+        variant: "success",
+        html: "<h3 class=\"nhsuk-notification-banner__heading\">Success</h3><p>Study saved to your list.</p>"
+      }) }}
+    {% endif %}
+
+    <h1 class="nhsuk-heading-l">Saved studies</h1>
+    <p class="nhsuk-body">Studies you have saved to decide on later.</p>
+
+    {% for study in data.savedStudies %}
+      {% call card({ classes: "nhsuk-u-margin-bottom-3" }) %}
+        <div class="nhsuk-grid-row">
+          <div class="nhsuk-grid-column-two-thirds">
+            <h3 class="nhsuk-heading-m"><a href="details">{{ study }}</a></h3>
+            {{ tag({ text: "Saved", classes: "nhsuk-tag--grey" }) }}
+          </div>
+          <div class="nhsuk-grid-column-one-third">
+            <strong class="nhsuk-tag nhsuk-tag--yellow">Undecided</strong>
+          </div>
+        </div>
+        {{ button({
+          text: "Register interest in this study",
+          href: "pre-screener-outcome",
+          classes: "nhsuk-button--secondary nhsuk-u-margin-top-3 nhsuk-u-margin-bottom-0"
+        }) }}
+      {% endcall %}
+    {% else %}
+      {% call card() %}
+        <p class="nhsuk-body nhsuk-u-margin-bottom-0">You haven't saved any studies yet. When you find a study you are interested in, click 'Save study for later' to bookmark it here.</p>
+      {% endcall %}
+    {% endfor %}
+
+  </div>
+</div>
+
+{% include "dashboard/v4/partials/prototype-nav.html" %}
+
+{% endblock %}

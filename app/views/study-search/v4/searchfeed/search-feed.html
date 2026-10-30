@@ -5,7 +5,7 @@
 {% block beforeContent %}
   {% if data.from_dashboard %}
     {{ backLink({
-      "href": data.dashboard_return_url | default("/dashboard/v2/home"),
+      "href": data.dashboard_return_url | default("/dashboard/v4/home"),
       "text": "Return to my dashboard"
     }) }}
   {% endif %}
@@ -380,6 +380,7 @@
                     <span class="nhsuk-u-secondary-text-color">Until {{ study.closingDate }}</span>
                   {% endif %}
                 </div>
+                {% if data.from_dashboard %}
                 {% if data.savedStudies and study.title in data.savedStudies %}
                   <span class="save-study-link">
                     <strong class="nhsuk-tag nhsuk-tag--green">Saved 0 days ago</strong>
@@ -392,6 +393,7 @@
                     <input type="hidden" name="from_dashboard" value="{{ data.from_dashboard }}">
                     <button type="submit" class="nhsuk-link nhsuk-link--no-visited" style="background: none; border: none; padding: 0; cursor: pointer;">Save study<span class="nhsuk-u-visually-hidden"> {{ study.title }}</span></button>
                   </form>
+                {% endif %}
                 {% endif %}
               </div>
 
