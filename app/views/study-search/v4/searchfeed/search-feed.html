@@ -78,11 +78,11 @@
         {% set _ = selectedFilters.push({ heading: "Location", items: [{ text: locationText, href: "#", filterType: "location" }] }) %}
       {% endif %}
 
-      {% if chosenCondition and chosenCondition != "" and healthConditionsData[chosenCondition] %}
-        {% set _ = selectedFilters.push({ heading: "Area of research", items: [{ text: healthConditionsData[chosenCondition].text, href: "#", filterType: "healthCondition" }] }) %}
-        {% if chosenSubCondition and chosenSubCondition != "" and chosenSubCondition != "all" %}
-          {% set _ = selectedFilters.push({ heading: "Condition", items: [{ text: chosenSubCondition | replace("-", " ") | capitalize, href: "#", filterType: "subCondition" }] }) %}
-        {% endif %}
+      {% if areaTags.length %}
+        {% set _ = selectedFilters.push({ heading: "Research area", items: areaTags }) %}
+      {% endif %}
+      {% if conditionTags.length %}
+        {% set _ = selectedFilters.push({ heading: "Research area and health condition", items: conditionTags }) %}
       {% endif %}
 
       {% set statusLabels = { "recruiting": "Recruiting", "completed": "Completed", "not-recruiting": "Not recruiting", "stopped": "Stopped" } %}
@@ -107,9 +107,15 @@
         {% set _ = selectedFilters.push({ heading: "Age range", items: ageItems }) %}
       {% endif %}
 
-      {% if data.sex == 'female' or data.sex == 'male' or data.sex == 'all' %}
-        {% set genderText = "All genders" if data.sex == 'all' else data.sex | capitalize %}
-        {% set _ = selectedFilters.push({ heading: "Gender", items: [{ text: genderText, href: "#", filterType: "sex", filterValue: data.sex }] }) %}
+      {% set genderLabels = { "female": "Female", "male": "Male", "all": "All genders" } %}
+      {% set genderItems = [] %}
+      {% for key, label in genderLabels %}
+        {% if data.sex and key in data.sex %}
+          {% set _ = genderItems.push({ text: label, href: "#", filterType: "sex", filterValue: key }) %}
+        {% endif %}
+      {% endfor %}
+      {% if genderItems.length %}
+        {% set _ = selectedFilters.push({ heading: "Gender", items: genderItems }) %}
       {% endif %}
 
       {# ---------- LOCATION CONDITIONAL HTML ---------- #}
@@ -729,7 +735,12 @@
         } else if (filterType === 'subCondition') {
           const scSelect = document.getElementById('subCondition');
           if (scSelect) scSelect.value = '';
-        } else if (filterType === 'keywords') {
+        } else if (filterType === 'condition') {
+          const removeInput = document.createElement('input');
+          removeInput.type = 'hidden';
+          removeInput.name = 'removeCondition';
+          removeInput.value = filterVal;
+          sideForm.appendChild(removeInput);
           const topKw = document.getElementById('topKeywordsInput');
           if (topKw) topKw.value = '';
         } else if (filterType === 'location') {
