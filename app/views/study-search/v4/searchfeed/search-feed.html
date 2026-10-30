@@ -476,7 +476,7 @@
           category.items.forEach(function (item) {
             const opt = document.createElement('option');
             opt.value = item.value;
-            opt.textContent = item.text;
+            opt.textContent = item.text + ' (' + item.count + ')';
             if (selectedSub === item.value) opt.selected = true;
             subSelect.appendChild(opt);
           });

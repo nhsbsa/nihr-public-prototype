@@ -271,7 +271,7 @@ router.all('/searchfeed/search-feed', function (req, res) {
   Object.keys(healthConditionsData).forEach(key => {
     healthConditionItems.push({
       value: key,
-      text: healthConditionsData[key].text,
+      text: healthConditionsData[key].text + ' (' + healthConditionsData[key].count + ')',
       selected: key === chosenCondition
     })
   })
