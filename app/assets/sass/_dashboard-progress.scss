@@ -15,6 +15,29 @@
 }
 
 body.app-dashboard-v2 .nhsuk-back-link,
-body.app-dashboard-v3 .nhsuk-back-link {
+body.app-dashboard-v3 .nhsuk-back-link,
+body.app-dashboard-v4 .nhsuk-back-link {
   display: inline-block !important;
+}
+
+// V4 dashboard: card-container styling ported from V3's "My studies" tabbed
+// page (the NHS.UK tabs component's .nhsuk-tabs__panel treatment: a white
+// card with a grey-4 border and the same padding scale), applied as a plain
+// static wrapper around the Saved studies / active studies sections on the
+// V4 home page. V3's tab navigation itself is intentionally not reproduced -
+// that confusing tabbed interface was removed earlier in this V4 redesign.
+.app-dashboard-v4-card-container {
+  padding: 40px 24px;
+  border: 1px solid #d8dde0;
+  background-color: #ffffff;
+}
+
+// V4 dashboard: push the "Sign out" header nav item to the far right on
+// tablet/desktop, matching standard GDS/NHS header patterns. Gated behind
+// the same tablet breakpoint NHS.UK's own header nav uses, so mobile's
+// existing wrapping/stacking behaviour is left completely unchanged.
+@media (min-width: 40.0625em) {
+  body.app-dashboard-v4 .app-dashboard-v4-nav-signout {
+    margin-left: auto;
+  }
 }

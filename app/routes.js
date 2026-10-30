@@ -21,7 +21,7 @@ router.use((req, res, next) => {
 // Get folder name (useful for relative templates)
 
 router.use('/', (req, res, next) => {
-    req.folder = req.originalUrl.split('/')[1]; //f older, e.g. 'current'
+    req.folder = req.originalUrl.split('/')[1]; //folder, e.g. 'current'
     req.subfolder = req.originalUrl.split('/')[2]; //sub-folder e.g. 'service'
     res.locals.folder = req.folder; // what folder the url is
     res.locals.subfolder = req.subfolder; // what subfolder the URL is in
@@ -146,6 +146,10 @@ router.use('/dashboard/v1', require('./views/dashboard/v1/_routes'));
 router.use('/dashboard/v2', require('./views/dashboard/v2/_routes'));
 
 router.use('/dashboard/v3', require('./views/dashboard/v3/_routes'));
+
+router.use('/dashboard/v4', require('./views/dashboard/v4/_routes'));
+
+router.use('/dashboard/v5', require('./views/dashboard/v5/_routes'));
 
 router.use('/login/v1', require('./views/login/v1/_routes'));
 

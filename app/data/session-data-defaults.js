@@ -4,6 +4,10 @@ module.exports = {
 
 currentStudies: [],
 
+matchedStudies: [
+  "Osteoarthritis Pain Management & Mobility Study"
+],
+
 health_conditions: [
   { text: "Abdominal aortic aneurysm", value: "Abdominal aortic aneurysm" }, // A
   { text: "Back pain", value: "Back pain" }, // B
