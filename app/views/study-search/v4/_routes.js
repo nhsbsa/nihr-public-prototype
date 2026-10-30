@@ -74,7 +74,7 @@ function buildPagination (currentPage, totalPages, baseUrl) {
 }
 
 // Applies keywords, location, status, condition, sub-condition, sex, AND sorting filters to the study list.
-function applyFilters(studies, { keywords, location, activeStatuses, selectedConditions, subCondition, sex, sortBy, ageRange }) {
+function applyFilters(studies, { keywords, location, activeStatuses, conditionFilters, sex, sortBy, ageRange }) {
   let results = [...studies]
 
   // 1. Keyword Filter
@@ -92,33 +92,24 @@ function applyFilters(studies, { keywords, location, activeStatuses, selectedCon
     results = results.filter(study => activeStatuses.includes(study.status))
   }
 
-  // 4. Main Health Condition Category Filter
-  if (selectedConditions && selectedConditions.length > 0) {
-    results = results.filter(study =>
-      Array.isArray(study.conditionCategories) &&
-      study.conditionCategories.some(c => selectedConditions.includes(c))
-    )
-  }
+    // 4 and 5. Areas of research and health conditions
+  // A study is shown if it matches ANY of the chosen areas or conditions
+  if (conditionFilters && conditionFilters.length > 0) {
+    const clean = val => String(val).toLowerCase().replace(/[-_]/g, ' ').trim()
 
-  // 5. Specific Sub-Condition Filter
-  if (subCondition && subCondition !== 'all') {
-    const targetSub = subCondition.toLowerCase().replace(/[-_]/g, ' ').trim()
+    results = results.filter(study => conditionFilters.some(f => {
+      const inArea = Array.isArray(study.conditionCategories) && study.conditionCategories.includes(f.area)
+      if (f.sub === 'all') return inArea
 
-    results = results.filter(study => {
-      const matchingSub = Object.keys(study).some(key => {
-        if (Array.isArray(study[key])) {
-          return study[key].some(val =>
-            String(val).toLowerCase().replace(/[-_]/g, ' ').trim() === targetSub
-          )
-        }
-        return false
-      })
-
+      const target = clean(f.sub)
+      const matchingSub = Object.keys(study).some(key =>
+        Array.isArray(study[key]) && study[key].some(val => clean(val) === target)
+      )
       const matchingCategory = Array.isArray(study.conditionCategories) &&
-        study.conditionCategories.some(c => String(c).toLowerCase().replace(/[-_]/g, ' ').trim() === targetSub)
+        study.conditionCategories.some(c => clean(c) === target)
 
       return matchingSub || matchingCategory
-    })
+    }))
   }
 
   // 6. Age Range Filter
@@ -145,10 +136,11 @@ function applyFilters(studies, { keywords, location, activeStatuses, selectedCon
   }
 
   // 7. Sex/Gender Filter
-  if (sex) {
+  const sexes = [].concat(sex || [])
+  if (sexes.length > 0 && !sexes.includes('all')) {
     results = results.filter(study => {
       if (!study.targetSex || study.targetSex === 'all') return true
-      return study.targetSex.toLowerCase() === sex.toLowerCase()
+      return sexes.includes(study.targetSex.toLowerCase())
     })
   }
 
@@ -177,7 +169,7 @@ router.all('/searchfeed/search-feed', function (req, res) {
     req.session.data.travelDistance = ''
     req.session.data.healthCondition = ''
     req.session.data.subCondition = ''
-    req.session.data.healthConditions = []
+    req.session.data.conditionFilters = []
     req.session.data.activeStatuses = []
     req.session.data.ageRange = []
     req.session.data.dateofbirth = { day: '', month: '', year: '' }
@@ -205,10 +197,12 @@ router.all('/searchfeed/search-feed', function (req, res) {
   // Sanitize incoming input overrides
   if (inputSource.keywords !== undefined) sd.keywords = sanitizeInput(inputSource.keywords)
   if (inputSource.sex !== undefined) {
-    sd.sex = sanitizeInput(inputSource.sex)
+    sd.sex = sanitizeInput([].concat(inputSource.sex))
   } else if (req.method === 'POST') {
-    sd.sex = ''
+    sd.sex = []
   }
+  // Gender is a list, as more than one box can be ticked
+  if (!Array.isArray(sd.sex)) sd.sex = sd.sex ? [sd.sex] : []
   if (inputSource.locationPreference !== undefined) {
     sd.locationPreference = sanitizeInput(inputSource.locationPreference)
   } else if (req.method === 'POST') {
@@ -227,24 +221,52 @@ router.all('/searchfeed/search-feed', function (req, res) {
     sd.location = ""
   }
 
-  // Validate Health Condition choice against valid categories
-  let chosenCondition = sd.healthCondition || ''
-  if (!healthConditionsData[chosenCondition]) {
-    chosenCondition = ''
+    // Areas of research and health conditions
+  // Each time filters are applied, the chosen area/condition is ADDED to the list, not swapped
+  if (!Array.isArray(sd.conditionFilters)) {
+    // First visit: start with the areas picked in question 3
+    sd.conditionFilters = (sd.healthConditions || [])
+      .filter(c => healthConditionsData[c])
+      .map(c => ({ area: c, sub: 'all' }))
   }
 
-  // Fallback to Question 3 selection if search feed selection is empty
-  if (!chosenCondition && Array.isArray(sd.healthConditions) && sd.healthConditions.length > 0) {
-    const validCond = sd.healthConditions.find(c => healthConditionsData[c])
-    chosenCondition = validCond || ''
+  // Remove one (from clicking its tag in Selected filters)
+  if (inputSource.removeCondition !== undefined) {
+    const toRemove = sanitizeInput(inputSource.removeCondition)
+    sd.conditionFilters = sd.conditionFilters.filter(f => f.area + '|' + f.sub !== toRemove)
   }
 
-  const chosenSubCondition = sd.subCondition || ''
+  // Add the new one, unless it's already there
+  const newArea = sanitizeInput(inputSource.healthCondition)
+  if (healthConditionsData[newArea]) {
+    const newSub = sanitizeInput(inputSource.subCondition) || 'all'
+    if (newSub === 'all') {
+      // "All conditions" in an area replaces any single conditions already picked in that area
+      sd.conditionFilters = sd.conditionFilters.filter(f => f.area !== newArea)
+    }
+    const alreadyAdded = sd.conditionFilters.some(f => f.area === newArea && (f.sub === newSub || f.sub === 'all'))
+    if (!alreadyAdded) sd.conditionFilters.push({ area: newArea, sub: newSub })
+  }
+
+  // Tags for Selected filters: one tag per pick, with its research area in front
+  const areaTags = []
+  const conditionTags = []
+  sd.conditionFilters.forEach(f => {
+    const area = healthConditionsData[f.area]
+    if (!area) return
+    let text = area.text + ': All conditions'
+    if (f.sub !== 'all') {
+      const item = (area.items || []).find(i => i.value === f.sub)
+      text = area.text + ': ' + (item ? item.text : f.sub)
+    }
+    conditionTags.push({ text: text, href: '#', filterType: 'condition', filterValue: f.area + '|' + f.sub })
+  })
+  conditionTags.sort((a, b) => a.text.localeCompare(b.text))
+
+
   const chosenSortBy = sd.sortBy || 'most-recent'
   const chosenSex = sd.sex || ''
   const keywords = sd.keywords || ''
-
-  const selectedConditions = chosenCondition && chosenCondition !== '_all' ? [chosenCondition] : []
 
   // Status Filter Sanitization
   let rawStatuses = inputSource.status !== undefined
@@ -271,8 +293,7 @@ router.all('/searchfeed/search-feed', function (req, res) {
   Object.keys(healthConditionsData).forEach(key => {
     healthConditionItems.push({
       value: key,
-      text: healthConditionsData[key].text + ' (' + healthConditionsData[key].count + ')',
-      selected: key === chosenCondition
+      text: healthConditionsData[key].text + ' (' + healthConditionsData[key].count + ')'
     })
   })
 
@@ -283,8 +304,7 @@ router.all('/searchfeed/search-feed', function (req, res) {
     keywords,
     location,
     activeStatuses,
-    selectedConditions,
-    subCondition: chosenSubCondition,
+    conditionFilters: sd.conditionFilters,
     sex: chosenSex,
     sortBy: chosenSortBy,
     ageRange
@@ -308,9 +328,8 @@ router.all('/searchfeed/search-feed', function (req, res) {
     keywords,
     location,
     activeStatuses,
-    selectedConditions,
-    chosenCondition,
-    chosenSubCondition,
+    areaTags,
+    conditionTags,
     sortBy: chosenSortBy,
     healthConditionItems,
     healthConditionsData,
@@ -480,6 +499,7 @@ router.post('/questions/question-3', function (req, res) {
   }
 
   const cleanConditions = sanitizeInput(rawConditions || [])
+  req.session.data.conditionFilters = null // start the search feed fresh from these answers
   req.session.data.healthConditions = cleanConditions
 
   // Assign initial condition if valid
