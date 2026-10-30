@@ -1,17 +1,90 @@
 const express = require('express')
 const router = express.Router()
 
+const healthConditionsData = require('../../../data/health-conditions.json')
+// Made-up study counts for the prototype (same name always gives the same number)
+function fakeCount (text) {
+  let n = 0
+  for (let i = 0; i < text.length; i++) {
+    n = (n * 31 + text.charCodeAt(i)) % 997
+  }
+  return (n % 150) + 3
+}
+
+// Attach a made-up count to every area and condition
+Object.values(healthConditionsData).forEach(function (cat) {
+  cat.count = fakeCount(cat.text)
+  ;(cat.items || []).forEach(function (item) {
+    item.count = fakeCount(item.text)
+  })
+})
+
+// Search result helpers: make text safe for HTML, then wrap keyword matches in <mark>
+function escapeHtml (text) {
+  return String(text || '')
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
+}
+
+function highlight (text, keyword) {
+  const safe = escapeHtml(text)
+  if (!keyword) return safe
+  const pattern = new RegExp('(' + escapeHtml(keyword).replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'gi')
+  return safe.replace(pattern, '<mark class="study-search-highlight">$1</mark>')
+}
+
+// Cuts long text down to about 200 characters around the first match
+function excerpt (text, keyword) {
+  text = String(text || '')
+  const length = 200
+  if (text.length <= length) return text
+  const at = keyword ? text.toLowerCase().indexOf(keyword.toLowerCase()) : -1
+  let start = at > 60 ? text.indexOf(' ', at - 60) + 1 : 0
+  let end = Math.min(text.length, start + length)
+  if (end < text.length) end = text.lastIndexOf(' ', end)
+  return (start > 0 ? '...' : '') + text.slice(start, end) + (end < text.length ? '...' : '')
+}
+
+
 // Tells the shared layout that these pages are v4
 router.use(function (req, res, next) {
   res.locals.studySearchVersion = 'v4'
   next()
 })
 
-// Load health conditions JSON data from app/data/
-const healthConditionsData = require('../../../data/health-conditions.json')
-
 // Load the dummy studies from app/data/studies.json
 const studiesData = require('../../../data/studies.json')
+
+// Study details pages: read the text of each study's pages so keyword search can find it
+const fs = require('fs')
+const path = require('path')
+
+// Turns a page template into plain text: removes code, tags and class names, keeps the words
+function templateToText (source) {
+  return source
+    .replace(/{#[\s\S]*?#}/g, ' ')
+    .replace(/{%[\s\S]*?%}/g, ' ')
+    .replace(/{{([\s\S]*?)}}/g, function (match, inner) {
+      const strings = (inner.match(/"[^"]*"|'[^']*'/g) || [])
+        .map(s => s.slice(1, -1))
+        .filter(s => /\s/.test(s) || /^[A-Z]/.test(s))
+      return ' ' + strings.join(' ') + ' '
+    })
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/&gt;/g, '>').replace(/&lt;/g, '<').replace(/&amp;/g, '&').replace(/&nbsp;/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim()
+}
+
+studiesData.forEach(study => {
+  if (!study.detailFolder) return
+  const folder = path.join(__dirname, study.detailFolder)
+  if (!fs.existsSync(folder)) return
+  study.detailsText = fs.readdirSync(folder)
+    .filter(file => file.endsWith('.html'))
+    .sort()
+    .map(file => templateToText(fs.readFileSync(path.join(folder, file), 'utf8')))
+    .join(' ')
+})
 
 // Number of studies shown per page
 const PAGE_SIZE = 10
@@ -58,12 +131,15 @@ function buildPagination (currentPage, totalPages, baseUrl) {
 }
 
 // Applies keywords, location, status, condition, sub-condition, sex, AND sorting filters to the study list.
-function applyFilters(studies, { keywords, location, activeStatuses, selectedConditions, subCondition, sex, sortBy, ageRange }) {
+function applyFilters(studies, { keywords, location, activeStatuses, conditionFilters, sex, sortBy, ageRange }) {
   let results = [...studies]
 
   // 1. Keyword Filter
   if (keywords) {
-    results = results.filter(study => study.title.toLowerCase().includes(keywords.toLowerCase()))
+    const kw = keywords.toLowerCase()
+    results = results.filter(study =>
+      [study.title, study.summary, study.conditionText, study.detailsText].some(field => String(field || '').toLowerCase().includes(kw))
+    )
   }
 
   // 2. Location Filter
@@ -76,33 +152,24 @@ function applyFilters(studies, { keywords, location, activeStatuses, selectedCon
     results = results.filter(study => activeStatuses.includes(study.status))
   }
 
-  // 4. Main Health Condition Category Filter
-  if (selectedConditions && selectedConditions.length > 0) {
-    results = results.filter(study =>
-      Array.isArray(study.conditionCategories) &&
-      study.conditionCategories.some(c => selectedConditions.includes(c))
-    )
-  }
+    // 4 and 5. Areas of research and health conditions
+  // A study is shown if it matches ANY of the chosen areas or conditions
+  if (conditionFilters && conditionFilters.length > 0) {
+    const clean = val => String(val).toLowerCase().replace(/[-_]/g, ' ').trim()
 
-  // 5. Specific Sub-Condition Filter
-  if (subCondition && subCondition !== 'all') {
-    const targetSub = subCondition.toLowerCase().replace(/[-_]/g, ' ').trim()
+    results = results.filter(study => conditionFilters.some(f => {
+      const inArea = Array.isArray(study.conditionCategories) && study.conditionCategories.includes(f.area)
+      if (f.sub === 'all') return inArea
 
-    results = results.filter(study => {
-      const matchingSub = Object.keys(study).some(key => {
-        if (Array.isArray(study[key])) {
-          return study[key].some(val =>
-            String(val).toLowerCase().replace(/[-_]/g, ' ').trim() === targetSub
-          )
-        }
-        return false
-      })
-
+      const target = clean(f.sub)
+      const matchingSub = Object.keys(study).some(key =>
+        Array.isArray(study[key]) && study[key].some(val => clean(val) === target)
+      )
       const matchingCategory = Array.isArray(study.conditionCategories) &&
-        study.conditionCategories.some(c => String(c).toLowerCase().replace(/[-_]/g, ' ').trim() === targetSub)
+        study.conditionCategories.some(c => clean(c) === target)
 
       return matchingSub || matchingCategory
-    })
+    }))
   }
 
   // 6. Age Range Filter
@@ -129,10 +196,11 @@ function applyFilters(studies, { keywords, location, activeStatuses, selectedCon
   }
 
   // 7. Sex/Gender Filter
-  if (sex) {
+  const sexes = [].concat(sex || [])
+  if (sexes.length > 0 && !sexes.includes('all')) {
     results = results.filter(study => {
       if (!study.targetSex || study.targetSex === 'all') return true
-      return study.targetSex.toLowerCase() === sex.toLowerCase()
+      return sexes.includes(study.targetSex.toLowerCase())
     })
   }
 
@@ -162,6 +230,8 @@ router.all('/searchfeed/search-feed', function (req, res) {
     req.session.data.healthCondition = ''
     req.session.data.subCondition = ''
     req.session.data.healthConditions = []
+    req.session.data.conditionFilters = []
+    req.session.data.searchCondition = null
     req.session.data.activeStatuses = []
     req.session.data.ageRange = []
     req.session.data.dateofbirth = { day: '', month: '', year: '' }
@@ -189,10 +259,12 @@ router.all('/searchfeed/search-feed', function (req, res) {
   // Sanitize incoming input overrides
   if (inputSource.keywords !== undefined) sd.keywords = sanitizeInput(inputSource.keywords)
   if (inputSource.sex !== undefined) {
-    sd.sex = sanitizeInput(inputSource.sex)
+    sd.sex = sanitizeInput([].concat(inputSource.sex))
   } else if (req.method === 'POST') {
-    sd.sex = ''
+    sd.sex = []
   }
+  // Gender is a list, as more than one box can be ticked
+  if (!Array.isArray(sd.sex)) sd.sex = sd.sex ? [sd.sex] : []
   if (inputSource.locationPreference !== undefined) {
     sd.locationPreference = sanitizeInput(inputSource.locationPreference)
   } else if (req.method === 'POST') {
@@ -211,24 +283,60 @@ router.all('/searchfeed/search-feed', function (req, res) {
     sd.location = ""
   }
 
-  // Validate Health Condition choice against valid categories
-  let chosenCondition = sd.healthCondition || ''
-  if (!healthConditionsData[chosenCondition]) {
-    chosenCondition = ''
+    // Areas of research and health conditions
+  // Each time filters are applied, the chosen area/condition is ADDED to the list, not swapped
+  if (!Array.isArray(sd.conditionFilters)) {
+    // First visit: start with the areas picked in question 3
+    sd.conditionFilters = (sd.healthConditions || [])
+      .filter(c => healthConditionsData[c])
+      .map(c => ({ area: c, sub: 'all' }))
   }
 
-  // Fallback to Question 3 selection if search feed selection is empty
-  if (!chosenCondition && Array.isArray(sd.healthConditions) && sd.healthConditions.length > 0) {
-    const validCond = sd.healthConditions.find(c => healthConditionsData[c])
-    chosenCondition = validCond || ''
+  // Remove one (from clicking its tag in Selected filters)
+  if (inputSource.removeCondition !== undefined) {
+    const toRemove = sanitizeInput(inputSource.removeCondition)
+    sd.conditionFilters = sd.conditionFilters.filter(f => f.area + '|' + f.sub !== toRemove)
   }
 
-  const chosenSubCondition = sd.subCondition || ''
+  // Add the new one, unless it's already there
+  const newArea = sanitizeInput(inputSource.healthCondition)
+  if (healthConditionsData[newArea]) {
+    const newSub = sanitizeInput(inputSource.subCondition) || 'all'
+    if (newSub === 'all') {
+      // "All conditions" in an area replaces any single conditions already picked in that area
+      sd.conditionFilters = sd.conditionFilters.filter(f => f.area !== newArea)
+    }
+    const alreadyAdded = sd.conditionFilters.some(f => f.area === newArea && (f.sub === newSub || f.sub === 'all'))
+    if (!alreadyAdded) sd.conditionFilters.push({ area: newArea, sub: newSub })
+  }
+
+    // Condition picked from the top search box: used for this search only, not shown as a filter
+  if (inputSource.searchCondition !== undefined) {
+    const searchArea = sanitizeInput(inputSource.searchCondition)
+    sd.searchCondition = healthConditionsData[searchArea]
+      ? { area: searchArea, sub: sanitizeInput(inputSource.searchSubCondition) || 'all' }
+      : null
+  }
+
+  // Tags for Selected filters: one tag per pick, with its research area in front
+  const areaTags = []
+  const conditionTags = []
+  sd.conditionFilters.forEach(f => {
+    const area = healthConditionsData[f.area]
+    if (!area) return
+    let text = area.text + ': All conditions'
+    if (f.sub !== 'all') {
+      const item = (area.items || []).find(i => i.value === f.sub)
+      text = area.text + ': ' + (item ? item.text : f.sub)
+    }
+    conditionTags.push({ text: text, href: '#', filterType: 'condition', filterValue: f.area + '|' + f.sub })
+  })
+  conditionTags.sort((a, b) => a.text.localeCompare(b.text))
+
+
   const chosenSortBy = sd.sortBy || 'most-recent'
   const chosenSex = sd.sex || ''
   const keywords = sd.keywords || ''
-
-  const selectedConditions = chosenCondition && chosenCondition !== '_all' ? [chosenCondition] : []
 
   // Status Filter Sanitization
   let rawStatuses = inputSource.status !== undefined
@@ -255,24 +363,26 @@ router.all('/searchfeed/search-feed', function (req, res) {
   Object.keys(healthConditionsData).forEach(key => {
     healthConditionItems.push({
       value: key,
-      text: healthConditionsData[key].text,
-      selected: key === chosenCondition
+      text: healthConditionsData[key].text + ' (' + healthConditionsData[key].count + ')'
     })
   })
 
   const studies = studiesData || []
 
   // Run unified filtering
-  const filteredStudies = applyFilters(studies, {
+  let filteredStudies = applyFilters(studies, {
     keywords,
     location,
     activeStatuses,
-    selectedConditions,
-    subCondition: chosenSubCondition,
+    conditionFilters: sd.conditionFilters,
     sex: chosenSex,
     sortBy: chosenSortBy,
     ageRange
   })
+
+    if (sd.searchCondition) {
+    filteredStudies = applyFilters(filteredStudies, { conditionFilters: [sd.searchCondition], sortBy: chosenSortBy })
+  }
 
   // Pagination
   // POSTs (filters or sort) have no ?page, so they go back to page 1
@@ -281,7 +391,20 @@ router.all('/searchfeed/search-feed', function (req, res) {
   const totalPages = Math.max(1, Math.ceil(filteredStudies.length / PAGE_SIZE))
   const currentPage = Math.min(Math.max(requestedPage, 1), totalPages)
   const start = (currentPage - 1) * PAGE_SIZE
-  const results = filteredStudies.slice(start, start + PAGE_SIZE)
+  
+  // Typed keyword search: add highlighted title and excerpt to each result
+  const isKeywordSearch = Boolean(keywords)
+  const results = filteredStudies.slice(start, start + PAGE_SIZE).map(study => {
+    if (!isKeywordSearch) return study
+    const kw = keywords.toLowerCase()
+    // Use the summary if the word is in it, otherwise the details pages
+    const excerptSource = [study.summary, study.detailsText].find(t => t && t.toLowerCase().includes(kw)) || study.summary || ''
+    return Object.assign({}, study, {
+      titleHtml: highlight(study.title, keywords),
+      conditionHtml: highlight(study.conditionText, keywords),
+      excerptHtml: excerptSource ? highlight(excerpt(excerptSource, keywords), keywords) : ''
+    })
+  })
 
   res.render('study-search/v4/searchfeed/search-feed', {
     results,
@@ -292,9 +415,9 @@ router.all('/searchfeed/search-feed', function (req, res) {
     keywords,
     location,
     activeStatuses,
-    selectedConditions,
-    chosenCondition,
-    chosenSubCondition,
+    areaTags,
+    conditionTags,
+    isKeywordSearch,
     sortBy: chosenSortBy,
     healthConditionItems,
     healthConditionsData,
@@ -366,17 +489,37 @@ router.get('/search/study/:id', function (req, res) {
 // Question 1: Sex / Gender
 router.post('/questions/question-1', function (req, res) {
   const cleanSex = sanitizeInput(req.body.sex)
+  const cleanGender = sanitizeInput(req.body.genderSameAsSex)
+
   req.session.data.sex = cleanSex
-  req.session.data.genderSameAsSex = sanitizeInput(req.body.genderSameAsSex)
+  req.session.data.genderSameAsSex = cleanGender
+
+  const errors = {}
+  const errorList = []
+
+  if (!cleanSex) {
+    errors.sex = { text: 'Select your sex registered at birth' }
+    errorList.push({ text: errors.sex.text, href: '#sex-1' })
+  }
+
+  if (!cleanGender) {
+    errors.genderSameAsSex = { text: 'Select if the gender you identify with is the same as your sex registered at birth' }
+    errorList.push({ text: errors.genderSameAsSex.text, href: '#gender-same-as-sex-1' })
+  }
+
+  if (errorList.length) {
+    return res.render('study-search/v4/questions/question-1', { errors, errorList })
+  }
 
   res.redirect('/study-search/v4/questions/question-2')
 })
 
 // Question 2: Date of birth
 router.post('/questions/question-2', function (req, res) {
-  const day = sanitizeInput(req.body['dateofbirth-day'])
-  const month = sanitizeInput(req.body['dateofbirth-month'])
-  const year = sanitizeInput(req.body['dateofbirth-year'])
+  const dob = req.body.dateofbirth || {}
+  const day = sanitizeInput(dob.day)
+  const month = sanitizeInput(dob.month)
+  const year = sanitizeInput(dob.year)
 
   req.session.data.dateofbirthDay = day
   req.session.data.dateofbirthMonth = month
@@ -387,6 +530,44 @@ router.post('/questions/question-2', function (req, res) {
     day: day || '',
     month: month || '',
     year: year || ''
+  }
+
+  const errors = {}
+  let message = ''
+
+  if (!day && !month && !year) {
+    message = 'Enter your date of birth'
+    errors.day = errors.month = errors.year = true
+  } else if (!day || !month || !year) {
+    const missing = []
+    if (!day) { missing.push('day'); errors.day = true }
+    if (!month) { missing.push('month'); errors.month = true }
+    if (!year) { missing.push('year'); errors.year = true }
+    message = 'Date of birth must include a ' + missing.join(' and ')
+  } else {
+    const d = parseInt(day, 10)
+    const m = parseInt(month, 10)
+    const y = parseInt(year, 10)
+    const date = new Date(y, m - 1, d)
+    const isReal = year.length === 4 &&
+      date.getFullYear() === y &&
+      date.getMonth() === m - 1 &&
+      date.getDate() === d
+
+    if (!isReal) {
+      message = 'Date of birth must be a real date'
+      errors.day = errors.month = errors.year = true
+    } else if (date > new Date()) {
+      message = 'Date of birth must be in the past'
+      errors.day = errors.month = errors.year = true
+    }
+  }
+
+  if (message) {
+    errors.dob = { text: message }
+    const firstField = errors.day ? 'day' : errors.month ? 'month' : 'year'
+    const errorList = [{ text: message, href: '#date-of-birth-' + firstField }]
+    return res.render('study-search/v4/questions/question-2', { errors, errorList })
   }
 
   res.redirect('/study-search/v4/questions/question-3')
@@ -406,6 +587,7 @@ router.post('/questions/question-3', function (req, res) {
   }
 
   const cleanConditions = sanitizeInput(rawConditions || [])
+  req.session.data.conditionFilters = null // start the search feed fresh from these answers
   req.session.data.healthConditions = cleanConditions
 
   // Assign initial condition if valid
@@ -421,6 +603,11 @@ router.post('/questions/question-3', function (req, res) {
 // Question 4: Location Preference
 router.post('/questions/question-4', function (req, res) {
   const pref = sanitizeInput(req.body.locationPreference)
+
+    if (pref === 'specific-area' && !sanitizeInput(req.body.location)) {
+    req.session.data.locationPreference = 'specific-area'
+    return res.render('study-search/v4/questions/question-4', { locationError: true })
+  }
 
   if (pref === 'specific-area' && sanitizeInput(req.body.location)) {
     req.session.data.locationPreference = 'specific-area'
@@ -454,8 +641,7 @@ router.get('/questions/question-6', function (req, res) {
     keywords: '',
     location,
     activeStatuses: [],
-    selectedConditions,
-    subCondition: '',
+    conditionFilters: selectedConditions.map(c => ({ area: c, sub: 'all' })),
     sex: sd.sex || '',
     sortBy: 'most-recent',
     ageRange: []
