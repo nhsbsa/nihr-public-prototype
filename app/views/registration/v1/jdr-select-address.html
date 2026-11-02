@@ -48,7 +48,7 @@
 
       {% set postcode = data['jdr-postcode'] or "WA4 1AB" %}
 
-      <p>5 addresses found for {% if data['jdr-postcode'] %}{{ data['jdr-postcode'] }}{% else %}WA4 1AB{% endif %}. <a href="jdr-find-address">Search again</a></p>
+      <p>3 addresses found for {% if data['jdr-house'] %}{{ data['jdr-house'] }}{% else %}4{% endif %}, {% if data['jdr-postcode'] %}{{ data['jdr-postcode'] }}{% else %}WA4 1AB{% endif %}. <a href="jdr-find-address">Search again</a></p>
 
       <form action="/{{folder}}/{{subfolder}}/jdr-select-address" method="post" novalidate>
 
@@ -63,37 +63,33 @@
         },
         items: [
           {
-            value: "1 Roman Rd, Leeds, " + postcode,
-            text: "1 Roman Rd, Leeds, " + postcode
-          },
-          {
-            value: "2 Roman Rd, Leeds, " + postcode,
-            text: "2 Roman Rd, Leeds, " + postcode
-          },
-          {
-            value: "3 Roman Rd, Leeds, " + postcode,
-            text: "3 Roman Rd, Leeds, " + postcode
-          },
-          {
             value: "4 Roman Rd, Leeds, " + postcode,
             text: "4 Roman Rd, Leeds, " + postcode
           },
           {
-            value: "5 Roman Rd, Leeds, " + postcode,
-            text: "5 Roman Rd, Leeds, " + postcode
+            value: "14 Roman Rd, Leeds, " + postcode,
+            text: "14 Roman Rd, Leeds, " + postcode
+          },
+          {
+            value: "40 Roman Rd, Leeds, " + postcode,
+            text: "40 Roman Rd, Leeds, " + postcode
+          },
+          {
+            divider: "or"
+          },
+          {
+            value: "My address isn’t listed",
+            text: "My address isn’t listed"
           }
         ]
       }) }}
 
       {{ button({
-        "text": "Use this address"
+        "text": "Continue"
       }) }}
 
       </form>
 
-      <div class="nhsuk-form-group">
-        <p><a href="jdr-enter-address">Enter your address manually</a></p>
-      </div>
 
     </div>
   </div>
