@@ -406,6 +406,12 @@ router.all('/searchfeed/search-feed', function (req, res) {
     })
   })
 
+// Typo suggestions dictionary
+  const typoSuggestions = {
+    'cancre': 'cancer'
+  }
+  const suggestion = typoSuggestions[(keywords || '').toLowerCase().trim()] || null
+
   res.render('study-search/v4/searchfeed/search-feed', {
     results,
     resultsCount: filteredStudies.length,
@@ -413,6 +419,7 @@ router.all('/searchfeed/search-feed', function (req, res) {
     resultsEnd: start + results.length,
     paginationData: buildPagination(currentPage, totalPages, baseUrl),
     keywords,
+    suggestion, // <-- passed here
     location,
     activeStatuses,
     areaTags,

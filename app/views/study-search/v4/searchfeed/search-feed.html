@@ -49,6 +49,51 @@
         }
       }) }}
 
+ <div class="results-header-bar" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+
+        {# RESULTS COUNT & DID YOU MEAN #}
+        <div style="flex: 1; padding-right: 16px;">
+          <p class="nhsuk-body-m nhsuk-u-margin-bottom-0" role="status">
+            {% if resultsCount > 0 %}
+              Showing <strong>{{ resultsStart }}</strong> to <strong>{{ resultsEnd }}</strong> of <strong>{{ resultsCount }}</strong> results
+            {% else %}
+              <strong>0</strong> results
+            {% endif %}
+            {% if keywords and keywords.trim() != "" %}
+              for <strong>"{{ keywords.trim() }}"</strong>
+            {% endif %}
+            {% if suggestion %}
+              - Did you mean <a href="/study-search/v4/searchfeed/search-feed?keywords={{ suggestion | urlencode }}{% if data.from_dashboard %}&from_dashboard=true{% endif %}" class="nhsuk-link">{{ suggestion }}</a>?
+            {% endif %}
+          </p>
+        </div>
+
+        {# HORIZONTAL SORT BY #}
+        <form id="sortForm" action="/study-search/v4/searchfeed/search-feed" method="post" style="margin-left: auto;">
+          {% if data.from_dashboard %}
+            <input type="hidden" name="from_dashboard" value="true">
+          {% endif %}
+          
+          <div class="nhsuk-form-group" style="display: inline-flex; align-items: center; margin-bottom: 0 !important;">
+            <label class="nhsuk-label nhsuk-u-margin-bottom-0 nhsuk-u-margin-right-2" for="sortBy" style="white-space: nowrap;">
+              Sort by
+            </label>
+            <select class="nhsuk-select" id="sortBy" name="sortBy" onchange="this.form.submit()">
+              <option value="most-recent" {% if sortBy == 'most-recent' or not sortBy %}selected{% endif %}>Most recent</option>
+              <option value="a-z" {% if sortBy == 'a-z' %}selected{% endif %}>A to Z</option>
+            </select>
+          </div>
+
+          <noscript>
+            {{ button({ text: "Update", classes: "nhsuk-button--secondary nhsuk-u-margin-bottom-0" }) }}
+          </noscript>
+        </form>
+      </div>
+
+      {# NHS SECTION BREAK LINE #}
+      <hr class="nhsuk-section-break nhsuk-section-break--m nhsuk-section-break--visible">
+
+
       {# AUTOCOMPLETE DROPDOWN MENU #}
       <div id="searchAutocompleteMenu" class="search-autocomplete-menu">
         <div id="searchAutocompleteResults" role="listbox" aria-label="Search suggestions"></div>
@@ -275,6 +320,7 @@
     
 
     {# RESULTS COLUMN WITH NHS SORT BY DROPDOWN #}
+{# RESULTS COLUMN WITH NHS SORT BY DROPDOWN #}
     <div class="nhsuk-grid-column-two-thirds">
 
       <h2 class="nhsuk-u-visually-hidden">Search results</h2>
@@ -290,56 +336,7 @@
           text: "Study removed from your saved list"
         }) }}
       {% endif %}
-
-      <div class="results-header-bar">
-
-        {# RESULTS COUNT #}
-          <p class="nhsuk-body-m nhsuk-u-margin-bottom-0" role="status">
-            {% if resultsCount > 0 %}
-              Showing <strong>{{ resultsStart }}</strong> to <strong>{{ resultsEnd }}</strong> of <strong>{{ resultsCount }}</strong> results
-            {% else %}
-              <strong>0</strong> results
-            {% endif %}
-            {% if keywords and keywords.trim() != "" %}
-              for <strong>"{{ keywords.trim() }}"</strong>
-            {% endif %}
-          </p>
-
-
-        <form id="sortForm" action="/study-search/v4/searchfeed/search-feed" method="post">
-          {% if data.from_dashboard %}
-            <input type="hidden" name="from_dashboard" value="true">
-          {% endif %}
-          {{ select({
-            label: {
-              text: "Sort by"
-            },
-            id: "sortBy",
-            name: "sortBy",
-            value: sortBy or "most-recent",
-            formGroup: {
-              classes: "nhsuk-u-margin-bottom-2"
-            },
-            attributes: {
-              onchange: "this.form.submit()"
-            },
-            items: [
-              {
-                value: "most-recent",
-                text: "Most recent"
-              },
-              {
-                value: "a-z",
-                text: "A to Z"
-              }
-            ]
-          }) }}
-
-          <noscript>
-            {{ button({ text: "Update", classes: "nhsuk-button--secondary nhsuk-u-margin-bottom-0" }) }}
-          </noscript>
-        </form>
-      </div>
+    
 
       {# NO RESULTS STATE #}
       {% if results | length == 0 %}
