@@ -55,7 +55,7 @@
 
   <div class="nhsuk-grid-column-two-thirds">
 
-    {% set hasProfileSignal = data.diagnosedConditions and data.diagnosedConditions.length %}
+    {% set hasProfileSignal = (data.diagnosedConditions and data.diagnosedConditions.length) or (data.broadInterests and data.broadInterests.length) %}
 
     <div class="app-dashboard-v4-card-container nhsuk-u-margin-bottom-6">
 
@@ -67,10 +67,11 @@
 
       <p class="nhsuk-body nhsuk-u-margin-top-6">We have identified these studies based on your health interests. You can find more by updating your conditions or searching.</p>
 
-      {% set memoryMatch = data.diagnosedConditions and ("Alzheimer's disease" in data.diagnosedConditions or "Cognitive health" in data.diagnosedConditions) %}
+      {% set hasBroadInterestSignal = data.broadInterests and data.broadInterests.length > 0 %}
+      {% set memoryMatch = (data.diagnosedConditions and ("Alzheimer's disease" in data.diagnosedConditions or "Cognitive health" in data.diagnosedConditions)) or hasBroadInterestSignal %}
       {% set diabetesMatch = data.diagnosedConditions and "Type 2 diabetes" in data.diagnosedConditions %}
       {% set sleepMatch = data.diagnosedConditions and "Cognitive health" in data.diagnosedConditions %}
-      {% set osteoMatch = data.diagnosedConditions and "Osteoarthritis" in data.diagnosedConditions %}
+      {% set osteoMatch = (data.diagnosedConditions and "Osteoarthritis" in data.diagnosedConditions) or hasBroadInterestSignal %}
       {% set anySpecificMatch = memoryMatch or diabetesMatch or sleepMatch or osteoMatch %}
 
       {% if anySpecificMatch %}

@@ -1,5 +1,7 @@
 {% extends "dashboard/v5/layout.html" %}
 
+{% from "_components/multiselect-search/macro.njk" import searchableCheckboxes with context %}
+
 {% block pageTitle %}
   Customise your areas of interest - Be Part of Research
 {% endblock %}
@@ -13,20 +15,26 @@
     <h1 class="nhsuk-heading-xl">Customise your areas of interest</h1>
     <p class="nhsuk-body">We use this to send you general research news and newsletters, even for areas without a diagnosed condition.</p>
 
+    {% set broadInterestItems = [] %}
+    {% for key, category in healthConditionsData %}
+      {% set _ = broadInterestItems.push({
+        value: category.text,
+        text: category.text,
+        checked: (data.broadInterests and category.text in data.broadInterests)
+      }) %}
+    {% endfor %}
+
     <form action="/dashboard/v5/edit-interests" method="post" novalidate>
       <input type="hidden" name="broadInterests" value="_unchecked">
-      {{ checkboxes({
+
+      {{ searchableCheckboxes({
+        label: { text: "Which areas of research are you interested in?", size: "m" },
+        hint: { text: "Start typing to filter the list, or scroll to browse all areas." },
+        id: "broadInterests",
         name: "broadInterests",
-        fieldset: {
-          legend: { text: "Which areas of research are you interested in?", classes: "nhsuk-fieldset__legend--m" }
-        },
-        items: [
-          { value: "Mental health", text: "Mental health", checked: (data.broadInterests and "Mental health" in data.broadInterests) },
-          { value: "Cardiovascular health", text: "Cardiovascular health", checked: (data.broadInterests and "Cardiovascular health" in data.broadInterests) },
-          { value: "Cancer research", text: "Cancer research", checked: (data.broadInterests and "Cancer research" in data.broadInterests) },
-          { value: "Healthy ageing", text: "Healthy ageing", checked: (data.broadInterests and "Healthy ageing" in data.broadInterests) },
-          { value: "Cognitive health", text: "Cognitive health", checked: (data.broadInterests and "Cognitive health" in data.broadInterests) }
-        ]
+        showAllOptions: true,
+        selectedLabel: "Added areas of interest",
+        items: broadInterestItems
       }) }}
 
       {{ button({ text: "Save changes", classes: "nhsuk-u-margin-bottom-0" }) }}

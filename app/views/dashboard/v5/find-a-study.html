@@ -8,7 +8,14 @@
 
 <div class="nhsuk-grid-row">
   <div class="nhsuk-grid-column-full">
-    {{ backLink({ text: "Back to dashboard", href: "/dashboard/v5/home", classes: "nhsuk-u-margin-bottom-4" }) }}
+    {{ backLink({
+      text: "Back",
+      href: "/dashboard/v5/home",
+      classes: "nhsuk-u-margin-bottom-4",
+      attributes: {
+        onclick: "window.history.back(); return false;"
+      }
+    }) }}
   </div>
 </div>
 

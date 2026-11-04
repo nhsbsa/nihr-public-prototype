@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const healthConditionsData = require('../../../data/health-conditions.json');
 
 router.use(function (req, res, next) {
 
@@ -52,7 +53,7 @@ router.get('/register-for-study', function (req, res) {
 
     req.session.data['hasRegisteredOsteo'] = true;
 
-    res.redirect('/dashboard/v5/registered-interest');
+    res.redirect('/dashboard/v5/registered-interest-confirmation');
 
 })
 
@@ -95,6 +96,12 @@ function undismissRecommendedStudy(req, res) {
 
 router.get('/undismiss-recommended-study', undismissRecommendedStudy);
 router.post('/undismiss-recommended-study', undismissRecommendedStudy);
+
+router.get('/edit-interests', function (req, res) {
+
+    res.render('dashboard/v5/edit-interests', { healthConditionsData: healthConditionsData });
+
+})
 
 router.post('/edit-interests', function (req, res) {
 
