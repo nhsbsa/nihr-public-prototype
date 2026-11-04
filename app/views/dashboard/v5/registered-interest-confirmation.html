@@ -1,0 +1,30 @@
+{% extends "dashboard/v5/layout.html" %}
+
+{% block pageTitle %}
+  Interest registered successfully - Be Part of Research
+{% endblock %}
+
+{% block content %}
+
+<div class="nhsuk-grid-row">
+  <div class="nhsuk-grid-column-two-thirds">
+
+    {% call panel() %}
+      <h1 class="nhsuk-panel__title">Interest registered successfully</h1>
+      <p class="nhsuk-panel__body">Your reference is<br><strong>BPR-4521-2026</strong></p>
+    {% endcall %}
+
+    <h2 class="nhsuk-heading-m">What happens next</h2>
+
+    <p class="nhsuk-body">We have sent a confirmation email to your registered address.</p>
+
+    <p class="nhsuk-body">The research team will review your details to see if you are a match. If you are eligible, they will contact you within 5 working days with the next steps.</p>
+
+    {{ button({ text: "Return to dashboard", href: "/dashboard/v5/home", classes: "nhsuk-u-margin-top-4 nhsuk-u-margin-bottom-0" }) }}
+
+  </div>
+</div>
+
+{% include "dashboard/v5/partials/prototype-nav.html" %}
+
+{% endblock %}

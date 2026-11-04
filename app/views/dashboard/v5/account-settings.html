@@ -8,8 +8,6 @@
 
 <div class="nhsuk-grid-row">
   <div class="nhsuk-grid-column-full">
-    {{ backLink({ text: "Back to dashboard", href: "set-state?accountStatus=active&studyDismissed=false", classes: "nhsuk-u-margin-bottom-4" }) }}
-
     {% if query.updated %}
       {{ notificationBanner({
         variant: "success",
