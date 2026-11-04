@@ -1,6 +1,6 @@
-{% extends "study-search/v3/_layout-study-details.html" %}
+{% extends "study-search/v4/_layout-study-details.html" %}
 
-{% from "study-search/v3/_components/study-contents-list.njk" import studyContentsList %}
+{% from "study-search/v4/_components/study-contents-list.njk" import studyContentsList %}
 {% from "_components/promo-banner/macro.njk" import promoBanner %}
 
 {% block content %}
@@ -17,7 +17,7 @@
         </span>
       </h1>
 
-      {{ studyContentsList("page-2") }}
+{{ studyContentsList("page-2", "studydetails-2") }}
 
       {{ table({
         firstCellIsHeader: true,
