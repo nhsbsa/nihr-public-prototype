@@ -49,6 +49,21 @@
         }
       }) }}
 
+
+        {# AUTOCOMPLETE DROPDOWN MENU #}
+      <div id="searchAutocompleteMenu" class="search-autocomplete-menu">
+        <div id="searchAutocompleteResults" role="listbox" aria-label="Search suggestions"></div>
+        <div id="searchAutocompleteFreeSearch" class="search-autocomplete-free">
+          <svg class="search-autocomplete-free-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+            <circle cx="11" cy="11" r="7"></circle>
+            <path d="M16 16l5 5"></path>
+          </svg>
+          <a class="nhsuk-link search-autocomplete-link" id="freeSearchTermText" href="#"></a>
+        </div>
+      </div>
+    </form>
+  </div>
+
  <div class="results-header-bar" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
 
         {# RESULTS COUNT & DID YOU MEAN #}
@@ -92,21 +107,6 @@
 
       {# NHS SECTION BREAK LINE #}
       <hr class="nhsuk-section-break nhsuk-section-break--m nhsuk-section-break--visible">
-
-
-      {# AUTOCOMPLETE DROPDOWN MENU #}
-      <div id="searchAutocompleteMenu" class="search-autocomplete-menu">
-        <div id="searchAutocompleteResults" role="listbox" aria-label="Search suggestions"></div>
-        <div id="searchAutocompleteFreeSearch" class="search-autocomplete-free">
-          <svg class="search-autocomplete-free-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
-            <circle cx="11" cy="11" r="7"></circle>
-            <path d="M16 16l5 5"></path>
-          </svg>
-          <a class="nhsuk-link search-autocomplete-link" id="freeSearchTermText" href="#"></a>
-        </div>
-      </div>
-    </form>
-  </div>
 
   <div class="nhsuk-grid-row">
     <div class="nhsuk-grid-column-one-third">
@@ -574,8 +574,35 @@
         }
 
         const qLower = query.toLowerCase();
+
+        // 1. Filter only items that contain the query
         const matches = subconditionsList.filter(function (item) {
           return item.text.toLowerCase().includes(qLower);
+        });
+
+        // 2. Rank based on where the match appears
+        matches.sort(function (a, b) {
+          const aText = a.text.toLowerCase();
+          const bText = b.text.toLowerCase();
+
+          // Helper: 0 = starts with query, 1 = word boundary starts with query, 2 = inside word
+          function getScore(text) {
+            if (text.startsWith(qLower)) return 0; // e.g. "Care homes"
+            const wordBoundaryRegex = new RegExp('\\b' + qLower, 'i');
+            if (wordBoundaryRegex.test(text)) return 1; // e.g. "Sudden confusion"
+            return 2; // e.g. "Back pain"
+          }
+
+          const scoreA = getScore(aText);
+          const scoreB = getScore(bText);
+
+          // If one has a better match position, show it first
+          if (scoreA !== scoreB) {
+            return scoreA - scoreB;
+          }
+
+          // If scores are equal, sort alphabetically
+          return aText.localeCompare(bText);
         });
 
         if (matches.length > 0) {
