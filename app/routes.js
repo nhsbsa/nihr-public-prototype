@@ -151,6 +151,8 @@ router.use('/dashboard/v4', require('./views/dashboard/v4/_routes'));
 
 router.use('/dashboard/v5', require('./views/dashboard/v5/_routes'));
 
+router.use('/dashboard/v6', require('./views/dashboard/v6/_routes'));
+
 router.use('/login/v1', require('./views/login/v1/_routes'));
 
 router.use('/registration/v1', require('./views/registration/v1/_routes'));
