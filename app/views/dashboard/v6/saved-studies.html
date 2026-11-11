@@ -1,0 +1,63 @@
+{% extends "dashboard/v6/layout.html" %}
+
+{% block pageTitle %}
+  Suggested studies - Be Part of Research
+{% endblock %}
+
+{% block content %}
+
+<div class="nhsuk-grid-row">
+  <div class="nhsuk-grid-column-two-thirds">
+    <h1 class="nhsuk-heading-xl">Suggested studies</h1>
+    <p class="nhsuk-body">Studies that are relevant to your health profile for you to review.</p>
+
+    {% for study in data.matchedStudies %}
+      {% if not data['hasRegisteredOsteo'] %}
+      {% call card({ classes: "nhsuk-u-margin-bottom-3" }) %}
+        <div class="nhsuk-card__heading-row">
+          <div>
+            {{ tag({ text: "Recruiting", classes: "nhsuk-tag--green" }) }}
+          </div>
+        </div>
+        <h3 class="nhsuk-heading-m"><a href="details">{{ study }}</a></h3>
+        {% if "Osteoarthritis" in study %}
+        <p class="nhsuk-body"><strong>Medical conditions</strong> Osteoarthritis</p>
+        <p class="nhsuk-body"><strong>Gender</strong> Open to all</p>
+        <p class="nhsuk-body"><strong>Age</strong> 50-85</p>
+        <p class="nhsuk-body"><strong>Locations</strong> Birmingham</p>
+        {% elif "Sleep patterns" in study %}
+        <p class="nhsuk-body"><strong>Medical conditions</strong> Cognitive health</p>
+        <p class="nhsuk-body"><strong>Gender</strong> Open to all</p>
+        <p class="nhsuk-body"><strong>Age</strong> 60+</p>
+        <p class="nhsuk-body"><strong>Locations</strong> UK-wide (online)</p>
+        {% else %}
+        <p class="nhsuk-body"><strong>Medical conditions</strong> Not specified</p>
+        <p class="nhsuk-body"><strong>Gender</strong> Open to all</p>
+        <p class="nhsuk-body"><strong>Age</strong> 18+</p>
+        <p class="nhsuk-body"><strong>Locations</strong> UK-wide</p>
+        {% endif %}
+        {{ button({
+          text: "Register interest in this study",
+          href: "/dashboard/v6/register-for-study",
+          classes: "nhsuk-button--secondary nhsuk-u-margin-top-3 nhsuk-u-margin-bottom-0"
+        }) }}
+      {% endcall %}
+      {% endif %}
+    {% else %}
+      {% call card() %}
+        <p class="nhsuk-body nhsuk-u-margin-bottom-0">You do not have any relevant research yet. Keep your areas of research and health conditions up to date, and you will be notified when a relevant study is looking for volunteers.</p>
+      {% endcall %}
+    {% endfor %}
+
+    {% if data['hasRegisteredOsteo'] %}
+      {% call card() %}
+        <p class="nhsuk-body nhsuk-u-margin-bottom-0">You do not have any relevant research yet. Keep your areas of research and health conditions up to date, and you will be notified when a relevant study is looking for volunteers.</p>
+      {% endcall %}
+    {% endif %}
+
+  </div>
+</div>
+
+{% include "dashboard/v6/partials/prototype-nav.html" %}
+
+{% endblock %}

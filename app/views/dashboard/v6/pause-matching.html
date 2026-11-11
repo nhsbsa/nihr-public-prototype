@@ -1,0 +1,40 @@
+{% extends "dashboard/v6/layout.html" %}
+
+{% block pageTitle %}
+  How long do you want to pause your study matching? - Be Part of Research
+{% endblock %}
+
+{% block content %}
+
+<div class="nhsuk-grid-row">
+  <div class="nhsuk-grid-column-two-thirds">
+    {{ backLink({ text: "Back", href: "account-settings", classes: "nhsuk-u-margin-bottom-4" }) }}
+
+    {% set currentDuration = data['pauseMatchingDuration'] | default('active') %}
+
+    <form action="account-settings" method="post" novalidate>
+      {{ radios({
+        name: "pauseMatchingDuration",
+        fieldset: {
+          legend: {
+            text: "How long do you want to pause your study matching?",
+            classes: "nhsuk-fieldset__legend--l",
+            isPageHeading: true
+          }
+        },
+        items: [
+          { value: "1-month", text: "Pause for 1 month", id: "pause-1-month", checked: currentDuration == "1-month" },
+          { value: "3-months", text: "Pause for 3 months", id: "pause-3-months", checked: currentDuration == "3-months" },
+          { value: "indefinite", text: "Until I turn it back on", id: "pause-indefinite", checked: currentDuration == "indefinite" },
+          { value: "active", text: "Do not pause (keep active)", id: "pause-active", checked: currentDuration == "active" }
+        ]
+      }) }}
+
+      {{ button({ text: "Save changes", classes: "nhsuk-u-margin-bottom-0" }) }}
+    </form>
+  </div>
+</div>
+
+{% include "dashboard/v6/partials/prototype-nav.html" %}
+
+{% endblock %}

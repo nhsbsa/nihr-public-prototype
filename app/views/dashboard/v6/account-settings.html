@@ -1,0 +1,171 @@
+{% extends "dashboard/v6/layout.html" %}
+
+{% block pageTitle %}
+  Account settings - Be Part of Research
+{% endblock %}
+
+{% block content %}
+
+<div class="nhsuk-grid-row">
+  <div class="nhsuk-grid-column-full">
+    {% if query.updated %}
+      {{ notificationBanner({
+        variant: "success",
+        html: "<h3 class=\"nhsuk-notification-banner__heading\">Success</h3><p>Your areas of interest have been updated.</p>"
+      }) }}
+    {% endif %}
+
+    <h1 class="nhsuk-heading-xl">Account settings</h1>
+  </div>
+</div>
+
+<div class="nhsuk-grid-row">
+
+  <div class="nhsuk-grid-column-two-thirds">
+
+    <h2 class="nhsuk-heading-m">Personal details</h2>
+    {{ summaryList({
+      rows: [
+        {
+          key: { text: "Name" },
+          value: { text: "Jane Doe" }
+        },
+        {
+          key: { text: "Date of birth" },
+          value: { text: "12 March 1980" }
+        },
+        {
+          key: { text: "NHS number" },
+          value: { text: "485 777 3456" }
+        },
+        {
+          key: { text: "Email" },
+          value: { text: "john.j@email.com" },
+          actions: { items: [ { href: "edit-preference", text: "Change", visuallyHiddenText: "email address" } ] }
+        },
+        {
+          key: { text: "Postcode" },
+          value: { text: "B44 0AA" },
+          actions: { items: [ { href: "edit-preference", text: "Change", visuallyHiddenText: "postcode" } ] }
+        }
+      ]
+    }) }}
+
+    <p class="nhsuk-body nhsuk-u-margin-top-6">To update your personal details, like your name or date of birth, you need to manage your NHS account.</p>
+    {{ actionLink({
+      text: "Manage your NHS account",
+      href: "/dashboard/v6/dummy-nhs-account"
+    }) }}
+
+    <h2 class="nhsuk-heading-m nhsuk-u-margin-top-6">Areas of interest</h2>
+    <p class="nhsuk-body">We use this to send you general research news and newsletters, even for areas without a diagnosed condition.</p>
+    {% set selectedInterestsHtml %}
+      {% if data.broadInterests and data.broadInterests | length %}
+        {% for interest in data.broadInterests %}
+          {{ tag({ text: interest, classes: "nhsuk-tag--grey nhsuk-u-margin-bottom-2" }) }}
+        {% endfor %}
+      {% else %}
+        <p class="nhsuk-u-margin-bottom-0">You have not selected any areas of interest yet.</p>
+      {% endif %}
+    {% endset %}
+    {{ summaryList({
+      rows: [
+        {
+          key: { text: "Selected interests" },
+          value: { html: selectedInterestsHtml },
+          actions: { items: [ { href: "/dashboard/v6/edit-interests", text: "Customise", visuallyHiddenText: "areas of interest" } ] }
+        }
+      ]
+    }) }}
+
+    <h2 class="nhsuk-heading-m nhsuk-u-margin-top-6">Research preferences</h2>
+    {{ summaryList({
+      rows: [
+        {
+          key: { text: "Travel radius" },
+          value: { text: data['travelRadius'] | default('20 miles') },
+          actions: { items: [ { href: "edit-preference", text: "Change", visuallyHiddenText: "travel radius" } ] }
+        }
+      ]
+    }) }}
+
+    <h2 class="nhsuk-heading-m nhsuk-u-margin-top-6">Lifestyle and physical details</h2>
+    {{ summaryList({
+      rows: [
+        {
+          key: { text: "Height and weight" },
+          value: { text: "Not provided" },
+          actions: { items: [ { href: "#", text: "Change", visuallyHiddenText: "height and weight" } ] }
+        },
+        {
+          key: { text: "Smoking status" },
+          value: { text: "Not provided" },
+          actions: { items: [ { href: "#", text: "Change", visuallyHiddenText: "smoking status" } ] }
+        },
+        {
+          key: { text: "Alcohol intake" },
+          value: { text: "Not provided" },
+          actions: { items: [ { href: "#", text: "Change", visuallyHiddenText: "alcohol intake" } ] }
+        }
+      ]
+    }) }}
+
+    <h2 class="nhsuk-heading-m nhsuk-u-margin-top-6">Study matching</h2>
+    <p class="nhsuk-body">You can pause your study matching if you do not want to receive new study invitations for a period of time.</p>
+    {%- set matchingStatusText = "Active" %}
+    {%- if data['pauseMatchingDuration'] == "1-month" %}
+      {%- set matchingStatusText = "Paused for 1 month" %}
+    {%- elif data['pauseMatchingDuration'] == "3-months" %}
+      {%- set matchingStatusText = "Paused for 3 months" %}
+    {%- elif data['pauseMatchingDuration'] == "indefinite" %}
+      {%- set matchingStatusText = "Paused indefinitely" %}
+    {%- else %}
+      {%- set matchingStatusText = "Active" %}
+    {%- endif %}
+    {{ summaryList({
+      rows: [
+        {
+          key: { text: "Matching status" },
+          value: { text: matchingStatusText },
+          actions: { items: [ { href: "/dashboard/v6/pause-matching", text: "Change", visuallyHiddenText: "matching status" } ] }
+        }
+      ]
+    }) }}
+
+    <h2 class="nhsuk-heading-m nhsuk-u-margin-top-6">Contact preferences</h2>
+    <p class="nhsuk-body">Manage how researchers can contact you about studies, and update your newsletter settings.</p>
+    {{ button({
+      text: "Manage contact preferences",
+      href: "/dashboard/v6/contact-preferences",
+      classes: "nhsuk-button--secondary nhsuk-u-margin-bottom-0"
+    }) }}
+
+    <h2 class="nhsuk-heading-m nhsuk-u-margin-top-6">Data and consent</h2>
+    {% call card() %}
+      <h3 class="nhsuk-heading-s">Account status</h3>
+      <p class="nhsuk-body">You can opt out and close your account at any time. This will not delete your existing information, and you can start matching again whenever you like.</p>
+      <form action="save-status" method="post" novalidate>
+        {{ radios({
+          classes: "nhsuk-radios--small",
+          name: "accountStatus",
+          formGroup: { classes: "nhsuk-u-margin-bottom-4" },
+          items: [
+            { value: "active", text: "Active & matching", id: "status-active", checked: (data.accountStatus == "active" or not data.accountStatus) },
+            { value: "optout", text: "Opt-out / Closure", id: "status-optout", checked: (data.accountStatus == "optout") }
+          ]
+        }) }}
+        {{ button({
+          text: "Save status",
+          id: "save-status",
+          classes: "nhsuk-button--secondary nhsuk-u-margin-bottom-0"
+        }) }}
+      </form>
+    {% endcall %}
+  </div>
+
+</div>
+
+{% include "dashboard/v6/partials/prototype-nav.html" %}
+
+
+{% endblock %}
