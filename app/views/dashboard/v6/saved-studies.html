@@ -14,15 +14,28 @@
     {% for study in data.matchedStudies %}
       {% if not data['hasRegisteredOsteo'] %}
       {% call card({ classes: "nhsuk-u-margin-bottom-3" }) %}
-        <div class="nhsuk-grid-row">
-          <div class="nhsuk-grid-column-two-thirds">
-            <h3 class="nhsuk-heading-m"><a href="details">{{ study }}</a></h3>
-            {{ tag({ text: "Suggested", classes: "nhsuk-tag--grey" }) }}
-          </div>
-          <div class="nhsuk-grid-column-one-third">
-            <strong class="nhsuk-tag nhsuk-tag--yellow">Undecided</strong>
+        <div class="nhsuk-card__heading-row">
+          <div>
+            {{ tag({ text: "Recruiting", classes: "nhsuk-tag--green" }) }}
           </div>
         </div>
+        <h3 class="nhsuk-heading-m"><a href="details">{{ study }}</a></h3>
+        {% if "Osteoarthritis" in study %}
+        <p class="nhsuk-body"><strong>Medical conditions</strong> Osteoarthritis</p>
+        <p class="nhsuk-body"><strong>Gender</strong> Open to all</p>
+        <p class="nhsuk-body"><strong>Age</strong> 50-85</p>
+        <p class="nhsuk-body"><strong>Locations</strong> Birmingham</p>
+        {% elif "Sleep patterns" in study %}
+        <p class="nhsuk-body"><strong>Medical conditions</strong> Cognitive health</p>
+        <p class="nhsuk-body"><strong>Gender</strong> Open to all</p>
+        <p class="nhsuk-body"><strong>Age</strong> 60+</p>
+        <p class="nhsuk-body"><strong>Locations</strong> UK-wide (online)</p>
+        {% else %}
+        <p class="nhsuk-body"><strong>Medical conditions</strong> Not specified</p>
+        <p class="nhsuk-body"><strong>Gender</strong> Open to all</p>
+        <p class="nhsuk-body"><strong>Age</strong> 18+</p>
+        <p class="nhsuk-body"><strong>Locations</strong> UK-wide</p>
+        {% endif %}
         {{ button({
           text: "Register interest in this study",
           href: "/dashboard/v6/register-for-study",

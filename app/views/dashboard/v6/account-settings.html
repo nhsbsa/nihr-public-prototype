@@ -28,8 +28,15 @@
       rows: [
         {
           key: { text: "Name" },
-          value: { text: "John Jones" },
-          actions: { items: [ { href: "edit-preference", text: "Change", visuallyHiddenText: "name" } ] }
+          value: { text: "Jane Doe" }
+        },
+        {
+          key: { text: "Date of birth" },
+          value: { text: "12 March 1980" }
+        },
+        {
+          key: { text: "NHS number" },
+          value: { text: "485 777 3456" }
         },
         {
           key: { text: "Email" },
@@ -44,35 +51,10 @@
       ]
     }) }}
 
-    <h2 class="nhsuk-heading-m nhsuk-u-margin-top-6">Research preferences</h2>
-    {{ summaryList({
-      rows: [
-        {
-          key: { text: "Travel radius" },
-          value: { text: data['travelRadius'] | default('20 miles') },
-          actions: { items: [ { href: "edit-preference", text: "Change", visuallyHiddenText: "travel radius" } ] }
-        }
-      ]
-    }) }}
-
-    <h2 class="nhsuk-heading-m nhsuk-u-margin-top-6">Health conditions of interest</h2>
-    <p class="nhsuk-body">Select the health conditions you want to help research. You can take part in studies as a patient, family carer, or healthy volunteer.</p>
-    {% set selectedConditionsList = data.diagnosedConditions | toArray %}
-    {% set selectedConditionsHtml %}
-      {% if selectedConditionsList.length %}
-        {{ selectedConditionsList | join('<br>') | safe }}
-      {% else %}
-        None added
-      {% endif %}
-    {% endset %}
-    {{ summaryList({
-      rows: [
-        {
-          key: { text: "Conditions" },
-          value: { html: selectedConditionsHtml },
-          actions: { items: [ { href: "/dashboard/v6/edit-health-conditions", text: "Change", visuallyHiddenText: "health conditions" } ] }
-        }
-      ]
+    <p class="nhsuk-body nhsuk-u-margin-top-6">To update your personal details, like your name or date of birth, you need to manage your NHS account.</p>
+    {{ actionLink({
+      text: "Manage your NHS account",
+      href: "/dashboard/v6/dummy-nhs-account"
     }) }}
 
     <h2 class="nhsuk-heading-m nhsuk-u-margin-top-6">Areas of interest</h2>
@@ -96,6 +78,17 @@
       ]
     }) }}
 
+    <h2 class="nhsuk-heading-m nhsuk-u-margin-top-6">Research preferences</h2>
+    {{ summaryList({
+      rows: [
+        {
+          key: { text: "Travel radius" },
+          value: { text: data['travelRadius'] | default('20 miles') },
+          actions: { items: [ { href: "edit-preference", text: "Change", visuallyHiddenText: "travel radius" } ] }
+        }
+      ]
+    }) }}
+
     <h2 class="nhsuk-heading-m nhsuk-u-margin-top-6">Lifestyle and physical details</h2>
     {{ summaryList({
       rows: [
@@ -113,6 +106,28 @@
           key: { text: "Alcohol intake" },
           value: { text: "Not provided" },
           actions: { items: [ { href: "#", text: "Change", visuallyHiddenText: "alcohol intake" } ] }
+        }
+      ]
+    }) }}
+
+    <h2 class="nhsuk-heading-m nhsuk-u-margin-top-6">Study matching</h2>
+    <p class="nhsuk-body">You can pause your study matching if you do not want to receive new study invitations for a period of time.</p>
+    {%- set matchingStatusText = "Active" %}
+    {%- if data['pauseMatchingDuration'] == "1-month" %}
+      {%- set matchingStatusText = "Paused for 1 month" %}
+    {%- elif data['pauseMatchingDuration'] == "3-months" %}
+      {%- set matchingStatusText = "Paused for 3 months" %}
+    {%- elif data['pauseMatchingDuration'] == "indefinite" %}
+      {%- set matchingStatusText = "Paused indefinitely" %}
+    {%- else %}
+      {%- set matchingStatusText = "Active" %}
+    {%- endif %}
+    {{ summaryList({
+      rows: [
+        {
+          key: { text: "Matching status" },
+          value: { text: matchingStatusText },
+          actions: { items: [ { href: "/dashboard/v6/pause-matching", text: "Change", visuallyHiddenText: "matching status" } ] }
         }
       ]
     }) }}
@@ -146,7 +161,6 @@
         }) }}
       </form>
     {% endcall %}
-
   </div>
 
 </div>

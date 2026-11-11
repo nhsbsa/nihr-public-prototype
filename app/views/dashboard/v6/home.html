@@ -55,7 +55,7 @@
 
   <div class="nhsuk-grid-column-two-thirds">
 
-    {% set hasProfileSignal = (data.diagnosedConditions and data.diagnosedConditions.length) or (data.broadInterests and data.broadInterests.length) %}
+    {% set hasProfileSignal = data.broadInterests and data.broadInterests.length %}
 
     <div class="app-dashboard-v4-card-container nhsuk-u-margin-bottom-6">
 
@@ -67,14 +67,41 @@
 
       <p class="nhsuk-body nhsuk-u-margin-top-6">We have identified these studies based on your health interests. You can find more by updating your conditions or searching.</p>
 
-      {% set hasBroadInterestSignal = data.broadInterests and data.broadInterests.length > 0 %}
-      {% set memoryMatch = (data.diagnosedConditions and ("Alzheimer's disease" in data.diagnosedConditions or "Cognitive health" in data.diagnosedConditions)) or hasBroadInterestSignal %}
-      {% set diabetesMatch = data.diagnosedConditions and "Type 2 diabetes" in data.diagnosedConditions %}
-      {% set sleepMatch = data.diagnosedConditions and "Cognitive health" in data.diagnosedConditions %}
-      {% set osteoMatch = (data.diagnosedConditions and "Osteoarthritis" in data.diagnosedConditions) or hasBroadInterestSignal %}
-      {% set anySpecificMatch = memoryMatch or diabetesMatch or sleepMatch or osteoMatch %}
+      {% set memoryMatch = data.broadInterests and ("Alzheimer's disease" in data.broadInterests or "Cognitive health" in data.broadInterests) %}
+      {% set diabetesMatch = data.broadInterests and "Type 2 diabetes" in data.broadInterests %}
+      {% set osteoMatch = data.broadInterests and "Osteoarthritis" in data.broadInterests %}
+      {% set anySpecificMatch = memoryMatch or diabetesMatch or osteoMatch %}
 
       {% if anySpecificMatch %}
+
+        {% if osteoMatch %}
+    {% if data.dismissedStudies and "Osteoarthritis Pain Management & Mobility Study" in data.dismissedStudies %}
+    {% call card({ id: "study-osteo", classes: "nhsuk-u-margin-top-6" }) %}
+      {{ dismissedMessage("Osteoarthritis Pain Management & Mobility Study", "study-osteo") }}
+    {% endcall %}
+    {% else %}
+    {% call card({ id: "study-osteo", classes: "nhsuk-u-margin-top-6" }) %}
+      <div class="nhsuk-card__heading-row">
+        <div>
+          {{ tag({ text: "Recruiting", classes: "nhsuk-tag--green" }) }}
+          <span class="nhsuk-u-secondary-text-color">Until Dec 2026</span>
+        </div>
+      </div>
+      <h3 class="nhsuk-heading-m nhsuk-u-margin-top-3"><a href="/dashboard/v6/study-osteo/page-1">Osteoarthritis Pain Management &amp; Mobility Study</a></h3>
+      <p class="nhsuk-body"><strong>Medical conditions</strong> Osteoarthritis</p>
+      <p class="nhsuk-body"><strong>Gender</strong> Open to all</p>
+      <p class="nhsuk-body"><strong>Age</strong> 50-85</p>
+      <p class="nhsuk-body"><strong>Locations</strong> Birmingham</p>
+      <p class="nhsuk-body-s nhsuk-u-margin-bottom-4">Evaluating digital self-management tools to help people manage osteoarthritis pain and improve daily mobility.</p>
+      {{ button({
+        text: "View study details",
+        href: "/dashboard/v6/study-osteo/page-1",
+        classes: "nhsuk-button--secondary nhsuk-u-margin-bottom-0"
+      }) }}
+      {{ dismissStudyLink("Osteoarthritis Pain Management & Mobility Study", "study-osteo") }}
+    {% endcall %}
+    {% endif %}
+        {% endif %}
 
         {% if memoryMatch %}
     {% if data.dismissedStudies and "Understanding early memory changes in over-65s" in data.dismissedStudies %}
@@ -83,13 +110,17 @@
     {% endcall %}
     {% else %}
     {% call card({ id: "study-memory" }) %}
-      <div class="nhsuk-card__heading-row" style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 8px;">
+      <div class="nhsuk-card__heading-row">
         <div>
-          {{ tag({ text: "Face-to-face", classes: "nhsuk-tag--blue" }) }}
+          {{ tag({ text: "Recruiting", classes: "nhsuk-tag--green" }) }}
+          <span class="nhsuk-u-secondary-text-color">Until Dec 2026</span>
         </div>
       </div>
       <h3 class="nhsuk-heading-m nhsuk-u-margin-top-3"><a href="details">Understanding early memory changes in over-65s</a></h3>
-      <p class="nhsuk-body-s nhsuk-u-margin-bottom-2">Start date: 12 October 2026 &middot; End date: 20 March 2027</p>
+      <p class="nhsuk-body"><strong>Medical conditions</strong> Alzheimer's disease, Cognitive health</p>
+      <p class="nhsuk-body"><strong>Gender</strong> Open to all</p>
+      <p class="nhsuk-body"><strong>Age</strong> 50+</p>
+      <p class="nhsuk-body"><strong>Locations</strong> Bradford</p>
       <p class="nhsuk-body-s nhsuk-u-margin-bottom-4">Looking for adults over 50 experiencing mild memory loss.</p>
       {{ button({
         text: "View study details",
@@ -109,13 +140,17 @@
     {% endcall %}
     {% else %}
     {% call card({ id: "study-diabetes", classes: "nhsuk-u-margin-top-6" }) %}
-      <div class="nhsuk-card__heading-row" style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 8px;">
+      <div class="nhsuk-card__heading-row">
         <div>
-          {{ tag({ text: "Online study", classes: "nhsuk-tag--grey" }) }}
+          {{ tag({ text: "Recruiting", classes: "nhsuk-tag--green" }) }}
+          <span class="nhsuk-u-secondary-text-color">Until Dec 2026</span>
         </div>
       </div>
       <h3 class="nhsuk-heading-m nhsuk-u-margin-top-3"><a href="details">Diet and lifestyle survey for people with type 2 diabetes</a></h3>
-      <p class="nhsuk-body-s nhsuk-u-margin-bottom-2">Start date: 5 November 2026 &middot; End date: 30 January 2027</p>
+      <p class="nhsuk-body"><strong>Medical conditions</strong> Type 2 diabetes</p>
+      <p class="nhsuk-body"><strong>Gender</strong> Open to all</p>
+      <p class="nhsuk-body"><strong>Age</strong> 18+</p>
+      <p class="nhsuk-body"><strong>Locations</strong> UK-wide (online)</p>
       <p class="nhsuk-body-s nhsuk-u-margin-bottom-4">Looking for adults with type 2 diabetes to share their diet and lifestyle experiences in a short online survey.</p>
       {{ button({
         text: "View study details",
@@ -128,59 +163,36 @@
     {% endif %}
         {% endif %}
 
-        {% if sleepMatch %}
-    {% if data.dismissedStudies and "Sleep patterns and cognitive health questionnaire" in data.dismissedStudies %}
-    {% call card({ id: "study-sleep", classes: "nhsuk-u-margin-top-6" }) %}
-      {{ dismissedMessage("Sleep patterns and cognitive health questionnaire", "study-sleep") }}
-    {% endcall %}
-    {% else %}
-    {% call card({ id: "study-sleep", classes: "nhsuk-u-margin-top-6" }) %}
-      <div class="nhsuk-card__heading-row" style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 8px;">
-        <div>
-          {{ tag({ text: "Questionnaire", classes: "nhsuk-tag--green" }) }}
-        </div>
-      </div>
-      <h3 class="nhsuk-heading-m nhsuk-u-margin-top-3"><a href="details">Sleep patterns and cognitive health questionnaire</a></h3>
-      <p class="nhsuk-body-s nhsuk-u-margin-bottom-2">Start date: 19 October 2026 &middot; End date: 2 November 2026</p>
-      <p class="nhsuk-body-s nhsuk-u-margin-bottom-4">Looking for adults aged 60 and over to complete a short questionnaire about sleep patterns and cognitive health.</p>
-      {{ button({
-        text: "View study details",
-        href: "details",
-        classes: "nhsuk-button--secondary nhsuk-u-margin-bottom-0"
-      }) }}
-      {{ dismissStudyLink("Sleep patterns and cognitive health questionnaire", "study-sleep") }}
-    {% endcall %}
-    {% endif %}
-        {% endif %}
+      {% else %}
 
-        {% if osteoMatch %}
+        <p class="nhsuk-body">We are always adding new research. While there is no relevant research for your profile today, you can discover hundreds of other studies by searching below, or updating your health interests.</p>
+
     {% if data.dismissedStudies and "Osteoarthritis Pain Management & Mobility Study" in data.dismissedStudies %}
     {% call card({ id: "study-osteo", classes: "nhsuk-u-margin-top-6" }) %}
       {{ dismissedMessage("Osteoarthritis Pain Management & Mobility Study", "study-osteo") }}
     {% endcall %}
     {% else %}
     {% call card({ id: "study-osteo", classes: "nhsuk-u-margin-top-6" }) %}
-      <div class="nhsuk-card__heading-row" style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 8px;">
+      <div class="nhsuk-card__heading-row">
         <div>
-          {{ tag({ text: "Online & Local Clinic", classes: "nhsuk-tag--purple" }) }}
+          {{ tag({ text: "Recruiting", classes: "nhsuk-tag--green" }) }}
+          <span class="nhsuk-u-secondary-text-color">Until Dec 2026</span>
         </div>
       </div>
-      <h3 class="nhsuk-heading-m nhsuk-u-margin-top-3"><a href="/dashboard/v6/details">Osteoarthritis Pain Management &amp; Mobility Study</a></h3>
-      <p class="nhsuk-body-s nhsuk-u-margin-bottom-2">Start date: 15 October 2026 &middot; End date: 30 April 2027</p>
+      <h3 class="nhsuk-heading-m nhsuk-u-margin-top-3"><a href="/dashboard/v6/study-osteo/page-1">Osteoarthritis Pain Management &amp; Mobility Study</a></h3>
+      <p class="nhsuk-body"><strong>Medical conditions</strong> Osteoarthritis</p>
+      <p class="nhsuk-body"><strong>Gender</strong> Open to all</p>
+      <p class="nhsuk-body"><strong>Age</strong> 50-85</p>
+      <p class="nhsuk-body"><strong>Locations</strong> Birmingham</p>
       <p class="nhsuk-body-s nhsuk-u-margin-bottom-4">Evaluating digital self-management tools to help people manage osteoarthritis pain and improve daily mobility.</p>
       {{ button({
         text: "View study details",
-        href: "/dashboard/v6/details",
+        href: "/dashboard/v6/study-osteo/page-1",
         classes: "nhsuk-button--secondary nhsuk-u-margin-bottom-0"
       }) }}
       {{ dismissStudyLink("Osteoarthritis Pain Management & Mobility Study", "study-osteo") }}
     {% endcall %}
     {% endif %}
-        {% endif %}
-
-      {% else %}
-
-        <p class="nhsuk-body">We are always adding new research. While there is no relevant research for your profile today, you can discover hundreds of other studies by searching below, or updating your health interests.</p>
 
     {% if data.dismissedStudies and "Understanding early memory changes in over-65s" in data.dismissedStudies %}
     {% call card({ id: "study-memory" }) %}
@@ -188,13 +200,17 @@
     {% endcall %}
     {% else %}
     {% call card({ id: "study-memory" }) %}
-      <div class="nhsuk-card__heading-row" style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 8px;">
+      <div class="nhsuk-card__heading-row">
         <div>
-          {{ tag({ text: "Face-to-face", classes: "nhsuk-tag--blue" }) }}
+          {{ tag({ text: "Recruiting", classes: "nhsuk-tag--green" }) }}
+          <span class="nhsuk-u-secondary-text-color">Until Dec 2026</span>
         </div>
       </div>
       <h3 class="nhsuk-heading-m nhsuk-u-margin-top-3"><a href="details">Understanding early memory changes in over-65s</a></h3>
-      <p class="nhsuk-body-s nhsuk-u-margin-bottom-2">Start date: 12 October 2026 &middot; End date: 20 March 2027</p>
+      <p class="nhsuk-body"><strong>Medical conditions</strong> Alzheimer's disease, Cognitive health</p>
+      <p class="nhsuk-body"><strong>Gender</strong> Open to all</p>
+      <p class="nhsuk-body"><strong>Age</strong> 50+</p>
+      <p class="nhsuk-body"><strong>Locations</strong> Bradford</p>
       <p class="nhsuk-body-s nhsuk-u-margin-bottom-4">Looking for adults over 50 experiencing mild memory loss.</p>
       {{ button({
         text: "View study details",
@@ -205,89 +221,18 @@
     {% endcall %}
     {% endif %}
 
-    {% if data.diabetesStudyStatus != "undecided" %}
-    {% if data.dismissedStudies and "Diet and lifestyle survey for people with type 2 diabetes" in data.dismissedStudies %}
-    {% call card({ id: "study-diabetes", classes: "nhsuk-u-margin-top-6" }) %}
-      {{ dismissedMessage("Diet and lifestyle survey for people with type 2 diabetes", "study-diabetes") }}
-    {% endcall %}
-    {% else %}
-    {% call card({ id: "study-diabetes", classes: "nhsuk-u-margin-top-6" }) %}
-      <div class="nhsuk-card__heading-row" style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 8px;">
-        <div>
-          {{ tag({ text: "Online study", classes: "nhsuk-tag--grey" }) }}
-        </div>
-      </div>
-      <h3 class="nhsuk-heading-m nhsuk-u-margin-top-3"><a href="details">Diet and lifestyle survey for people with type 2 diabetes</a></h3>
-      <p class="nhsuk-body-s nhsuk-u-margin-bottom-2">Start date: 5 November 2026 &middot; End date: 30 January 2027</p>
-      <p class="nhsuk-body-s nhsuk-u-margin-bottom-4">Looking for adults with type 2 diabetes to share their diet and lifestyle experiences in a short online survey.</p>
-      {{ button({
-        text: "View study details",
-        href: "details",
-        classes: "nhsuk-button--secondary nhsuk-u-margin-bottom-0"
-      }) }}
-      {{ dismissStudyLink("Diet and lifestyle survey for people with type 2 diabetes", "study-diabetes") }}
-    {% endcall %}
-    {% endif %}
-    {% endif %}
-
-    {% if data.dismissedStudies and "Sleep patterns and cognitive health questionnaire" in data.dismissedStudies %}
-    {% call card({ id: "study-sleep", classes: "nhsuk-u-margin-top-6" }) %}
-      {{ dismissedMessage("Sleep patterns and cognitive health questionnaire", "study-sleep") }}
-    {% endcall %}
-    {% else %}
-    {% call card({ id: "study-sleep", classes: "nhsuk-u-margin-top-6" }) %}
-      <div class="nhsuk-card__heading-row" style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 8px;">
-        <div>
-          {{ tag({ text: "Questionnaire", classes: "nhsuk-tag--green" }) }}
-        </div>
-      </div>
-      <h3 class="nhsuk-heading-m nhsuk-u-margin-top-3"><a href="details">Sleep patterns and cognitive health questionnaire</a></h3>
-      <p class="nhsuk-body-s nhsuk-u-margin-bottom-2">Start date: 19 October 2026 &middot; End date: 2 November 2026</p>
-      <p class="nhsuk-body-s nhsuk-u-margin-bottom-4">Looking for adults aged 60 and over to complete a short questionnaire about sleep patterns and cognitive health.</p>
-      {{ button({
-        text: "View study details",
-        href: "details",
-        classes: "nhsuk-button--secondary nhsuk-u-margin-bottom-0"
-      }) }}
-      {{ dismissStudyLink("Sleep patterns and cognitive health questionnaire", "study-sleep") }}
-    {% endcall %}
-    {% endif %}
-
-    {% if data.dismissedStudies and "Osteoarthritis Pain Management & Mobility Study" in data.dismissedStudies %}
-    {% call card({ id: "study-osteo", classes: "nhsuk-u-margin-top-6" }) %}
-      {{ dismissedMessage("Osteoarthritis Pain Management & Mobility Study", "study-osteo") }}
-    {% endcall %}
-    {% else %}
-    {% call card({ id: "study-osteo", classes: "nhsuk-u-margin-top-6" }) %}
-      <div class="nhsuk-card__heading-row" style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 8px;">
-        <div>
-          {{ tag({ text: "Online & Local Clinic", classes: "nhsuk-tag--purple" }) }}
-        </div>
-      </div>
-      <h3 class="nhsuk-heading-m nhsuk-u-margin-top-3"><a href="/dashboard/v6/details">Osteoarthritis Pain Management &amp; Mobility Study</a></h3>
-      <p class="nhsuk-body-s nhsuk-u-margin-bottom-2">Start date: 15 October 2026 &middot; End date: 30 April 2027</p>
-      <p class="nhsuk-body-s nhsuk-u-margin-bottom-4">Evaluating digital self-management tools to help people manage osteoarthritis pain and improve daily mobility.</p>
-      {{ button({
-        text: "View study details",
-        href: "/dashboard/v6/details",
-        classes: "nhsuk-button--secondary nhsuk-u-margin-bottom-0"
-      }) }}
-      {{ dismissStudyLink("Osteoarthritis Pain Management & Mobility Study", "study-osteo") }}
-    {% endcall %}
-    {% endif %}
-
       {% endif %}
 
     {% else %}
 
       {% call card() %}
         <h2 class="nhsuk-heading-m nhsuk-u-margin-bottom-2">Explore other research opportunities</h2>
-        <p class="nhsuk-body">You can be automatically shown relevant studies based on the health conditions you are interested in.</p>
-        <p class="nhsuk-body">Do you have any specific health conditions? If not, researchers are frequently looking for healthy volunteers to take part in studies. Update your account settings to register as a healthy volunteer.</p>
+        <p class="nhsuk-body">You can be automatically shown relevant studies based on your areas of interest.</p>
+        <p class="nhsuk-body">Do you have any specific areas of interest? If not, researchers are frequently looking for healthy volunteers to take part in studies. Update your account settings to register as a healthy volunteer.</p>
         <div class="nhsuk-button-group">
           {{ button({
-            text: "Update health interests",
-            href: "/dashboard/v6/edit-health-conditions",
+            text: "Update areas of interest",
+            href: "/dashboard/v6/edit-interests",
             classes: "nhsuk-u-margin-bottom-0"
           }) }}
         </div>
@@ -296,43 +241,6 @@
     {% endif %}
 
     </div>
-
-    {% call details({
-      summaryText: "Suggested studies",
-      classes: "nhsuk-expander nhsuk-u-margin-top-3",
-      id: "matchedStudiesExpander"
-    }) %}
-      <div class="app-dashboard-v4-card-container">
-      {% for study in data.matchedStudies %}
-        {% set savedAnchor = "saved-" ~ (study | lower | replace("'", "") | replace("&", "and") | replace(",", "") | replace(".", "") | replace(" ", "-")) %}
-        {% if not data['hasRegisteredOsteo'] %}
-        {% call card({ id: savedAnchor, classes: "nhsuk-u-margin-top-6" }) %}
-          {% if "Sleep patterns" in study %}
-          <strong class="nhsuk-tag nhsuk-tag--red nhsuk-u-margin-bottom-2">Closing in 7 days</strong>
-          {% endif %}
-          <h3 class="nhsuk-heading-m nhsuk-u-margin-top-3"><a href="details">{{ study }}</a></h3>
-          <div>
-            {{ button({
-              text: "View study details",
-              href: "details",
-              classes: "nhsuk-button--secondary nhsuk-u-margin-bottom-0"
-            }) }}
-          </div>
-        {% endcall %}
-        {% endif %}
-      {% else %}
-        {% call card({ classes: "nhsuk-u-margin-top-6" }) %}
-          <p class="nhsuk-body-s nhsuk-u-margin-bottom-0">You do not have any relevant research yet. Keep your areas of research and health conditions up to date, and you will be notified when a relevant study is looking for volunteers.</p>
-        {% endcall %}
-      {% endfor %}
-
-      {% if data['hasRegisteredOsteo'] %}
-        {% call card({ classes: "nhsuk-u-margin-top-6" }) %}
-          <p class="nhsuk-body-s nhsuk-u-margin-bottom-0">You do not have any relevant research yet. Keep your areas of research and health conditions up to date, and you will be notified when a relevant study is looking for volunteers.</p>
-        {% endcall %}
-      {% endif %}
-      </div>
-    {% endcall %}
 
     {% call details({
       summaryText: "Past studies",

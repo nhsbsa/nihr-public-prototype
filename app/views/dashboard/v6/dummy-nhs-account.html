@@ -1,0 +1,25 @@
+{% extends "dashboard/v6/layout.html" %}
+
+{% block pageTitle %}
+  Manage your NHS account - Be Part of Research
+{% endblock %}
+
+{% block content %}
+
+<div class="nhsuk-grid-row">
+  <div class="nhsuk-grid-column-two-thirds">
+
+    <h1 class="nhsuk-heading-xl">Manage your NHS account</h1>
+
+    {{ insetText({
+      text: "This feature is currently a prototype. In the live service, this link would take you to the NHS App or NHS website to manage your personal details, such as your name or date of birth."
+    }) }}
+
+    {{ button({ text: "Return to account settings", href: "/dashboard/v6/account-settings", classes: "nhsuk-u-margin-bottom-0" }) }}
+
+  </div>
+</div>
+
+{% include "dashboard/v6/partials/prototype-nav.html" %}
+
+{% endblock %}

@@ -1,0 +1,58 @@
+{% extends "dashboard/v6/layout.html" %}
+
+{% from "contents-list/macro.njk" import contentsList %}
+
+{% block pageTitle %}
+  About this study - Osteoarthritis Pain Management & Mobility Study - Be Part of Research
+{% endblock %}
+
+{% block content %}
+
+<div class="nhsuk-grid-row">
+  <div class="nhsuk-grid-column-two-thirds">
+    {{ backLink({ text: "Back", href: "/dashboard/v6/home", classes: "nhsuk-u-margin-bottom-4" }) }}
+
+    <h1 class="nhsuk-heading-xl">Osteoarthritis Pain Management &amp; Mobility Study</h1>
+
+    <p class="nhsuk-body-l">Help researchers evaluate a new digital tool designed to support people living with osteoarthritis in managing joint pain and staying active.</p>
+
+    <div class="nhsuk-u-margin-bottom-4">
+      <strong class="nhsuk-tag nhsuk-tag--blue">Online</strong>
+      <strong class="nhsuk-tag nhsuk-tag--yellow">Birmingham</strong>
+    </div>
+
+    {{ contentsList({
+      items: [
+        { href: "/dashboard/v6/study-osteo/page-1", text: "Study overview" },
+        { href: "/dashboard/v6/study-osteo/page-2", text: "What does the study involve", current: true },
+        { href: "/dashboard/v6/study-osteo/page-3", text: "Taking part in the study" }
+      ]
+    }) }}
+
+    <h2 class="nhsuk-heading-l">What you will do</h2>
+    <p class="nhsuk-body">You will have a 20-minute telephone screening call to check your eligibility. If eligible, you will attend one in-person visit at the Birmingham Hub (lasting up to 1 hour) where we will show you how to use the digital tool and ask you to complete a baseline mobility questionnaire.</p>
+    <p class="nhsuk-body">After that, you will use the tool at home for 12 weeks and complete two 30-minute online follow-up sessions.</p>
+
+    <h2 class="nhsuk-heading-l">Incentives and reimbursement</h2>
+    <p class="nhsuk-body">You will not be paid for taking part, but your travel costs to and from the Birmingham Regional Hub will be fully reimbursed.</p>
+
+    <h2 class="nhsuk-heading-l">Number of visits</h2>
+    <p class="nhsuk-body">One in-person clinic visit and two online sessions.</p>
+
+    {{ pagination({
+      previous: {
+        labelText: "Study overview",
+        href: "/dashboard/v6/study-osteo/page-1"
+      },
+      next: {
+        labelText: "Taking part in the study",
+        href: "/dashboard/v6/study-osteo/page-3"
+      }
+    }) }}
+
+  </div>
+</div>
+
+{% include "dashboard/v6/partials/prototype-nav.html" %}
+
+{% endblock %}
