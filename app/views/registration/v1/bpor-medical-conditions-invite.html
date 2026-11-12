@@ -31,15 +31,10 @@
 
 		<form action="/{{folder}}/{{subfolder}}/bpor-medical-conditions-invite" method="post" novalidate>  
 
-        {% set invitableConditions = data.health_conditions %}
-        {% if data.conditions and data.conditions.length %}
-          {% set invitableConditions = [] %}
-          {% for condition in data.health_conditions %}
-            {% if condition.value in data.conditions %}
-              {% set discard = invitableConditions.push(condition) %}
-            {% endif %}
-          {% endfor %}
-        {% endif %}
+        {% set invitableConditions = [] %} 
+        {% for condition in data.health_conditions %} 
+          {% set discard = invitableConditions.push({ value: condition.value, text: condition.text, checked: (data.conditions and condition.value in data.conditions) }) %} 
+        {% endfor %} 
 
         {{ searchableCheckboxes({
             label: {
@@ -52,6 +47,7 @@
             },
             id: "conditionsInvite",
             name: "conditionsInvite",
+            showAllOptions: true,
             selectedLabel: "Selected conditions",
             items: invitableConditions
         }) }}
