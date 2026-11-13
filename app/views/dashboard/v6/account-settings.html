@@ -143,7 +143,7 @@
     <h2 class="nhsuk-heading-m nhsuk-u-margin-top-6">Data and consent</h2>
     {% call card() %}
       <h3 class="nhsuk-heading-s">Account status</h3>
-      <p class="nhsuk-body">You can opt out and close your account at any time. This will not delete your existing information, and you can start matching again whenever you like.</p>
+      <p class="nhsuk-body">You can change your participation status at any time.</p>
       <form action="save-status" method="post" novalidate>
         {{ radios({
           classes: "nhsuk-radios--small",
@@ -151,7 +151,8 @@
           formGroup: { classes: "nhsuk-u-margin-bottom-4" },
           items: [
             { value: "active", text: "Active & matching", id: "status-active", checked: (data.accountStatus == "active" or not data.accountStatus) },
-            { value: "optout", text: "Opt-out / Closure", id: "status-optout", checked: (data.accountStatus == "optout") }
+            { value: "optout", text: "Opt out", id: "status-optout", checked: (data.accountStatus == "optout"), hint: { text: "Stop study matching but keep your account and information. You can resume at any time." } },
+            { value: "close", text: "Close account", id: "status-close", checked: (data.accountStatus == "close"), hint: { text: "Permanently delete your account and all your data." } }
           ]
         }) }}
         {{ button({
