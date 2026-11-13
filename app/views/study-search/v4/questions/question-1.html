@@ -11,14 +11,22 @@
 
 {% endblock %}
 
-{% block content %}  
+{% block content %}
 
-  <!-- This form wrapper tells the page to save the data AND where to go next -->
-  <form action="/study-search/v4/questions/question-1" method="post">
+  {% if errorList and errorList.length %}
+    {{ errorSummary({
+      titleText: "There is a problem",
+      errorList: errorList
+    }) }}
+  {% endif %}
+
+  <form action="/study-search/v4/questions/question-1" method="post" novalidate>
 
     {{ radios({
       idPrefix: "sex",
       name: "sex",
+      value: data['sex'],
+      errorMessage: errors.sex if errors and errors.sex else null,
       fieldset: {
         legend: {
           text: "What's your sex?",
@@ -34,24 +42,25 @@
         { value: "female", text: "Female" }
       ]
     }) }}
-    
-    {{ radios({
-        idPrefix: "gender-same-as-sex",
-        name: "genderSameAsSex",
-        fieldset: {
-          legend: {
-            text: "Is the gender you identify with the same as your sex registered at birth?",
-            size: "l"
-          }
-        },
-        items: [
-          { value: "yes", text: "Yes" },
-          { value: "no", text: "No" },
-          { value: "prefer-not-to-say", text: "Prefer not to say" }
-        ]
-      }) }}
 
-    <!-- The href is REMOVED so it submits the form instead of skipping it -->
+    {{ radios({
+      idPrefix: "gender-same-as-sex",
+      name: "genderSameAsSex",
+      value: data['genderSameAsSex'],
+      errorMessage: errors.genderSameAsSex if errors and errors.genderSameAsSex else null,
+      fieldset: {
+        legend: {
+          text: "Is the gender you identify with the same as your sex registered at birth?",
+          size: "l"
+        }
+      },
+      items: [
+        { value: "yes", text: "Yes" },
+        { value: "no", text: "No" },
+        { value: "prefer-not-to-say", text: "Prefer not to say" }
+      ]
+    }) }}
+
     {{ button({
       text: "Continue"
     }) }}
