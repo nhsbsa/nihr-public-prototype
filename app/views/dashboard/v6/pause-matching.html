@@ -8,8 +8,6 @@
 
 <div class="nhsuk-grid-row">
   <div class="nhsuk-grid-column-two-thirds">
-    {{ backLink({ text: "Back", href: "account-settings", classes: "nhsuk-u-margin-bottom-4" }) }}
-
     {% set currentDuration = data['pauseMatchingDuration'] | default('active') %}
 
     <form action="account-settings" method="post" novalidate>
