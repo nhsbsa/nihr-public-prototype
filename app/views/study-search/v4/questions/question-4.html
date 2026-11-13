@@ -13,7 +13,6 @@
 
 {% block content %}
 
-      errorMessage: errors.genderSameAsSex if errors and errors.genderSameAsSex else null,
   {% if locationError %}
     {{ errorSummary({
       titleText: "There is a problem",
