@@ -5,7 +5,7 @@
 {% block beforeContent %}
   {% if data.from_dashboard %}
     {{ backLink({
-      "href": data.dashboard_return_url | default("/dashboard/v4/home"),
+      "href": data.dashboard_return_url | default("/dashboard/v3.1/home"),
       "text": "Return to my dashboard"
     }) }}
   {% endif %}

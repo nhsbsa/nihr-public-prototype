@@ -147,11 +147,11 @@ router.use('/dashboard/v2', require('./views/dashboard/v2/_routes'));
 
 router.use('/dashboard/v3', require('./views/dashboard/v3/_routes'));
 
-router.use('/dashboard/v4', require('./views/dashboard/v4/_routes'));
+router.use('/dashboard/v3.1', require('./views/dashboard/v3.1/_routes'));
 
-router.use('/dashboard/v5', require('./views/dashboard/v5/_routes'));
+router.use('/dashboard/v3.2', require('./views/dashboard/v3.2/_routes'));
 
-router.use('/dashboard/v6', require('./views/dashboard/v6/_routes'));
+router.use('/dashboard/v3.3', require('./views/dashboard/v3.3/_routes'));
 
 router.use('/login/v1', require('./views/login/v1/_routes'));
 
