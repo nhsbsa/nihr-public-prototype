@@ -231,7 +231,6 @@ router.all('/searchfeed/search-feed', function (req, res) {
     req.session.data.subCondition = ''
     req.session.data.healthConditions = []
     req.session.data.conditionFilters = []
-    req.session.data.searchCondition = null
     req.session.data.activeStatuses = []
     req.session.data.ageRange = []
     req.session.data.dateofbirth = { day: '', month: '', year: '' }
@@ -310,14 +309,6 @@ router.all('/searchfeed/search-feed', function (req, res) {
     if (!alreadyAdded) sd.conditionFilters.push({ area: newArea, sub: newSub })
   }
 
-    // Condition picked from the top search box: used for this search only, not shown as a filter
-  if (inputSource.searchCondition !== undefined) {
-    const searchArea = sanitizeInput(inputSource.searchCondition)
-    sd.searchCondition = healthConditionsData[searchArea]
-      ? { area: searchArea, sub: sanitizeInput(inputSource.searchSubCondition) || 'all' }
-      : null
-  }
-
   // Tags for Selected filters: one tag per pick, with its research area in front
   const areaTags = []
   const conditionTags = []
@@ -379,10 +370,6 @@ router.all('/searchfeed/search-feed', function (req, res) {
     sortBy: chosenSortBy,
     ageRange
   })
-
-    if (sd.searchCondition) {
-    filteredStudies = applyFilters(filteredStudies, { conditionFilters: [sd.searchCondition], sortBy: chosenSortBy })
-  }
 
   // Pagination
   // POSTs (filters or sort) have no ?page, so they go back to page 1
@@ -495,28 +482,8 @@ router.get('/search/study/:id', function (req, res) {
 
 // Question 1: Sex / Gender
 router.post('/questions/question-1', function (req, res) {
-  const cleanSex = sanitizeInput(req.body.sex)
-  const cleanGender = sanitizeInput(req.body.genderSameAsSex)
-
-  req.session.data.sex = cleanSex
-  req.session.data.genderSameAsSex = cleanGender
-
-  const errors = {}
-  const errorList = []
-
-  if (!cleanSex) {
-    errors.sex = { text: 'Select your sex registered at birth' }
-    errorList.push({ text: errors.sex.text, href: '#sex-1' })
-  }
-
-  if (!cleanGender) {
-    errors.genderSameAsSex = { text: 'Select if the gender you identify with is the same as your sex registered at birth' }
-    errorList.push({ text: errors.genderSameAsSex.text, href: '#gender-same-as-sex-1' })
-  }
-
-  if (errorList.length) {
-    return res.render('study-search/v4/questions/question-1', { errors, errorList })
-  }
+  req.session.data.sex = sanitizeInput(req.body.sex)
+  req.session.data.genderSameAsSex = sanitizeInput(req.body.genderSameAsSex)
 
   res.redirect('/study-search/v4/questions/question-2')
 })
@@ -533,53 +500,10 @@ router.post('/questions/question-2', function (req, res) {
   req.session.data.dateofbirthYear = year
 
   // Always keep as an object so auto-store-data middleware doesn't crash
-  req.session.data.dateofbirth = {
-    day: day || '',
-    month: month || '',
-    year: year || ''
-  }
-
-  const errors = {}
-  let message = ''
-
-  if (!day && !month && !year) {
-    message = 'Enter your date of birth'
-    errors.day = errors.month = errors.year = true
-  } else if (!day || !month || !year) {
-    const missing = []
-    if (!day) { missing.push('day'); errors.day = true }
-    if (!month) { missing.push('month'); errors.month = true }
-    if (!year) { missing.push('year'); errors.year = true }
-    message = 'Date of birth must include a ' + missing.join(' and ')
-  } else {
-    const d = parseInt(day, 10)
-    const m = parseInt(month, 10)
-    const y = parseInt(year, 10)
-    const date = new Date(y, m - 1, d)
-    const isReal = year.length === 4 &&
-      date.getFullYear() === y &&
-      date.getMonth() === m - 1 &&
-      date.getDate() === d
-
-    if (!isReal) {
-      message = 'Date of birth must be a real date'
-      errors.day = errors.month = errors.year = true
-    } else if (date > new Date()) {
-      message = 'Date of birth must be in the past'
-      errors.day = errors.month = errors.year = true
-    }
-  }
-
-  if (message) {
-    errors.dob = { text: message }
-    const firstField = errors.day ? 'day' : errors.month ? 'month' : 'year'
-    const errorList = [{ text: message, href: '#date-of-birth-' + firstField }]
-    return res.render('study-search/v4/questions/question-2', { errors, errorList })
-  }
+  req.session.data.dateofbirth = { day: day || '', month: month || '', year: year || '' }
 
   res.redirect('/study-search/v4/questions/question-3')
 })
-
 // Question 3: Health Conditions
 router.get('/questions/question-3', function (req, res) {
   res.render('study-search/v4/questions/question-3', {
