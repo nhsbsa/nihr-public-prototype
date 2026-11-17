@@ -25,8 +25,6 @@
   {# TOP NHS SEARCH INPUT BAR #}
   <div class="nhsuk-search-container">
     <form id="topSearchForm" action="/study-search/v4/searchfeed/search-feed" method="post">
-      <input type="hidden" name="searchCondition" id="topHealthCondition" value="">
-      <input type="hidden" name="searchsubCondition" id="topSubCondition" value="">
       {% if data.from_dashboard %}
         <input type="hidden" name="from_dashboard" value="true">
       {% endif %}
@@ -515,8 +513,6 @@
     // 2. TOP NHS AUTOCOMPLETE SEARCH BAR LOGIC
     const topForm = document.getElementById('topSearchForm');
     const topKeywordsInput = document.getElementById('topKeywordsInput');
-    const topHealthCondition = document.getElementById('topHealthCondition');
-    const topSubCondition = document.getElementById('topSubCondition');
     const autocompleteMenu = document.getElementById('searchAutocompleteMenu');
     const autocompleteResults = document.getElementById('searchAutocompleteResults');
     const freeSearchContainer = document.getElementById('searchAutocompleteFreeSearch');
@@ -622,10 +618,8 @@
             `;
 
             itemDiv.addEventListener('click', function () {
-              if (topHealthCondition) topHealthCondition.value = item.categoryKey;
-              if (topSubCondition) topSubCondition.value = item.value;
-              topKeywordsInput.value = '';
-              if (topForm) topForm.submit();
+              topKeywordsInput.value = item.text;
+              topForm.submit();
             });
 
             autocompleteResults.appendChild(itemDiv);
@@ -640,15 +634,11 @@
       });
     }
 
-    if (freeSearchContainer && topForm) {
-      freeSearchContainer.addEventListener('click', function (e) {
-        e.preventDefault();
-        if (topHealthCondition) topHealthCondition.value = '';
-        if (topSubCondition) topSubCondition.value = '';
-        topForm.submit();
-      });
-    }
-
+    itemDiv.addEventListener('click', function () {
+      topKeywordsInput.value = item.text;
+      topForm.submit();
+    });
+    
     document.addEventListener('click', function (e) {
       if (topForm && !topForm.contains(e.target) && autocompleteMenu) {
         autocompleteMenu.style.display = 'none';
