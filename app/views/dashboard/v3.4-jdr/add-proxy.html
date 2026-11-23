@@ -1,0 +1,27 @@
+{% extends "dashboard/v3.4-jdr/layout.html" %}
+
+{% block pageTitle %}
+  Add a volunteer profile - Be Part of Research
+{% endblock %}
+
+{% block content %}
+
+<div class="nhsuk-grid-row">
+  <div class="nhsuk-grid-column-two-thirds">
+
+    <h1 class="nhsuk-heading-l">Add a volunteer profile</h1>
+
+    <form action="dev-not-eligible" method="post">
+      {{ input({
+        label: { text: "Dependant's full name" },
+        name: "proxy-name"
+      }) }}
+
+      {{ button({ text: "Add volunteer", classes: "nhsuk-u-margin-bottom-0" }) }}
+    </form>
+  </div>
+</div>
+
+{% include "dashboard/v3.4-jdr/partials/prototype-nav.html" %}
+
+{% endblock %}

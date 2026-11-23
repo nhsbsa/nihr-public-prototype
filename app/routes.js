@@ -154,6 +154,7 @@ router.use('/dashboard/v3.2', require('./views/dashboard/v3.2/_routes'));
 router.use('/dashboard/v3.3', require('./views/dashboard/v3.3/_routes'));
 
 router.use('/dashboard/v3.4', require('./views/dashboard/v3.4/_routes'));
+router.use('/dashboard/v3.4-jdr', require('./views/dashboard/v3.4-jdr/_routes'));
 
 router.use('/login/v1', require('./views/login/v1/_routes'));
 
