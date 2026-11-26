@@ -46,17 +46,20 @@
   <div class="nhsuk-grid-row">
     <div class="nhsuk-grid-column-two-thirds">
 
-<form action="/{{folder}}/{{subfolder}}/jdr-proxy-care-home-visits" method="post" novalidate>
+<form action="/{{folder}}/{{subfolder}}/jdr-proxy-carer" method="post" novalidate>
 
 {{ radios({
-  name: "jdr-care-home-visits",
+  name: "jdr-carer",
   classes: "nhsuk-radios--inline",
   fieldset: {
     legend: {
-      text: "Do they have a close family member with dementia who lives in a care home?",
+      text: "Does the volunteer have a carer?",
       size: "l",
       isPageHeading: true
     }
+  },
+  hint: {
+    text: "This includes someone who knows them and supports them with their dementia or memory problems."
   },
   items: [
     {

@@ -46,28 +46,26 @@
   <div class="nhsuk-grid-row">
     <div class="nhsuk-grid-column-two-thirds">
 
-<form action="/{{folder}}/{{subfolder}}/jdr-proxy-carer-role" method="post" novalidate>
+<form action="/{{folder}}/{{subfolder}}/jdr-proxy-volunteer-email" method="post" novalidate>
 
-{{ radios({
-  name: "jdr-carer-role",
-  classes: "nhsuk-radios--inline",
-  fieldset: {
-    legend: {
-      text: "Have they ever looked after someone with dementia?",
-      size: "l",
-      isPageHeading: true
-    }
+{{ fieldset({
+  legend: {
+    text: "What is their email address?",
+    size: "l",
+    isPageHeading: true
+  }
+}) }}
+
+{{ input({
+  label: {
+    text: "Email address"
   },
-  items: [
-    {
-      value: "Yes",
-      text: "Yes"
-    },
-    {
-      value: "No",
-      text: "No"
-    }
-  ]
+  id: "jdr-email",
+  name: "jdr-email",
+  classes: "nhsuk-input--width-20",
+  type: "email",
+  autocomplete: "email",
+  spellcheck: false
 }) }}
 
 {{ button({
