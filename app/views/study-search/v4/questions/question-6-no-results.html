@@ -22,20 +22,19 @@
         <p>You can now either:</p>
 
         <ul>
-          <li>register for an account and get matched to related studies when they are added</li>
-          <li>start your search again</li>
+          <li>create an account to get emails about studies you might be interested in - you'll need to provide your details again and choose which health conditions are of interest</li>
+          <li>start your search again without creating an account</li>
         </ul>
 
         <div class="nhsuk-button-group" style="margin-top: 32px;">
 
-          {# Primary Action: View results #}
           {{ button({
-            text: "Register for an account",
+            text: "Create an account",
             classes: "nhsuk-button--reverse",
-            href: "#"
+            href: "/study-search/v4/questions/bpor-reg"
           }) }}
 
-          {# Secondary Action: Continue registering #}
+          {# Secondary Action: redo search #}
           <a class="nhsuk-link" href="/study-search/v4/questions/question-1" style="color: #ffffff; font-weight: bold; align-self: center;">
             Search again
           </a>

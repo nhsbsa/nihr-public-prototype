@@ -1,0 +1,16 @@
+{% extends 'layout-blank.html' %}
+
+{% block content %}
+
+  {% set bannerHtml %}
+    <p class="nhsuk-notification-banner__heading">This is a screenshot of the live registration page.</p>
+    <p><a class="nhsuk-notification-banner__link" href="javascript:history.go(-1)">Go back to the prototype</a></p>
+  {% endset %}
+
+  {{ notificationBanner({
+    titleText: "Prototype",
+    html: bannerHtml
+  }) }}
+
+  <img src="/assets/images/BPOR-reg-live.png" class="nhsuk-u-width-full" alt="Be Part of Research registration page">
+{% endblock %}

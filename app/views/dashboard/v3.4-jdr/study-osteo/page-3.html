@@ -1,0 +1,73 @@
+{% extends "dashboard/v3.4-jdr/layout.html" %}
+
+{% from "contents-list/macro.njk" import contentsList %}
+
+{% block pageTitle %}
+  Location - Osteoarthritis Pain Management & Mobility Study - Be Part of Research
+{% endblock %}
+
+{% block content %}
+
+<div class="nhsuk-grid-row">
+  <div class="nhsuk-grid-column-two-thirds">
+
+    <h1 class="nhsuk-heading-xl">Osteoarthritis Pain Management &amp; Mobility Study</h1>
+
+    <p class="nhsuk-body-l">Help researchers evaluate a new digital tool designed to support people living with osteoarthritis in managing joint pain and staying active.</p>
+
+    <div class="nhsuk-u-margin-bottom-4">
+      <strong class="nhsuk-tag nhsuk-tag--blue">Online</strong>
+      <strong class="nhsuk-tag nhsuk-tag--yellow">Birmingham</strong>
+    </div>
+
+    {{ contentsList({
+      items: [
+        { href: "/dashboard/v3.4-jdr/study-osteo/page-1", text: "Study overview" },
+        { href: "/dashboard/v3.4-jdr/study-osteo/page-2", text: "What does the study involve" },
+        { href: "/dashboard/v3.4-jdr/study-osteo/page-3", text: "Taking part in the study", current: true }
+      ]
+    }) }}
+
+    <h2 class="nhsuk-heading-l">Taking part in the study</h2>
+    <p class="nhsuk-body">If you'd like to take part, please use the green 'Register interest' button on this page, or contact the study team at osteo.research@example.nhs.uk.</p>
+
+    <h2 class="nhsuk-heading-l">For more information</h2>
+    <p class="nhsuk-body">This study is being run with the support of the NHS and the National Institute for Health and Care Research, working in partnership with the University of Birmingham.</p>
+
+    <div class="nhsuk-u-margin-top-6 nhsuk-u-margin-bottom-5">
+      {% if not data['hasRegisteredOsteo'] %}
+        <div class="nhsuk-button-group">
+          {{ button({ text: "Register interest in this study", href: "/dashboard/v3.4-jdr/register-for-study" }) }}
+        </div>
+      {% else %}
+        <div class="nhsuk-inset-text">
+          <span class="nhsuk-u-visually-hidden">Information: </span>
+          <p>You have registered your interest in this study. Your details have been sent to the research team.</p>
+        </div>
+      {% endif %}
+    </div>
+
+    {{ pagination({
+      previous: {
+        labelText: "What does the study involve",
+        href: "/dashboard/v3.4-jdr/study-osteo/page-2"
+      }
+    }) }}
+
+  </div>
+
+  <div class="nhsuk-grid-column-one-third">
+    <div class="nhsuk-card nhsuk-u-margin-top-0 nhsuk-u-margin-bottom-0">
+      <div class="nhsuk-card__content">
+        <h2 class="nhsuk-card__heading nhsuk-heading-m">Request a callback</h2>
+        <p class="nhsuk-body">If you'd like some help with updating your profile or about your study matches you can request a call back from one of our charity partners.</p>
+        <a href="#" class="nhsuk-button nhsuk-button--secondary nhsuk-u-margin-bottom-0">Call me back</a>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+{% include "dashboard/v3.4-jdr/partials/prototype-nav.html" %}
+
+{% endblock %}

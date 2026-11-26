@@ -89,7 +89,9 @@
   padding: 16px;
   border: 1px solid $nhsuk-border-colour;
 
-  h3 {
+  h4 {
+    @include nhsuk-font-size(16);
+    font-weight: normal;
     margin-bottom: 4px;
   }
 }

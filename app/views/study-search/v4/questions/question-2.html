@@ -13,7 +13,14 @@
 
 {% block content %}
 
-  <form action="/study-search/v4/questions/question-2" method="post">
+  {% if errorList and errorList.length %}
+    {{ errorSummary({
+      titleText: "There is a problem",
+      errorList: errorList
+    }) }}
+  {% endif %}
+
+  <form action="/study-search/v4/questions/question-2" method="post" novalidate>
 
     {{ dateInput({
       id: "date-of-birth",
@@ -28,14 +35,26 @@
       hint: {
         text: "For example, 18 6 1989"
       },
+      errorMessage: errors.dob if errors and errors.dob else null,
       items: [
-        { name: "day", classes: "nhsuk-input--width-2" },
-        { name: "month", classes: "nhsuk-input--width-2" },
-        { name: "year", classes: "nhsuk-input--width-4" }
+        {
+          name: "day",
+          value: data.dateofbirth.day if data.dateofbirth else "",
+          classes: "nhsuk-input--width-2" + (" nhsuk-input--error" if errors and errors.day else "")
+        },
+        {
+          name: "month",
+          value: data.dateofbirth.month if data.dateofbirth else "",
+          classes: "nhsuk-input--width-2" + (" nhsuk-input--error" if errors and errors.month else "")
+        },
+        {
+          name: "year",
+          value: data.dateofbirth.year if data.dateofbirth else "",
+          classes: "nhsuk-input--width-4" + (" nhsuk-input--error" if errors and errors.year else "")
+        }
       ]
     }) }}
 
-    <!-- href removed! -->
     {{ button({
       text: "Continue"
     }) }}

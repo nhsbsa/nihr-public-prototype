@@ -31,10 +31,10 @@
 
 		<form action="/{{folder}}/{{subfolder}}/bpor-medical-conditions-invite" method="post" novalidate>  
 
-        {% set invitableConditions = [] %} 
-        {% for condition in data.health_conditions %} 
-          {% set discard = invitableConditions.push({ value: condition.value, text: condition.text, checked: (data.conditions and condition.value in data.conditions) }) %} 
-        {% endfor %} 
+        {% set invitableConditions = [] %}
+        {% for condition in data.health_conditions %}
+          {% set discard = invitableConditions.push({ value: condition.value, text: condition.text, checked: (data.conditions and condition.value in data.conditions) }) %}
+        {% endfor %}
 
         {{ searchableCheckboxes({
             label: {
@@ -43,7 +43,7 @@
             },
             classes: "nhsuk-checkboxes--small",
             hint: {
-            text: "Start typing to see conditions."
+            text: "Start typing to filter the list, or scroll to browse all conditions."
             },
             id: "conditionsInvite",
             name: "conditionsInvite",

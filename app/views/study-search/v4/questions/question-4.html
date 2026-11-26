@@ -13,33 +13,43 @@
 
 {% block content %}
 
+  {% if locationError %}
+    {{ errorSummary({
+      titleText: "There is a problem",
+      errorList: [
+        {
+          text: "Enter a town, city or postcode",
+          href: "#location"
+        }
+      ]
+    }) }}
+  {% endif %}
+
   <form action="/study-search/v4/questions/question-4" method="post">
 
     {% set specificAreaHtml %}
-      <div class="nhsuk-form-group">
-  <label class="nhsuk-label" for="location">
-    Town, city or postcode
-  </label>
-  <div class="nhsuk-hint" id="location-hint">
-    Enter a location, hospital or postcode (e.g. King's Cross, King's College Hospital, SW1A 1AA)
-  </div>
+      <div class="nhsuk-u-width-two-thirds" style="position: relative;">
+        {{ input({
+          id: "location",
+          name: "location",
+          value: data['location'],
+          autocomplete: "off",
+          classes: "nhsuk-u-width-full",
+          label: {
+            text: "Town, city or postcode"
+          },
+          hint: {
+            text: "Enter a location, hospital or postcode (e.g. King's Cross, King's College Hospital, SW1A 1AA)"
+          },
+          errorMessage: { text: "Enter a location, town, city or postcode" } if locationError else false
+        }) }}
 
-  <div class="nhsuk-u-width-two-thirds" style="position: relative;">
-    <input class="nhsuk-input nhsuk-u-width-full"
-           id="location"
-           name="location"
-           type="text"
-           value="{{ data['location'] }}"
-           autocomplete="off"
-           aria-describedby="location-hint">
-
-    <!-- Autocomplete Suggestions Dropdown Container -->
-    <ul id="location-suggestions"
-        class="nhsuk-list location-suggestions"
-        style="display: none;">
-    </ul>
-  </div>
-</div>
+        <!-- Autocomplete Suggestions Dropdown Container -->
+        <ul id="location-suggestions"
+            class="nhsuk-list location-suggestions"
+            style="display: none;">
+        </ul>
+      </div>
 
       {{ select({
         id: "travelDistance",
